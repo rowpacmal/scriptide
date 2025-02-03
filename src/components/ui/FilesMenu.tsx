@@ -1,11 +1,6 @@
 // Import dependencies
 import { Button, HStack, Tooltip } from '@chakra-ui/react';
-import {
-  LuFilePlus,
-  LuFolderPlus,
-  LuHardDriveDownload,
-  LuHardDriveUpload,
-} from 'react-icons/lu';
+import { LuFilePlus, LuFolderPlus, LuHardDriveUpload } from 'react-icons/lu';
 import useFileSystem from '../../hooks/useFileSystem';
 import { appContext } from '../../AppContext';
 import { useContext } from 'react';

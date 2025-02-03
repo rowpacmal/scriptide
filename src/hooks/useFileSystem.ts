@@ -15,12 +15,12 @@ function useFileSystem() {
 
   // Define context
   const {
-    files,
+    // files,
     setFiles,
     currentFile,
     setCurrentFile,
 
-    workspaces,
+    // workspaces,
     setWorkspaces,
     currentWorkspace,
     setCurrentWorkspace,

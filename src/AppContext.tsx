@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 // Import dependencies
-import { useToast } from '@chakra-ui/react';
 import { createContext, useRef, useEffect, useState } from 'react';
 // Import constants
 import {
@@ -9,8 +8,6 @@ import {
   CONSOLE_DEFAULT_TIMESTAMP,
   GLOBALS_DEFAULT_OBJECT,
 } from './constants';
-// Import libraries
-import minima from './libs/minima';
 // Import hooks
 import useTryCatch from './hooks/useTryCatch';
 // Import utils
