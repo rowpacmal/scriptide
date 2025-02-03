@@ -14,7 +14,7 @@
     "package": "bash ./create-minima-app/package.sh",
     "postbuild": "node ./create-minima-app/postbuild.js",
     "zip": "npm run build && npm run postbuild && npm run package",
-    "zip:windows": "npm run build && gulp"
+    "zip:win": "npm run build && gulp"
   },
   "dependencies": {
     "@chakra-ui/react": "^2.10.5",
