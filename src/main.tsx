@@ -9,10 +9,10 @@ import App from './App.tsx';
 // Styles
 import theme from './themes/theme.ts';
 import './styles/index.css';
-import initBaseThemes from './themes/editor/baseThemes.ts';
+import initMonaco from './configs/monaco/init.ts';
 
-// Initialize editor base themes
-initBaseThemes();
+// Initialize monaco settings
+initMonaco();
 
 // Render
 ReactDOM.createRoot(document.getElementById('root')!).render(

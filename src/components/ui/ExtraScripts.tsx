@@ -34,6 +34,8 @@ import {
 } from 'react-icons/lu';
 // Import context
 import { appContext } from '../../AppContext';
+// Import constants
+import { DEFAULT_EDITOR_THEME, KISS_VM_LANGUAGE } from '../../constants';
 
 // Extra scripts component
 function ExtraScripts() {
@@ -269,8 +271,8 @@ function ExtraScripts() {
           >
             <Editor
               height="100%"
-              theme="minima-dark"
-              language="minima-kissvm"
+              theme={DEFAULT_EDITOR_THEME}
+              language={KISS_VM_LANGUAGE}
               value={extraScripts[activeScript].value}
               onChange={(value) =>
                 setExtraScripts((prevState) => {

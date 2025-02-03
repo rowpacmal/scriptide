@@ -5,6 +5,8 @@ import { useContext, useRef } from 'react';
 // Import context
 import { appContext } from '../../AppContext';
 import useFileSystem from '../../hooks/useFileSystem';
+// Import constants
+import { DEFAULT_EDITOR_THEME, KISS_VM_LANGUAGE } from '../../constants';
 
 function CodeEditor() {
   // Define refs
@@ -37,8 +39,8 @@ function CodeEditor() {
       {code !== null ? (
         <Editor
           height="100%"
-          theme="minima-dark"
-          language="minima-kissvm"
+          theme={DEFAULT_EDITOR_THEME}
+          language={KISS_VM_LANGUAGE}
           onMount={handleOnMount}
           value={code}
           onChange={(value) => setCode(value || '')}

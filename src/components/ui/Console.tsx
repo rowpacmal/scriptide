@@ -2,6 +2,7 @@ import { Box } from '@chakra-ui/react';
 import { appContext } from '../../AppContext';
 import { useContext, useEffect, useRef } from 'react';
 import { Editor } from '@monaco-editor/react';
+import { DEFAULT_EDITOR_THEME } from '../../constants';
 
 // Console component
 function Console() {
@@ -36,7 +37,7 @@ function Console() {
     <Box h="100%" borderTop="1px solid" borderColor="gray.700">
       <Editor
         height="100%"
-        theme="minima-dark"
+        theme={DEFAULT_EDITOR_THEME}
         language="json"
         onMount={handleOnMount}
         value={consoleOutput.join('\n')}
