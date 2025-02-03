@@ -353,7 +353,9 @@ function completionItemProvider(monaco) {
               detail: '',
               documentation: {
                 value:
-                  '```minima-kissvm\nFUNC ( value: any )\n\t=> returnvalue: any\n```',
+                  '```' +
+                  KISS_VM_LANGUAGE +
+                  '\nFUNC ( value: any )\n\t=> returnvalue: any\n```',
               },
             },
 
@@ -368,7 +370,9 @@ function completionItemProvider(monaco) {
               detail: 'Return the address of the script value',
               documentation: {
                 value:
-                  '```minima-kissvm\nADDRESS ( script: script )\n\t=> returnvalue: hex\n```',
+                  '```' +
+                  KISS_VM_LANGUAGE +
+                  '\nADDRESS ( script: script )\n\t=> returnvalue: hex\n```',
               },
             },
             {
@@ -382,7 +386,9 @@ function completionItemProvider(monaco) {
                 'Set the length of a hex value - trims if too large or pads with 0 if too short',
               documentation: {
                 value:
-                  '```minima-kissvm\nSETLEN (\n\tlength: number\n\thex: hex\n)\n\t=> returnvalue: hex\n```',
+                  '```' +
+                  KISS_VM_LANGUAGE +
+                  '\nSETLEN (\n\tlength: number\n\thex: hex\n)\n\t=> returnvalue: hex\n```',
               },
             },
 
@@ -397,7 +403,9 @@ function completionItemProvider(monaco) {
               detail: 'Returns the SHA2 value of the hex or string value.',
               documentation: {
                 value:
-                  '```minima-kissvm\nSHA2 ( value: hex | string )\n\t=> returnvalue: hex\n```',
+                  '```' +
+                  KISS_VM_LANGUAGE +
+                  '\nSHA2 ( value: hex | string )\n\t=> returnvalue: hex\n```',
               },
             },
             {
@@ -410,7 +418,9 @@ function completionItemProvider(monaco) {
               detail: 'Returns the SHA3 value of the hex or string value.',
               documentation: {
                 value:
-                  '```minima-kissvm\nSHA3 ( value: hex | string )\n\t=> returnvalue: hex\n```',
+                  '```' +
+                  KISS_VM_LANGUAGE +
+                  '\nSHA3 ( value: hex | string )\n\t=> returnvalue: hex\n```',
               },
             },
 
@@ -425,7 +435,9 @@ function completionItemProvider(monaco) {
               detail: 'Concatenate two or more hex values together',
               documentation: {
                 value:
-                  '```minima-kissvm\nCONCAT (\n\thexone: hex\n\thextwo: hex\n\t...\n\thexnumber?: hex\n)\n\t=> returnvalue: hex\n```',
+                  '```' +
+                  KISS_VM_LANGUAGE +
+                  '\nCONCAT (\n\thexone: hex\n\thextwo: hex\n\t...\n\thexnumber?: hex\n)\n\t=> returnvalue: hex\n```',
               },
             },
             {
@@ -440,7 +452,9 @@ function completionItemProvider(monaco) {
                 'Copy bytes from the first hex at the given position to the second hex at the given position for the same length',
               documentation: {
                 value:
-                  '```minima-kissvm\nOVERWRITE (\n\thexone: hex\n\tposone: number\n\thextwo: hex\n\tpostwo: number\n\tlength: number\n)\n\t=> returnvalue: hex\n```',
+                  '```' +
+                  KISS_VM_LANGUAGE +
+                  '\nOVERWRITE (\n\thexone: hex\n\tposone: number\n\thextwo: hex\n\tpostwo: number\n\tlength: number\n)\n\t=> returnvalue: hex\n```',
               },
             },
             {
@@ -453,7 +467,9 @@ function completionItemProvider(monaco) {
               detail: 'Return the length of the hex or string value',
               documentation: {
                 value:
-                  '```minima-kissvm\nLEN ( value: hex | string )\n\t=> returnvalue: number\n```',
+                  '```' +
+                  KISS_VM_LANGUAGE +
+                  '\nLEN ( value: hex | string )\n\t=> returnvalue: number\n```',
               },
             },
             {
@@ -466,7 +482,9 @@ function completionItemProvider(monaco) {
               detail: 'Reverse the data of the hex value',
               documentation: {
                 value:
-                  '```minima-kissvm\nREV ( hex: hex )\n\t=> returnvalue: hex\n```',
+                  '```' +
+                  KISS_VM_LANGUAGE +
+                  '\nREV ( hex: hex )\n\t=> returnvalue: hex\n```',
               },
             },
             {
@@ -480,7 +498,9 @@ function completionItemProvider(monaco) {
                 'Return the subset data of the hex value - starting at the given index to the given length',
               documentation: {
                 value:
-                  '```minima-kissvm\nSUBSET (\n\tstart: number\n\tlength: number\n\thex: hex\n)\n\t=> returnvalue: hex\n```',
+                  '```' +
+                  KISS_VM_LANGUAGE +
+                  '\nSUBSET (\n\tstart: number\n\tlength: number\n\thex: hex\n)\n\t=> returnvalue: hex\n```',
               },
             },
             {
@@ -494,7 +514,9 @@ function completionItemProvider(monaco) {
                 'Replace all occurrences of the substring with another in the given string value',
               documentation: {
                 value:
-                  '```minima-kissvm\nREPLACE (\n\tstring: string\n\treplace: string\n\twith: string\n)\n\t=> returnvalue: string\n```',
+                  '```' +
+                  KISS_VM_LANGUAGE +
+                  '\nREPLACE (\n\tstring: string\n\treplace: string\n\twith: string\n)\n\t=> returnvalue: string\n```',
               },
             },
             {
@@ -508,7 +530,9 @@ function completionItemProvider(monaco) {
                 'Return the substring of the string value - starting at the given index to the given length',
               documentation: {
                 value:
-                  '```minima-kissvm\nSUBSTR (\n\tstart: number\n\tlength: number\n\tstring: string\n)\n\t=> returnvalue: string\n```',
+                  '```' +
+                  KISS_VM_LANGUAGE +
+                  '\nSUBSTR (\n\tstart: number\n\tlength: number\n\tstring: string\n)\n\t=> returnvalue: string\n```',
               },
             },
 
@@ -523,7 +547,9 @@ function completionItemProvider(monaco) {
               detail: 'Return the stored array value at the given index',
               documentation: {
                 value:
-                  '```minima-kissvm\nGET (\n\tindex: number\n\t...\n\tindexnumber?: number\n)\n\t=> returnvalue: any\n```',
+                  '```' +
+                  KISS_VM_LANGUAGE +
+                  '\nGET (\n\tindex: number\n\t...\n\tindexnumber?: number\n)\n\t=> returnvalue: any\n```',
               },
             },
             {
@@ -537,7 +563,9 @@ function completionItemProvider(monaco) {
                 'Verify if there exists an array value at the given index',
               documentation: {
                 value:
-                  '```minima-kissvm\nEXISTS (\n\tindex: number\n\t...\n\tindexnumber?: number\n)\n\t=> returnvalue: boolean\n```',
+                  '```' +
+                  KISS_VM_LANGUAGE +
+                  '\nEXISTS (\n\tindex: number\n\t...\n\tindexnumber?: number\n)\n\t=> returnvalue: boolean\n```',
               },
             },
 
@@ -552,7 +580,9 @@ function completionItemProvider(monaco) {
               detail: 'Convert the given value to a boolean value',
               documentation: {
                 value:
-                  '```minima-kissvm\nBOOL ( value: any )\n\t=> returnvalue: boolean\n```',
+                  '```' +
+                  KISS_VM_LANGUAGE +
+                  '\nBOOL ( value: any )\n\t=> returnvalue: boolean\n```',
               },
             },
             {
@@ -565,7 +595,9 @@ function completionItemProvider(monaco) {
               detail: 'Convert the given value to a hex value',
               documentation: {
                 value:
-                  '```minima-kissvm\nHEX ( value: any )\n\t=> returnvalue: hex\n```',
+                  '```' +
+                  KISS_VM_LANGUAGE +
+                  '\nHEX ( value: any )\n\t=> returnvalue: hex\n```',
               },
             },
             {
@@ -578,7 +610,9 @@ function completionItemProvider(monaco) {
               detail: 'Convert the given hex value to a number value',
               documentation: {
                 value:
-                  '```minima-kissvm\nNUMBER ( hex: hex )\n\t=> returnvalue: number\n```',
+                  '```' +
+                  KISS_VM_LANGUAGE +
+                  '\nNUMBER ( hex: hex )\n\t=> returnvalue: number\n```',
               },
             },
             {
@@ -591,7 +625,9 @@ function completionItemProvider(monaco) {
               detail: 'Convert the given value to a string value',
               documentation: {
                 value:
-                  '```minima-kissvm\nSTRING ( value: any )\n\t=> returnvalue: string\n```',
+                  '```' +
+                  KISS_VM_LANGUAGE +
+                  '\nSTRING ( value: any )\n\t=> returnvalue: string\n```',
               },
             },
             {
@@ -605,7 +641,9 @@ function completionItemProvider(monaco) {
                 'Convert the given hex value to a string value in UTF8 format',
               documentation: {
                 value:
-                  '```minima-kissvm\nUTF8 ( hex: hex )\n\t=> returnvalue: string\n```',
+                  '```' +
+                  KISS_VM_LANGUAGE +
+                  '\nUTF8 ( hex: hex )\n\t=> returnvalue: string\n```',
               },
             },
             {
@@ -619,7 +657,9 @@ function completionItemProvider(monaco) {
                 'Convert the given hex value to a string value in ASCII format',
               documentation: {
                 value:
-                  '```minima-kissvm\nASCII ( hex: hex )\n\t=> returnvalue: string\n```',
+                  '```' +
+                  KISS_VM_LANGUAGE +
+                  '\nASCII ( hex: hex )\n\t=> returnvalue: string\n```',
               },
             },
 
@@ -634,7 +674,9 @@ function completionItemProvider(monaco) {
               detail: 'Return the absolute value of a number value',
               documentation: {
                 value:
-                  '```minima-kissvm\nABS ( number: number )\n\t=> returnvalue: number\n```',
+                  '```' +
+                  KISS_VM_LANGUAGE +
+                  '\nABS ( number: number )\n\t=> returnvalue: number\n```',
               },
             },
             {
@@ -647,7 +689,9 @@ function completionItemProvider(monaco) {
               detail: 'Return the number value rounded up',
               documentation: {
                 value:
-                  '```minima-kissvm\nCEIL ( number: number )\n\t=> returnvalue: number\n```',
+                  '```' +
+                  KISS_VM_LANGUAGE +
+                  '\nCEIL ( number: number )\n\t=> returnvalue: number\n```',
               },
             },
             {
@@ -660,7 +704,9 @@ function completionItemProvider(monaco) {
               detail: 'Return the number value rounded down',
               documentation: {
                 value:
-                  '```minima-kissvm\nFLOOR ( number: number )\n\t=> returnvalue: number\n```',
+                  '```' +
+                  KISS_VM_LANGUAGE +
+                  '\nFLOOR ( number: number )\n\t=> returnvalue: number\n```',
               },
             },
             {
@@ -673,7 +719,9 @@ function completionItemProvider(monaco) {
               detail: 'Return the minimum value of the given number values',
               documentation: {
                 value:
-                  '```minima-kissvm\nMIN (\n\tnumberone: number\n\tnumbertwo: number\n)\n\t=> returnvalue: number\n```',
+                  '```' +
+                  KISS_VM_LANGUAGE +
+                  '\nMIN (\n\tnumberone: number\n\tnumbertwo: number\n)\n\t=> returnvalue: number\n```',
               },
             },
             {
@@ -686,7 +734,9 @@ function completionItemProvider(monaco) {
               detail: 'Return the maximum value of the given number values',
               documentation: {
                 value:
-                  '```minima-kissvm\nMAX (\n\tnumberone: number\n\tnumbertwo: number\n)\n\t=> returnvalue: number\n```',
+                  '```' +
+                  KISS_VM_LANGUAGE +
+                  '\nMAX (\n\tnumberone: number\n\tnumbertwo: number\n)\n\t=> returnvalue: number\n```',
               },
             },
             {
@@ -699,7 +749,9 @@ function completionItemProvider(monaco) {
               detail: 'Increment the number value by 1',
               documentation: {
                 value:
-                  '```minima-kissvm\nINC ( number: number )\n\t=> returnvalue: number\n```',
+                  '```' +
+                  KISS_VM_LANGUAGE +
+                  '\nINC ( number: number )\n\t=> returnvalue: number\n```',
               },
             },
             {
@@ -712,7 +764,9 @@ function completionItemProvider(monaco) {
               detail: 'Decrement the number value by 1',
               documentation: {
                 value:
-                  '```minima-kissvm\nDEC ( number: number )\n\t=> returnvalue: number\n```',
+                  '```' +
+                  KISS_VM_LANGUAGE +
+                  '\nDEC ( number: number )\n\t=> returnvalue: number\n```',
               },
             },
             {
@@ -726,7 +780,9 @@ function completionItemProvider(monaco) {
                 'Return the power of a number value - the power must be a whole number',
               documentation: {
                 value:
-                  '```minima-kissvm\nPOW (\n\tpower: number\n\tnumber: number\n)\n\t=> returnvalue: number\n```',
+                  '```' +
+                  KISS_VM_LANGUAGE +
+                  '\nPOW (\n\tpower: number\n\tnumber: number\n)\n\t=> returnvalue: number\n```',
               },
             },
             {
@@ -739,7 +795,9 @@ function completionItemProvider(monaco) {
               detail: 'Returns the square root of the number value',
               documentation: {
                 value:
-                  '```minima-kissvm\nSQRT ( number: number )\n\t=> returnvalue: number\n```',
+                  '```' +
+                  KISS_VM_LANGUAGE +
+                  '\nSQRT ( number: number )\n\t=> returnvalue: number\n```',
               },
             },
             {
@@ -752,7 +810,9 @@ function completionItemProvider(monaco) {
               detail: 'Set the significant digits of the number value',
               documentation: {
                 value:
-                  '```minima-kissvm\nSIGDIG (\n\tdigits: number\n\tnumber: number\n)\n\t=> returnvalue: number\n```',
+                  '```' +
+                  KISS_VM_LANGUAGE +
+                  '\nSIGDIG (\n\tdigits: number\n\tnumber: number\n)\n\t=> returnvalue: number\n```',
               },
             },
 
@@ -768,7 +828,9 @@ function completionItemProvider(monaco) {
                 'Set the value of the bit at the given position to 0 or 1 for the hex value',
               documentation: {
                 value:
-                  '```minima-kissvm\nBITSET (\n\thex: hex\n\tpos: number\n\tonoff: boolean\n)\n\t=> returnvalue: hex\n```',
+                  '```' +
+                  KISS_VM_LANGUAGE +
+                  '\nBITSET (\n\thex: hex\n\tpos: number\n\tonoff: boolean\n)\n\t=> returnvalue: hex\n```',
               },
             },
             {
@@ -782,7 +844,9 @@ function completionItemProvider(monaco) {
                 'Get the boolean value of the bit at the given position for the hex value',
               documentation: {
                 value:
-                  '```minima-kissvm\nBITGET (\n\thex: hex\n\tpos: number\n)\n\t=> returnvalue: boolean\n```',
+                  '```' +
+                  KISS_VM_LANGUAGE +
+                  '\nBITGET (\n\thex: hex\n\tpos: number\n)\n\t=> returnvalue: boolean\n```',
               },
             },
             {
@@ -795,7 +859,9 @@ function completionItemProvider(monaco) {
               detail: 'Count the number of bits set in the hex value',
               documentation: {
                 value:
-                  '```minima-kissvm\nBITCOUNT ( hex: hex )\n\t=> returnvalue: number\n```',
+                  '```' +
+                  KISS_VM_LANGUAGE +
+                  '\nBITCOUNT ( hex: hex )\n\t=> returnvalue: number\n```',
               },
             },
 
@@ -811,7 +877,9 @@ function completionItemProvider(monaco) {
                 'Returns TRUE if the transaction is signed by the public key',
               documentation: {
                 value:
-                  '```minima-kissvm\nSIGNEDBY ( publickey: hex )\n\t=> returnvalue: boolean\n```',
+                  '```' +
+                  KISS_VM_LANGUAGE +
+                  '\nSIGNEDBY ( publickey: hex )\n\t=> returnvalue: boolean\n```',
               },
             },
             {
@@ -826,7 +894,9 @@ function completionItemProvider(monaco) {
                 'Returns TRUE if the transaction is signed by the required number of the public keys',
               documentation: {
                 value:
-                  '```minima-kissvm\nMULTISIG (\n\trequired: number\n\tpublickeyone: hex\n\tpublickeytwo: hex\n\t...\n\tpublickeynumber?: hex\n)\n\t=> returnvalue: boolean\n```',
+                  '```' +
+                  KISS_VM_LANGUAGE +
+                  '\nMULTISIG (\n\trequired: number\n\tpublickeyone: hex\n\tpublickeytwo: hex\n\t...\n\tpublickeynumber?: hex\n)\n\t=> returnvalue: boolean\n```',
               },
             },
             {
@@ -839,7 +909,9 @@ function completionItemProvider(monaco) {
               detail: 'Check the public key, data and signature',
               documentation: {
                 value:
-                  '```minima-kissvm\nCHECKSIG (\n\tpublickey: hex\n\tdata: hex\n\tsignature: hex\n)\n\t=> returnvalue: boolean\n```',
+                  '```' +
+                  KISS_VM_LANGUAGE +
+                  '\nCHECKSIG (\n\tpublickey: hex\n\tdata: hex\n\tsignature: hex\n)\n\t=> returnvalue: boolean\n```',
               },
             },
 
@@ -856,7 +928,9 @@ function completionItemProvider(monaco) {
                 'Check the mmr data, mmr root, with mmr proof are correct - use 0 for non-sum mmr trees (same as mmrproof on Minima)',
               documentation: {
                 value:
-                  '```minima-kissvm\nPROOF (\n\tdata: hex | string\n\tproofval: number\n\tproof: hex\n\trootval: number\n\troot: hex\n)\n\t=> returnvalue: boolean\n```',
+                  '```' +
+                  KISS_VM_LANGUAGE +
+                  '\nPROOF (\n\tdata: hex | string\n\tproofval: number\n\tproof: hex\n\trootval: number\n\troot: hex\n)\n\t=> returnvalue: boolean\n```',
               },
             },
 
@@ -873,7 +947,9 @@ function completionItemProvider(monaco) {
                 'Verify the input at the given index has the specified values - address, amount and tokenid',
               documentation: {
                 value:
-                  '```minima-kissvm\nVERIFYIN (\n\tindex: number\n\taddress: hex\n\tamount: number\n\ttokenid: hex\n)\n\t=> returnvalue: boolean\n```',
+                  '```' +
+                  KISS_VM_LANGUAGE +
+                  '\nVERIFYIN (\n\tindex: number\n\taddress: hex\n\tamount: number\n\ttokenid: hex\n)\n\t=> returnvalue: boolean\n```',
               },
             },
             {
@@ -887,7 +963,9 @@ function completionItemProvider(monaco) {
                 'Return the sum of the input amounts for the specified token',
               documentation: {
                 value:
-                  '```minima-kissvm\nSUMINPUTS ( tokenid: hex )\n\t=> returnvalue: number\n```',
+                  '```' +
+                  KISS_VM_LANGUAGE +
+                  '\nSUMINPUTS ( tokenid: hex )\n\t=> returnvalue: number\n```',
               },
             },
             {
@@ -900,7 +978,9 @@ function completionItemProvider(monaco) {
               detail: 'Return the address of the input at the specified index',
               documentation: {
                 value:
-                  '```minima-kissvm\nGETINADDR ( index: number )\n\t=> returnvalue: hex\n```',
+                  '```' +
+                  KISS_VM_LANGUAGE +
+                  '\nGETINADDR ( index: number )\n\t=> returnvalue: hex\n```',
               },
             },
             {
@@ -913,7 +993,9 @@ function completionItemProvider(monaco) {
               detail: 'Return the amount of the input at the specified index',
               documentation: {
                 value:
-                  '```minima-kissvm\nGETINAMT ( index: number )\n\t=> returnvalue: number\n```',
+                  '```' +
+                  KISS_VM_LANGUAGE +
+                  '\nGETINAMT ( index: number )\n\t=> returnvalue: number\n```',
               },
             },
             {
@@ -926,7 +1008,9 @@ function completionItemProvider(monaco) {
               detail: 'Return the token id of the input at the specified index',
               documentation: {
                 value:
-                  '```minima-kissvm\nGETINTOK ( index: number )\n\t=> returnvalue: hex\n```',
+                  '```' +
+                  KISS_VM_LANGUAGE +
+                  '\nGETINTOK ( index: number )\n\t=> returnvalue: hex\n```',
               },
             },
             {
@@ -939,7 +1023,9 @@ function completionItemProvider(monaco) {
               detail: 'Unknown function',
               documentation: {
                 value:
-                  '```minima-kissvm\nGETINID ( value: unknown )\n\t=> returnvalue: unknown\n```',
+                  '```' +
+                  KISS_VM_LANGUAGE +
+                  '\nGETINID ( value: unknown )\n\t=> returnvalue: unknown\n```',
               },
             },
 
@@ -956,7 +1042,9 @@ function completionItemProvider(monaco) {
                 'Verify the output at the given index has the specified values - address, amount, tokenid and keepstate',
               documentation: {
                 value:
-                  '```minima-kissvm\nVERIFYOUT (\n\tindex: number\n\taddress: hex\n\tamount: number\n\ttokenid: hex\n\tkeepstate: boolean\n)\n\t=> returnvalue: boolean\n```',
+                  '```' +
+                  KISS_VM_LANGUAGE +
+                  '\nVERIFYOUT (\n\tindex: number\n\taddress: hex\n\tamount: number\n\ttokenid: hex\n\tkeepstate: boolean\n)\n\t=> returnvalue: boolean\n```',
               },
             },
             {
@@ -970,7 +1058,9 @@ function completionItemProvider(monaco) {
                 'Return the sum of the output amounts for the specified token',
               documentation: {
                 value:
-                  '```minima-kissvm\nSUMOUTPUTS ( tokenid: hex )\n\t=> returnvalue: number\n```',
+                  '```' +
+                  KISS_VM_LANGUAGE +
+                  '\nSUMOUTPUTS ( tokenid: hex )\n\t=> returnvalue: number\n```',
               },
             },
             {
@@ -983,7 +1073,9 @@ function completionItemProvider(monaco) {
               detail: 'Return the address of the output at the specified index',
               documentation: {
                 value:
-                  '```minima-kissvm\nGETOUTADDR ( index: number )\n\t=> returnvalue: hex\n```',
+                  '```' +
+                  KISS_VM_LANGUAGE +
+                  '\nGETOUTADDR ( index: number )\n\t=> returnvalue: hex\n```',
               },
             },
             {
@@ -996,7 +1088,9 @@ function completionItemProvider(monaco) {
               detail: 'Return the amount of the output at the specified index',
               documentation: {
                 value:
-                  '```minima-kissvm\nGETOUTAMT ( index: number )\n\t=> returnvalue: number\n```',
+                  '```' +
+                  KISS_VM_LANGUAGE +
+                  '\nGETOUTAMT ( index: number )\n\t=> returnvalue: number\n```',
               },
             },
             {
@@ -1010,7 +1104,9 @@ function completionItemProvider(monaco) {
                 'Return the token id of the output at the specified index',
               documentation: {
                 value:
-                  '```minima-kissvm\nGETOUTTOK ( index: number )\n\t=> returnvalue: hex\n```',
+                  '```' +
+                  KISS_VM_LANGUAGE +
+                  '\nGETOUTTOK ( index: number )\n\t=> returnvalue: hex\n```',
               },
             },
             {
@@ -1024,7 +1120,9 @@ function completionItemProvider(monaco) {
                 'Return the keepstate of the output at the specified index',
               documentation: {
                 value:
-                  '```minima-kissvm\nGETOUTKEEPSTATE ( index: number )\n\t=> returnvalue: boolean\n```',
+                  '```' +
+                  KISS_VM_LANGUAGE +
+                  '\nGETOUTKEEPSTATE ( index: number )\n\t=> returnvalue: boolean\n```',
               },
             },
 
@@ -1039,7 +1137,9 @@ function completionItemProvider(monaco) {
               detail: 'Return the state value for the given index',
               documentation: {
                 value:
-                  '```minima-kissvm\nSTATE ( index: number )\n\t=> returnvalue: any\n```',
+                  '```' +
+                  KISS_VM_LANGUAGE +
+                  '\nSTATE ( index: number )\n\t=> returnvalue: any\n```',
               },
             },
             {
@@ -1053,7 +1153,9 @@ function completionItemProvider(monaco) {
                 'Return the state value for the given index stored in the coin MMR data - when the coin was created',
               documentation: {
                 value:
-                  '```minima-kissvm\nPREVSTATE ( index: number )\n\t=> returnvalue: any\n```',
+                  '```' +
+                  KISS_VM_LANGUAGE +
+                  '\nPREVSTATE ( index: number )\n\t=> returnvalue: any\n```',
               },
             },
             {
@@ -1067,7 +1169,9 @@ function completionItemProvider(monaco) {
                 'Return TRUE if the previous state and current state are the same within the given range - from start index to end index',
               documentation: {
                 value:
-                  '```minima-kissvm\nSAMESTATE (\n\tstartindex: number\n\tendindex: number\n)\n\t=> returnvalue: boolean\n```',
+                  '```' +
+                  KISS_VM_LANGUAGE +
+                  '\nSAMESTATE (\n\tstartindex: number\n\tendindex: number\n)\n\t=> returnvalue: boolean\n```',
               },
             },
 
@@ -1083,7 +1187,11 @@ function completionItemProvider(monaco) {
                 "Run the script with the provided parameters - use the variable 'returnvalue' to return the result of the function",
               documentation: {
                 value:
-                  '```minima-kissvm\nFUNCTION (\n\tscript: script\n\tparamone: any\n\tparamtwo: any\n\t...\n\tparamnumber: any\n)\n\t=> returnvalue: any\n\n\n```\n---\n```minima-kissvm\n\nLET result = FUNCTION ( $[\n\tLET x = $1 /* 5 */\n\tLET y = $2 /* 3 */\n\tLET returnvalue = x + y /* 5 + 3 */\n] 5 3 )\n\t=> { result: 8 }\n```',
+                  '```' +
+                  KISS_VM_LANGUAGE +
+                  '\nFUNCTION (\n\tscript: script\n\tparamone: any\n\tparamtwo: any\n\t...\n\tparamnumber: any\n)\n\t=> returnvalue: any\n\n\n```\n---\n```' +
+                  KISS_VM_LANGUAGE +
+                  '\n\nLET result = FUNCTION ( $[\n\tLET x = $1 /* 5 */\n\tLET y = $2 /* 3 */\n\tLET returnvalue = x + y /* 5 + 3 */\n] 5 3 )\n\t=> { result: 8 }\n```',
                 isTrusted: true,
               },
             },
@@ -1098,7 +1206,7 @@ function completionItemProvider(monaco) {
               range: range,
               detail: 'Add a comment to the script',
               documentation: {
-                value: '```minima-kissvm\n/* comment */\n```',
+                value: '```' + KISS_VM_LANGUAGE + '\n/* comment */\n```',
               },
             },
             {
@@ -1110,7 +1218,8 @@ function completionItemProvider(monaco) {
               range: range,
               detail: 'Create a variable',
               documentation: {
-                value: '```minima-kissvm\nLET name = value: any\n```',
+                value:
+                  '```' + KISS_VM_LANGUAGE + '\nLET name = value: any\n```',
               },
             },
             {
@@ -1122,7 +1231,8 @@ function completionItemProvider(monaco) {
               range: range,
               detail: 'Create a hex variable',
               documentation: {
-                value: '```minima-kissvm\nLET name = value: hex\n```',
+                value:
+                  '```' + KISS_VM_LANGUAGE + '\nLET name = value: hex\n```',
               },
             },
             {
@@ -1134,7 +1244,8 @@ function completionItemProvider(monaco) {
               range: range,
               detail: 'Create a number variable',
               documentation: {
-                value: '```minima-kissvm\nLET name = value: number\n```',
+                value:
+                  '```' + KISS_VM_LANGUAGE + '\nLET name = value: number\n```',
               },
             },
             {
@@ -1146,7 +1257,8 @@ function completionItemProvider(monaco) {
               range: range,
               detail: 'Create a string variable',
               documentation: {
-                value: '```minima-kissvm\nLET name = value: string\n```',
+                value:
+                  '```' + KISS_VM_LANGUAGE + '\nLET name = value: string\n```',
               },
             },
             {
@@ -1158,7 +1270,8 @@ function completionItemProvider(monaco) {
               range: range,
               detail: 'Create a script variable',
               documentation: {
-                value: '```minima-kissvm\nLET name = value: script\n```',
+                value:
+                  '```' + KISS_VM_LANGUAGE + '\nLET name = value: script\n```',
               },
             },
             {
@@ -1170,7 +1283,8 @@ function completionItemProvider(monaco) {
               range: range,
               detail: 'Create a boolean variable',
               documentation: {
-                value: '```minima-kissvm\nLET name = value: boolean\n```',
+                value:
+                  '```' + KISS_VM_LANGUAGE + '\nLET name = value: boolean\n```',
               },
             },
             {
@@ -1182,7 +1296,8 @@ function completionItemProvider(monaco) {
               range: range,
               detail: 'Create a function variable',
               documentation: {
-                value: '```minima-kissvm\nLET name = value: any\n```',
+                value:
+                  '```' + KISS_VM_LANGUAGE + '\nLET name = value: any\n```',
               },
             },
             {
@@ -1195,7 +1310,9 @@ function completionItemProvider(monaco) {
               detail: 'Create an array',
               documentation: {
                 value:
-                  '```minima-kissvm\nLET (\n\tindex: number\n\t...\n\tindexnumber?: number\n) = value: any\n```',
+                  '```' +
+                  KISS_VM_LANGUAGE +
+                  '\nLET (\n\tindex: number\n\t...\n\tindexnumber?: number\n) = value: any\n```',
               },
             },
             {
@@ -1208,7 +1325,9 @@ function completionItemProvider(monaco) {
               detail: 'Create an IF statement',
               documentation: {
                 value:
-                  '```minima-kissvm\nIF condition: boolean THEN\n\tblock: script\nENDIF\n```',
+                  '```' +
+                  KISS_VM_LANGUAGE +
+                  '\nIF condition: boolean THEN\n\tblock: script\nENDIF\n```',
               },
             },
             {
@@ -1222,7 +1341,9 @@ function completionItemProvider(monaco) {
               detail: 'Create an IF-ELSE statement',
               documentation: {
                 value:
-                  '```minima-kissvm\nIF condition: boolean THEN\n\tblock: script\nELSE\n\tblock: script\nENDIF\n```',
+                  '```' +
+                  KISS_VM_LANGUAGE +
+                  '\nIF condition: boolean THEN\n\tblock: script\nELSE\n\tblock: script\nENDIF\n```',
               },
             },
             {
@@ -1236,7 +1357,9 @@ function completionItemProvider(monaco) {
               detail: 'Create an IF-ELSEIF-ELSE statement',
               documentation: {
                 value:
-                  '```minima-kissvm\nIF condition: boolean THEN\n\tblock: script\nELSEIF condition: boolean THEN\n\tblock: script\nELSE\n\tblock: script\nENDIF\n```',
+                  '```' +
+                  KISS_VM_LANGUAGE +
+                  '\nIF condition: boolean THEN\n\tblock: script\nELSEIF condition: boolean THEN\n\tblock: script\nELSE\n\tblock: script\nENDIF\n```',
               },
             },
             {
@@ -1249,7 +1372,9 @@ function completionItemProvider(monaco) {
               detail: 'Create a WHILE statement',
               documentation: {
                 value:
-                  '```minima-kissvm\nWHILE condition: boolean DO\n\tblock: script\nENDWHILE\n```',
+                  '```' +
+                  KISS_VM_LANGUAGE +
+                  '\nWHILE condition: boolean DO\n\tblock: script\nENDWHILE\n```',
               },
             },
             {
@@ -1262,7 +1387,9 @@ function completionItemProvider(monaco) {
               detail: 'Create a WHILE statement',
               documentation: {
                 value:
-                  '```minima-kissvm\nWHILE condition: boolean DO\n\tblock: script\nENDWHILE\n```',
+                  '```' +
+                  KISS_VM_LANGUAGE +
+                  '\nWHILE condition: boolean DO\n\tblock: script\nENDWHILE\n```',
               },
             },
           ],
