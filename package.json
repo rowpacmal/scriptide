@@ -1,10 +1,10 @@
 {
-  "name": "minima-script-ide",
-  "description": "Revised Scripting IDE Minidapp",
+  "name": "scriptide-v2",
+  "description": "Script IDE v2 Minidapp",
   "author": "rowpacmal-minima",
   "license": "MIT",
   "private": true,
-  "version": "0.0.1",
+  "version": "0.0.2",
   "type": "module",
   "scripts": {
     "dev": "vite",
