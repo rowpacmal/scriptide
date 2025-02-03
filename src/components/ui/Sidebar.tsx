@@ -94,7 +94,12 @@ function Sidebar({ isControlPanelCollapsed, handelToggleControlPanel }) {
             pl={1.5}
             onClick={() => handleNavigationChange('home')}
           >
-            <Image src="/scriptide.png" alt="icon" width="40px" height="40px" />
+            <Image
+              src="./scriptide.png"
+              alt="icon"
+              width="40px"
+              height="40px"
+            />
           </Button>
         </Tooltip>
       </Box>
