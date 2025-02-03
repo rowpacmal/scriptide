@@ -1,0 +1,50 @@
+{
+  "name": "minima-script-ide",
+  "description": "Revised Scripting IDE Minidapp",
+  "author": "rowpacmal-minima",
+  "license": "MIT",
+  "private": true,
+  "version": "0.0.1",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
+    "preview": "vite preview",
+    "package": "bash ./create-minima-app/package.sh",
+    "postbuild": "node ./create-minima-app/postbuild.js",
+    "zip": "npm run build && npm run postbuild && npm run package",
+    "zip:windows": "npm run build && gulp"
+  },
+  "dependencies": {
+    "@chakra-ui/react": "^2.10.5",
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.0",
+    "@monaco-editor/react": "^4.6.0",
+    "@vitejs/plugin-legacy": "^4.1.1",
+    "@vitejs/plugin-react-swc": "^3.4.1",
+    "autoprefixer": "^10.4.16",
+    "decimal.js": "^10.4.3",
+    "framer-motion": "^12.0.3",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-icons": "^5.4.0",
+    "react-resizable-panels": "^2.1.7",
+    "tailwindcss": "^3.3.5",
+    "vite-plugin-html": "^3.2.0"
+  },
+  "devDependencies": {
+    "@types/react": "^18.2.15",
+    "@types/react-dom": "^18.2.7",
+    "@typescript-eslint/eslint-plugin": "^6.0.0",
+    "@typescript-eslint/parser": "^6.0.0",
+    "@vitejs/plugin-react": "^4.0.3",
+    "eslint": "^8.45.0",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "eslint-plugin-react-refresh": "^0.4.3",
+    "gulp": "^5.0.0",
+    "gulp-zip": "^6.1.0",
+    "typescript": "^5.0.2",
+    "vite": "^4.4.5"
+  }
+}
