@@ -9,7 +9,7 @@ import App from './App.tsx';
 // Styles
 import theme from './themes/theme.ts';
 import './styles/index.css';
-import initMonaco from './configs/monaco/init.ts';
+import initMonaco from './settings/monaco/init.ts';
 
 // Initialize monaco settings
 initMonaco();
