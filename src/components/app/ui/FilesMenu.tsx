@@ -35,7 +35,7 @@ function FilesMenuItem({ children, label, onClick, disabled = false }) {
 }
 
 // Files menu component
-function FilesMenu() {
+function FilesMenu({ addingFile, setAddingFile }) {
   // Define context
   const { files } = useContext(appContext);
 
@@ -47,7 +47,7 @@ function FilesMenu() {
     <HStack w="100%" px={2} gap={1}>
       <FilesMenuItem
         label="Create new file"
-        onClick={() => handleNewFile(`Script_${Date.now()}`)}
+        onClick={() => !addingFile && setAddingFile(true)}
         disabled={files.length >= 8}
       >
         <LuFilePlus size={ICON_SIZE} />

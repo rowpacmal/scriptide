@@ -34,7 +34,7 @@ function useFileSystem() {
   function handleNewFile(newFile: string) {
     tryCatch(async () => {
       const folder = `workspaces/${currentWorkspace}`;
-      const file = `${newFile}.kvm`;
+      const file = `${newFile}`;
       await minima.file.save(`${folder}/${file}`, '');
 
       setFiles(await getFiles(folder));

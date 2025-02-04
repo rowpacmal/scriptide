@@ -2,7 +2,7 @@
 
 // Import dependencies
 import { Box, HStack, Text, VStack } from '@chakra-ui/react';
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 // Import context
 import { appContext } from '../../../AppContext';
 // Import hooks
@@ -12,6 +12,7 @@ import FileItem from './FileItem';
 import FilesMenu from './FilesMenu';
 import Workspace from './Workspace';
 import WorkspaceMenu from './WorkspaceMenu';
+import NewFileItem from './NewFileItem';
 
 // File explorer component
 function Explorer() {
@@ -21,6 +22,8 @@ function Explorer() {
 
   // Define file system
   const { handleLoadFileData } = useFileSystem();
+
+  const [addingFile, setAddingFile] = useState(false);
 
   // Render
   return (
@@ -46,7 +49,7 @@ function Explorer() {
 
         {workspaces.length > 0 ? (
           <VStack w="100%" h="100%" gap={1}>
-            <FilesMenu />
+            <FilesMenu addingFile={addingFile} setAddingFile={setAddingFile} />
 
             <VStack
               id="FILE_EXPLORER"
@@ -57,7 +60,7 @@ function Explorer() {
               borderLeft="1px solid"
               borderColor="gray.700"
               p={1}
-              gap={0}
+              gap={0.5}
               overflow="scroll"
               className="alt-scrollbar"
             >
@@ -74,6 +77,8 @@ function Explorer() {
                   {item}
                 </FileItem>
               ))}
+              {addingFile && <NewFileItem setAddingFile={setAddingFile} />}
+              {/* <NewFileItem setAddingFile={setAddingFile} /> */}
               <Box
                 w="100%"
                 minH="1rem"
@@ -82,7 +87,7 @@ function Explorer() {
                   e.preventDefault();
                   console.log('context menu');
                 }}
-              ></Box>
+              />
             </VStack>
           </VStack>
         ) : (
