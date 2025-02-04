@@ -5,7 +5,7 @@ import { useContext } from 'react';
 // Import context
 import { appContext } from '../AppContext';
 import useTryCatch from './useTryCatch';
-import minima from '../libs/minima';
+import minima from '../lib/minima';
 import getFiles from '../utils/getFiles';
 
 // File system hook
