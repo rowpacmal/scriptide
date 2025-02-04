@@ -1,4 +1,13 @@
 {
+  "files": [],
+  "references": [
+    {
+      "path": "./tsconfig.app.json"
+    },
+    {
+      "path": "./tsconfig.node.json"
+    }
+  ],
   "compilerOptions": {
     /* Basic options */
     "target": "ESNext",
@@ -6,9 +15,12 @@
     "module": "ESNext",
     "skipLibCheck": true,
     "noImplicitAny": false,
-    /* "paths": {
+
+    /* Mappings */
+    "baseUrl": ".",
+    "paths": {
       "@/*": ["./src/*"]
-    }, */
+    },
 
     /* Bundler mode */
     "moduleResolution": "bundler",
@@ -24,6 +36,5 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["src"],
-  "references": [{ "path": "./tsconfig.node.json" }]
+  "include": ["src"]
 }
