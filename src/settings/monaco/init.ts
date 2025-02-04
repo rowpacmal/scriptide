@@ -6,6 +6,7 @@ import minimaTheme from './theme';
 import languageConfiguration from './languageConfiguration';
 import completionItemProvider from './completionItemProvider';
 import hoverProvider from './hoverProvider';
+import codeActionProvider from './codeActionProvider';
 
 function initMonaco() {
   loader.init().then((monaco) => {
@@ -26,6 +27,9 @@ function initMonaco() {
 
     // register hover provider
     hoverProvider(monaco);
+
+    // register code action provider
+    codeActionProvider(monaco);
   });
 }
 
