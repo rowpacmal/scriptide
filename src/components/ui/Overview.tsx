@@ -87,11 +87,25 @@ function VariableItem({ variable, value }) {
       hasArrow
     >
       <ListItem display="grid" gridTemplateColumns="1.5rem 1fr">
-        <ListIcon as={getIcon(getType(value))} color="orange.500" my={1} />
+        <ListIcon as={getIcon(getType(value))} color="orange.500" my={1.5} />
 
-        <Code flexGrow={1} colorScheme="orange" wordBreak="break-all">
-          {value}
-        </Code>
+        <VStack w="100%" gap={0.5}>
+          <Text w="100%" wordBreak="break-all">
+            {variable}&nbsp;
+            <Text as="span" color="orange.500">
+              : {getType(value)}
+            </Text>
+          </Text>
+
+          <Code
+            w="100%"
+            flexGrow={1}
+            colorScheme="orange"
+            wordBreak="break-all"
+          >
+            {value}
+          </Code>
+        </VStack>
       </ListItem>
     </Tooltip>
   );
