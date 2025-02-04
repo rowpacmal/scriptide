@@ -1,8 +1,8 @@
 // Dependencies
 import { Box } from '@chakra-ui/react';
-import AppHeader from './components/app/AppHeader';
-import AppContent from './components/app/AppContent';
-import AppFooter from './components/app/AppFooter';
+import Header from './components/app/Header';
+import Content from './components/app/Content';
+import Footer from './components/app/Footer';
 
 // Component
 function App() {
@@ -16,11 +16,11 @@ function App() {
       display="flex"
       flexDirection="column"
     >
-      <AppHeader />
+      <Header />
 
-      <AppContent />
+      <Content />
 
-      <AppFooter />
+      <Footer />
     </Box>
   );
 }

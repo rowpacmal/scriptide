@@ -2,7 +2,7 @@
 import { Box, Text } from '@chakra-ui/react';
 
 // App header component
-function AppHeader() {
+function Header() {
   // Render
   return (
     <Box
@@ -21,4 +21,4 @@ function AppHeader() {
 }
 
 // Export
-export default AppHeader;
+export default Header;

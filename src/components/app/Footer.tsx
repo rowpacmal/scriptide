@@ -2,7 +2,7 @@
 import { Box } from '@chakra-ui/react';
 
 // App footer component
-function AppFooter() {
+function Footer() {
   // Render
   return (
     <Box
@@ -16,4 +16,4 @@ function AppFooter() {
 }
 
 // Export
-export default AppFooter;
+export default Footer;

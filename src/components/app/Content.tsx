@@ -46,7 +46,7 @@ function PanelHandle({ direction }) {
 }
 
 // App content component
-function AppContent() {
+function Content() {
   // Define ref
   const consoleRef = useRef(null);
   const controlPanelRef = useRef(null);
@@ -190,4 +190,4 @@ function AppContent() {
 }
 
 // Export
-export default AppContent;
+export default Content;
