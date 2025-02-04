@@ -5,6 +5,7 @@ import monarchTokensProvider from './monarchTokensProvider';
 import minimaTheme from './theme';
 import languageConfiguration from './languageConfiguration';
 import completionItemProvider from './completionItemProvider';
+import diagnostics from './diagnostics';
 // import hoverProvider from './hoverProvider';
 // import codeActionProvider from './codeActionProvider';
 
@@ -30,6 +31,9 @@ function initMonaco() {
 
     // register code action provider
     // codeActionProvider(monaco); // TODO - Work in progress
+
+    // register diagnostics
+    diagnostics(monaco);
   });
 }
 
