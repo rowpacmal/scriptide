@@ -15,7 +15,8 @@ function diagnostics(monaco) {
     // console.log(lines);
 
     lines.forEach((line, index) => {
-      if (line.includes('ERROR')) {
+      // Examples
+      /* if (line.includes('ERROR')) {
         markers.push({
           severity: monaco.MarkerSeverity.Error,
           startLineNumber: index + 1,
@@ -36,7 +37,7 @@ function diagnostics(monaco) {
           message: 'Detected WARNING.',
           source: LANGUAGE_CHECKER_ID,
         });
-      }
+      } */
 
       const code = line.replace(/\s+/g, ' ').trim().split(' ');
       code.forEach((c, cindex) => {
