@@ -11,17 +11,17 @@ function diagnostics(monaco) {
 
     const code = model.getValue();
     const markers = [];
-    const lines = code.split('\n');
+    const lines: string[] = code.split('\n');
     // console.log(lines);
 
-    lines.forEach((line, index) => {
+    lines.forEach((line, i) => {
       // Examples
       /* if (line.includes('ERROR')) {
         markers.push({
           severity: monaco.MarkerSeverity.Error,
-          startLineNumber: index + 1,
+          startLineNumber: i + 1,
           startColumn: line.indexOf('ERROR') + 1,
-          endLineNumber: index + 1,
+          endLineNumber: i + 1,
           endColumn: line.indexOf('ERROR') + 6,
           message: 'Detected ERROR in code.',
           source: LANGUAGE_CHECKER_ID,
@@ -30,28 +30,30 @@ function diagnostics(monaco) {
       if (line.includes('WARNING')) {
         markers.push({
           severity: monaco.MarkerSeverity.Warning,
-          startLineNumber: index + 1,
+          startLineNumber: i + 1,
           startColumn: line.indexOf('WARNING') + 1,
-          endLineNumber: index + 1,
+          endLineNumber: i + 1,
           endColumn: line.indexOf('WARNING') + 8,
           message: 'Detected WARNING.',
           source: LANGUAGE_CHECKER_ID,
         });
       } */
 
-      const code = line.replace(/\s+/g, ' ').trim().split(' ');
-      code.forEach((c, cindex) => {
-        if (c.includes('LET')) {
-          if (/([^a-z]+)/.test(code[cindex + 1])) {
-            // console.log(code[cindex + 1]);
+      const instructions = line.replace(/\s+/g, ' ').trim().split(' ');
+      instructions.forEach((instruction, j) => {
+        if (instruction.includes('LET')) {
+          if (/([^a-z]+)/.test(instructions[j + 1])) {
+            // console.log(instructions[j + 1]);
 
             markers.push({
               severity: monaco.MarkerSeverity.ERROR,
-              startLineNumber: index + 1,
-              startColumn: line.indexOf(code[cindex + 1]) + 1,
-              endLineNumber: index + 1,
+              startLineNumber: i + 1,
+              startColumn: line.indexOf(instructions[j + 1]) + 1,
+              endLineNumber: i + 1,
               endColumn:
-                line.indexOf(code[cindex + 1]) + code[cindex + 1].length + 1,
+                line.indexOf(instructions[j + 1]) +
+                instructions[j + 1].length +
+                1,
               message: 'Variable names must only consist of lowercase letters.',
               source: LANGUAGE_CHECKER_ID,
             });
