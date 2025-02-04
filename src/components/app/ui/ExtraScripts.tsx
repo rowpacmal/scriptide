@@ -33,9 +33,9 @@ import {
   LuX,
 } from 'react-icons/lu';
 // Import context
-import { appContext } from '../../AppContext';
+import { appContext } from '../../../AppContext';
 // Import constants
-import { DEFAULT_EDITOR_THEME, KISS_VM_LANGUAGE } from '../../constants';
+import { DEFAULT_EDITOR_THEME, KISS_VM_LANGUAGE } from '../../../constants';
 
 // Extra scripts component
 function ExtraScripts() {

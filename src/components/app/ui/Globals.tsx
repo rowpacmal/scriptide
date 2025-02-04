@@ -11,7 +11,7 @@ import {
 import { useContext, useState } from 'react';
 import { LuMinus, LuPlus } from 'react-icons/lu';
 // Import context
-import { appContext } from '../../AppContext';
+import { appContext } from '../../../AppContext';
 
 // Globals component
 function Globals() {

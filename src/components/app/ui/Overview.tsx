@@ -14,10 +14,10 @@ import {
 } from '@chakra-ui/react';
 import { useContext } from 'react';
 // Import context
-import { appContext } from '../../AppContext';
+import { appContext } from '../../../AppContext';
 // Import utilities
-import getIcon from '../../utils/getIcon';
-import getType from '../../utils/getType';
+import getIcon from '../../../utils/getIcon';
+import getType from '../../../utils/getType';
 
 // Types
 type OverviewItemProps = {

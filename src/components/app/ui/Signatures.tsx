@@ -1,6 +1,6 @@
 // Import dependencies
 import { Button, HStack, Input, Text, VStack } from '@chakra-ui/react';
-import { appContext } from '../../AppContext';
+import { appContext } from '../../../AppContext';
 import { useContext } from 'react';
 import { LuArrowDown, LuArrowUp } from 'react-icons/lu';
 

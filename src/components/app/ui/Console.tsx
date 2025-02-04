@@ -1,8 +1,8 @@
 import { Box } from '@chakra-ui/react';
-import { appContext } from '../../AppContext';
+import { appContext } from '../../../AppContext';
 import { useContext, useEffect, useRef } from 'react';
 import { Editor } from '@monaco-editor/react';
-import { DEFAULT_EDITOR_THEME } from '../../constants';
+import { DEFAULT_EDITOR_THEME } from '../../../constants';
 
 // Console component
 function Console() {

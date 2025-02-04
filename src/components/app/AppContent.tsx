@@ -2,19 +2,19 @@
 import { Box, HStack } from '@chakra-ui/react';
 import { Panel, PanelGroup, PanelResizeHandle } from 'react-resizable-panels';
 // Import components
-import Sidebar from '../ui/Sidebar';
-import CodeEditor from '../ui/CodeEditor';
+import Sidebar from './ui/Sidebar';
+import CodeEditor from './ui/CodeEditor';
 import {
   // useEffect,
   useRef,
   useState,
 } from 'react';
-import Overview from '../ui/Overview';
+import Overview from './ui/Overview';
 // Import utilities
-import ControlPanel from '../ui/ControlPanel';
-import Console from '../ui/Console';
-import CodeEditorHeader from '../ui/CodeEditorHeader';
-import ConsoleHeader from '../ui/ConsoleHeader';
+import ControlPanel from './ui/ControlPanel';
+import Console from './ui/Console';
+import CodeEditorHeader from './ui/CodeEditorHeader';
+import ConsoleHeader from './ui/ConsoleHeader';
 
 // Utility component
 function PanelHandle({ direction }) {

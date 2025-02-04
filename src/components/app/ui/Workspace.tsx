@@ -7,7 +7,7 @@ import {
   Text,
 } from '@chakra-ui/react';
 import { LuChevronDown } from 'react-icons/lu';
-import { appContext } from '../../AppContext';
+import { appContext } from '../../../AppContext';
 import { useContext } from 'react';
 
 // Workspace component

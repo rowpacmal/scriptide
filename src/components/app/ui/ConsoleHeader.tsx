@@ -3,9 +3,9 @@ import { Box, Button, HStack, Tooltip } from '@chakra-ui/react';
 import { useContext } from 'react';
 import { LuBan, LuChevronsDown, LuChevronsUp } from 'react-icons/lu';
 // Import constants
-import { CONSOLE_DEFAULT_CLEARED } from '../../constants';
+import { CONSOLE_DEFAULT_CLEARED } from '../../../constants';
 // Import context
-import { appContext } from '../../AppContext';
+import { appContext } from '../../../AppContext';
 // Import components
 import ConsoleStatus from './ConsoleStatus';
 

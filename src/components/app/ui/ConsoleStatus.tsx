@@ -14,7 +14,7 @@ import {
   Tooltip,
 } from '@chakra-ui/react';
 import { LuCircleDotDashed } from 'react-icons/lu';
-import { appContext } from '../../AppContext';
+import { appContext } from '../../../AppContext';
 import { useContext } from 'react';
 
 // Utility functions

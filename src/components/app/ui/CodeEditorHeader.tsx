@@ -12,10 +12,10 @@ import {
   LuZoomOut,
 } from 'react-icons/lu';
 // Import context
-import { appContext } from '../../AppContext';
+import { appContext } from '../../../AppContext';
 // Import hooks
-import useFileSystem from '../../hooks/useFileSystem';
-import useRunScript from '../../hooks/useRunScript';
+import useFileSystem from '../../../hooks/useFileSystem';
+import useRunScript from '../../../hooks/useRunScript';
 
 // Code editor header button component
 function CodeEditorHeaderButton({

@@ -1,6 +1,6 @@
 import { Box, Highlight, Input, Text } from '@chakra-ui/react';
 import ConfirmModal from './ConfirmModal';
-import useFileSystem from '../../hooks/useFileSystem';
+import useFileSystem from '../../../hooks/useFileSystem';
 import { useState } from 'react';
 
 // Constants

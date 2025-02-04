@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 // Import constants
 import { KISS_VM_LANGUAGE } from '../../constants';
 

@@ -3,10 +3,10 @@ import { Box } from '@chakra-ui/react';
 import Editor from '@monaco-editor/react';
 import { useContext, useRef } from 'react';
 // Import context
-import { appContext } from '../../AppContext';
-import useFileSystem from '../../hooks/useFileSystem';
+import { appContext } from '../../../AppContext';
+import useFileSystem from '../../../hooks/useFileSystem';
 // Import constants
-import { DEFAULT_EDITOR_THEME, KISS_VM_LANGUAGE } from '../../constants';
+import { DEFAULT_EDITOR_THEME, KISS_VM_LANGUAGE } from '../../../constants';
 
 function CodeEditor() {
   // Define refs

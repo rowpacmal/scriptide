@@ -2,9 +2,9 @@
 import { Box, Button, HStack, Text, VStack } from '@chakra-ui/react';
 import { useContext } from 'react';
 // Import constants
-import { NAVIGATION_LABELS } from '../../constants';
+import { NAVIGATION_LABELS } from '../../../constants';
 // Import context
-import { appContext } from '../../AppContext';
+import { appContext } from '../../../AppContext';
 // Import components
 import ExtraScripts from './ExtraScripts';
 import Globals from './Globals';
@@ -12,7 +12,7 @@ import Signatures from './Signatures';
 import States from './States';
 import Explorer from './Explorer';
 import { LuRotateCw } from 'react-icons/lu';
-import useFileSystem from '../../hooks/useFileSystem';
+import useFileSystem from '../../../hooks/useFileSystem';
 
 // Control panel component
 function ControlPanel() {

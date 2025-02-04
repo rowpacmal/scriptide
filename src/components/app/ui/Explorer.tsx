@@ -4,9 +4,9 @@
 import { Box, HStack, Text, VStack } from '@chakra-ui/react';
 import { useContext } from 'react';
 // Import context
-import { appContext } from '../../AppContext';
+import { appContext } from '../../../AppContext';
 // Import hooks
-import useFileSystem from '../../hooks/useFileSystem';
+import useFileSystem from '../../../hooks/useFileSystem';
 // Import components
 import FileItem from './FileItem';
 import FilesMenu from './FilesMenu';

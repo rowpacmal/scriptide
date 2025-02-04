@@ -2,9 +2,9 @@
 import { Box, Input, Text } from '@chakra-ui/react';
 import { useContext, useState } from 'react';
 // Import context
-import { appContext } from '../../AppContext';
+import { appContext } from '../../../AppContext';
 // Import hooks
-import useFileSystem from '../../hooks/useFileSystem';
+import useFileSystem from '../../../hooks/useFileSystem';
 // Import components
 import ConfirmModal from './ConfirmModal';
 

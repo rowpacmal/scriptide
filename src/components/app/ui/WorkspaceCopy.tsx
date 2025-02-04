@@ -1,8 +1,8 @@
 import { Box, Input, Text } from '@chakra-ui/react';
 import ConfirmModal from './ConfirmModal';
-import useFileSystem from '../../hooks/useFileSystem';
+import useFileSystem from '../../../hooks/useFileSystem';
 import { useContext, useState } from 'react';
-import { appContext } from '../../AppContext';
+import { appContext } from '../../../AppContext';
 
 // Workspace rename modal component
 function WorkspaceCopy({ onClose }) {
