@@ -1,10 +1,10 @@
 {
-  "name": "scriptide-v2",
-  "description": "Script IDE v2 Minidapp",
+  "name": "scriptide",
+  "description": "Minima IDE for creating, testing, and debugging KISSVM scripts",
   "author": "rowpacmal-minima",
   "license": "MIT",
   "private": true,
-  "version": "0.0.2",
+  "version": "3.0.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
