@@ -5,6 +5,7 @@ import monarchTokensProvider from './monarchTokensProvider';
 import minimaTheme from './theme';
 import languageConfiguration from './languageConfiguration';
 import completionItemProvider from './completionItemProvider';
+import hoverProvider from './hoverProvider';
 
 function initMonaco() {
   loader.init().then((monaco) => {
@@ -22,6 +23,9 @@ function initMonaco() {
 
     // register completion item provider
     completionItemProvider(monaco);
+
+    // register hover provider
+    hoverProvider(monaco);
   });
 }
 
