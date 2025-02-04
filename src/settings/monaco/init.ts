@@ -5,8 +5,8 @@ import monarchTokensProvider from './monarchTokensProvider';
 import minimaTheme from './theme';
 import languageConfiguration from './languageConfiguration';
 import completionItemProvider from './completionItemProvider';
-import hoverProvider from './hoverProvider';
-import codeActionProvider from './codeActionProvider';
+// import hoverProvider from './hoverProvider';
+// import codeActionProvider from './codeActionProvider';
 
 function initMonaco() {
   loader.init().then((monaco) => {
@@ -26,10 +26,10 @@ function initMonaco() {
     completionItemProvider(monaco);
 
     // register hover provider
-    hoverProvider(monaco);
+    // hoverProvider(monaco); // TODO - Work in progress
 
     // register code action provider
-    codeActionProvider(monaco);
+    // codeActionProvider(monaco); // TODO - Work in progress
   });
 }
 
