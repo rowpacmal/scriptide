@@ -116,12 +116,18 @@ function Home() {
                 The dapp has missing loading states, so the feedback may feel a
                 bit off during some operations.
               </FeatureItem>
+
+              <FeatureItem alert>
+                [v3.0.2] - 5 Fed 2025 <br />
+                May experience optimizations and performance issues. Some
+                features as been limited for performance reasons, but will be
+                lifted when the dapp is more optimized (max 10 workspaces, 8
+                script files, and 10 extra script slots).
+              </FeatureItem>
             </List>
           </AccordionPanel>
         </AccordionItem>
       </Accordion>
-
-      <VStack w="100%" gap={3} py={4}></VStack>
     </VStack>
   );
 }
