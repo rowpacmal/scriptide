@@ -1,18 +1,20 @@
 // Import dependencies
 import { loader } from '@monaco-editor/react';
+// Import settings
+// import codeActionProvider from './codeActionProvider';
+import completionItemProvider from './completionItemProvider';
+// import diagnostics from './diagnostics';
+// import hoverProvider from './hoverProvider';
+import languageConfiguration from './languageConfiguration';
 import languageRegister from './languageRegister';
 import monarchTokensProvider from './monarchTokensProvider';
+// Import themes
 import minimaTheme from './theme';
-import languageConfiguration from './languageConfiguration';
-import completionItemProvider from './completionItemProvider';
-import diagnostics from './diagnostics';
-// import hoverProvider from './hoverProvider';
-// import codeActionProvider from './codeActionProvider';
 
 function initMonaco() {
   loader.init().then((monaco) => {
     // register theme
-    minimaTheme(monaco);
+    minimaTheme(monaco); // TODO - Work in progress
 
     // register language
     languageRegister(monaco);
@@ -33,7 +35,7 @@ function initMonaco() {
     // codeActionProvider(monaco); // TODO - Work in progress
 
     // register diagnostics
-    diagnostics(monaco);
+    // diagnostics(monaco); // TODO - Work in progress
   });
 }
 
