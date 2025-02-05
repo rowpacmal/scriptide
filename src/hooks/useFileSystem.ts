@@ -95,6 +95,9 @@ function useFileSystem() {
 
       setWorkspaces(await getFiles('workspaces'));
       setCurrentWorkspace(newWorkspace);
+
+      setCurrentFile(null);
+      setCode(null);
     });
   }
 

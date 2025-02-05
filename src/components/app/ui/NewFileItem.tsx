@@ -1,13 +1,13 @@
 import useFileSystem from '@/hooks/useFileSystem';
 import {
-  Button,
+  // Button,
   Input,
   InputGroup,
-  InputRightAddon,
+  // InputRightAddon,
   useToast,
 } from '@chakra-ui/react';
 import { useEffect, useRef, useState } from 'react';
-import { LuX } from 'react-icons/lu';
+// import { LuX } from 'react-icons/lu';
 
 function NewFileItem({ setAddingFile }) {
   const toast = useToast();

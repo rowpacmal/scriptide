@@ -39,9 +39,6 @@ function FilesMenu({ addingFile, setAddingFile }) {
   // Define context
   const { files } = useContext(appContext);
 
-  // Define file system
-  const { handleNewFile } = useFileSystem();
-
   // Render
   return (
     <HStack w="100%" px={2} gap={1}>
@@ -53,7 +50,8 @@ function FilesMenu({ addingFile, setAddingFile }) {
         <LuFilePlus size={ICON_SIZE} />
       </FilesMenuItem>
 
-      <FilesMenuItem label="Create new folder" onClick={() => {}} disabled>
+      {/* TODO - Add folder and upload support */}
+      {/* <FilesMenuItem label="Create new folder" onClick={() => {}} disabled>
         <LuFolderPlus size={ICON_SIZE} />
       </FilesMenuItem>
 
@@ -63,7 +61,7 @@ function FilesMenu({ addingFile, setAddingFile }) {
         disabled
       >
         <LuHardDriveUpload size={ICON_SIZE} />
-      </FilesMenuItem>
+      </FilesMenuItem> */}
     </HStack>
   );
 }
