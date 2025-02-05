@@ -36,6 +36,7 @@ function NewFileItem({ setAddingFile }) {
         borderRadius="none"
         _placeholder={{ color: 'gray.700' }}
         value={fileName}
+        onBlur={() => setAddingFile(false)}
         onChange={(e) => setFileName(e.target.value)}
         onKeyDown={(e) => {
           if (e.key === 'Enter') {
@@ -70,7 +71,8 @@ function NewFileItem({ setAddingFile }) {
         }}
       />
 
-      <InputRightAddon bg="gray.800" borderRadius="none" border="none" p={0}>
+      {/* Unused close button - using a onBlur instead */}
+      {/* <InputRightAddon bg="gray.800" borderRadius="none" border="none" p={0}>
         <Button
           size="xs"
           borderRadius="none"
@@ -82,7 +84,7 @@ function NewFileItem({ setAddingFile }) {
         >
           <LuX />
         </Button>
-      </InputRightAddon>
+      </InputRightAddon> */}
     </InputGroup>
   );
 }
