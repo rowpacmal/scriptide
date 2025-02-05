@@ -50,12 +50,16 @@ function OverviewItem({
   return (
     <VStack as="section" w="100%" gap={1}>
       <HStack as="header" w="100%" justifyContent="space-between">
-        <Text as="h3" textTransform="uppercase" color="gray.500">
+        <Text as="h3" textTransform="uppercase" color="gray.500" fontSize="xs">
           {label}
         </Text>
 
         <Button
           size="xs"
+          h="16px"
+          px={1}
+          fontSize="2xs"
+          borderRadius="sm"
           color="gray.500"
           border="1px solid"
           borderColor="gray.500"
@@ -121,6 +125,7 @@ function Overview() {
     // scriptParse,
     // scriptSuccess,
     // scriptMonotonic,
+    totalScriptInstructions,
     scriptVariables,
   } = useContext(appContext);
 
@@ -180,8 +185,49 @@ function Overview() {
           </OverviewItem>
 
           <VStack as="section" w="100%" gap={1}>
+            <HStack as="header" w="100%" justifyContent="space-between">
+              <Text
+                as="h3"
+                textTransform="uppercase"
+                color="gray.500"
+                fontSize="xs"
+              >
+                Total instructions
+              </Text>
+            </HStack>
+
+            <Card w="100%" bg="gray.800" color="gray.50" p={2}>
+              <Text
+                as="pre"
+                h="auto"
+                overflow="auto"
+                whiteSpace="pre-wrap"
+                pr={2}
+              >
+                {totalScriptInstructions ? (
+                  <>
+                    <Text as="span" color="orange.500">
+                      {totalScriptInstructions}
+                    </Text>{' '}
+                    instructions
+                  </>
+                ) : (
+                  <Text as="span" color="gray.500">
+                    Script MxAddress here
+                  </Text>
+                )}
+              </Text>
+            </Card>
+          </VStack>
+
+          <VStack as="section" w="100%" gap={1}>
             <Box as="header" w="100%">
-              <Text as="h3" textTransform="uppercase" color="gray.500">
+              <Text
+                as="h3"
+                textTransform="uppercase"
+                color="gray.500"
+                fontSize="xs"
+              >
                 Script variables
               </Text>
             </Box>
