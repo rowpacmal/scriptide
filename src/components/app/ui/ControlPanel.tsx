@@ -1,18 +1,20 @@
 // Import dependencies
 import { Box, Button, HStack, Text, VStack } from '@chakra-ui/react';
 import { useContext } from 'react';
+import { LuRotateCw } from 'react-icons/lu';
 // Import constants
 import { NAVIGATION_LABELS } from '../../../constants';
 // Import context
 import { appContext } from '../../../AppContext';
+// Import hooks
+import useFileSystem from '../../../hooks/useFileSystem';
 // Import components
 import ExtraScripts from './ExtraScripts';
 import Globals from './Globals';
 import Signatures from './Signatures';
 import States from './States';
 import Explorer from './Explorer';
-import { LuRotateCw } from 'react-icons/lu';
-import useFileSystem from '../../../hooks/useFileSystem';
+import Home from './Home';
 
 // Control panel component
 function ControlPanel() {
@@ -53,26 +55,7 @@ function ControlPanel() {
           )}
         </HStack>
 
-        {navigation === 'home' && (
-          <VStack w="100%" color="gray.500" textAlign="center" gap={3}>
-            <Text as="h3" w="100%" fontSize="lg">
-              Welcome to Minima Script IDE!
-            </Text>
-
-            <hr className="w-full border-gray-700" />
-
-            <Text w="100%">
-              This is a simple IDE for writing and testing Minima scripts - KISS
-              VM.
-            </Text>
-
-            <Text w="100%">
-              It is a work in progress and will be improved as time goes by. If
-              you find any bugs or have any suggestions, please let me know, and
-              please be patient as this project is still under development.
-            </Text>
-          </VStack>
-        )}
+        {navigation === 'home' && <Home />}
         {navigation === 'explorer' && <Explorer />}
         {navigation === 'search' && (
           <Text color="gray.500">Not implemented!</Text>
