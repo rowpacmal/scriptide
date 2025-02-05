@@ -124,7 +124,11 @@ function FileItem({ children, file, onClick, isActive = false }) {
 
   // Render
   return (
-    <Box cursor="pointer" w="100%">
+    <Box
+      cursor="pointer"
+      w="100%"
+      _hover={{ bg: 'gray.800', color: 'gray.50' }}
+    >
       <Menu isOpen={isOpen} onClose={onClose} placement="bottom-start">
         <MenuButton
           as="div"
@@ -136,14 +140,15 @@ function FileItem({ children, file, onClick, isActive = false }) {
             w="100%"
             borderRadius={0}
             border="1px solid"
-            borderColor={isOpen ? 'gray.700' : 'transparent'}
+            borderColor={
+              isOpen ? (isActive ? 'blue.500' : 'gray.700') : 'transparent'
+            }
             justifyContent="space-between"
             gap={0}
             pl={2}
             pr={1}
             color={isActive ? 'gray.50' : 'gray.500'}
-            bg={isActive ? 'gray.800' : 'transparent'}
-            _hover={{ bg: 'gray.800', color: 'gray.50' }}
+            bg={isActive ? 'blue.800' : isOpen ? 'gray.800' : 'transparent'}
           >
             <Text
               w="100%"
