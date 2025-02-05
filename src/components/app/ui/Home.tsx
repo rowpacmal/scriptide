@@ -13,14 +13,14 @@ import {
   Text,
   VStack,
 } from '@chakra-ui/react';
-import { LuThumbsDown, LuThumbsUp, LuTriangleAlert } from 'react-icons/lu';
+import { LuBadgeAlert, LuBadgeInfo } from 'react-icons/lu';
 
-function FeatureItem({ children, isMissing = false, alert = false }) {
+function FeatureItem({ children, alert = false }) {
   return (
     <ListItem>
       <ListIcon
-        as={isMissing ? LuThumbsDown : alert ? LuTriangleAlert : LuThumbsUp}
-        color={isMissing ? 'red.500' : alert ? 'yellow.500' : 'green.500'}
+        as={alert ? LuBadgeAlert : LuBadgeInfo}
+        color={alert ? 'yellow.500' : 'green.500'}
       />
       {children}
     </ListItem>
@@ -54,12 +54,12 @@ function Home() {
 
       <Divider borderColor="gray.700" />
 
-      <Accordion w="100%" defaultIndex={[0]} allowToggle>
+      <Accordion w="100%" allowToggle>
         <AccordionItem border="none">
           <Text as="h4">
             <AccordionButton>
               <Text as="span" flex="1" textAlign="left">
-                Current IDE Features
+                Changelog
               </Text>
 
               <AccordionIcon />
@@ -68,39 +68,53 @@ function Home() {
 
           <AccordionPanel>
             <List spacing={3} fontSize="sm" textAlign="start">
-              <FeatureItem>Write, run and debug KISS VM scripts.</FeatureItem>
+              <FeatureItem>
+                [v3.0.2] - 5 Fed 2025 <br />
+                Write, run and debug KISS VM scripts with a updated UI.
+              </FeatureItem>
 
               <FeatureItem>
+                [v3.0.2] - 5 Fed 2025 <br />
                 Share and inspect clean script, 0xaddress, mxaddress and script
                 variables.
               </FeatureItem>
 
               <FeatureItem>
+                [v3.0.2] - 5 Fed 2025 <br />
                 Add and test state, prevstate and global variables.
               </FeatureItem>
 
-              <FeatureItem>Add and test signatures.</FeatureItem>
-
               <FeatureItem>
-                Add and test extra scripts (experimental script insert)
+                [v3.0.2] - 5 Fed 2025 <br />
+                Add and test signatures.
               </FeatureItem>
-
-              <Divider borderColor="gray.700" />
 
               <FeatureItem alert>
-                Extra scripts are stored to the browsers local storage, so they
-                will be lost if the cache is cleared
+                [v3.0.2] - 5 Fed 2025 <br />
+                State, prevstate and global variables and signatures are not
+                saved between sessions.
               </FeatureItem>
 
-              <Divider borderColor="gray.700" />
+              <FeatureItem>
+                [v3.0.2] - 5 Fed 2025 <br />
+                Add and test extra scripts (experimental script insert).
+              </FeatureItem>
 
-              <FeatureItem isMissing>
+              <FeatureItem alert>
+                [v3.0.2] - 5 Fed 2025 <br />
+                Extra scripts are stored to the browsers local storage, so they
+                will be lost if the cache is cleared.
+              </FeatureItem>
+
+              <FeatureItem alert>
+                [v3.0.2] - 5 Fed 2025 <br />
                 Functions that relay on the txn input and output don't work.
               </FeatureItem>
 
-              <FeatureItem isMissing>
-                State, prevstate and global variables and signatures are not
-                saved between sessions.
+              <FeatureItem alert>
+                [v3.0.2] - 5 Fed 2025 <br />
+                The dapp has missing loading states, so the feedback may feel a
+                bit off during some operations.
               </FeatureItem>
             </List>
           </AccordionPanel>
