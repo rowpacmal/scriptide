@@ -13,17 +13,17 @@ import {
 } from '@chakra-ui/react';
 import { useState } from 'react';
 import {
-  LuBug,
+  // LuBug,
   LuCopy,
-  LuDownload,
-  LuHardDriveDownload,
-  LuHardDriveUpload,
+  // LuDownload,
+  // LuHardDriveDownload,
+  // LuHardDriveUpload,
   LuMenu,
   LuPenLine,
   LuPlus,
   LuTrash,
   LuTrash2,
-  LuUpload,
+  // LuUpload,
 } from 'react-icons/lu';
 // Import components
 import WorkspaceCopy from './WorkspaceCopy';

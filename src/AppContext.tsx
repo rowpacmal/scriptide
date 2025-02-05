@@ -71,7 +71,9 @@ const AppProvider = ({ children }: IProps) => {
   const [signatures, setSignatures] = useState([]);
   const [stateVariables, setStateVariables] = useState([]);
   const [prevStateVariables, setPrevStateVariables] = useState([]);
-  const [extraScripts, setExtraScripts] = useState([]);
+  const [extraScripts, setExtraScripts] = useState(
+    JSON.parse(localStorage.getItem('extra-scripts')) || []
+  );
 
   // Initialize MDS
   useEffect(() => {
@@ -105,6 +107,11 @@ const AppProvider = ({ children }: IProps) => {
       setFiles(await getFiles(`workspaces/${currentWorkspace}`));
     });
   }, [currentWorkspace]);
+
+  // Temporary fix for saving extra scripts
+  useEffect(() => {
+    localStorage.setItem('extra-scripts', JSON.stringify(extraScripts));
+  }, [extraScripts]);
 
   // Render
   return (

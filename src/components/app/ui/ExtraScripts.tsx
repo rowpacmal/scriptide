@@ -21,7 +21,7 @@ import {
   VStack,
 } from '@chakra-ui/react';
 import { Editor } from '@monaco-editor/react';
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import {
   LuBan,
   LuBug,
@@ -46,8 +46,15 @@ function ExtraScripts() {
   const { extraScripts, setExtraScripts } = useContext(appContext);
 
   // Define state
-  const [activeScript, setActiveScript] = useState(0);
+  const [activeScript, setActiveScript] = useState(
+    Number(localStorage.getItem('active-extra-script')) || 0
+  );
   const [activeScriptName, setActiveScriptName] = useState('');
+
+  // Temporary fix to keep track of the last active script index
+  useEffect(() => {
+    localStorage.setItem('active-extra-script', activeScript.toString());
+  }, [activeScript]);
 
   // Render
   return (
@@ -58,7 +65,7 @@ function ExtraScripts() {
             <MenuButton
               textAlign="start"
               w="100%"
-              size="xs"
+              size="sm"
               fontWeight="normal"
               variant="outline"
               color="gray.500"
@@ -70,7 +77,7 @@ function ExtraScripts() {
               disabled={extraScripts.length < 1}
             >
               <HStack>
-                <Text as="span" fontSize="xs" color="gray.500">
+                <Text as="span" color="gray.500">
                   {extraScripts.length > 0 && `@X${activeScript}`}
                 </Text>
 
@@ -97,12 +104,12 @@ function ExtraScripts() {
                   _hover={{ bg: 'gray.700' }}
                   onClick={() => setActiveScript(index)}
                   icon={
-                    <Text as="span" fontSize="xs" color="gray.500">
+                    <Text as="span" fontSize="sm" color="gray.500">
                       {extraScripts.length > 0 && `@X${index}`}
                     </Text>
                   }
                 >
-                  <Text as="span" fontSize="xs">
+                  <Text as="span">
                     {extraScripts.length > 0 && extraScripts[index].name}
                   </Text>
                 </MenuItem>
@@ -121,7 +128,7 @@ function ExtraScripts() {
               _active={{ bg: 'transparent', color: 'gray.50' }}
               as={Button}
             >
-              <LuMenu />
+              <LuMenu size={24} />
             </MenuButton>
 
             <MenuList
@@ -143,9 +150,7 @@ function ExtraScripts() {
                 icon={<LuPenLine />}
                 isDisabled={extraScripts.length < 1}
               >
-                <Text as="span" fontSize="xs">
-                  Rename script
-                </Text>
+                <Text as="span">Rename script</Text>
               </MenuItem>
 
               <MenuDivider my={1} />
@@ -171,9 +176,7 @@ function ExtraScripts() {
                 icon={<LuPlus />}
                 isDisabled={extraScripts.length >= 10}
               >
-                <Text as="span" fontSize="xs">
-                  Add script
-                </Text>
+                <Text as="span">Add script</Text>
               </MenuItem>
 
               <MenuItem
@@ -199,9 +202,7 @@ function ExtraScripts() {
                 icon={<LuX />}
                 isDisabled={extraScripts.length < 1}
               >
-                <Text as="span" fontSize="xs">
-                  Delete script
-                </Text>
+                <Text as="span">Delete script</Text>
               </MenuItem>
 
               <MenuItem
@@ -218,9 +219,7 @@ function ExtraScripts() {
                 icon={<LuTrash />}
                 isDisabled={extraScripts.length < 1}
               >
-                <Text as="span" fontSize="xs">
-                  Delete all scripts
-                </Text>
+                <Text as="span">Delete all scripts</Text>
               </MenuItem>
 
               <MenuItem
@@ -238,9 +237,7 @@ function ExtraScripts() {
                 icon={<LuBan />}
                 isDisabled={extraScripts.length < 1}
               >
-                <Text as="span" fontSize="xs">
-                  Clear script
-                </Text>
+                <Text as="span">Clear script</Text>
               </MenuItem>
 
               <MenuDivider my={1} />
@@ -253,9 +250,7 @@ function ExtraScripts() {
                 onClick={() => console.log(activeScript, extraScripts)}
                 icon={<LuBug />}
               >
-                <Text as="span" fontSize="xs">
-                  Debug
-                </Text>
+                <Text as="span">Debug</Text>
               </MenuItem>
             </MenuList>
           </Menu>
