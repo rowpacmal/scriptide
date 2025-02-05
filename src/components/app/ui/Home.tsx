@@ -85,6 +85,8 @@ function Home() {
                 Add and test extra scripts (experimental script insert)
               </FeatureItem>
 
+              <Divider borderColor="gray.700" />
+
               <FeatureItem alert>
                 Extra scripts are stored to the browsers local storage, so they
                 will be lost if the cache is cleared
@@ -94,6 +96,11 @@ function Home() {
 
               <FeatureItem isMissing>
                 Functions that relay on the txn input and output don't work.
+              </FeatureItem>
+
+              <FeatureItem isMissing>
+                State, prevstate and global variables and signatures are not
+                saved between sessions.
               </FeatureItem>
             </List>
           </AccordionPanel>
