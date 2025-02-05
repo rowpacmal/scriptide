@@ -62,15 +62,14 @@ function ControlPanel() {
             <hr className="w-full border-gray-700" />
 
             <Text w="100%">
-              Lorem ipsum dolor, sit amet consectetur adipisicing elit. Illum
-              unde quisquam ipsum velit numquam eligendi, blanditiis dolorem
-              provident ex. Voluptatibus facere aliquam vel accusamus est a
-              beatae ullam consequatur temporibus!
+              This is a simple IDE for writing and testing Minima scripts - KISS
+              VM.
             </Text>
 
             <Text w="100%">
-              Lorem ipsum dolor sit, amet consectetur adipisicing elit. Fugit
-              minima sunt aut optio earum totam.
+              It is a work in progress and will be improved as time goes by. If
+              you find any bugs or have any suggestions, please let me know, and
+              please be patient as this project is still under development.
             </Text>
           </VStack>
         )}
