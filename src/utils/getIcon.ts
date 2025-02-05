@@ -1,10 +1,10 @@
 // Import dependencies
 import {
   LuBinary,
+  LuCode,
   LuDiff,
   LuHash,
   LuRectangleEllipsis,
-  LuSquareFunction,
   LuType,
 } from 'react-icons/lu';
 
@@ -21,7 +21,7 @@ function getIcon(type: string) {
       return LuHash;
 
     case 'script':
-      return LuSquareFunction;
+      return LuCode;
 
     case 'string':
       return LuType;

@@ -7,9 +7,9 @@ import {
   LuFiles,
   LuGlobe,
   LuLock,
-  LuPlug,
-  LuSearch,
-  LuSettings,
+  // LuPlug,
+  // LuSearch,
+  // LuSettings,
 } from 'react-icons/lu';
 // Import constants
 import { NAVIGATION_LABELS } from '../../../constants';
