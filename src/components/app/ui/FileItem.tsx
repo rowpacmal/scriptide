@@ -8,9 +8,9 @@ import {
   useDisclosure,
 } from '@chakra-ui/react';
 import {
-  LuBug,
-  LuCopy,
-  LuDownload,
+  // LuBug,
+  // LuCopy,
+  // LuDownload,
   LuFile,
   LuPenLine,
   LuTrash,
@@ -18,7 +18,11 @@ import {
 // Import hooks
 import useFileSystem from '../../../hooks/useFileSystem';
 // Import components
-import { MenuDividerBase, MenuItemBase, MenuListBase } from './MenuListBase';
+import {
+  // MenuDividerBase,
+  MenuItemBase,
+  MenuListBase,
+} from './MenuListBase';
 import { useEffect } from 'react';
 
 // File item context menu component
@@ -29,7 +33,7 @@ function FileItemContextMenu({ file }) {
   return (
     <MenuListBase>
       <MenuItemBase
-        label="Rename File"
+        // label="Rename File"
         icon={<LuPenLine />}
         onClick={() => {}}
         disabled
@@ -38,17 +42,18 @@ function FileItemContextMenu({ file }) {
       </MenuItemBase>
 
       <MenuItemBase
-        label="Delete File"
+        // label="Delete File"
         icon={<LuTrash />}
         onClick={() => handleDeleteFile(file)}
       >
         Delete
       </MenuItemBase>
 
-      <MenuDividerBase />
+      {/* TODO - Add copy and download support */}
+      {/* <MenuDividerBase />
 
       <MenuItemBase
-        label="Copy File"
+        // label="Copy File"
         icon={<LuCopy />}
         onClick={() => {}}
         disabled
@@ -57,7 +62,7 @@ function FileItemContextMenu({ file }) {
       </MenuItemBase>
 
       <MenuItemBase
-        label="Copy File Name"
+        // label="Copy File Name"
         icon={<LuCopy />}
         onClick={() => {}}
         disabled
@@ -66,7 +71,7 @@ function FileItemContextMenu({ file }) {
       </MenuItemBase>
 
       <MenuItemBase
-        label="Copy File Path"
+        // label="Copy File Path"
         icon={<LuCopy />}
         onClick={() => {}}
         disabled
@@ -77,23 +82,24 @@ function FileItemContextMenu({ file }) {
       <MenuDividerBase />
 
       <MenuItemBase
-        label="Download File"
+        // label="Download File"
         icon={<LuDownload />}
         onClick={() => {}}
         disabled
       >
         Download
-      </MenuItemBase>
+      </MenuItemBase> */}
 
-      <MenuDividerBase />
+      {/* Used for debugging during development  */}
+      {/* <MenuDividerBase />
 
       <MenuItemBase
-        label="Debug"
+        // label="Debug"
         icon={<LuBug />}
         onClick={() => console.log(file)}
       >
         Debug
-      </MenuItemBase>
+      </MenuItemBase> */}
     </MenuListBase>
   );
 }

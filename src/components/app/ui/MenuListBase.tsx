@@ -6,9 +6,17 @@ function MenuDividerBase() {
 }
 
 // Menu item base component
-function MenuItemBase({ children, label, icon, onClick, disabled = false }) {
+function MenuItemBase({
+  children,
+  // label,
+  icon,
+  onClick,
+  disabled = false,
+}) {
   return (
-    <Tooltip label={label} placement="right" hasArrow>
+    <>
+      {/* Disabled the tooltip - was distractive */}
+      {/* <Tooltip label={label} placement="right" hasArrow> */}
       <MenuItem
         py={1}
         bg="transparent"
@@ -20,7 +28,8 @@ function MenuItemBase({ children, label, icon, onClick, disabled = false }) {
       >
         {children}
       </MenuItem>
-    </Tooltip>
+      {/* </Tooltip> */}
+    </>
   );
 }
 
