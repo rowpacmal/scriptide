@@ -55,9 +55,19 @@ function ConsoleStatus() {
                   bg: 'transparent',
                 }}
               >
-                <Box color={getColor(scriptParse, scriptSuccess)}>
+                <HStack color={getColor(scriptParse, scriptSuccess)}>
                   <LuCircleDotDashed />
-                </Box>
+
+                  <Text as="span" fontSize="xs">
+                    {scriptParse === null || scriptSuccess === null
+                      ? 'N/A'
+                      : !scriptParse && !scriptSuccess
+                      ? 'Error'
+                      : !scriptParse || !scriptSuccess
+                      ? 'Warning'
+                      : 'Success'}
+                  </Text>
+                </HStack>
               </Button>
             </Tooltip>
           </Box>
