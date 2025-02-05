@@ -1,5 +1,12 @@
 // Import dependencies
-import { Box, Button, HStack, Tooltip, useToast } from '@chakra-ui/react';
+import {
+  Box,
+  Button,
+  HStack,
+  Input,
+  Tooltip,
+  useToast,
+} from '@chakra-ui/react';
 import { useContext } from 'react';
 import {
   LuChevronsLeft,
@@ -55,7 +62,7 @@ function CodeEditorHeader({ isOverviewCollapsed, handelToggleOverview }) {
   const toast = useToast();
 
   // Define context
-  const { code, setEditorZoom, editorAutoSave, setEditorAutoSave } =
+  const { code, editorZoom, setEditorZoom, editorAutoSave, setEditorAutoSave } =
     useContext(appContext);
 
   // Define handlers
@@ -94,6 +101,21 @@ function CodeEditorHeader({ isOverviewCollapsed, handelToggleOverview }) {
           >
             <LuZoomOut />
           </CodeEditorHeaderButton>
+
+          <Input
+            value={editorZoom}
+            onChange={(e) => {
+              const zoom = Number(e.target.value);
+
+              if (!isNaN(zoom)) {
+                setEditorZoom(zoom);
+                localStorage.setItem('editor-zoom', JSON.stringify(zoom));
+              }
+            }}
+            size="xs"
+            maxW={8}
+            textAlign="center"
+          />
 
           <CodeEditorHeaderButton
             label="Zoom in"
