@@ -1,6 +1,6 @@
 const CONSOLE_DEFAULT = [
   'Welcome to Minima Script IDE!',
-  'Lowercase, newlines, tabs and comments using /* .. */ are supported. Removed and cleaned.',
+  'Newlines, tabs and comments using /* .. */ are supported. Removed and cleaned during Run.',
   '---------------------------------',
 ];
 
