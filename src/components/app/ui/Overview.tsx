@@ -10,9 +10,10 @@ import {
   ListItem,
   Text,
   Tooltip,
+  useClipboard,
   VStack,
 } from '@chakra-ui/react';
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
 // Import context
 import { appContext } from '../../../AppContext';
 // Import utilities
@@ -47,6 +48,18 @@ function OverviewItem({
   placeholder,
   h = 'auto',
 }: OverviewItemProps) {
+  // Define clipboard
+  const { onCopy, value, setValue, hasCopied } = useClipboard('');
+
+  useEffect(() => {
+    if (!children || typeof children !== 'string') {
+      return;
+    }
+
+    const valueToCopy = children;
+    setValue(valueToCopy);
+  }, [children]);
+
   return (
     <VStack as="section" w="100%" gap={1}>
       <HStack as="header" w="100%" justifyContent="space-between">
@@ -62,12 +75,21 @@ function OverviewItem({
           borderRadius="sm"
           color="gray.500"
           border="1px solid"
-          borderColor="gray.500"
+          borderColor="gray.700"
           bg="transparent"
-          _hover={{ bg: 'gray.500', color: 'gray.900' }}
+          _hover={{
+            color: !value ? '' : 'gray.50',
+            borderColor: !value ? '' : 'gray.50',
+          }}
+          _active={{
+            color: !value ? '' : 'gray.50',
+            borderColor: !value ? '' : 'gray.50',
+          }}
           textTransform="uppercase"
+          onClick={onCopy}
+          disabled={!value}
         >
-          Copy
+          {hasCopied ? 'Copied' : 'Copy'}
         </Button>
       </HStack>
 
