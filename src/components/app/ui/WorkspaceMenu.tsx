@@ -115,14 +115,15 @@ function WorkspaceMenu({ workspaces }) {
             Create Blank
           </WorkspaceMenuItem>
 
-          <WorkspaceMenuItem
+          {/* TODO - enable when templates are ready */}
+          {/* <WorkspaceMenuItem
             label="Create Workspace Using Template"
             icon={<LuPlus />}
             onClick={() => {}}
             disabled
           >
             Create Using Template
-          </WorkspaceMenuItem>
+          </WorkspaceMenuItem> */}
 
           <WorkspaceMenuItem
             label="Copy Workspace"
@@ -136,7 +137,8 @@ function WorkspaceMenu({ workspaces }) {
             Copy
           </WorkspaceMenuItem>
 
-          <WorkspaceMenuItem
+          {/* TODO - enable when the feature is ready */}
+          {/* <WorkspaceMenuItem
             label="Download Workspace"
             icon={<LuDownload />}
             onClick={() => {}}
@@ -152,7 +154,7 @@ function WorkspaceMenu({ workspaces }) {
             disabled
           >
             Upload
-          </WorkspaceMenuItem>
+          </WorkspaceMenuItem> */}
 
           <WorkspaceMenuItem
             label="Delete Workspace"
@@ -180,7 +182,8 @@ function WorkspaceMenu({ workspaces }) {
             Delete all
           </WorkspaceMenuItem>
 
-          <WorkspaceMenuItem
+          {/* TODO - enable when the feature is ready */}
+          {/* <WorkspaceMenuItem
             label="Backup Workspaces"
             icon={<LuHardDriveDownload />}
             onClick={() => {}}
@@ -196,9 +199,10 @@ function WorkspaceMenu({ workspaces }) {
             disabled
           >
             Restore
-          </WorkspaceMenuItem>
+          </WorkspaceMenuItem> */}
 
-          <MenuDivider my={1} />
+          {/* Used for debugging during development */}
+          {/* <MenuDivider my={1} />
 
           <WorkspaceMenuItem
             label="Debug"
@@ -206,7 +210,7 @@ function WorkspaceMenu({ workspaces }) {
             onClick={() => console.log(workspaces)}
           >
             Debug
-          </WorkspaceMenuItem>
+          </WorkspaceMenuItem> */}
         </MenuList>
       </Menu>
 
