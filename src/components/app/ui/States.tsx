@@ -1,6 +1,7 @@
 // Import dependencies
 import {
   Button,
+  Divider,
   HStack,
   Input,
   InputGroup,
@@ -9,7 +10,7 @@ import {
   Text,
   VStack,
 } from '@chakra-ui/react';
-import { LuPlus, LuTrash, LuX } from 'react-icons/lu';
+import { LuPlus, LuTrash2, LuX } from 'react-icons/lu';
 import { appContext } from '../../../AppContext';
 import { useContext } from 'react';
 
@@ -24,10 +25,10 @@ function StateItem({ index }) {
       <InputLeftAddon bg="gray.800" borderColor="gray.700" px={1}>
         <Input
           size="xs"
-          variant="flushed"
+          // variant="flushed"
+          bg="gray.900"
           borderColor="gray.700"
           _placeholder={{ color: 'gray.700' }}
-          _focusVisible={{ borderColor: 'orange.500' }}
           _readOnly={{ color: 'gray.500' }}
           value={stateVariables[index].index}
           onChange={(e) =>
@@ -53,7 +54,6 @@ function StateItem({ index }) {
       <Input
         borderColor="gray.700"
         _placeholder={{ color: 'gray.700' }}
-        _focusVisible={{ borderColor: 'orange.500' }}
         _readOnly={{ color: 'gray.500' }}
         value={stateVariables[index].value}
         onChange={(e) =>
@@ -63,10 +63,15 @@ function StateItem({ index }) {
             return temp;
           })
         }
-        placeholder="Value"
+        placeholder="Enter value"
       />
 
-      <InputRightAddon bg="gray.800" borderColor="gray.700" px={1}>
+      <InputRightAddon
+        bg="gray.800"
+        borderColor="gray.700"
+        borderLeft={0}
+        px={1}
+      >
         <Button
           p={0}
           h="auto"
@@ -99,10 +104,10 @@ function PrevStateItem({ index }) {
       <InputLeftAddon bg="gray.800" borderColor="gray.700" px={1}>
         <Input
           size="xs"
-          variant="flushed"
+          // variant="flushed"
+          bg="gray.900"
           borderColor="gray.700"
           _placeholder={{ color: 'gray.700' }}
-          _focusVisible={{ borderColor: 'orange.500' }}
           _readOnly={{ color: 'gray.500' }}
           value={prevStateVariables[index].index}
           onChange={(e) =>
@@ -128,7 +133,6 @@ function PrevStateItem({ index }) {
       <Input
         borderColor="gray.700"
         _placeholder={{ color: 'gray.700' }}
-        _focusVisible={{ borderColor: 'orange.500' }}
         _readOnly={{ color: 'gray.500' }}
         value={prevStateVariables[index].value}
         onChange={(e) =>
@@ -179,14 +183,28 @@ function States() {
     <VStack w="100%" fontSize="sm" gap={3}>
       <VStack w="100%" gap={1}>
         <HStack w="100%" justify="space-between">
-          <Text as="h3" textTransform="uppercase" color="gray.500">
+          <Text
+            as="h3"
+            textTransform="uppercase"
+            color="gray.500"
+            fontSize="xs"
+          >
             States
           </Text>
 
-          <HStack>
+          <HStack gap={1}>
             <Button
-              size="xs"
-              colorScheme="green"
+              p={0}
+              h="auto"
+              minW="auto"
+              bg="transparent"
+              color="gray.500"
+              _hover={{
+                bg: 'transparent',
+                color: stateVariables.length > 255 ? '' : 'gray.50',
+                transform: stateVariables.length > 255 ? '' : 'scale(1.2)',
+              }}
+              _active={{ bg: 'transparent', color: 'gray.50' }}
               onClick={() =>
                 setStateVariables((prevState) => [
                   ...prevState,
@@ -203,16 +221,25 @@ function States() {
               }
               disabled={stateVariables.length > 255}
             >
-              <LuPlus />
+              <LuPlus size={20} />
             </Button>
 
             <Button
-              size="xs"
-              colorScheme="red"
+              p={0}
+              h="auto"
+              minW="auto"
+              bg="transparent"
+              color="gray.500"
+              _hover={{
+                bg: 'transparent',
+                color: stateVariables.length < 1 ? '' : 'gray.50',
+                transform: stateVariables.length < 1 ? '' : 'scale(1.2)',
+              }}
+              _active={{ bg: 'transparent', color: 'gray.50' }}
               onClick={() => setStateVariables([])}
               disabled={stateVariables.length < 1}
             >
-              <LuTrash />
+              <LuTrash2 size={20} />
             </Button>
           </HStack>
         </HStack>
@@ -232,16 +259,32 @@ function States() {
         </VStack>
       </VStack>
 
+      <Divider borderColor="gray.700" />
+
       <VStack w="100%" gap={1}>
         <HStack w="100%" justify="space-between">
-          <Text as="h3" textTransform="uppercase" color="gray.500">
+          <Text
+            as="h3"
+            textTransform="uppercase"
+            color="gray.500"
+            fontSize="xs"
+          >
             PrevStates
           </Text>
 
-          <HStack>
+          <HStack gap={1}>
             <Button
-              size="xs"
-              colorScheme="green"
+              p={0}
+              h="auto"
+              minW="auto"
+              bg="transparent"
+              color="gray.500"
+              _hover={{
+                bg: 'transparent',
+                color: prevStateVariables.length > 255 ? '' : 'gray.50',
+                transform: prevStateVariables.length > 255 ? '' : 'scale(1.2)',
+              }}
+              _active={{ bg: 'transparent', color: 'gray.50' }}
               onClick={() =>
                 setPrevStateVariables((prevState) => [
                   ...prevState,
@@ -258,16 +301,25 @@ function States() {
               }
               disabled={prevStateVariables.length > 255}
             >
-              <LuPlus />
+              <LuPlus size={20} />
             </Button>
 
             <Button
-              size="xs"
-              colorScheme="red"
+              p={0}
+              h="auto"
+              minW="auto"
+              bg="transparent"
+              color="gray.500"
+              _hover={{
+                bg: 'transparent',
+                color: prevStateVariables.length < 1 ? '' : 'gray.50',
+                transform: prevStateVariables.length < 1 ? '' : 'scale(1.2)',
+              }}
+              _active={{ bg: 'transparent', color: 'gray.50' }}
               onClick={() => setPrevStateVariables([])}
               disabled={prevStateVariables.length < 1}
             >
-              <LuTrash />
+              <LuTrash2 size={20} />
             </Button>
           </HStack>
         </HStack>
