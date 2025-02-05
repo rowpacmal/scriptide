@@ -75,8 +75,8 @@ function Home() {
 
               <FeatureItem>
                 [v3.0.2] - 5 Fed 2025 <br />
-                Share and inspect clean script, 0xaddress, mxaddress and script
-                variables.
+                Inspect the output of the script - clean script, 0xaddress,
+                mxaddress, total instructions and script variables.
               </FeatureItem>
 
               <FeatureItem>
