@@ -10,7 +10,7 @@ function diagnostics(monaco) {
     if (!model || model.getLanguageId() !== KISS_VM_LANGUAGE) return;
 
     const code = model.getValue();
-    const markers = [];
+    const markers: any = [];
     const lines: string[] = code.split('\n');
     // console.log(lines);
 

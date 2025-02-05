@@ -46,7 +46,7 @@ function codeActionProvider(monaco) {
   // Ensure the command exists
   monaco.editor.registerCommand(
     'convertToUppercase',
-    (accessor, resource, wordAtPosition, range) => {
+    (_, resource, wordAtPosition, range) => {
       // Find the correct editor instance
       const editor = monaco.editor
         .getEditors()

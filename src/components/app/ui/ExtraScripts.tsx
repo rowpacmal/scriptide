@@ -24,7 +24,7 @@ import { Editor } from '@monaco-editor/react';
 import { useContext, useEffect, useState } from 'react';
 import {
   LuBan,
-  LuBug,
+  // LuBug,
   LuChevronDown,
   LuMenu,
   LuPenLine,

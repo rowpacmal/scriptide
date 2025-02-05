@@ -1,5 +1,10 @@
 // Import dependencies
-import { MenuDivider, MenuItem, MenuList, Tooltip } from '@chakra-ui/react';
+import {
+  MenuDivider,
+  MenuItem,
+  MenuList,
+  // Tooltip
+} from '@chakra-ui/react';
 
 function MenuDividerBase() {
   return <MenuDivider my={1} />;

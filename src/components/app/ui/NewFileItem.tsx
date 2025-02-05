@@ -13,7 +13,7 @@ function NewFileItem({ setAddingFile }) {
   const toast = useToast();
 
   // refs
-  const inputRef = useRef(null);
+  const inputRef: any = useRef(null);
 
   const [fileName, setFileName] = useState('');
 

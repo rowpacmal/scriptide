@@ -72,7 +72,7 @@ const AppProvider = ({ children }: IProps) => {
   const [stateVariables, setStateVariables] = useState([]);
   const [prevStateVariables, setPrevStateVariables] = useState([]);
   const [extraScripts, setExtraScripts] = useState(
-    JSON.parse(localStorage.getItem('extra-scripts')) || []
+    JSON.parse(localStorage.getItem('extra-scripts') as any) || []
   );
 
   // Initialize MDS
