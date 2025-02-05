@@ -115,6 +115,9 @@ function CodeEditorHeader({ isOverviewCollapsed, handelToggleOverview }) {
             size="xs"
             maxW={8}
             textAlign="center"
+            _hover={{ borderColor: code === null ? '' : 'gray.50' }}
+            _focus={{ borderColor: 'blue.500' }}
+            disabled={code === null}
           />
 
           <CodeEditorHeaderButton
