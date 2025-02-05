@@ -240,7 +240,8 @@ function ExtraScripts() {
                 <Text as="span">Clear script</Text>
               </MenuItem>
 
-              <MenuDivider my={1} />
+              {/* Used for debugging during development */}
+              {/* <MenuDivider my={1} />
 
               <MenuItem
                 py={1}
@@ -251,7 +252,7 @@ function ExtraScripts() {
                 icon={<LuBug />}
               >
                 <Text as="span">Debug</Text>
-              </MenuItem>
+              </MenuItem> */}
             </MenuList>
           </Menu>
         </HStack>
