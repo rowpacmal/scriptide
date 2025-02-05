@@ -34,6 +34,22 @@ function Globals() {
     localStorage.setItem('accordion-index', JSON.stringify(index));
   }
 
+  // constants
+  const GLOBAL_DETAILS = {
+    '@ADDRESS': 'View the script address (read only).', // This is read only field
+    '@BLOCK': 'Set the current block number.',
+    '@BLOCKMILLI': 'Set the current block time in milliseconds.',
+    '@CREATED': 'Set the block this coin was created in.',
+    '@COINAGE': 'Set the difference in @BLOCK and @CREATED.',
+    '@COINID': 'Set the coin ID.',
+    '@TOKENID': 'Set the token ID.',
+    '@AMOUNT': 'Set the amount.',
+    '@INPUT':
+      'Set the input index of a coin used in the transaction, first input coin has an index of 0.',
+    '@TOTIN': 'Set the total number of input coins.',
+    '@TOTOUT': 'Set the total number of output coins.',
+  };
+
   // Render
   return (
     <VStack w="100%" fontSize="sm" gap={3}>
@@ -75,8 +91,7 @@ function Globals() {
 
                 <AccordionPanel pb={4}>
                   <Text pb={4} color="gray.500">
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                    Alias, harum. Quod, quibusdam.
+                    {GLOBAL_DETAILS[global]}
                   </Text>
 
                   <Input
@@ -84,7 +99,6 @@ function Globals() {
                     variant="outline"
                     borderColor="gray.700"
                     _placeholder={{ color: 'gray.700' }}
-                    _focusVisible={{ borderColor: 'orange.500' }}
                     _readOnly={{ color: 'gray.500' }}
                     value={
                       global === '@ADDRESS' ? script0xAddress : globals[global]

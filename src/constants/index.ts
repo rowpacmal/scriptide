@@ -16,11 +16,12 @@ const CONSOLE_DEFAULT_TIMESTAMP = [
 ];
 
 const GLOBALS_DEFAULT_OBJECT = {
-  '@BLOCK': '',
   '@ADDRESS': '', // This is read only field
+  '@BLOCK': '',
+  '@BLOCKMILLI': '',
   '@CREATED': '',
-  '@COINID': '',
   '@COINAGE': '',
+  '@COINID': '',
   '@TOKENID': '',
   '@AMOUNT': '',
   '@INPUT': '',
