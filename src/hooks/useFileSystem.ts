@@ -82,9 +82,11 @@ function useFileSystem() {
       setWorkspaces(folders);
 
       const lastFolder = folders.at(-1);
-      setCurrentWorkspace(lastFolder);
+      setCurrentWorkspace(currentWorkspace || lastFolder);
 
-      const files: any = await getFiles(`workspaces/${lastFolder}`);
+      const files: any = await getFiles(
+        `workspaces/${currentWorkspace || lastFolder}`
+      );
       setFiles(files);
     });
   }
