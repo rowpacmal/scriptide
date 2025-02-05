@@ -13,14 +13,14 @@ import {
   Text,
   VStack,
 } from '@chakra-ui/react';
-import { LuThumbsDown, LuThumbsUp } from 'react-icons/lu';
+import { LuThumbsDown, LuThumbsUp, LuTriangleAlert } from 'react-icons/lu';
 
-function FeatureItem({ children, isMissing = false }) {
+function FeatureItem({ children, isMissing = false, alert = false }) {
   return (
     <ListItem>
       <ListIcon
-        as={isMissing ? LuThumbsDown : LuThumbsUp}
-        color={isMissing ? 'red.500' : 'green.500'}
+        as={isMissing ? LuThumbsDown : alert ? LuTriangleAlert : LuThumbsUp}
+        color={isMissing ? 'red.500' : alert ? 'yellow.500' : 'green.500'}
       />
       {children}
     </ListItem>
@@ -83,6 +83,11 @@ function Home() {
 
               <FeatureItem>
                 Add and test extra scripts (experimental script insert)
+              </FeatureItem>
+
+              <FeatureItem alert>
+                Extra scripts are stored to the browsers local storage, so they
+                will be lost if the cache is cleared
               </FeatureItem>
 
               <Divider borderColor="gray.700" />
