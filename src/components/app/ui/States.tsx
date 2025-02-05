@@ -63,7 +63,7 @@ function StateItem({ index }) {
             return temp;
           })
         }
-        placeholder="Enter value"
+        placeholder="Enter value here"
       />
 
       <InputRightAddon
@@ -142,7 +142,7 @@ function PrevStateItem({ index }) {
             return temp;
           })
         }
-        placeholder="Value"
+        placeholder="Enter value here"
       />
 
       <InputRightAddon bg="gray.800" borderColor="gray.700" px={1}>
