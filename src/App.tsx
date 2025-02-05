@@ -1,8 +1,10 @@
-// Dependencies
+// Import dependencies
 import { Box } from '@chakra-ui/react';
+// Import components
 import Header from './components/app/Header';
 import Content from './components/app/Content';
 import Footer from './components/app/Footer';
+import NoMobile from './components/app/NoMobile';
 
 // Component
 function App() {
@@ -18,7 +20,13 @@ function App() {
     >
       <Header />
 
-      <Content />
+      <Box className="sm:hidden">
+        <NoMobile />
+      </Box>
+
+      <Box className="hidden sm:block">
+        <Content />
+      </Box>
 
       <Footer />
     </Box>
