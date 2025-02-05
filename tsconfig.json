@@ -1,9 +1,13 @@
 {
   "files": [],
   "references": [
-    {
-      "path": "./tsconfig.app.json"
-    },
+    /** Comment this out because it prevented building the app.
+     * This was added together with the 'Mappings' options below,
+     * following the installation steps for shadcn/ui library.
+     */
+    // {
+    //   "path": "./tsconfig.app.json"
+    // },
     {
       "path": "./tsconfig.node.json"
     }
