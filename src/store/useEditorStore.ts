@@ -5,13 +5,13 @@ import { create } from 'zustand';
 type code = string | null;
 
 // Interface for the store
-interface EditorStoreState {
+interface EditorStore {
   code: code;
   setCode: (code: code) => void;
 }
 
 // Create the store
-export const useEditorStore = create<EditorStoreState>()((set) => ({
+const useEditorStore = create<EditorStore>()((set) => ({
   code: null,
   setCode: (code: code) => set({ code }),
 }));
