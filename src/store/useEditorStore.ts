@@ -20,11 +20,10 @@ interface IEditorStore {
 }
 interface ILocalStorage {
   getItem: (key: string) => string;
-  setItem: (key: string, value: string) => void;
 }
 
 // Create the store
-const useEditorStore = create<IEditorStore>()((set) => ({
+const useEditorStore = create<IEditorStore>((set) => ({
   code: null,
   setCode: (code: TCode) => set({ code }),
 
