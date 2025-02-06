@@ -3,15 +3,18 @@ import { appContext } from '../../../AppContext';
 import { useContext, useEffect, useRef } from 'react';
 import { Editor } from '@monaco-editor/react';
 import { DEFAULT_EDITOR_THEME } from '../../../constants';
+import useEditorStore from '@/store/useEditorStore';
 
 // Console component
 function Console() {
   // Define refs
   const consoleOutputRef = useRef(null);
 
+  // Define store
+  const editorZoom = useEditorStore((state) => state.editorZoom);
+
   // Define context
-  const { consoleOutput, consoleTimestamp, editorZoom } =
-    useContext(appContext);
+  const { consoleOutput, consoleTimestamp } = useContext(appContext);
 
   // Define functions
   function handleOnMount(editor) {
