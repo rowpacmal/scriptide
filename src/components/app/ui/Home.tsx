@@ -5,7 +5,9 @@ import {
   AccordionItem,
   AccordionPanel,
   Box,
+  Code,
   Divider,
+  HStack,
   Image,
   List,
   ListIcon,
@@ -13,7 +15,7 @@ import {
   Text,
   VStack,
 } from '@chakra-ui/react';
-import { LuBadgeAlert, LuBadgeInfo } from 'react-icons/lu';
+import { LuBadgeAlert, LuBadgeInfo, LuScrollText } from 'react-icons/lu';
 
 function FeatureItem({ children, alert = false }) {
   return (
@@ -24,6 +26,34 @@ function FeatureItem({ children, alert = false }) {
       />
       {children}
     </ListItem>
+  );
+}
+
+function ChangelogItem({ children, version, date }) {
+  return (
+    <Accordion w="100%" allowToggle>
+      <AccordionItem border="none">
+        <Text as="h4">
+          <AccordionButton justifyContent="space-between">
+            <HStack>
+              <LuScrollText />
+
+              <Text as="span" flex="1" textAlign="left">
+                [{version}] - {date}
+              </Text>
+            </HStack>
+
+            <AccordionIcon />
+          </AccordionButton>
+        </Text>
+
+        <AccordionPanel pb={2}>
+          <List spacing={3} fontSize="sm" textAlign="start">
+            {children}
+          </List>
+        </AccordionPanel>
+      </AccordionItem>
+    </Accordion>
   );
 }
 
@@ -54,86 +84,80 @@ function Home() {
 
       <Divider borderColor="gray.700" />
 
-      <Accordion w="100%" allowToggle>
-        <AccordionItem border="none">
-          <Text as="h4">
-            <AccordionButton>
-              <Text as="span" flex="1" textAlign="left">
-                Changelog
-              </Text>
+      <Text as="h3" w="100%" fontSize="lg">
+        Changelog
+      </Text>
 
-              <AccordionIcon />
-            </AccordionButton>
-          </Text>
+      <ChangelogItem version="3.0.0" date="January 20, 2025">
+        <FeatureItem>
+          Laid the foundation for a redesigned Script IDE, including prototyping
+          improvements to features and UI.
+        </FeatureItem>
+      </ChangelogItem>
 
-          <AccordionPanel>
-            <List spacing={3} fontSize="sm" textAlign="start">
-              <FeatureItem>
-                [v3.0.4] - 6 Fed 2025 <br />
-                Fixed an issue where the @ADDRESS global variable was not being
-                set correctly.
-              </FeatureItem>
+      <ChangelogItem version="3.0.2" date="February 5, 2025">
+        <FeatureItem>
+          Updated the write, run, and debug features with a refreshed UI.
+        </FeatureItem>
 
-              <FeatureItem>
-                [v3.0.2] - 5 Fed 2025 <br />
-                Write, run and debug KISS VM scripts with a updated UI.
-              </FeatureItem>
+        <FeatureItem>
+          Enhanced script output inspection - clean script, 0xaddress,
+          mxaddress, total instructions, and script variables.
+        </FeatureItem>
 
-              <FeatureItem>
-                [v3.0.2] - 5 Fed 2025 <br />
-                Inspect the output of the script - clean script, 0xaddress,
-                mxaddress, total instructions and script variables.
-              </FeatureItem>
+        <FeatureItem>
+          Improved UX for managing and testing state, prevstate, global
+          variables, signatures, and extra scripts (with experimental script
+          insertion).
+        </FeatureItem>
 
-              <FeatureItem>
-                [v3.0.2] - 5 Fed 2025 <br />
-                Add and test state, prevstate and global variables.
-              </FeatureItem>
+        <ListItem>
+          <ListItem pb={2}>
+            <Text as="h4" w="100%" fontSize="md">
+              Known Issues (3.0.2):
+            </Text>
+          </ListItem>
 
-              <FeatureItem>
-                [v3.0.2] - 5 Fed 2025 <br />
-                Add and test signatures.
-              </FeatureItem>
+          <List spacing={3} pl={2}>
+            <FeatureItem alert>
+              State, prevstate, global variables, and signatures are not
+              persisted between sessions.
+            </FeatureItem>
 
-              <FeatureItem alert>
-                [v3.0.2] - 5 Fed 2025 <br />
-                State, prevstate and global variables and signatures are not
-                saved between sessions.
-              </FeatureItem>
+            <FeatureItem alert>
+              Extra scripts are stored in the browser's local storage and will
+              be lost if the cache is cleared.
+            </FeatureItem>
 
-              <FeatureItem>
-                [v3.0.2] - 5 Fed 2025 <br />
-                Add and test extra scripts (experimental script insert).
-              </FeatureItem>
+            <FeatureItem alert>
+              Functions relying on txn input and output are currently
+              non-functional.
+            </FeatureItem>
 
-              <FeatureItem alert>
-                [v3.0.2] - 5 Fed 2025 <br />
-                Extra scripts are stored to the browsers local storage, so they
-                will be lost if the cache is cleared.
-              </FeatureItem>
+            <FeatureItem alert>
+              The dapp lacks loading states, potentially leading to a suboptimal
+              user experience during certain operations.
+            </FeatureItem>
 
-              <FeatureItem alert>
-                [v3.0.2] - 5 Fed 2025 <br />
-                Functions that relay on the txn input and output don't work.
-              </FeatureItem>
+            <FeatureItem alert>
+              Performance optimizations are still in progress. Some features
+              have been temporarily limited for performance reasons (maximum 10
+              workspaces, 8 script files, and 10 extra script slots). These
+              limitations will be removed as the dapp is further optimized.
+            </FeatureItem>
+          </List>
+        </ListItem>
+      </ChangelogItem>
 
-              <FeatureItem alert>
-                [v3.0.2] - 5 Fed 2025 <br />
-                The dapp has missing loading states, so the feedback may feel a
-                bit off during some operations.
-              </FeatureItem>
-
-              <FeatureItem alert>
-                [v3.0.2] - 5 Fed 2025 <br />
-                May experience optimizations and performance issues. Some
-                features as been limited for performance reasons, but will be
-                lifted when the dapp is more optimized (max 10 workspaces, 8
-                script files, and 10 extra script slots).
-              </FeatureItem>
-            </List>
-          </AccordionPanel>
-        </AccordionItem>
-      </Accordion>
+      <ChangelogItem version="3.0.4" date="February 6, 2025">
+        <FeatureItem>
+          Resolved an issue where the&nbsp;
+          <Code bg="gray.800" color="gray.500">
+            @ADDRESS
+          </Code>
+          &nbsp; global variable was not being set correctly.
+        </FeatureItem>
+      </ChangelogItem>
     </VStack>
   );
 }
