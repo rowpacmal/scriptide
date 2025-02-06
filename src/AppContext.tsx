@@ -36,15 +36,6 @@ const AppProvider = ({ children }: IProps) => {
   const [currentWorkspace, setCurrentWorkspace]: [string | null, any] =
     useState(null);
 
-  // Define editor states
-  const [code, setCode]: [string | null, any] = useState(null);
-  const [editorZoom, setEditorZoom] = useState(
-    Number(localStorage.getItem('editor-zoom')) || 0
-  );
-  const [editorAutoSave, setEditorAutoSave] = useState(
-    JSON.parse((localStorage as any).getItem('editor-auto-save')) || false
-  );
-
   // Define navigation states
   const [navigation, setNavigation] = useState(
     localStorage.getItem('navigation-state') || 'home'
@@ -126,13 +117,6 @@ const AppProvider = ({ children }: IProps) => {
         setWorkspaces,
         currentWorkspace,
         setCurrentWorkspace,
-
-        code,
-        setCode,
-        editorZoom,
-        setEditorZoom,
-        editorAutoSave,
-        setEditorAutoSave,
 
         navigation,
         setNavigation,
