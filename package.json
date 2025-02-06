@@ -1,6 +1,6 @@
 {
   "name": "scriptide",
-  "description": "Minima IDE for creating, testing, and debugging KISSVM scripts",
+  "description": "Integrated developer environment for creating, testing and debugging Minima KISSVM scripts.",
   "author": "rowpacmal-minima",
   "license": "MIT",
   "private": true,
