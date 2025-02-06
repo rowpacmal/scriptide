@@ -1,11 +1,10 @@
 // Import dependencies
 import { Box, Button, HStack, Text, VStack } from '@chakra-ui/react';
-import { useContext } from 'react';
 import { LuRotateCw } from 'react-icons/lu';
 // Import constants
 import { NAVIGATION_LABELS } from '../../../constants';
-// Import context
-import { appContext } from '../../../AppContext';
+// Import store
+import useNavigationStore from '@/store/useNavigationStore';
 // Import hooks
 import useFileSystem from '../../../hooks/useFileSystem';
 // Import components
@@ -18,8 +17,8 @@ import Home from './Home';
 
 // Control panel component
 function ControlPanel() {
-  // Define context
-  const { navigation } = useContext(appContext);
+  // Define store
+  const navigation = useNavigationStore((state) => state.navigation);
 
   // Define file system
   const { handleRefreshWorkspaces } = useFileSystem();

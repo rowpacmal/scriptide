@@ -36,11 +36,6 @@ const AppProvider = ({ children }: IProps) => {
   const [currentWorkspace, setCurrentWorkspace]: [string | null, any] =
     useState(null);
 
-  // Define navigation states
-  const [navigation, setNavigation] = useState(
-    localStorage.getItem('navigation-state') || 'home'
-  );
-
   // Define run script states
   const [script0xAddress, setScript0xAddress] = useState('');
   const [scriptMxAddress, setScriptMxAddress] = useState('');
@@ -117,9 +112,6 @@ const AppProvider = ({ children }: IProps) => {
         setWorkspaces,
         currentWorkspace,
         setCurrentWorkspace,
-
-        navigation,
-        setNavigation,
 
         script0xAddress,
         setScript0xAddress,

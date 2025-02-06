@@ -1,6 +1,5 @@
 // Import dependencies
 import { Box, Button, HStack, Image, Tooltip, VStack } from '@chakra-ui/react';
-import { useContext } from 'react';
 import {
   LuBraces,
   LuCode,
@@ -12,9 +11,9 @@ import {
   // LuSettings,
 } from 'react-icons/lu';
 // Import constants
-import { NAVIGATION_LABELS } from '../../../constants';
-// Import context
-import { appContext } from '../../../AppContext';
+import { NAVIGATION_LABELS } from '@/constants';
+// Import store
+import useNavigationStore from '@/store/useNavigationStore';
 
 // Constants
 const ICON_SIZE = 24;
@@ -57,8 +56,9 @@ function SidebarButton({
 
 // Sidebar component
 function Sidebar({ isControlPanelCollapsed, handelToggleControlPanel }) {
-  // Define context
-  const { navigation, setNavigation } = useContext(appContext);
+  // Define store
+  const navigation = useNavigationStore((state) => state.navigation);
+  const setNavigation = useNavigationStore((state) => state.setNavigation);
 
   // Define functions
   function handleNavigationChange(nav: string) {
@@ -66,7 +66,6 @@ function Sidebar({ isControlPanelCollapsed, handelToggleControlPanel }) {
 
     if (nav !== navigation) {
       setNavigation(nav);
-      localStorage.setItem('navigation-state', nav);
     }
   }
 
