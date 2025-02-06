@@ -3,17 +3,18 @@ import minima from '../lib/minima';
 
 // Get files utility function
 async function getFiles(path: string) {
-  const files: any = (await minima.file.list(path)).response.list;
+  const response: { name: string }[] = (await minima.file.list(path)).response
+    .list;
 
-  const temp: string[] = [];
+  const files: string[] = [];
 
-  if (files.length > 0) {
-    for (const { name } of files) {
-      temp.push(name);
+  if (response.length > 0) {
+    for (const { name } of response) {
+      files.push(name);
     }
   }
 
-  return temp;
+  return files;
 }
 
 // Export
