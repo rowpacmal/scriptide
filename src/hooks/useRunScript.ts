@@ -7,6 +7,8 @@ import { useContext } from 'react';
 import parseComments from '../utils/parseComments';
 // Import libraries
 import minima from '@/lib/minima';
+// Import store
+import useEditorStore from '@/store/useEditorStore';
 // Import context
 import { appContext } from '../AppContext';
 
@@ -15,9 +17,11 @@ function useRunScript() {
   // Define toast
   const toast = useToast();
 
+  // Define store
+  const code = useEditorStore((state) => state.code);
+
   // Define context
   const {
-    code,
     setScript0xAddress,
     setScriptMxAddress,
     setScriptParse,
@@ -36,7 +40,12 @@ function useRunScript() {
   } = useContext(appContext);
 
   // Define handler
-  async function handleRunScript() {
+  async function handleRunScript(): Promise<void> {
+    // Check for code in the editor
+    if (!code) {
+      return;
+    }
+
     // Get the code from the editor
     const txt = code.trim();
     // console.log(txt);

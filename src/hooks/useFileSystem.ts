@@ -7,11 +7,16 @@ import { appContext } from '../AppContext';
 import useTryCatch from './useTryCatch';
 import minima from '../lib/minima';
 import getFiles from '../utils/getFiles';
+import useEditorStore from '@/store/useEditorStore';
 
 // File system hook
 function useFileSystem() {
   // Define trycatch
   const tryCatch = useTryCatch();
+
+  // Define store
+  const code = useEditorStore((state) => state.code);
+  const setCode = useEditorStore((state) => state.setCode);
 
   // Define context
   const {
@@ -24,9 +29,6 @@ function useFileSystem() {
     setWorkspaces,
     currentWorkspace,
     setCurrentWorkspace,
-
-    code,
-    setCode,
   } = useContext(appContext);
 
   // Define handlers

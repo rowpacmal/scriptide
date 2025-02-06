@@ -7,7 +7,6 @@ import {
   Tooltip,
   useToast,
 } from '@chakra-ui/react';
-import { useContext } from 'react';
 import {
   LuChevronsLeft,
   LuChevronsRight,
@@ -18,8 +17,8 @@ import {
   LuZoomIn,
   LuZoomOut,
 } from 'react-icons/lu';
-// Import context
-import { appContext } from '../../../AppContext';
+// Import store
+import useEditorStore from '@/store/useEditorStore';
 // Import hooks
 import useFileSystem from '../../../hooks/useFileSystem';
 import useRunScript from '../../../hooks/useRunScript';
@@ -61,9 +60,16 @@ function CodeEditorHeader({ isOverviewCollapsed, handelToggleOverview }) {
   // Define toast
   const toast = useToast();
 
-  // Define context
-  const { code, editorZoom, setEditorZoom, editorAutoSave, setEditorAutoSave } =
-    useContext(appContext);
+  // Define store
+  const code = useEditorStore((state) => state.code);
+  const editorZoom = useEditorStore((state) => state.editorZoom);
+  const setEditorZoom = useEditorStore((state) => state.setEditorZoom);
+  const editorZoomIn = useEditorStore((state) => state.editorZoomIn);
+  const editorZoomOut = useEditorStore((state) => state.editorZoomOut);
+  const editorAutoSave = useEditorStore((state) => state.editorAutoSave);
+  const toggleEditorAutoSave = useEditorStore(
+    (state) => state.toggleEditorAutoSave
+  );
 
   // Define handlers
   const handleRunScript = useRunScript();
@@ -87,16 +93,7 @@ function CodeEditorHeader({ isOverviewCollapsed, handelToggleOverview }) {
         <HStack gap={0} borderRight="1px solid" borderColor="gray.700">
           <CodeEditorHeaderButton
             label="Zoom out"
-            onClick={() =>
-              setEditorZoom((prevState) => {
-                if (prevState > -6) {
-                  const zoomOut = prevState - 1;
-                  localStorage.setItem('editor-zoom', JSON.stringify(zoomOut));
-                  return zoomOut;
-                }
-                return prevState;
-              })
-            }
+            onClick={editorZoomOut}
             disabled={code === null}
           >
             <LuZoomOut />
@@ -105,12 +102,7 @@ function CodeEditorHeader({ isOverviewCollapsed, handelToggleOverview }) {
           <Input
             value={editorZoom}
             onChange={(e) => {
-              const zoom = Number(e.target.value);
-
-              if (!isNaN(zoom)) {
-                setEditorZoom(zoom);
-                localStorage.setItem('editor-zoom', JSON.stringify(zoom));
-              }
+              setEditorZoom(Number(e.target.value));
             }}
             size="xs"
             maxW={8}
@@ -122,13 +114,7 @@ function CodeEditorHeader({ isOverviewCollapsed, handelToggleOverview }) {
 
           <CodeEditorHeaderButton
             label="Zoom in"
-            onClick={() =>
-              setEditorZoom((prevState) => {
-                const zoomIn = prevState + 1;
-                localStorage.setItem('editor-zoom', JSON.stringify(zoomIn));
-                return zoomIn;
-              })
-            }
+            onClick={editorZoomIn}
             disabled={code === null}
           >
             <LuZoomIn />
@@ -155,15 +141,7 @@ function CodeEditorHeader({ isOverviewCollapsed, handelToggleOverview }) {
 
           <CodeEditorHeaderButton
             label={`Auto save: ${editorAutoSave ? 'on' : 'off'}`}
-            onClick={() =>
-              setEditorAutoSave((prevState: boolean) => {
-                localStorage.setItem(
-                  'editor-auto-save',
-                  JSON.stringify(!prevState)
-                );
-                return !prevState;
-              })
-            }
+            onClick={toggleEditorAutoSave}
           >
             {editorAutoSave ? (
               <Box as="span" color="green.500">

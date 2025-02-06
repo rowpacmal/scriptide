@@ -1,9 +1,10 @@
 // Import dependencies
 import { Box } from '@chakra-ui/react';
 import Editor from '@monaco-editor/react';
-import { useContext, useRef } from 'react';
-// Import context
-import { appContext } from '../../../AppContext';
+import { useRef } from 'react';
+// Import store
+import useEditorStore from '@/store/useEditorStore';
+// Import hooks
 import useFileSystem from '../../../hooks/useFileSystem';
 // Import constants
 import { DEFAULT_EDITOR_THEME, KISS_VM_LANGUAGE } from '../../../constants';
@@ -12,8 +13,11 @@ function CodeEditor() {
   // Define refs
   const editorRef = useRef(null);
 
-  // Define context
-  const { code, setCode, editorZoom, editorAutoSave } = useContext(appContext);
+  // Define store
+  const code = useEditorStore((state) => state.code);
+  const setCode = useEditorStore((state) => state.setCode);
+  const editorZoom = useEditorStore((state) => state.editorZoom);
+  const editorAutoSave = useEditorStore((state) => state.editorAutoSave);
 
   // Define file system
   const { handleSaveFileData } = useFileSystem();
