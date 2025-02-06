@@ -79,6 +79,18 @@ const minima: any = {
       });
     },
   },
+  cmd: function (command: string) {
+    return new Promise((resolve, reject) => {
+      (window as any).MDS.cmd(command, (msg: any) => {
+        responseHandler(
+          msg,
+          resolve,
+          reject,
+          'Failed to run command: ' + command
+        );
+      });
+    });
+  },
 };
 
 export default minima;

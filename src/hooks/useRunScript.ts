@@ -5,6 +5,8 @@ import { useToast } from '@chakra-ui/react';
 import { useContext } from 'react';
 // Import utils
 import parseComments from '../utils/parseComments';
+// Import libraries
+import minima from '@/lib/minima';
 // Import context
 import { appContext } from '../AppContext';
 
@@ -53,6 +55,7 @@ function useRunScript() {
     // Get the script and parse out types and comments
     let script = txt.replace(/\s+/g, ' ').trim();
     script = script.replaceAll('$[', '[');
+    script = script.replaceAll(' = ', '=');
     script = script.replace(
       /\??\s*:\s*\b(hex|number|string|script|boolean|any|unknown)\b(\s*\|\s*\b(hex|number|string|script|boolean|any|unknown)\b)*/g,
       ''
@@ -110,6 +113,16 @@ function useRunScript() {
         globalVariables[name] = value;
       }
     }
+
+    /* Get the mmrproof of the run script, taking the returned address (data)
+     * of the script and passing it into the global variables object before run.
+     */
+    const {
+      root: { data: atAddress },
+    }: any = (await minima.cmd(`mmrcreate nodes:["${script}"]`)).response;
+    // console.log(atAddress);
+
+    globalVariables['@ADDRESS'] = atAddress;
     globalVariables = JSON.stringify(globalVariables);
     // console.log(globalVariables);
 
@@ -136,25 +149,8 @@ function useRunScript() {
         const {
           nodes: [{ proof }],
           root: { data },
-        }: any = await new Promise((resolve) => {
-          (window as any).MDS.cmd(
-            `mmrcreate nodes:["${extraScript}"]`,
-            (msg) => {
-              if (msg.status) {
-                resolve(msg.response);
-              } else if (!msg.status) {
-                toast({
-                  title: 'Error Creating MMR Proof',
-                  description:
-                    msg.error || 'Something went wrong creating the MMR proof.',
-                  status: 'error',
-                  duration: 5000,
-                  isClosable: true,
-                });
-              }
-            }
-          );
-        });
+        }: any = (await minima.cmd(`mmrcreate nodes:["${extraScript}"]`))
+          .response;
         // console.log(proof, data);
 
         extraScriptsStr[extraScript] = proof;

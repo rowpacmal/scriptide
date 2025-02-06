@@ -16,7 +16,7 @@ const CONSOLE_DEFAULT_TIMESTAMP = [
 ];
 
 const GLOBALS_DEFAULT_OBJECT = {
-  '@ADDRESS': '', // This is read only field
+  '@ADDRESS': null, // This is read only field
   '@BLOCK': '',
   '@BLOCKMILLI': '',
   '@CREATED': '',

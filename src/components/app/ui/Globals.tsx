@@ -100,11 +100,19 @@ function Globals() {
                     borderColor="gray.700"
                     _placeholder={{ color: 'gray.700' }}
                     _readOnly={{ color: 'gray.500' }}
+                    placeholder="Enter value here"
+                    /* If the global is '@ADDRESS', show the script address
+                     * from the script0xAddress state, and disable onchange handler
+                     * and set the access to read only.
+                     */
                     value={
                       global === '@ADDRESS' ? script0xAddress : globals[global]
                     }
-                    onChange={(e) => handleGlobalChange(global, e.target.value)}
-                    placeholder="Enter value here"
+                    {...(global !== '@ADDRESS' && {
+                      onChange: (e) =>
+                        handleGlobalChange(global, e.target.value),
+                    })}
+                    // onChange={(e) => handleGlobalChange(global, e.target.value)}
                     readOnly={global === '@ADDRESS'}
                   />
                 </AccordionPanel>

@@ -69,6 +69,12 @@ function Home() {
           <AccordionPanel>
             <List spacing={3} fontSize="sm" textAlign="start">
               <FeatureItem>
+                [v3.0.4] - 6 Fed 2025 <br />
+                Fixed an issue where the @ADDRESS global variable was not being
+                set correctly.
+              </FeatureItem>
+
+              <FeatureItem>
                 [v3.0.2] - 5 Fed 2025 <br />
                 Write, run and debug KISS VM scripts with a updated UI.
               </FeatureItem>
