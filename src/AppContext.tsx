@@ -25,15 +25,6 @@ const AppProvider = ({ children }: IProps) => {
   // Define refs
   const loaded = useRef(false);
 
-  // Define control states
-  const [globals, setGlobals] = useState(GLOBALS_DEFAULT_OBJECT);
-  const [signatures, setSignatures] = useState([]);
-  const [stateVariables, setStateVariables] = useState([]);
-  const [prevStateVariables, setPrevStateVariables] = useState([]);
-  const [extraScripts, setExtraScripts] = useState(
-    JSON.parse(localStorage.getItem('extra-scripts') as any) || []
-  );
-
   // Initialize MDS
   useEffect(() => {
     if (!loaded.current) {
@@ -56,30 +47,8 @@ const AppProvider = ({ children }: IProps) => {
     });
   }, []);
 
-  // Temporary fix for saving extra scripts
-  useEffect(() => {
-    localStorage.setItem('extra-scripts', JSON.stringify(extraScripts));
-  }, [extraScripts]);
-
   // Render
-  return (
-    <appContext.Provider
-      value={{
-        globals,
-        setGlobals,
-        signatures,
-        setSignatures,
-        stateVariables,
-        setStateVariables,
-        prevStateVariables,
-        setPrevStateVariables,
-        extraScripts,
-        setExtraScripts,
-      }}
-    >
-      {children}
-    </appContext.Provider>
-  );
+  return <appContext.Provider value={{}}>{children}</appContext.Provider>;
 };
 
 // Export
