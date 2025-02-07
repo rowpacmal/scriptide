@@ -39,12 +39,6 @@ const AppProvider = ({ children }: IProps) => {
   const [totalScriptInstructions, setTotalScriptInstructions] = useState('');
   const [cleanScript, setCleanScript] = useState('');
 
-  // Define console states
-  const [consoleOutput, setConsoleOutput] = useState(CONSOLE_DEFAULT);
-  const [consoleTimestamp, setConsoleTimestamp] = useState(
-    CONSOLE_DEFAULT_TIMESTAMP
-  );
-
   // Define control states
   const [globals, setGlobals] = useState(GLOBALS_DEFAULT_OBJECT);
   const [signatures, setSignatures] = useState([]);
@@ -101,11 +95,6 @@ const AppProvider = ({ children }: IProps) => {
         setTotalScriptInstructions,
         cleanScript,
         setCleanScript,
-
-        consoleOutput,
-        setConsoleOutput,
-        consoleTimestamp,
-        setConsoleTimestamp,
 
         globals,
         setGlobals,
