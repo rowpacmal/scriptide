@@ -1,9 +1,9 @@
 import { Box } from '@chakra-ui/react';
-import { appContext } from '../../../AppContext';
-import { useContext, useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { Editor } from '@monaco-editor/react';
 import { DEFAULT_EDITOR_THEME } from '../../../constants';
 import useEditorStore from '@/store/useEditorStore';
+import useConsoleStore from '@/store/useConsoleStore';
 
 // Console component
 function Console() {
@@ -12,9 +12,8 @@ function Console() {
 
   // Define store
   const editorZoom = useEditorStore((state) => state.editorZoom);
-
-  // Define context
-  const { consoleOutput, consoleTimestamp } = useContext(appContext);
+  const consoleOutput = useConsoleStore((state) => state.consoleOutput);
+  const consoleTimestamp = useConsoleStore((state) => state.consoleTimestamp);
 
   // Define functions
   function handleOnMount(editor) {

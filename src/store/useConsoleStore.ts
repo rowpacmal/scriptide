@@ -15,6 +15,7 @@ interface IConsoleStore {
   consoleTimestamp: string[];
   setConsoleTimestamp: (consoleTimestamp: string[]) => void;
 
+  extendConsoleOut: (newOutputs: string[], newTimestamps: string[]) => void;
   clearConsoleOut: () => void;
 }
 
@@ -26,6 +27,14 @@ export const useConsoleStore = create<IConsoleStore>((set) => ({
   consoleTimestamp: CONSOLE_DEFAULT_TIMESTAMP,
   setConsoleTimestamp: (consoleTimestamp) => set({ consoleTimestamp }),
 
+  extendConsoleOut: (newOutputs, newTimestamps) => {
+    set((state) => ({
+      consoleOutput: [...state.consoleOutput, ...newOutputs],
+    }));
+    set((state) => ({
+      consoleTimestamp: [...state.consoleTimestamp, ...newTimestamps],
+    }));
+  },
   clearConsoleOut: () => {
     set({ consoleOutput: CONSOLE_DEFAULT_CLEARED.console });
     set({ consoleTimestamp: CONSOLE_DEFAULT_CLEARED.timestamp });

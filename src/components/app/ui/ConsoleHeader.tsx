@@ -1,24 +1,15 @@
 // Import dependencies
 import { Box, Button, HStack, Tooltip } from '@chakra-ui/react';
-import { useContext } from 'react';
 import { LuBan, LuChevronsDown, LuChevronsUp } from 'react-icons/lu';
-// Import constants
-import { CONSOLE_DEFAULT_CLEARED } from '../../../constants';
-// Import context
-import { appContext } from '../../../AppContext';
+// Import store
+import useConsoleStore from '@/store/useConsoleStore';
 // Import components
 import ConsoleStatus from './ConsoleStatus';
 
 // Console header component
 function ConsoleHeader({ isConsoleCollapsed, handelToggleConsole }) {
-  // Define context
-  const { setConsoleOutput, setConsoleTimestamp } = useContext(appContext);
-
-  // Define functions
-  function handleClearConsole() {
-    setConsoleOutput(CONSOLE_DEFAULT_CLEARED.console);
-    setConsoleTimestamp(CONSOLE_DEFAULT_CLEARED.timestamp);
-  }
+  // Define store
+  const clearConsoleOut = useConsoleStore((state) => state.clearConsoleOut);
 
   // Render
   return (
@@ -61,7 +52,7 @@ function ConsoleHeader({ isConsoleCollapsed, handelToggleConsole }) {
               _active={{
                 bg: 'transparent',
               }}
-              onClick={handleClearConsole}
+              onClick={clearConsoleOut}
             >
               <LuBan />
             </Button>

@@ -8,6 +8,7 @@ import parseComments from '../utils/parseComments';
 // Import libraries
 import minima from '@/lib/minima';
 // Import store
+import useConsoleStore from '@/store/useConsoleStore';
 import useEditorStore from '@/store/useEditorStore';
 // Import context
 import { appContext } from '../AppContext';
@@ -19,6 +20,7 @@ function useRunScript() {
 
   // Define store
   const code = useEditorStore((state) => state.code);
+  const extendConsoleOut = useConsoleStore((state) => state.extendConsoleOut);
 
   // Define context
   const {
@@ -30,8 +32,6 @@ function useRunScript() {
     setScriptVariables,
     setTotalScriptInstructions,
     setCleanScript,
-    setConsoleOutput,
-    setConsoleTimestamp,
     globals,
     signatures,
     stateVariables,
@@ -192,8 +192,6 @@ function useRunScript() {
         const consoleOut = trace.split('\n');
         consoleOut.splice(-1, 1, '---------------------------------');
 
-        setConsoleOutput((prevState) => [...prevState, ...consoleOut]);
-
         const timestamp: string[] = [];
         for (let i = 0; i < consoleOut.length; i++) {
           if (consoleOut[i].includes('Contract instructions')) {
@@ -205,7 +203,7 @@ function useRunScript() {
           timestamp.push(new Date().toLocaleTimeString());
         }
 
-        setConsoleTimestamp((prevState) => [...prevState, ...timestamp]);
+        extendConsoleOut(consoleOut, timestamp);
 
         setScriptParse(parseok);
         setScriptSuccess(success);
