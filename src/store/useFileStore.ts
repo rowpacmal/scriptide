@@ -21,6 +21,7 @@ interface IFileStore {
   saveFile: () => Promise<void>;
   loadFile: (file: string) => Promise<void>;
   deleteFile: (file: string) => Promise<void>;
+  deleteAllFiles: () => Promise<void>;
 
   currentFile: TCurrentFile;
   setCurrentFile: (file: TCurrentFile) => void;
@@ -94,6 +95,18 @@ const useFileStore = create<IFileStore>((set, get) => ({
     }
 
     set((state) => ({ files: state.files.filter((f) => f !== file) }));
+  },
+  deleteAllFiles: async () => {
+    const currentWorkspace = useWorkspaceStore.getState().currentWorkspace;
+
+    if (!currentWorkspace) {
+      return;
+    }
+
+    await minima.file.delete(`workspaces/${currentWorkspace}`);
+    await minima.file.makedir(`workspaces/${currentWorkspace}`);
+
+    set({ files: [] });
   },
 
   currentFile: null,
