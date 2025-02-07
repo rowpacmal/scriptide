@@ -8,11 +8,10 @@ import {
   CONSOLE_DEFAULT_TIMESTAMP,
   GLOBALS_DEFAULT_OBJECT,
 } from './constants';
+// Import store
+import useWorkspaceStore from './store/useWorkspaceStore';
 // Import hooks
 import useTryCatch from './hooks/useTryCatch';
-// Import utils
-import getFiles from './utils/getFiles';
-import useWorkspaceStore from './store/useWorkspaceStore';
 
 // Interfaces
 interface IProps {
@@ -29,14 +28,6 @@ const AppProvider = ({ children }: IProps) => {
 
   // Define refs
   const loaded = useRef(false);
-
-  // Define file system states
-  const [files, setFiles]: [string[], any] = useState([]);
-  const [currentFile, setCurrentFile]: [string | null, any] = useState(null);
-
-  const [workspaces, setWorkspaces]: [string[], any] = useState([]);
-  const [currentWorkspace, setCurrentWorkspace]: [string | null, any] =
-    useState(null);
 
   // Define run script states
   const [script0xAddress, setScript0xAddress] = useState('');
@@ -78,27 +69,12 @@ const AppProvider = ({ children }: IProps) => {
   // Get workspaces on load
   useEffect(() => {
     tryCatch(async () => {
-      // const folders: any = await getFiles('workspaces');
-      // setWorkspaces(folders);
-      // setCurrentWorkspace(folders[0]);
-
       await useWorkspaceStore.getState().refreshWorkspaces();
       useWorkspaceStore.setState((state) => ({
         currentWorkspace: state.workspaces[0],
       }));
     });
   }, []);
-
-  // Get files from workspace
-  useEffect(() => {
-    if (!currentWorkspace) {
-      return;
-    }
-
-    tryCatch(async () => {
-      setFiles(await getFiles(`workspaces/${currentWorkspace}`));
-    });
-  }, [currentWorkspace]);
 
   // Temporary fix for saving extra scripts
   useEffect(() => {
@@ -109,16 +85,6 @@ const AppProvider = ({ children }: IProps) => {
   return (
     <appContext.Provider
       value={{
-        files,
-        setFiles,
-        currentFile,
-        setCurrentFile,
-
-        workspaces,
-        setWorkspaces,
-        currentWorkspace,
-        setCurrentWorkspace,
-
         script0xAddress,
         setScript0xAddress,
         scriptMxAddress,
