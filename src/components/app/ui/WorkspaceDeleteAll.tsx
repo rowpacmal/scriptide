@@ -1,15 +1,17 @@
 import { Box, Highlight, Input, Text } from '@chakra-ui/react';
 import ConfirmModal from './ConfirmModal';
-import useFileSystem from '../../../hooks/useFileSystem';
 import { useState } from 'react';
+import useWorkspaceStore from '@/store/useWorkspaceStore';
 
 // Constants
 const CONFIRM_TEXT = 'Delete all workspaces';
 
 // Workspace rename modal component
 function WorkspaceDeleteAll({ onClose }) {
-  // Define file system
-  const { handleDeleteAllWorkspaces } = useFileSystem();
+  // Define store
+  const deleteAllWorkspaces = useWorkspaceStore(
+    (state) => state.deleteAllWorkspaces
+  );
 
   // Define state
   const [confirmText, setConfirmText] = useState('');
@@ -21,7 +23,7 @@ function WorkspaceDeleteAll({ onClose }) {
       buttonLabel="Confirm"
       onClose={onClose}
       onClick={() => {
-        handleDeleteAllWorkspaces();
+        deleteAllWorkspaces();
         setConfirmText('');
         onClose();
       }}

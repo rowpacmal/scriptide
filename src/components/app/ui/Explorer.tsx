@@ -2,11 +2,10 @@
 
 // Import dependencies
 import { Box, HStack, Text, VStack } from '@chakra-ui/react';
-import { useContext, useState } from 'react';
-// Import context
-import { appContext } from '../../../AppContext';
-// Import hooks
-import useFileSystem from '../../../hooks/useFileSystem';
+import { useState } from 'react';
+// Import store
+import useFileStore from '@/store/useFileStore';
+import useWorkspaceStore from '@/store/useWorkspaceStore';
 // Import components
 import FileItem from './FileItem';
 import FilesMenu from './FilesMenu';
@@ -16,13 +15,14 @@ import NewFileItem from './NewFileItem';
 
 // File explorer component
 function Explorer() {
-  // Define context
-  const { files, currentFile, setCurrentFile, workspaces } =
-    useContext(appContext);
+  // Define stores
+  const files = useFileStore((state) => state.files);
+  const currentFile = useFileStore((state) => state.currentFile);
+  const setCurrentFile = useFileStore((state) => state.setCurrentFile);
+  const loadFile = useFileStore((state) => state.loadFile);
+  const workspaces = useWorkspaceStore((state) => state.workspaces);
 
-  // Define file system
-  const { handleLoadFileData } = useFileSystem();
-
+  // Define state
   const [addingFile, setAddingFile] = useState(false);
 
   // Render
@@ -70,7 +70,7 @@ function Explorer() {
                   file={item}
                   onClick={() => {
                     setCurrentFile(item);
-                    handleLoadFileData(item);
+                    loadFile(item);
                   }}
                   isActive={currentFile === item}
                 >

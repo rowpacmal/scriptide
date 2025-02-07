@@ -1,16 +1,13 @@
 import { Box, Input, Text } from '@chakra-ui/react';
 import ConfirmModal from './ConfirmModal';
-import useFileSystem from '../../../hooks/useFileSystem';
-import { useContext, useState } from 'react';
-import { appContext } from '../../../AppContext';
+import { useState } from 'react';
+import useWorkspaceStore from '@/store/useWorkspaceStore';
 
 // Workspace rename modal component
 function WorkspaceCopy({ onClose }) {
-  // Define context
-  const { currentWorkspace } = useContext(appContext);
-
-  // Define file system
-  const { handleCopyWorkspace } = useFileSystem();
+  // Define stores
+  const currentWorkspace = useWorkspaceStore((state) => state.currentWorkspace);
+  const copyWorkspace = useWorkspaceStore((state) => state.copyWorkspace);
 
   // Define state
   const [workspaceName, setWorkspaceName] = useState(
@@ -24,7 +21,7 @@ function WorkspaceCopy({ onClose }) {
       buttonLabel="Save"
       onClose={onClose}
       onClick={() => {
-        handleCopyWorkspace(workspaceName);
+        copyWorkspace(workspaceName);
         setWorkspaceName('');
         onClose();
       }}

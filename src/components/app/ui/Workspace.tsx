@@ -7,19 +7,20 @@ import {
   Text,
 } from '@chakra-ui/react';
 import { LuChevronDown } from 'react-icons/lu';
-import { appContext } from '../../../AppContext';
-import { useContext } from 'react';
+import useFileStore from '@/store/useFileStore';
+import useWorkspaceStore from '@/store/useWorkspaceStore';
+import useEditorStore from '@/store/useEditorStore';
 
 // Workspace component
 function Workspace() {
-  // Define context
-  const {
-    setCurrentFile,
-    workspaces,
-    currentWorkspace,
-    setCurrentWorkspace,
-    setCode,
-  } = useContext(appContext);
+  // Define stores
+  const setCurrentFile = useFileStore((state) => state.setCurrentFile);
+  const workspaces = useWorkspaceStore((state) => state.workspaces);
+  const currentWorkspace = useWorkspaceStore((state) => state.currentWorkspace);
+  const setCurrentWorkspace = useWorkspaceStore(
+    (state) => state.setCurrentWorkspace
+  );
+  const setCode = useEditorStore((state) => state.setCode);
 
   // Render
   return (

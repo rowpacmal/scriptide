@@ -1,19 +1,16 @@
 import { Box, Input, Text } from '@chakra-ui/react';
 import ConfirmModal from './ConfirmModal';
-import useFileSystem from '../../../hooks/useFileSystem';
-import { useContext, useState } from 'react';
-import { appContext } from '../../../AppContext';
+import { useState } from 'react';
+import useWorkspaceStore from '@/store/useWorkspaceStore';
 
 // Workspace rename modal component
 function WorkspaceRename({ onClose }) {
-  // Define context
-  const { currentWorkspace } = useContext(appContext);
-
-  // Define file system
-  const { handleRenameWorkspace } = useFileSystem();
+  // Define stores
+  const currentWorkspace = useWorkspaceStore((state) => state.currentWorkspace);
+  const renameWorkspace = useWorkspaceStore((state) => state.renameWorkspace);
 
   // Define state
-  const [workspaceName, setWorkspaceName] = useState(currentWorkspace);
+  const [workspaceName, setWorkspaceName] = useState(currentWorkspace || '');
 
   // Render
   return (
@@ -22,7 +19,7 @@ function WorkspaceRename({ onClose }) {
       buttonLabel="Save"
       onClose={onClose}
       onClick={() => {
-        handleRenameWorkspace(workspaceName);
+        renameWorkspace(workspaceName);
         setWorkspaceName('');
         onClose();
       }}

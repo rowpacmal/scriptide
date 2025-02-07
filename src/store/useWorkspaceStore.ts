@@ -14,7 +14,7 @@ type TCurrentWorkspace = string | null;
 // Interface for the store
 interface IWorkspaceStore {
   workspaces: string[];
-  setWorkspace: (workspace: string[]) => void;
+  setWorkspaces: (workspace: string[]) => void;
 
   refreshWorkspaces: () => Promise<void>;
   addWorkspace: (newWorkspace: string) => Promise<void>;
@@ -30,7 +30,7 @@ interface IWorkspaceStore {
 // Create the store
 const useWorkspaceStore = create<IWorkspaceStore>((set, get) => ({
   workspaces: [],
-  setWorkspace: (workspaces: string[]) => set({ workspaces }),
+  setWorkspaces: (workspaces: string[]) => set({ workspaces }),
 
   refreshWorkspaces: async () => {
     const workspaces: string[] = await getFiles('workspaces');

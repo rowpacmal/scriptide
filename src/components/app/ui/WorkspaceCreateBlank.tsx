@@ -1,10 +1,8 @@
 // Import dependencies
 import { Box, Input, Text } from '@chakra-ui/react';
-import { useContext, useState } from 'react';
-// Import context
-import { appContext } from '../../../AppContext';
-// Import hooks
-import useFileSystem from '../../../hooks/useFileSystem';
+import { useState } from 'react';
+// Import store
+import useWorkspaceStore from '@/store/useWorkspaceStore';
 // Import components
 import ConfirmModal from './ConfirmModal';
 
@@ -13,11 +11,9 @@ const PRESET_NAME = 'Workspace';
 
 // Workspace rename modal component
 function WorkspaceCreateBlank({ onClose }) {
-  // Define context
-  const { workspaces } = useContext(appContext);
-
-  // Define file system
-  const { handleNewWorkspace } = useFileSystem();
+  // Define stores
+  const workspaces = useWorkspaceStore((state) => state.workspaces);
+  const addWorkspace = useWorkspaceStore((state) => state.addWorkspace);
 
   // Define state
   const [workspaceName, setWorkspaceName] = useState(
@@ -31,7 +27,7 @@ function WorkspaceCreateBlank({ onClose }) {
       buttonLabel="Create"
       onClose={onClose}
       onClick={() => {
-        handleNewWorkspace(workspaceName);
+        addWorkspace(workspaceName);
         setWorkspaceName('');
         onClose();
       }}
