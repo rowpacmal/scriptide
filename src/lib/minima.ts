@@ -54,14 +54,14 @@ const minima: any = {
         });
       });
     },
-    copy: function (oldPath: string, newPath: string) {
+    copy: function (path: string, newPath: string) {
       return new Promise((resolve, reject) => {
-        (window as any).MDS.file.copy(oldPath, newPath, (msg: any) => {
+        (window as any).MDS.file.copy(path, newPath, (msg: any) => {
           responseHandler(
             msg,
             resolve,
             reject,
-            'Failed to copy file: ' + oldPath + ' to ' + newPath
+            'Failed to copy file: ' + path + ' to ' + newPath
           );
         });
       });
@@ -74,6 +74,18 @@ const minima: any = {
             resolve,
             reject,
             'Failed to move file: ' + oldPath + ' to ' + newPath
+          );
+        });
+      });
+    },
+    copytoweb: function (path: string, newPath: string) {
+      return new Promise((resolve, reject) => {
+        (window as any).MDS.file.copytoweb(path, newPath, (msg: any) => {
+          responseHandler(
+            msg,
+            resolve,
+            reject,
+            'Failed to copy file to web folder: ' + path + ' to ' + newPath
           );
         });
       });
