@@ -3,11 +3,7 @@
 // Import dependencies
 import { createContext, useRef, useEffect, useState } from 'react';
 // Import constants
-import {
-  CONSOLE_DEFAULT,
-  CONSOLE_DEFAULT_TIMESTAMP,
-  GLOBALS_DEFAULT_OBJECT,
-} from './constants';
+import { GLOBALS_DEFAULT_OBJECT } from './constants';
 // Import store
 import useWorkspaceStore from './store/useWorkspaceStore';
 // Import hooks
@@ -28,16 +24,6 @@ const AppProvider = ({ children }: IProps) => {
 
   // Define refs
   const loaded = useRef(false);
-
-  // Define run script states
-  const [script0xAddress, setScript0xAddress] = useState('');
-  const [scriptMxAddress, setScriptMxAddress] = useState('');
-  const [scriptParse, setScriptParse] = useState(null);
-  const [scriptSuccess, setScriptSuccess] = useState(null);
-  const [scriptMonotonic, setScriptMonotonic] = useState(null);
-  const [scriptVariables, setScriptVariables] = useState({});
-  const [totalScriptInstructions, setTotalScriptInstructions] = useState('');
-  const [cleanScript, setCleanScript] = useState('');
 
   // Define control states
   const [globals, setGlobals] = useState(GLOBALS_DEFAULT_OBJECT);
@@ -79,23 +65,6 @@ const AppProvider = ({ children }: IProps) => {
   return (
     <appContext.Provider
       value={{
-        script0xAddress,
-        setScript0xAddress,
-        scriptMxAddress,
-        setScriptMxAddress,
-        scriptParse,
-        setScriptParse,
-        scriptSuccess,
-        setScriptSuccess,
-        scriptMonotonic,
-        setScriptMonotonic,
-        scriptVariables,
-        setScriptVariables,
-        totalScriptInstructions,
-        setTotalScriptInstructions,
-        cleanScript,
-        setCleanScript,
-
         globals,
         setGlobals,
         signatures,
