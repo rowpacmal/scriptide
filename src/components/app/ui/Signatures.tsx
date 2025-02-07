@@ -8,14 +8,18 @@ import {
   Text,
   VStack,
 } from '@chakra-ui/react';
-import { appContext } from '../../../AppContext';
-import { useContext } from 'react';
 import { LuArrowDown, LuArrowUp, LuTrash2 } from 'react-icons/lu';
+// Import store
+import useSignatureStore from '@/store/useSignatureStore';
 
 // Signatures component
 function Signatures() {
-  // Define context
-  const { signatures, setSignatures } = useContext(appContext);
+  // Define store
+  const signatures = useSignatureStore((state) => state.signatures);
+  const setSignatures = useSignatureStore((state) => state.setSignatures);
+  const addSignature = useSignatureStore((state) => state.addSignature);
+  const updateSignature = useSignatureStore((state) => state.updateSignature);
+  const removeSignature = useSignatureStore((state) => state.removeSignature);
 
   // Render
   return (
@@ -38,11 +42,7 @@ function Signatures() {
               transform: signatures.length >= 10 ? '' : 'scale(1.2)',
             }}
             _active={{ bg: 'transparent', color: 'gray.50' }}
-            onClick={() => {
-              if (signatures.length < 10) {
-                setSignatures((prevState) => [...prevState, '']);
-              }
-            }}
+            onClick={addSignature}
             disabled={signatures.length >= 10}
           >
             <LuArrowDown size={20} />
@@ -60,14 +60,7 @@ function Signatures() {
               transform: signatures.length < 1 ? '' : 'scale(1.2)',
             }}
             _active={{ bg: 'transparent', color: 'gray.50' }}
-            onClick={() =>
-              setSignatures((prevState) => {
-                const temp = [...prevState];
-                temp.pop();
-
-                return temp;
-              })
-            }
+            onClick={() => removeSignature()}
             disabled={signatures.length < 1}
           >
             <LuArrowUp size={20} />
@@ -110,12 +103,7 @@ function Signatures() {
                   _placeholder={{ color: 'gray.700' }}
                   _readOnly={{ color: 'gray.500' }}
                   value={signatures[index]}
-                  onChange={(e) =>
-                    setSignatures((prevState) => {
-                      prevState[index] = e.target.value;
-                      return [...prevState];
-                    })
-                  }
+                  onChange={(e) => updateSignature(index, e.target.value)}
                   placeholder="Enter value here"
                 />
               </InputGroup>

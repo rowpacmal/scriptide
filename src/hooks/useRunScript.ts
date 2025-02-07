@@ -2,7 +2,6 @@
 
 // Import dependencies
 import { useToast } from '@chakra-ui/react';
-import { useContext } from 'react';
 // Import utils
 import parseComments from '../utils/parseComments';
 // Import libraries
@@ -10,9 +9,12 @@ import minima from '@/lib/minima';
 // Import store
 import useConsoleStore from '@/store/useConsoleStore';
 import useEditorStore from '@/store/useEditorStore';
-// Import context
-import { appContext } from '../AppContext';
 import useRunScriptStore from '@/store/useRunScriptStore';
+import useExtraScriptStore from '@/store/useExtraScriptStore';
+import useGlobalVariableStore from '@/store/useGlobalVariableStore';
+import useSignatureStore from '@/store/useSignatureStore';
+import useStateVariableStore from '@/store/useStateVariableStore';
+import usePrevStateVariableStore from '@/store/usePrevStateVariableStore';
 
 // Run script hook
 function useRunScript() {
@@ -21,6 +23,14 @@ function useRunScript() {
 
   // Define store
   const code = useEditorStore((state) => state.code);
+  const globals = useGlobalVariableStore((state) => state.globals);
+  const signatures = useSignatureStore((state) => state.signatures);
+  const stateVariables = useStateVariableStore((state) => state.stateVariables);
+  const prevStateVariables = usePrevStateVariableStore(
+    (state) => state.prevStateVariables
+  );
+  const extraScripts = useExtraScriptStore((state) => state.extraScripts);
+
   const extendConsoleOut = useConsoleStore((state) => state.extendConsoleOut);
   const setCleanScript = useRunScriptStore((state) => state.setCleanScript);
   const setScript0xAddress = useRunScriptStore(
@@ -40,15 +50,6 @@ function useRunScript() {
   const setTotalScriptInstructions = useRunScriptStore(
     (state) => state.setTotalScriptInstructions
   );
-
-  // Define context
-  const {
-    globals,
-    signatures,
-    stateVariables,
-    prevStateVariables,
-    extraScripts,
-  } = useContext(appContext);
 
   // Define handler
   async function handleRunScript(): Promise<void> {

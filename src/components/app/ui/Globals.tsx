@@ -8,30 +8,23 @@ import {
   Text,
   VStack,
 } from '@chakra-ui/react';
-import { useContext, useState } from 'react';
+import { useState } from 'react';
 import { LuMinus, LuPlus } from 'react-icons/lu';
-// Import context
-import { appContext } from '../../../AppContext';
 // Import store
 import useRunScriptStore from '@/store/useRunScriptStore';
+import useGlobalVariableStore from '@/store/useGlobalVariableStore';
 
 // Globals component
 function Globals() {
   // Define store
   const script0xAddress = useRunScriptStore((state) => state.script0xAddress);
-
-  // Define context
-  const { globals, setGlobals } = useContext(appContext);
+  const globals = useGlobalVariableStore((state) => state.globals);
+  const globalUpdate = useGlobalVariableStore((state) => state.globalUpdate);
 
   // Define states
   const [accordionIndex, setAccordionIndex] = useState(
     JSON.parse(localStorage.getItem('accordion-index') || '[1]')
   );
-
-  // Define functions
-  function handleGlobalChange(key: string, value: string) {
-    setGlobals((prevState) => ({ ...prevState, [key]: value }));
-  }
 
   // Define functions
   function handleOnChange(index: number[]) {
@@ -114,8 +107,7 @@ function Globals() {
                       global === '@ADDRESS' ? script0xAddress : globals[global]
                     }
                     {...(global !== '@ADDRESS' && {
-                      onChange: (e) =>
-                        handleGlobalChange(global, e.target.value),
+                      onChange: (e) => globalUpdate(global, e.target.value),
                     })}
                     // onChange={(e) => handleGlobalChange(global, e.target.value)}
                     readOnly={global === '@ADDRESS'}

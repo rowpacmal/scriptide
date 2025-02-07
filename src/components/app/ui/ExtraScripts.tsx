@@ -21,7 +21,7 @@ import {
   VStack,
 } from '@chakra-ui/react';
 import { Editor } from '@monaco-editor/react';
-import { useContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   LuBan,
   // LuBug,
@@ -32,8 +32,8 @@ import {
   LuTrash,
   LuX,
 } from 'react-icons/lu';
-// Import context
-import { appContext } from '../../../AppContext';
+// Import store
+import useExtraScriptStore from '@/store/useExtraScriptStore';
 // Import constants
 import { DEFAULT_EDITOR_THEME, KISS_VM_LANGUAGE } from '../../../constants';
 
@@ -42,19 +42,43 @@ function ExtraScripts() {
   // Define disclosure
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  // Define context
-  const { extraScripts, setExtraScripts } = useContext(appContext);
+  // Define stores
+  const extraScripts = useExtraScriptStore((state) => state.extraScripts);
+  const currentExtraScript = useExtraScriptStore(
+    (state) => state.currentExtraScript
+  );
+  const setCurrentExtraScript = useExtraScriptStore(
+    (state) => state.setCurrentExtraScript
+  );
+  const addExtraScript = useExtraScriptStore((state) => state.addExtraScript);
+  const renameExtraScript = useExtraScriptStore(
+    (state) => state.renameExtraScript
+  );
+  const updateExtraScript = useExtraScriptStore(
+    (state) => state.updateExtraScript
+  );
+  const clearExtraScripts = useExtraScriptStore(
+    (state) => state.clearExtraScripts
+  );
+  const deleteExtraScript = useExtraScriptStore(
+    (state) => state.deleteExtraScript
+  );
+  const deleteAllExtraScripts = useExtraScriptStore(
+    (state) => state.deleteAllExtraScripts
+  );
 
   // Define state
-  const [activeScript, setActiveScript] = useState(
-    Number(localStorage.getItem('active-extra-script')) || 0
-  );
-  const [activeScriptName, setActiveScriptName] = useState('');
+  const [currentExtraScriptName, setCurrentExtraScriptName] = useState('');
 
   // Temporary fix to keep track of the last active script index
   useEffect(() => {
-    localStorage.setItem('active-extra-script', activeScript.toString());
-  }, [activeScript]);
+    localStorage.setItem('active-extra-script', currentExtraScript.toString());
+  }, [currentExtraScript]);
+
+  // Temporary fix for saving extra scripts to local storage
+  useEffect(() => {
+    localStorage.setItem('extra-scripts', JSON.stringify(extraScripts));
+  }, [extraScripts]);
 
   // Render
   return (
@@ -78,12 +102,12 @@ function ExtraScripts() {
             >
               <HStack>
                 <Text as="span" color="gray.500">
-                  {extraScripts.length > 0 && `@X${activeScript}`}
+                  {extraScripts.length > 0 && `@X${currentExtraScript}`}
                 </Text>
 
                 <Text isTruncated>
                   {extraScripts.length > 0
-                    ? extraScripts[activeScript].name
+                    ? extraScripts[currentExtraScript].name
                     : '---'}
                 </Text>
               </HStack>
@@ -102,7 +126,7 @@ function ExtraScripts() {
                   bg="transparent"
                   borderColor="gray.700"
                   _hover={{ bg: 'gray.700' }}
-                  onClick={() => setActiveScript(index)}
+                  onClick={() => setCurrentExtraScript(index)}
                   icon={
                     <Text as="span" fontSize="sm" color="gray.500">
                       {extraScripts.length > 0 && `@X${index}`}
@@ -144,7 +168,9 @@ function ExtraScripts() {
                 borderColor="gray.700"
                 _hover={{ bg: 'gray.700' }}
                 onClick={() => {
-                  setActiveScriptName(extraScripts[activeScript].name);
+                  setCurrentExtraScriptName(
+                    extraScripts[currentExtraScript].name
+                  );
                   onOpen();
                 }}
                 icon={<LuPenLine />}
@@ -160,19 +186,7 @@ function ExtraScripts() {
                 bg="transparent"
                 borderColor="gray.700"
                 _hover={{ bg: 'gray.700' }}
-                onClick={() =>
-                  setExtraScripts((prevState) => {
-                    const temp = [
-                      ...prevState,
-                      {
-                        name: `Extra Script ${prevState.length + 1}`,
-                        value: '/* Add your extra script here */',
-                      },
-                    ];
-                    setActiveScript(temp.length - 1);
-                    return temp;
-                  })
-                }
+                onClick={addExtraScript}
                 icon={<LuPlus />}
                 isDisabled={extraScripts.length >= 10}
               >
@@ -184,21 +198,7 @@ function ExtraScripts() {
                 bg="transparent"
                 borderColor="gray.700"
                 _hover={{ bg: 'gray.700' }}
-                onClick={() =>
-                  setExtraScripts((prevState) => {
-                    const temp = [...prevState];
-
-                    setActiveScript((prevState) => {
-                      temp.splice(prevState, 1);
-                      if (prevState > 0) {
-                        return prevState - 1;
-                      }
-                      return 0;
-                    });
-
-                    return temp;
-                  })
-                }
+                onClick={deleteExtraScript}
                 icon={<LuX />}
                 isDisabled={extraScripts.length < 1}
               >
@@ -210,12 +210,7 @@ function ExtraScripts() {
                 bg="transparent"
                 borderColor="gray.700"
                 _hover={{ bg: 'gray.700' }}
-                onClick={() =>
-                  setExtraScripts(() => {
-                    setActiveScript(0);
-                    return [];
-                  })
-                }
+                onClick={deleteAllExtraScripts}
                 icon={<LuTrash />}
                 isDisabled={extraScripts.length < 1}
               >
@@ -227,13 +222,7 @@ function ExtraScripts() {
                 bg="transparent"
                 borderColor="gray.700"
                 _hover={{ bg: 'gray.700' }}
-                onClick={() =>
-                  setExtraScripts((prevState) => {
-                    const temp = [...prevState];
-                    temp[activeScript].value = '';
-                    return temp;
-                  })
-                }
+                onClick={clearExtraScripts}
                 icon={<LuBan />}
                 isDisabled={extraScripts.length < 1}
               >
@@ -248,7 +237,7 @@ function ExtraScripts() {
                 bg="transparent"
                 borderColor="gray.700"
                 _hover={{ bg: 'gray.700' }}
-                onClick={() => console.log(activeScript, extraScripts)}
+                onClick={() => console.log(currentExtraScript, extraScripts)}
                 icon={<LuBug />}
               >
                 <Text as="span">Debug</Text>
@@ -269,14 +258,8 @@ function ExtraScripts() {
               height="100%"
               theme={DEFAULT_EDITOR_THEME}
               language={KISS_VM_LANGUAGE}
-              value={extraScripts[activeScript].value}
-              onChange={(value) =>
-                setExtraScripts((prevState) => {
-                  const temp = [...prevState];
-                  temp[activeScript].value = value || '';
-                  return temp;
-                })
-              }
+              value={extraScripts[currentExtraScript].value}
+              onChange={(value) => updateExtraScript(value || '')}
               options={{
                 minimap: {
                   enabled: false,
@@ -322,11 +305,11 @@ function ExtraScripts() {
               _placeholder={{ color: 'gray.700' }}
               _focusVisible={{ borderColor: 'gray.50' }}
               _readOnly={{ color: 'gray.500' }}
-              value={activeScriptName}
+              value={currentExtraScriptName}
               onChange={(e) => {
                 const { value } = e.target;
                 if (value.length <= 30) {
-                  setActiveScriptName(value);
+                  setCurrentExtraScriptName(value);
                 }
               }}
               placeholder="Enter name here"
@@ -339,11 +322,7 @@ function ExtraScripts() {
               variant="ghost"
               colorScheme="blue"
               onClick={() => {
-                setExtraScripts((prevState) => {
-                  const temp = [...prevState];
-                  temp[activeScript].name = activeScriptName;
-                  return temp;
-                });
+                renameExtraScript(currentExtraScriptName);
                 onClose();
               }}
             >

@@ -11,13 +11,23 @@ import {
   VStack,
 } from '@chakra-ui/react';
 import { LuPlus, LuTrash2, LuX } from 'react-icons/lu';
-import { appContext } from '../../../AppContext';
-import { useContext } from 'react';
+// Import store
+import useStateVariableStore from '@/store/useStateVariableStore';
+import usePrevStateVariableStore from '@/store/usePrevStateVariableStore';
 
 // Utility component
 function StateItem({ index }) {
-  // Define context
-  const { stateVariables, setStateVariables } = useContext(appContext);
+  // Define store
+  const stateVariables = useStateVariableStore((state) => state.stateVariables);
+  const updateStateVariableKey = useStateVariableStore(
+    (state) => state.updateStateVariableKey
+  );
+  const updateStateVariableValue = useStateVariableStore(
+    (state) => state.updateStateVariableValue
+  );
+  const removeStateVariable = useStateVariableStore(
+    (state) => state.removeStateVariable
+  );
 
   // Render
   return (
@@ -31,20 +41,7 @@ function StateItem({ index }) {
           _placeholder={{ color: 'gray.700' }}
           _readOnly={{ color: 'gray.500' }}
           value={stateVariables[index].index}
-          onChange={(e) =>
-            setStateVariables((prevState) => {
-              if (
-                isNaN(Number(e.target.value)) ||
-                Number(e.target.value) < 0 ||
-                Number(e.target.value) > 255
-              )
-                return prevState;
-
-              const temp = [...prevState];
-              temp[index].index = Number(e.target.value);
-              return temp;
-            })
-          }
+          onChange={(e) => updateStateVariableKey(index, e.target.value)}
           placeholder="Indx"
           maxW={10}
           textAlign="center"
@@ -56,13 +53,7 @@ function StateItem({ index }) {
         _placeholder={{ color: 'gray.700' }}
         _readOnly={{ color: 'gray.500' }}
         value={stateVariables[index].value}
-        onChange={(e) =>
-          setStateVariables((prevState) => {
-            const temp = [...prevState];
-            temp[index].value = e.target.value;
-            return temp;
-          })
-        }
+        onChange={(e) => updateStateVariableValue(index, e.target.value)}
         placeholder="Enter value here"
       />
 
@@ -79,13 +70,7 @@ function StateItem({ index }) {
           bg="transparent"
           color="gray.500"
           _hover={{ bg: 'transparent', color: 'red.500' }}
-          onClick={() =>
-            setStateVariables((prevState) => {
-              const temp = [...prevState];
-              temp.splice(index, 1);
-              return temp;
-            })
-          }
+          onClick={() => removeStateVariable(index)}
         >
           <LuX size={20} />
         </Button>
@@ -93,10 +78,20 @@ function StateItem({ index }) {
     </InputGroup>
   );
 }
-
 function PrevStateItem({ index }) {
-  // Define context
-  const { prevStateVariables, setPrevStateVariables } = useContext(appContext);
+  // Define stores
+  const prevStateVariables = usePrevStateVariableStore(
+    (state) => state.prevStateVariables
+  );
+  const updatePrevStateVariableKey = usePrevStateVariableStore(
+    (state) => state.updatePrevStateVariableKey
+  );
+  const updatePrevStateVariableValue = usePrevStateVariableStore(
+    (state) => state.updatePrevStateVariableValue
+  );
+  const removePrevStateVariable = usePrevStateVariableStore(
+    (state) => state.removePrevStateVariable
+  );
 
   // Render
   return (
@@ -110,20 +105,7 @@ function PrevStateItem({ index }) {
           _placeholder={{ color: 'gray.700' }}
           _readOnly={{ color: 'gray.500' }}
           value={prevStateVariables[index].index}
-          onChange={(e) =>
-            setPrevStateVariables((prevState) => {
-              if (
-                isNaN(Number(e.target.value)) ||
-                Number(e.target.value) < 0 ||
-                Number(e.target.value) > 255
-              )
-                return prevState;
-
-              const temp = [...prevState];
-              temp[index].index = Number(e.target.value);
-              return temp;
-            })
-          }
+          onChange={(e) => updatePrevStateVariableKey(index, e.target.value)}
           placeholder="Indx"
           maxW={10}
           textAlign="center"
@@ -135,13 +117,7 @@ function PrevStateItem({ index }) {
         _placeholder={{ color: 'gray.700' }}
         _readOnly={{ color: 'gray.500' }}
         value={prevStateVariables[index].value}
-        onChange={(e) =>
-          setPrevStateVariables((prevState) => {
-            const temp = [...prevState];
-            temp[index].value = e.target.value;
-            return temp;
-          })
-        }
+        onChange={(e) => updatePrevStateVariableValue(index, e.target.value)}
         placeholder="Enter value here"
       />
 
@@ -153,13 +129,7 @@ function PrevStateItem({ index }) {
           bg="transparent"
           color="gray.500"
           _hover={{ bg: 'transparent', color: 'red.500' }}
-          onClick={() =>
-            setPrevStateVariables((prevState) => {
-              const temp = [...prevState];
-              temp.splice(index, 1);
-              return temp;
-            })
-          }
+          onClick={() => removePrevStateVariable(index)}
         >
           <LuX size={20} />
         </Button>
@@ -170,13 +140,24 @@ function PrevStateItem({ index }) {
 
 // State component
 function States() {
-  // Define context
-  const {
-    stateVariables,
-    setStateVariables,
-    prevStateVariables,
-    setPrevStateVariables,
-  } = useContext(appContext);
+  // Define stores
+  const stateVariables = useStateVariableStore((state) => state.stateVariables);
+  const addStateVariable = useStateVariableStore(
+    (state) => state.addStateVariable
+  );
+  const removeAllStateVariables = useStateVariableStore(
+    (state) => state.removeAllStateVariables
+  );
+
+  const prevStateVariables = usePrevStateVariableStore(
+    (state) => state.prevStateVariables
+  );
+  const addPrevStateVariable = usePrevStateVariableStore(
+    (state) => state.addPrevStateVariable
+  );
+  const removeAllPrevStateVariables = usePrevStateVariableStore(
+    (state) => state.removeAllPrevStateVariables
+  );
 
   // Render
   return (
@@ -205,20 +186,7 @@ function States() {
                 transform: stateVariables.length > 255 ? '' : 'scale(1.2)',
               }}
               _active={{ bg: 'transparent', color: 'gray.50' }}
-              onClick={() =>
-                setStateVariables((prevState) => [
-                  ...prevState,
-                  {
-                    index:
-                      Object.keys(prevState).length > 0
-                        ? prevState.at(-1).index === 255
-                          ? 255
-                          : prevState.at(-1).index + 1
-                        : 0,
-                    value: '',
-                  },
-                ])
-              }
+              onClick={addStateVariable}
               disabled={stateVariables.length > 255}
             >
               <LuPlus size={20} />
@@ -236,7 +204,7 @@ function States() {
                 transform: stateVariables.length < 1 ? '' : 'scale(1.2)',
               }}
               _active={{ bg: 'transparent', color: 'gray.50' }}
-              onClick={() => setStateVariables([])}
+              onClick={removeAllStateVariables}
               disabled={stateVariables.length < 1}
             >
               <LuTrash2 size={20} />
@@ -285,20 +253,7 @@ function States() {
                 transform: prevStateVariables.length > 255 ? '' : 'scale(1.2)',
               }}
               _active={{ bg: 'transparent', color: 'gray.50' }}
-              onClick={() =>
-                setPrevStateVariables((prevState) => [
-                  ...prevState,
-                  {
-                    index:
-                      Object.keys(prevState).length > 0
-                        ? prevState.at(-1).index === 255
-                          ? 255
-                          : prevState.at(-1).index + 1
-                        : 0,
-                    value: '',
-                  },
-                ])
-              }
+              onClick={addPrevStateVariable}
               disabled={prevStateVariables.length > 255}
             >
               <LuPlus size={20} />
@@ -316,7 +271,7 @@ function States() {
                 transform: prevStateVariables.length < 1 ? '' : 'scale(1.2)',
               }}
               _active={{ bg: 'transparent', color: 'gray.50' }}
-              onClick={() => setPrevStateVariables([])}
+              onClick={removeAllPrevStateVariables}
               disabled={prevStateVariables.length < 1}
             >
               <LuTrash2 size={20} />
