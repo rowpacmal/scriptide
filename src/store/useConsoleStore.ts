@@ -9,8 +9,8 @@ import {
 
 // Interface for the store
 interface IConsoleStore {
-  consoleOut: string[];
-  setConsoleOut: (consoleOut: string[]) => void;
+  consoleOutput: string[];
+  setConsoleOutput: (consoleOutput: string[]) => void;
 
   consoleTimestamp: string[];
   setConsoleTimestamp: (consoleTimestamp: string[]) => void;
@@ -20,14 +20,14 @@ interface IConsoleStore {
 
 // Create the store
 export const useConsoleStore = create<IConsoleStore>((set) => ({
-  consoleOut: CONSOLE_DEFAULT,
-  setConsoleOut: (consoleOut) => set({ consoleOut }),
+  consoleOutput: CONSOLE_DEFAULT,
+  setConsoleOutput: (consoleOutput) => set({ consoleOutput }),
 
   consoleTimestamp: CONSOLE_DEFAULT_TIMESTAMP,
   setConsoleTimestamp: (consoleTimestamp) => set({ consoleTimestamp }),
 
   clearConsoleOut: () => {
-    set({ consoleOut: CONSOLE_DEFAULT_CLEARED.console });
+    set({ consoleOutput: CONSOLE_DEFAULT_CLEARED.console });
     set({ consoleTimestamp: CONSOLE_DEFAULT_CLEARED.timestamp });
   },
 }));
