@@ -1,3 +1,4 @@
+// Import dependencies
 import {
   Button,
   Menu,
@@ -7,20 +8,15 @@ import {
   Text,
 } from '@chakra-ui/react';
 import { LuChevronDown } from 'react-icons/lu';
-import useFileStore from '@/store/useFileStore';
+// Import store
 import useWorkspaceStore from '@/store/useWorkspaceStore';
-import useEditorStore from '@/store/useEditorStore';
 
 // Workspace component
 function Workspace() {
   // Define stores
-  const setCurrentFile = useFileStore((state) => state.setCurrentFile);
   const workspaces = useWorkspaceStore((state) => state.workspaces);
   const currentWorkspace = useWorkspaceStore((state) => state.currentWorkspace);
-  const setCurrentWorkspace = useWorkspaceStore(
-    (state) => state.setCurrentWorkspace
-  );
-  const setCode = useEditorStore((state) => state.setCode);
+  const updateWorkspace = useWorkspaceStore((state) => state.updateWorkspace);
 
   // Render
   return (
@@ -52,15 +48,7 @@ function Workspace() {
             bg="transparent"
             borderColor="gray.700"
             _hover={{ bg: 'gray.700' }}
-            onClick={() => {
-              if (workspace === currentWorkspace) {
-                return;
-              }
-
-              setCode(null);
-              setCurrentFile(null);
-              setCurrentWorkspace(workspace);
-            }}
+            onClick={() => updateWorkspace(workspace)}
           >
             {workspaces.length > 0 && workspace}
           </MenuItem>

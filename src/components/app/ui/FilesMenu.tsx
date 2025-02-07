@@ -41,14 +41,16 @@ function FilesMenuItem({ children, label, onClick, disabled = false }) {
 function FilesMenu({ addingFile, setAddingFile }) {
   // Define store
   const files = useFileStore((state) => state.files);
+  // const addFile = useFileStore((state) => state.addFile); // For debugging
 
   // Render
   return (
     <HStack w="100%" px={2} gap={1}>
       <FilesMenuItem
         label="Create new file"
+        // onClick={() => addFile(`New_File_${files.length}.kvm`)} // For debugging
         onClick={() => !addingFile && setAddingFile(true)}
-        disabled={files.length >= 8}
+        disabled={files.length >= 30} // Increased limit from 8 to 30
       >
         <LuFilePlus size={ICON_SIZE} />
       </FilesMenuItem>

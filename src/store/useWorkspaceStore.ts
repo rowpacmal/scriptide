@@ -20,6 +20,7 @@ interface IWorkspaceStore {
   addWorkspace: (newWorkspace: string) => Promise<void>;
   renameWorkspace: (newWorkspace: string) => Promise<void>;
   copyWorkspace: (newWorkspace: string) => Promise<void>;
+  updateWorkspace: (workspace: string) => Promise<void>;
   deleteWorkspace: () => Promise<void>;
   deleteAllWorkspaces: () => Promise<void>;
 
@@ -53,7 +54,7 @@ const useWorkspaceStore = create<IWorkspaceStore>((set, get) => ({
     set((state) => ({ workspaces: [...state.workspaces, newWorkspace] }));
     set({ currentWorkspace: newWorkspace });
 
-    useFileStore.getState().refreshFiles(newWorkspace);
+    useFileStore.setState({ files: [] });
     useFileStore.setState({ currentFile: null });
     useEditorStore.setState({ code: null });
   },
@@ -97,7 +98,7 @@ const useWorkspaceStore = create<IWorkspaceStore>((set, get) => ({
     });
     set({ currentWorkspace: newWorkspace });
 
-    useFileStore.getState().refreshFiles(newWorkspace);
+    // useFileStore.getState().refreshFiles(newWorkspace); // Comment out for increased performance
   },
   copyWorkspace: async (newWorkspace: string) => {
     const currentWorkspace = get().currentWorkspace;
@@ -124,7 +125,18 @@ const useWorkspaceStore = create<IWorkspaceStore>((set, get) => ({
     set((state) => ({ workspaces: [...state.workspaces, newWorkspace] }));
     set({ currentWorkspace: newWorkspace });
 
-    useFileStore.getState().refreshFiles(newWorkspace);
+    // useFileStore.getState().refreshFiles(newWorkspace); // Comment out for increased performance
+    useFileStore.setState({ currentFile: null });
+    useEditorStore.setState({ code: null });
+  },
+  updateWorkspace: async (workspace: string) => {
+    if (workspace === get().currentWorkspace) {
+      return;
+    }
+
+    set({ currentWorkspace: workspace });
+
+    useFileStore.getState().refreshFiles(workspace);
     useFileStore.setState({ currentFile: null });
     useEditorStore.setState({ code: null });
   },

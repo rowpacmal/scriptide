@@ -63,6 +63,7 @@ function WorkspaceMenu({ workspaces }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   // Define state
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [modalType, setModalType]: [string | null, any] = useState(null);
 
   // Render
@@ -110,7 +111,7 @@ function WorkspaceMenu({ workspaces }) {
               setModalType('create-blank');
               onOpen();
             }}
-            disabled={workspaces.length >= 10}
+            disabled={workspaces.length >= 30} // Increased limit from 10 to 30
           >
             Create Blank
           </WorkspaceMenuItem>

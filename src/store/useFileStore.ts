@@ -45,7 +45,11 @@ const useFileStore = create<IFileStore>((set, get) => ({
 
     await minima.file.save(`workspaces/${currentWorkspace}/${newFile}`, '');
 
-    get().refreshFiles(currentWorkspace);
+    set((state) => ({
+      files: [...state.files, newFile].sort((a, b) =>
+        a.localeCompare(b, undefined, { sensitivity: 'base' })
+      ),
+    }));
     set({ currentFile: newFile });
     useEditorStore.setState({ code: '' });
   },
@@ -89,7 +93,7 @@ const useFileStore = create<IFileStore>((set, get) => ({
       useEditorStore.setState({ code: null });
     }
 
-    get().refreshFiles(currentWorkspace);
+    set((state) => ({ files: state.files.filter((f) => f !== file) }));
   },
 
   currentFile: null,
