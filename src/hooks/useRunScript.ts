@@ -12,6 +12,7 @@ import useConsoleStore from '@/store/useConsoleStore';
 import useEditorStore from '@/store/useEditorStore';
 // Import context
 import { appContext } from '../AppContext';
+import useRunScriptStore from '@/store/useRunScriptStore';
 
 // Run script hook
 function useRunScript() {
@@ -21,17 +22,27 @@ function useRunScript() {
   // Define store
   const code = useEditorStore((state) => state.code);
   const extendConsoleOut = useConsoleStore((state) => state.extendConsoleOut);
+  const setCleanScript = useRunScriptStore((state) => state.setCleanScript);
+  const setScript0xAddress = useRunScriptStore(
+    (state) => state.setScript0xAddress
+  );
+  const setScriptMxAddress = useRunScriptStore(
+    (state) => state.setScriptMxAddress
+  );
+  const setScriptParse = useRunScriptStore((state) => state.setScriptParse);
+  const setScriptSuccess = useRunScriptStore((state) => state.setScriptSuccess);
+  const setScriptMonotonic = useRunScriptStore(
+    (state) => state.setScriptMonotonic
+  );
+  const setScriptVariables = useRunScriptStore(
+    (state) => state.setScriptVariables
+  );
+  const setTotalScriptInstructions = useRunScriptStore(
+    (state) => state.setTotalScriptInstructions
+  );
 
   // Define context
   const {
-    setScript0xAddress,
-    setScriptMxAddress,
-    setScriptParse,
-    setScriptSuccess,
-    setScriptMonotonic,
-    setScriptVariables,
-    setTotalScriptInstructions,
-    setCleanScript,
     globals,
     signatures,
     stateVariables,
@@ -177,7 +188,7 @@ function useRunScript() {
     const cmd = `runscript script:"${script}" globals:${globalVariables} state:${stateVars} prevstate:${prevStateVars} signatures:${signers} extrascripts:${extraScriptsStr}`;
 
     (window as any).MDS.cmd(cmd, (msg) => {
-      // console.log(msg);
+      console.log(msg);
 
       if (msg.status) {
         const {

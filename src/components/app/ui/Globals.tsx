@@ -12,11 +12,16 @@ import { useContext, useState } from 'react';
 import { LuMinus, LuPlus } from 'react-icons/lu';
 // Import context
 import { appContext } from '../../../AppContext';
+// Import store
+import useRunScriptStore from '@/store/useRunScriptStore';
 
 // Globals component
 function Globals() {
+  // Define store
+  const script0xAddress = useRunScriptStore((state) => state.script0xAddress);
+
   // Define context
-  const { globals, setGlobals, script0xAddress } = useContext(appContext);
+  const { globals, setGlobals } = useContext(appContext);
 
   // Define states
   const [accordionIndex, setAccordionIndex] = useState(

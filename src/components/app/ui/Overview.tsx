@@ -13,12 +13,12 @@ import {
   useClipboard,
   VStack,
 } from '@chakra-ui/react';
-import { useContext, useEffect } from 'react';
-// Import context
-import { appContext } from '../../../AppContext';
+import { useEffect } from 'react';
 // Import utilities
 import getIcon from '../../../utils/getIcon';
 import getType from '../../../utils/getType';
+// Import store
+import useRunScriptStore from '@/store/useRunScriptStore';
 
 // Types
 type OverviewItemProps = {
@@ -139,17 +139,17 @@ function VariableItem({ variable, value }) {
 
 // Overview component
 function Overview() {
-  // Define context
-  const {
-    cleanScript,
-    script0xAddress,
-    scriptMxAddress,
-    // scriptParse,
-    // scriptSuccess,
-    // scriptMonotonic,
-    totalScriptInstructions,
-    scriptVariables,
-  } = useContext(appContext);
+  // Define stores
+  const cleanScript = useRunScriptStore((state) => state.cleanScript);
+  const script0xAddress = useRunScriptStore((state) => state.script0xAddress);
+  const scriptMxAddress = useRunScriptStore((state) => state.scriptMxAddress);
+  // const scriptParse = useRunScriptStore((state) => state.scriptParse);
+  // const scriptSuccess = useRunScriptStore((state) => state.scriptSuccess);
+  // const scriptMonotonic = useRunScriptStore((state) => state.scriptMonotonic);
+  const scriptVariables = useRunScriptStore((state) => state.scriptVariables);
+  const totalScriptInstructions = useRunScriptStore(
+    (state) => state.totalScriptInstructions
+  );
 
   // Render
   return (

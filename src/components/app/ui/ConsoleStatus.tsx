@@ -1,3 +1,4 @@
+// Import dependencies
 import {
   Box,
   Button,
@@ -14,8 +15,8 @@ import {
   Tooltip,
 } from '@chakra-ui/react';
 import { LuCircleDotDashed } from 'react-icons/lu';
-import { appContext } from '../../../AppContext';
-import { useContext } from 'react';
+// Import store
+import useRunScriptStore from '@/store/useRunScriptStore';
 
 // Utility functions
 function getColor(status1, status2) {
@@ -34,9 +35,10 @@ function getColor(status1, status2) {
 
 // Console status component
 function ConsoleStatus() {
-  // Define context
-  const { scriptParse, scriptSuccess, scriptMonotonic } =
-    useContext(appContext);
+  // Define stores
+  const scriptParse = useRunScriptStore((state) => state.scriptParse);
+  const scriptSuccess = useRunScriptStore((state) => state.scriptSuccess);
+  const scriptMonotonic = useRunScriptStore((state) => state.scriptMonotonic);
 
   // Render
   return (
