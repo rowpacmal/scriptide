@@ -4,8 +4,7 @@ import Editor from '@monaco-editor/react';
 import { useRef } from 'react';
 // Import store
 import useEditorStore from '@/store/useEditorStore';
-// Import hooks
-import useFileSystem from '../../../hooks/useFileSystem';
+import useFileStore from '@/store/useFileStore';
 // Import constants
 import { DEFAULT_EDITOR_THEME, KISS_VM_LANGUAGE } from '../../../constants';
 
@@ -18,9 +17,7 @@ function CodeEditor() {
   const setCode = useEditorStore((state) => state.setCode);
   const editorZoom = useEditorStore((state) => state.editorZoom);
   const editorAutoSave = useEditorStore((state) => state.editorAutoSave);
-
-  // Define file system
-  const { handleSaveFileData } = useFileSystem();
+  const saveFile = useFileStore((state) => state.saveFile);
 
   // Define handlers
   function handleOnMount(editor) {
@@ -36,7 +33,7 @@ function CodeEditor() {
       borderColor="gray.700"
       onBlur={() => {
         if (editorAutoSave && code) {
-          handleSaveFileData();
+          saveFile();
         }
       }}
     >

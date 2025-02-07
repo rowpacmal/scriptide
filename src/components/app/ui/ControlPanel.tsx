@@ -5,8 +5,7 @@ import { LuRotateCw } from 'react-icons/lu';
 import { NAVIGATION_LABELS } from '../../../constants';
 // Import store
 import useNavigationStore from '@/store/useNavigationStore';
-// Import hooks
-import useFileSystem from '../../../hooks/useFileSystem';
+import useWorkspaceStore from '@/store/useWorkspaceStore';
 // Import components
 import ExtraScripts from './ExtraScripts';
 import Globals from './Globals';
@@ -19,9 +18,9 @@ import Home from './Home';
 function ControlPanel() {
   // Define store
   const navigation = useNavigationStore((state) => state.navigation);
-
-  // Define file system
-  const { handleRefreshWorkspaces } = useFileSystem();
+  const refreshWorkspaces = useWorkspaceStore(
+    (state) => state.refreshWorkspaces
+  );
 
   // Render
   return (
@@ -47,7 +46,7 @@ function ControlPanel() {
               bg="transparent"
               color="gray.500"
               _hover={{ bg: 'transparent', color: 'gray.50' }}
-              onClick={() => handleRefreshWorkspaces()}
+              onClick={() => refreshWorkspaces()}
             >
               <LuRotateCw size={20} />
             </Button>

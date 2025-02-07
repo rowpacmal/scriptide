@@ -5,9 +5,8 @@ import {
   // LuFolderPlus,
   // LuHardDriveUpload
 } from 'react-icons/lu';
-
-import { appContext } from '../../../AppContext';
-import { useContext } from 'react';
+// Import store
+import useFileStore from '@/store/useFileStore';
 
 // Constants
 const ICON_SIZE = 20;
@@ -40,8 +39,8 @@ function FilesMenuItem({ children, label, onClick, disabled = false }) {
 
 // Files menu component
 function FilesMenu({ addingFile, setAddingFile }) {
-  // Define context
-  const { files } = useContext(appContext);
+  // Define store
+  const files = useFileStore((state) => state.files);
 
   // Render
   return (

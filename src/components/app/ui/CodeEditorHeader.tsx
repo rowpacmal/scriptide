@@ -19,8 +19,8 @@ import {
 } from 'react-icons/lu';
 // Import store
 import useEditorStore from '@/store/useEditorStore';
+import useFileStore from '@/store/useFileStore';
 // Import hooks
-import useFileSystem from '../../../hooks/useFileSystem';
 import useRunScript from '../../../hooks/useRunScript';
 
 // Code editor header button component
@@ -70,10 +70,10 @@ function CodeEditorHeader({ isOverviewCollapsed, handelToggleOverview }) {
   const toggleEditorAutoSave = useEditorStore(
     (state) => state.toggleEditorAutoSave
   );
+  const saveFile = useFileStore((state) => state.saveFile);
 
   // Define handlers
   const handleRunScript = useRunScript();
-  const { handleSaveFileData } = useFileSystem();
 
   // Render
   return (
@@ -125,7 +125,7 @@ function CodeEditorHeader({ isOverviewCollapsed, handelToggleOverview }) {
           <CodeEditorHeaderButton
             label="Save file"
             onClick={() => {
-              handleSaveFileData();
+              saveFile();
               toast({
                 title: 'File Saved',
                 description: 'The file has been saved successfully.',

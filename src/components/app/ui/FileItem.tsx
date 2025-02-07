@@ -7,6 +7,7 @@ import {
   Text,
   useDisclosure,
 } from '@chakra-ui/react';
+import { useEffect } from 'react';
 import {
   // LuBug,
   // LuCopy,
@@ -15,20 +16,19 @@ import {
   LuPenLine,
   LuTrash,
 } from 'react-icons/lu';
-// Import hooks
-import useFileSystem from '../../../hooks/useFileSystem';
+// Import store
+import useFileStore from '@/store/useFileStore';
 // Import components
 import {
   // MenuDividerBase,
   MenuItemBase,
   MenuListBase,
 } from './MenuListBase';
-import { useEffect } from 'react';
 
 // File item context menu component
 function FileItemContextMenu({ file }) {
-  // Define file system
-  const { handleDeleteFile } = useFileSystem();
+  // Define store
+  const deleteFile = useFileStore((state) => state.deleteFile);
 
   return (
     <MenuListBase>
@@ -44,7 +44,7 @@ function FileItemContextMenu({ file }) {
       <MenuItemBase
         // label="Delete File"
         icon={<LuTrash />}
-        onClick={() => handleDeleteFile(file)}
+        onClick={() => deleteFile(file)}
       >
         Delete
       </MenuItemBase>

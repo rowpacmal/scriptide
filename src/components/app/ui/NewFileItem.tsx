@@ -1,4 +1,4 @@
-import useFileSystem from '@/hooks/useFileSystem';
+import useFileStore from '@/store/useFileStore';
 import {
   // Button,
   Input,
@@ -10,15 +10,18 @@ import { useEffect, useRef, useState } from 'react';
 // import { LuX } from 'react-icons/lu';
 
 function NewFileItem({ setAddingFile }) {
+  // Define toast
   const toast = useToast();
 
-  // refs
+  // Define ref
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const inputRef: any = useRef(null);
 
+  // Define state
   const [fileName, setFileName] = useState('');
 
-  // Define file system
-  const { handleNewFile } = useFileSystem();
+  // Define store
+  const addFile = useFileStore((state) => state.addFile);
 
   useEffect(() => {
     if (inputRef.current) {
@@ -64,7 +67,7 @@ function NewFileItem({ setAddingFile }) {
 
             const newFile = name.split(' ').join('_');
 
-            handleNewFile(newFile);
+            addFile(newFile);
             setFileName('');
             setAddingFile(false);
           }
