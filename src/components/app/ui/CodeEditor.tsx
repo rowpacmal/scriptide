@@ -6,7 +6,9 @@ import { useEffect, useRef, useState } from 'react';
 import useEditorStore from '@/store/useEditorStore';
 import useFileStore from '@/store/useFileStore';
 // Import constants
-import { DEFAULT_EDITOR_THEME, KISS_VM_LANGUAGE } from '../../../constants';
+import { DEFAULT_EDITOR_THEME } from '../../../constants';
+// Import utilities
+import getExtension from '@/utils/getExtension';
 
 function CodeEditor() {
   // Define refs
@@ -32,29 +34,7 @@ function CodeEditor() {
   // Define effect
   useEffect(() => {
     if (currentFile) {
-      const fileExtension = currentFile.split('.').pop();
-
-      switch (fileExtension) {
-        case 'kvm':
-          setLang(KISS_VM_LANGUAGE);
-          break;
-
-        case 'html':
-          setLang('html');
-          break;
-
-        case 'css':
-          setLang('css');
-          break;
-
-        case 'js':
-          setLang('javascript');
-          break;
-
-        default:
-          setLang('plaintext');
-          break;
-      }
+      setLang(getExtension(currentFile));
     }
   }, [currentFile]);
 
