@@ -58,10 +58,11 @@ function Explorer() {
               maxH="32rem"
               borderTop="1px solid"
               borderLeft="1px solid"
+              borderBottom="1px solid"
               borderColor="gray.700"
               p={1}
               gap={0.5}
-              overflow="scroll"
+              overflowY="scroll"
               className="alt-scrollbar"
             >
               {files.map((item: any, index: number) => (

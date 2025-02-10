@@ -7,14 +7,15 @@ function getExtension(file: string) {
     case 'kvm':
       return KISS_VM_LANGUAGE;
 
-    case 'html':
+    // TODO: Add support for other file extensions
+    /* case 'html':
       return 'html';
 
     case 'css':
       return 'css';
 
     case 'js':
-      return 'javascript';
+      return 'javascript'; */
 
     default:
       return 'plaintext';
