@@ -26,7 +26,7 @@ function FileItemRename({ file, setRenamingFile }) {
           if (name.length === 0) {
             toast({
               title: 'File name cannot be empty.',
-              status: 'error',
+              status: 'warning',
               duration: 3000,
               isClosable: true,
             });
@@ -44,7 +44,7 @@ function FileItemRename({ file, setRenamingFile }) {
           if (files.includes(newFile)) {
             toast({
               title: 'File name already exists.',
-              status: 'error',
+              status: 'warning',
               duration: 3000,
               isClosable: true,
             });
