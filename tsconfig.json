@@ -1,7 +1,7 @@
 {
   "files": [],
   "references": [
-    /** Comment this out because it prevented building the app.
+    /* Comment this out because it prevented building the app.
      * This was added together with the 'Mappings' options below,
      * following the installation steps for shadcn/ui library.
      */

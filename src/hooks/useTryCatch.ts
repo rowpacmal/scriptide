@@ -14,7 +14,7 @@ function useTryCatch() {
       // Debug the reject object
       console.error('MDS Error Response Object: ', error);
 
-      /**
+      /*
        * ! Toast not triggering !
        */
       toast({

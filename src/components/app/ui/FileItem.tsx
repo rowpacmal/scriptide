@@ -144,7 +144,7 @@ function FileItem({ children, file, onClick, isActive = false }) {
     onOpen();
   };
 
-  /** Quick fix for a glitch where the context menu
+  /* Quick fix for a glitch where the context menu
    * would not close when scrolling.
    */
   useEffect(() => {

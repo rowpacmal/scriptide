@@ -58,7 +58,7 @@ function parseComments(code) {
         output.push(' '); // add a space per spec
         i++; // don't catch /*/
 
-        /**
+        /*
          * This part caused an issue with parsing out comments
          * in the script, so it was disabled.
          */

@@ -58,7 +58,7 @@ function Globals() {
         onChange={handleOnChange}
         allowMultiple
       >
-        {/**
+        {/*
          * There is a bug with the Accordion component, preventing 0 index to be used.
          * Find a workaround to fix this, by adding an initial empty AccordionItem that
          * has "display: none", and start indexing from index 1 instead of 0.
