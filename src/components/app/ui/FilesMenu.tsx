@@ -11,17 +11,25 @@ import {
   LuFilePlus,
   LuTrash2,
   // LuFolderPlus,
-  // LuHardDriveUpload
+  LuHardDriveUpload,
 } from 'react-icons/lu';
 // Import store
 import useFileStore from '@/store/useFileStore';
 import FilesDeleteAll from './FilesDeleteAll';
+import { useState } from 'react';
+import FilesUpload from './FilesUpload';
 
 // Constants
 const ICON_SIZE = 20;
 
 // Files menu item component
-function FilesMenuItem({ children, label, onClick, disabled = false }) {
+function FilesMenuItem({
+  children,
+  label,
+  onClick,
+  isLoading = false,
+  disabled = false,
+}) {
   // Render
   return (
     <Tooltip label={label} placement="top" hasArrow>
@@ -38,6 +46,7 @@ function FilesMenuItem({ children, label, onClick, disabled = false }) {
         }}
         _active={{ bg: 'transparent', color: 'gray.50' }}
         onClick={onClick}
+        isLoading={isLoading}
         disabled={disabled}
       >
         {children}
@@ -55,45 +64,57 @@ function FilesMenu({ addingFile, setAddingFile }) {
   const files = useFileStore((state) => state.files);
   // const addFile = useFileStore((state) => state.addFile); // For debugging
 
+  // Define state
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const [modalType, setModalType]: [string | null, any] = useState(null);
+
   // Render
   return (
     <>
-      <HStack w="100%" px={2} gap={1}>
-        <FilesMenuItem
-          label="Create new file"
-          // onClick={() => addFile(`New_File_${files.length}.kvm`)} // For debugging
-          onClick={() => !addingFile && setAddingFile(true)}
-          disabled={files.length >= 30} // Increased limit from 8 to 30
-        >
-          <LuFilePlus size={ICON_SIZE} />
-        </FilesMenuItem>
+      <HStack w="100%" px={1} justify="space-between" gap={1}>
+        <HStack gap={1}>
+          <FilesMenuItem
+            label="Create new file"
+            // onClick={() => addFile(`New_File_${files.length}.kvm`)} // For debugging
+            onClick={() => !addingFile && setAddingFile(true)}
+            disabled={files.length >= 30} // Increased limit from 8 to 30 (greater than this causes lag)
+          >
+            <LuFilePlus size={ICON_SIZE} />
+          </FilesMenuItem>
+
+          <FilesMenuItem
+            label="Upload file"
+            onClick={() => {
+              setModalType('upload');
+              onOpen();
+            }}
+          >
+            <LuHardDriveUpload size={ICON_SIZE} />
+          </FilesMenuItem>
+        </HStack>
 
         <FilesMenuItem
           label="Delete all files"
-          onClick={onOpen}
+          onClick={() => {
+            setModalType('delete-all');
+            onOpen();
+          }}
           disabled={files.length < 1}
         >
           <LuTrash2 size={ICON_SIZE} />
         </FilesMenuItem>
 
-        {/* TODO - Add folder and upload support */}
+        {/* TODO - Add folder support */}
         {/* <FilesMenuItem label="Create new folder" onClick={() => {}} disabled>
         <LuFolderPlus size={ICON_SIZE} />
-      </FilesMenuItem>
-
-      <FilesMenuItem
-        label="Add a File or Folder from your computer"
-        onClick={() => {}}
-        disabled
-      >
-        <LuHardDriveUpload size={ICON_SIZE} />
-      </FilesMenuItem> */}
+        </FilesMenuItem> */}
       </HStack>
 
       <Modal isOpen={isOpen} onClose={onClose} isCentered>
         <ModalOverlay />
 
-        <FilesDeleteAll onClose={onClose} />
+        {modalType === 'upload' && <FilesUpload onClose={onClose} />}
+        {modalType === 'delete-all' && <FilesDeleteAll onClose={onClose} />}
       </Modal>
     </>
   );
