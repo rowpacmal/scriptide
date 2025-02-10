@@ -66,8 +66,9 @@ const useWorkspaceStore = create<IWorkspaceStore>((set, get) => ({
     }
 
     const currentFolder = `workspaces/${currentWorkspace}`;
+    const newFolder = `workspaces/${newWorkspace}`;
 
-    await minima.file.copy(currentFolder, `workspaces/${newWorkspace}`);
+    await minima.file.copy(currentFolder, newFolder);
 
     // Old approach - replaced with above to increased performance for renaming workspace
     /* const currentFolder = `workspaces/${currentWorkspace}`;
@@ -92,6 +93,13 @@ const useWorkspaceStore = create<IWorkspaceStore>((set, get) => ({
       newWorkspace.toLocaleLowerCase() !== currentWorkspace.toLocaleLowerCase()
     ) {
       await minima.file.delete(currentFolder);
+    } else {
+      const tempFolder = `${newFolder}_temp`;
+
+      await minima.file.copy(currentFolder, tempFolder);
+      await minima.file.delete(currentFolder);
+      await minima.file.copy(tempFolder, newFolder);
+      await minima.file.delete(tempFolder);
     }
 
     set((state) => {
