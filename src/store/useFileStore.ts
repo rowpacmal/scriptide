@@ -70,6 +70,10 @@ const useFileStore = create<IFileStore>((set, get) => ({
     set((state) => ({
       files: state.files.map((f) => (f === oldFile ? newFile : f)),
     }));
+
+    if (get().currentFile === oldFile) {
+      set({ currentFile: newFile });
+    }
   },
   saveFile: async () => {
     const currentWorkspace = useWorkspaceStore.getState().currentWorkspace;

@@ -1,7 +1,7 @@
 // Import dependencies
 import { Box } from '@chakra-ui/react';
 import Editor from '@monaco-editor/react';
-import { useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 // Import store
 import useEditorStore from '@/store/useEditorStore';
 import useFileStore from '@/store/useFileStore';
@@ -18,12 +18,45 @@ function CodeEditor() {
   const editorZoom = useEditorStore((state) => state.editorZoom);
   const editorAutoSave = useEditorStore((state) => state.editorAutoSave);
   const saveFile = useFileStore((state) => state.saveFile);
+  const currentFile = useFileStore((state) => state.currentFile);
+
+  // Define state
+  const [lang, setLang] = useState('plaintext');
 
   // Define handlers
   function handleOnMount(editor) {
     editorRef.current = editor;
     editor.focus();
   }
+
+  // Define effect
+  useEffect(() => {
+    if (currentFile) {
+      const fileExtension = currentFile.split('.').pop();
+
+      switch (fileExtension) {
+        case 'kvm':
+          setLang(KISS_VM_LANGUAGE);
+          break;
+
+        case 'html':
+          setLang('html');
+          break;
+
+        case 'css':
+          setLang('css');
+          break;
+
+        case 'js':
+          setLang('javascript');
+          break;
+
+        default:
+          setLang('plaintext');
+          break;
+      }
+    }
+  }, [currentFile]);
 
   // Render
   return (
@@ -41,7 +74,7 @@ function CodeEditor() {
         <Editor
           height="100%"
           theme={DEFAULT_EDITOR_THEME}
-          language={KISS_VM_LANGUAGE}
+          language={lang}
           onMount={handleOnMount}
           value={code}
           onChange={(value) => setCode(value || '')}
