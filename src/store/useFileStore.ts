@@ -18,6 +18,7 @@ interface IFileStore {
 
   refreshFiles: (workspace: string) => Promise<void>;
   addFile: (newFile: string) => Promise<void>;
+  renameFile: (oldFile: string, newFile: string) => Promise<void>;
   saveFile: () => Promise<void>;
   loadFile: (file: string) => Promise<void>;
   deleteFile: (file: string) => Promise<void>;
@@ -53,6 +54,22 @@ const useFileStore = create<IFileStore>((set, get) => ({
     }));
     set({ currentFile: newFile });
     useEditorStore.setState({ code: '' });
+  },
+  renameFile: async (oldFile: string, newFile: string) => {
+    const currentWorkspace = useWorkspaceStore.getState().currentWorkspace;
+
+    if (!currentWorkspace) {
+      return;
+    }
+
+    await minima.file.move(
+      `workspaces/${currentWorkspace}/${oldFile}`,
+      `workspaces/${currentWorkspace}/${newFile}`
+    );
+
+    set((state) => ({
+      files: state.files.map((f) => (f === oldFile ? newFile : f)),
+    }));
   },
   saveFile: async () => {
     const currentWorkspace = useWorkspaceStore.getState().currentWorkspace;

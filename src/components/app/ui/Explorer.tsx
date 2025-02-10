@@ -11,7 +11,7 @@ import FileItem from './FileItem';
 import FilesMenu from './FilesMenu';
 import Workspace from './Workspace';
 import WorkspaceMenu from './WorkspaceMenu';
-import NewFileItem from './NewFileItem';
+import FileItemAdd from './FileItemAdd';
 
 // File explorer component
 function Explorer() {
@@ -77,8 +77,9 @@ function Explorer() {
                   {item}
                 </FileItem>
               ))}
-              {addingFile && <NewFileItem setAddingFile={setAddingFile} />}
-              {/* <NewFileItem setAddingFile={setAddingFile} /> */}
+
+              {addingFile && <FileItemAdd setAddingFile={setAddingFile} />}
+
               <Box
                 w="100%"
                 minH="1rem"
