@@ -1,5 +1,5 @@
 // Import dependencies
-import { Box, Input, Text } from '@chakra-ui/react';
+import { Box, Input, Text, useToast } from '@chakra-ui/react';
 import { useState } from 'react';
 // Import store
 import useWorkspaceStore from '@/store/useWorkspaceStore';
@@ -11,6 +11,9 @@ const PRESET_NAME = 'Workspace';
 
 // Workspace rename modal component
 function WorkspaceCreateBlank({ onClose }) {
+  // Define toast
+  const toast = useToast();
+
   // Define stores
   const workspaces = useWorkspaceStore((state) => state.workspaces);
   const addWorkspace = useWorkspaceStore((state) => state.addWorkspace);
@@ -27,6 +30,17 @@ function WorkspaceCreateBlank({ onClose }) {
       buttonLabel="Create"
       onClose={onClose}
       onClick={() => {
+        if (workspaces.includes(workspaceName)) {
+          toast({
+            title: 'Workspace name already exists',
+            status: 'warning',
+            duration: 3000,
+            isClosable: true,
+          });
+
+          return;
+        }
+
         addWorkspace(workspaceName);
         setWorkspaceName('');
         onClose();

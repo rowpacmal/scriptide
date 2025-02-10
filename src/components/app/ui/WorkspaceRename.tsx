@@ -1,11 +1,15 @@
-import { Box, Input, Text } from '@chakra-ui/react';
+import { Box, Input, Text, useToast } from '@chakra-ui/react';
 import ConfirmModal from './ConfirmModal';
 import { useState } from 'react';
 import useWorkspaceStore from '@/store/useWorkspaceStore';
 
 // Workspace rename modal component
 function WorkspaceRename({ onClose }) {
+  // Define toast
+  const toast = useToast();
+
   // Define stores
+  const workspaces = useWorkspaceStore((state) => state.workspaces);
   const currentWorkspace = useWorkspaceStore((state) => state.currentWorkspace);
   const renameWorkspace = useWorkspaceStore((state) => state.renameWorkspace);
 
@@ -19,6 +23,17 @@ function WorkspaceRename({ onClose }) {
       buttonLabel="Save"
       onClose={onClose}
       onClick={() => {
+        if (workspaces.includes(workspaceName)) {
+          toast({
+            title: 'Workspace name already exists',
+            status: 'warning',
+            duration: 3000,
+            isClosable: true,
+          });
+
+          return;
+        }
+
         renameWorkspace(workspaceName);
         setWorkspaceName('');
         onClose();
