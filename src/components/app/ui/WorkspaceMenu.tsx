@@ -15,15 +15,15 @@ import { useState } from 'react';
 import {
   // LuBug,
   LuCopy,
-  // LuDownload,
-  // LuHardDriveDownload,
-  // LuHardDriveUpload,
+  LuDownload,
+  LuHardDriveDownload,
+  LuHardDriveUpload,
   LuMenu,
   LuPenLine,
   LuPlus,
   LuTrash,
   LuTrash2,
-  // LuUpload,
+  LuUpload,
 } from 'react-icons/lu';
 // Import components
 import WorkspaceCopy from './WorkspaceCopy';
@@ -139,7 +139,7 @@ function WorkspaceMenu({ workspaces }) {
           </WorkspaceMenuItem>
 
           {/* TODO - enable when the feature is ready */}
-          {/* <WorkspaceMenuItem
+          <WorkspaceMenuItem
             label="Download Workspace"
             icon={<LuDownload />}
             onClick={() => {}}
@@ -155,7 +155,7 @@ function WorkspaceMenu({ workspaces }) {
             disabled
           >
             Upload
-          </WorkspaceMenuItem> */}
+          </WorkspaceMenuItem>
 
           <WorkspaceMenuItem
             label="Delete Workspace"
@@ -184,7 +184,7 @@ function WorkspaceMenu({ workspaces }) {
           </WorkspaceMenuItem>
 
           {/* TODO - enable when the feature is ready */}
-          {/* <WorkspaceMenuItem
+          <WorkspaceMenuItem
             label="Backup Workspaces"
             icon={<LuHardDriveDownload />}
             onClick={() => {}}
@@ -200,7 +200,7 @@ function WorkspaceMenu({ workspaces }) {
             disabled
           >
             Restore
-          </WorkspaceMenuItem> */}
+          </WorkspaceMenuItem>
 
           {/* Used for debugging during development */}
           {/* <MenuDivider my={1} />
