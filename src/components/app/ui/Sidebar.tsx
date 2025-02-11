@@ -6,6 +6,7 @@ import {
   LuFiles,
   LuGlobe,
   LuLock,
+  LuRocket,
   // LuPlug,
   // LuSearch,
   // LuSettings,
@@ -152,6 +153,14 @@ function Sidebar({ isControlPanelCollapsed, handelToggleControlPanel }) {
           onClick={() => handleNavigationChange('scripts')}
         >
           <LuCode size={ICON_SIZE} />
+        </SidebarButton>
+
+        <SidebarButton
+          label={NAVIGATION_LABELS.deploy}
+          active={handleIsActive('deploy')}
+          onClick={() => handleNavigationChange('deploy')}
+        >
+          <LuRocket size={ICON_SIZE} />
         </SidebarButton>
       </VStack>
 

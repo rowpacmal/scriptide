@@ -37,6 +37,7 @@ const NAVIGATION_LABELS = {
   globals: 'Global Variables',
   signatures: 'Signatures',
   scripts: 'Extra scripts',
+  deploy: 'Deployment',
   plugins: 'Plugin manager',
   settings: 'Settings',
 };

@@ -13,6 +13,7 @@ import Signatures from './Signatures';
 import States from './States';
 import Explorer from './Explorer';
 import Home from './Home';
+import Deploy from './Deploy';
 
 // Control panel component
 function ControlPanel() {
@@ -62,8 +63,9 @@ function ControlPanel() {
         {navigation === 'states' && <States />}
         {navigation === 'globals' && <Globals />}
         {navigation === 'signatures' && <Signatures />}
-
         {navigation === 'scripts' && <ExtraScripts />}
+        {navigation === 'deploy' && <Deploy />}
+
         {navigation === 'plugins' && (
           <Text color="gray.500">Not implemented!</Text>
         )}
