@@ -2,6 +2,8 @@ import { create } from 'zustand';
 import useFileStore from './useFileStore';
 import minima from '@/lib/minima';
 import useWorkspaceStore from './useWorkspaceStore';
+import isImageFileName from '@/utils/isImageFileName';
+import base64ToImage from '@/utils/base64ToImage';
 
 // Interface of the store
 export interface ILivePreviewStore {
@@ -11,7 +13,7 @@ export interface ILivePreviewStore {
   blobObjectURLs: string[];
   setBlobObjectURLs: (blobObjectURLs: string[]) => void;
 
-  createLivePreview: () => Promise<void>;
+  refreshLivePreview: () => Promise<void>;
 }
 
 // Create the store
@@ -22,20 +24,8 @@ export const useLivePreviewStore = create<ILivePreviewStore>((set) => ({
   blobObjectURLs: [],
   setBlobObjectURLs: (blobObjectURLs: string[]) => set({ blobObjectURLs }),
 
-  createLivePreview: async () => {
-    /* let timeout;
-
-    clearTimeout(timeout);
-
-    await new Promise((resolve) => {
-      timeout = setTimeout(() => {
-        resolve(true);
-      }, 1000);
-    }); */
-
+  refreshLivePreview: async () => {
     const files = useFileStore.getState().files;
-    const currentWorkspace = useWorkspaceStore.getState().currentWorkspace;
-
     // console.log(files);
 
     if (!files.includes('index.html')) {
@@ -43,6 +33,7 @@ export const useLivePreviewStore = create<ILivePreviewStore>((set) => ({
       return;
     }
 
+    const currentWorkspace = useWorkspaceStore.getState().currentWorkspace;
     const blobObjectURLs = [];
     let code = (
       await minima.file.load(`workspaces/${currentWorkspace}/index.html`)
@@ -54,6 +45,10 @@ export const useLivePreviewStore = create<ILivePreviewStore>((set) => ({
     const savedSubstrings = [];
 
     for (const match of matches) {
+      if (match[0].includes('http') || match[0].includes('https')) {
+        continue;
+      }
+
       savedSubstrings.push(match[0]);
     }
 
@@ -67,51 +62,53 @@ export const useLivePreviewStore = create<ILivePreviewStore>((set) => ({
 
         // console.log(file);
 
-        const ext = file.split('.').pop();
-        let type = 'text/plain';
-        let img = '';
+        if (isImageFileName(file)) {
+          const binary = (
+            await minima.file.loadbinary(
+              `workspaces/${currentWorkspace}/${file}`
+            )
+          ).response.load.data;
+          const base64 = minima.util.hexToBase64(binary);
 
-        if (ext === 'html') {
-          type = 'text/html';
-        } else if (ext === 'css') {
-          type = 'text/css';
-        } else if (ext === 'js') {
-          type = 'text/javascript';
-        } else if (ext === 'jpg' || ext === 'jpeg') {
-          type = 'image/jpeg';
+          const url = base64ToImage(base64);
+
+          for (let i = 0; i < savedSubstrings.length; i++) {
+            if (savedSubstrings[i].includes(file)) {
+              const split = savedSubstrings[i].split('"');
+              split[1] = url;
+              const join = split.join('"');
+              code = code.replace(savedSubstrings[i], join);
+            }
+          }
         } else {
-          continue;
-        }
+          const ext = file.split('.').pop();
+          let type = 'text/plain';
 
-        const data = (
-          await minima.file.load(`workspaces/${currentWorkspace}/${file}`)
-        ).response.load.data;
+          if (ext === 'html') {
+            type = 'text/html';
+          } else if (ext === 'css') {
+            type = 'text/css';
+          } else if (ext === 'js') {
+            type = 'text/javascript';
+          } else {
+            continue;
+          }
 
-        if (ext === 'jpg' || ext === 'jpeg') {
-          const bytes = new TextEncoder().encode(data); // Convert to binary data
-          const base64 = new Promise((resolve, reject) => {
-            const blob = new Blob([bytes], {
-              type: 'application/octet-stream',
-            });
-            const reader = new FileReader();
-            reader.onloadend = () => resolve(reader.result.split(',')[1]); // Extract Base64 part
-            reader.onerror = reject;
-            reader.readAsDataURL(blob);
-          });
+          const data = (
+            await minima.file.load(`workspaces/${currentWorkspace}/${file}`)
+          ).response.load.data;
 
-          img = await base64;
-        }
+          const blob = new Blob([data], { type });
+          const url = URL.createObjectURL(blob);
+          blobObjectURLs.push(url);
 
-        const blob = new Blob([data], { type });
-        const url = URL.createObjectURL(blob);
-        blobObjectURLs.push(url);
-
-        for (let i = 0; i < savedSubstrings.length; i++) {
-          if (savedSubstrings[i].includes(file)) {
-            const split = savedSubstrings[i].split('"');
-            split[1] = url;
-            const join = split.join('"');
-            code = code.replace(savedSubstrings[i], join);
+          for (let i = 0; i < savedSubstrings.length; i++) {
+            if (savedSubstrings[i].includes(file)) {
+              const split = savedSubstrings[i].split('"');
+              split[1] = url;
+              const join = split.join('"');
+              code = code.replace(savedSubstrings[i], join);
+            }
           }
         }
       }

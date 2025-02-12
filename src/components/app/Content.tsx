@@ -10,11 +10,12 @@ import {
   useState,
 } from 'react';
 import Overview from './ui/Overview';
-// Import utilities
+// Import components
 import ControlPanel from './ui/ControlPanel';
 import Console from './ui/Console';
 import CodeEditorHeader from './ui/CodeEditorHeader';
 import ConsoleHeader from './ui/ConsoleHeader';
+import LivePreview from './ui/LivePreview';
 
 // Utility component
 function PanelHandle({ direction }) {
@@ -172,7 +173,14 @@ function Content() {
 
           <PanelHandle direction="vertical" />
 
+          <Panel order={1} minSize={20}>
+            <LivePreview />
+          </Panel>
+
+          <PanelHandle direction="vertical" />
+
           <Panel
+            order={2}
             ref={overviewRef}
             collapsible={true}
             collapsedSize={0}

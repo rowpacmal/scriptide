@@ -6,6 +6,7 @@ import { useEffect, useRef, useState } from 'react';
 import useEditorStore from '@/store/useEditorStore';
 import useFileStore from '@/store/useFileStore';
 import useWorkspaceStore from '@/store/useWorkspaceStore';
+import useLivePreviewStore from '@/store/useLivePreviewStore';
 // Import constants
 import { DEFAULT_EDITOR_THEME } from '@/constants';
 // Import libraries
@@ -27,6 +28,9 @@ function CodeEditor() {
   const saveFile = useFileStore((state) => state.saveFile);
   const currentFile = useFileStore((state) => state.currentFile);
   const currentWorkspace = useWorkspaceStore((state) => state.currentWorkspace);
+  const refreshLivePreview = useLivePreviewStore(
+    (state) => state.refreshLivePreview
+  );
 
   // Define state
   const [lang, setLang] = useState('plaintext');
@@ -68,6 +72,7 @@ function CodeEditor() {
       onBlur={() => {
         if (editorAutoSave && code) {
           saveFile();
+          refreshLivePreview();
         }
       }}
     >

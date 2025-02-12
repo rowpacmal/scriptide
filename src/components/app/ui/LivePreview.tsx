@@ -1,8 +1,8 @@
+import useFileStore from '@/store/useFileStore';
 import useLivePreviewStore from '@/store/useLivePreviewStore';
-import useWorkspaceStore from '@/store/useWorkspaceStore';
 import { Box, Button, HStack, Text, VStack } from '@chakra-ui/react';
 import { useState, useEffect } from 'react';
-import { LuX } from 'react-icons/lu';
+import { LuRotateCw, LuX } from 'react-icons/lu';
 
 function LivePreview() {
   const [previewURL, setPreviewURL] = useState('');
@@ -10,15 +10,22 @@ function LivePreview() {
   // Define store
   const livePreview = useLivePreviewStore((state) => state.livePreview);
   const blobObjectURLs = useLivePreviewStore((state) => state.blobObjectURLs);
-  const currentWorkspace = useWorkspaceStore((state) => state.currentWorkspace);
+  const refreshLivePreview = useLivePreviewStore(
+    (state) => state.refreshLivePreview
+  );
+  const files = useFileStore((state) => state.files);
 
   useEffect(() => {
-    if (!currentWorkspace) {
+    if (!files) {
       return;
     }
 
-    setPreviewURL('');
-  }, [currentWorkspace]);
+    if (files.includes('index.html')) {
+      refreshLivePreview();
+    } else {
+      setPreviewURL('');
+    }
+  }, [files]);
 
   useEffect(() => {
     if (!livePreview) {
@@ -50,7 +57,7 @@ function LivePreview() {
       <HStack
         w="100%"
         justify="space-between"
-        px={2}
+        pl={2}
         borderBottom="1px solid"
         borderColor="gray.700"
       >
@@ -58,16 +65,29 @@ function LivePreview() {
           Live Preview
         </Text>
 
-        <Button
-          p={0}
-          size="sm"
-          bg="transparent"
-          color="gray.500"
-          _hover={{ bg: 'transparent', color: 'gray.50' }}
-          onClick={() => {}}
-        >
-          <LuX size={20} />
-        </Button>
+        <HStack gap={0}>
+          <Button
+            p={0}
+            size="sm"
+            bg="transparent"
+            color="gray.500"
+            _hover={{ bg: 'transparent', color: 'gray.50' }}
+            onClick={refreshLivePreview}
+          >
+            <LuRotateCw size={20} />
+          </Button>
+
+          <Button
+            p={0}
+            size="sm"
+            bg="transparent"
+            color="gray.500"
+            _hover={{ bg: 'transparent', color: 'gray.50' }}
+            onClick={() => {}}
+          >
+            <LuX size={20} />
+          </Button>
+        </HStack>
       </HStack>
 
       {previewURL ? (

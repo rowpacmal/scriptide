@@ -20,6 +20,7 @@ import {
 // Import store
 import useEditorStore from '@/store/useEditorStore';
 import useFileStore from '@/store/useFileStore';
+import useLivePreviewStore from '@/store/useLivePreviewStore';
 // Import hooks
 import useRunScript from '../../../hooks/useRunScript';
 
@@ -71,6 +72,9 @@ function CodeEditorHeader({ isOverviewCollapsed, handelToggleOverview }) {
     (state) => state.toggleEditorAutoSave
   );
   const saveFile = useFileStore((state) => state.saveFile);
+  const refreshLivePreview = useLivePreviewStore(
+    (state) => state.refreshLivePreview
+  );
 
   // Define handlers
   const handleRunScript = useRunScript();
@@ -126,6 +130,7 @@ function CodeEditorHeader({ isOverviewCollapsed, handelToggleOverview }) {
             label="Save file"
             onClick={() => {
               saveFile();
+              refreshLivePreview();
               toast({
                 title: 'File Saved',
                 description: 'The file has been saved successfully.',
