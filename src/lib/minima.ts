@@ -42,6 +42,18 @@ const minima: any = {
         });
       });
     },
+    getpath: function (path: string) {
+      return new Promise((resolve, reject) => {
+        (window as any).MDS.file.getpath(path, (msg: any) => {
+          responseHandler(
+            msg,
+            resolve,
+            reject,
+            'Failed to get file path: ' + path
+          );
+        });
+      });
+    },
     makedir: function (path: string) {
       return new Promise((resolve, reject) => {
         (window as any).MDS.file.makedir(path, (msg: any) => {
