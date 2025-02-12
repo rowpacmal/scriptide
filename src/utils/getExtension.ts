@@ -7,6 +7,9 @@ function getExtension(file: string) {
     case 'kvm':
       return KISS_VM_LANGUAGE;
 
+    case 'conf':
+      return 'json';
+
     case 'html':
       return 'html';
 
@@ -15,6 +18,9 @@ function getExtension(file: string) {
 
     case 'js':
       return 'javascript';
+
+    case 'json':
+      return 'json';
 
     default:
       return 'plaintext';
