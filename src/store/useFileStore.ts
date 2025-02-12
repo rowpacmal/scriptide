@@ -4,6 +4,7 @@ import { create } from 'zustand';
 import minima from '@/lib/minima';
 // Import utilities
 import getFiles from '@/utils/getFiles';
+import isImageFileName from '@/utils/isImageFileName';
 // Import stores
 import useEditorStore from './useEditorStore';
 import useWorkspaceStore from './useWorkspaceStore';
@@ -76,9 +77,16 @@ const useFileStore = create<IFileStore>((set, get) => ({
     }
   },
   saveFile: async () => {
-    const currentWorkspace = useWorkspaceStore.getState().currentWorkspace;
     const currentFile = get().currentFile;
+    if (!currentFile) {
+      return;
+    }
 
+    if (isImageFileName(currentFile)) {
+      return;
+    }
+
+    const currentWorkspace = useWorkspaceStore.getState().currentWorkspace;
     if (!currentWorkspace || !currentFile) {
       return;
     }
@@ -89,9 +97,18 @@ const useFileStore = create<IFileStore>((set, get) => ({
     );
   },
   loadFile: async (file: string) => {
+    if (!file) {
+      return;
+    }
+
+    if (isImageFileName(file)) {
+      useEditorStore.setState({ code: null });
+      return;
+    }
+
     const currentWorkspace = useWorkspaceStore.getState().currentWorkspace;
 
-    if (!currentWorkspace) {
+    if (!currentWorkspace || !file) {
       return;
     }
 
