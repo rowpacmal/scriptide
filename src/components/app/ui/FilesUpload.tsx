@@ -50,7 +50,7 @@ function FilesUpload({ onClose }) {
     e.stopPropagation(); // Stop event from bubbling up
     setIsDragging(false);
 
-    const droppedFiles = Array.from(e.dataTransfer.files);
+    const droppedFiles: any = Array.from(e.dataTransfer.files);
     setFileToUpload(droppedFiles[0]);
   };
   const handleOpenFileSelector = () => {
