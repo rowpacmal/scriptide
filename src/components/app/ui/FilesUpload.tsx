@@ -114,7 +114,7 @@ function FilesUpload({ onClose }) {
         <Input
           ref={fileInputRef}
           type="file"
-          accept=".kvm"
+          accept=".kvm, application/javascript, text/html, text/css image/jpeg, image/png, image/gif"
           display="none"
           onChange={(e) => {
             const files = e.target.files;
