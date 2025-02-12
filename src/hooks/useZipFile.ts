@@ -11,6 +11,9 @@ function useZipFile() {
   function addZipFolder(folder: string) {
     zipFile.folder(folder);
   }
+  function addZipImage(path: string, base64Data: string) {
+    zipFile.file(path, base64Data, { base64: true });
+  }
 
   function generateZip(zipName: string) {
     zipFile.generateAsync({ type: 'blob' }).then((blob) => {
@@ -40,6 +43,7 @@ function useZipFile() {
     zipFile,
     addZipFile,
     addZipFolder,
+    addZipImage,
     generateZip,
     getZipFile,
     removeZipEntry,
