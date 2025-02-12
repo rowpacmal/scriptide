@@ -3,6 +3,20 @@ import responseHandler from '../utils/responseHandler';
 /* eslint-disable @typescript-eslint/no-explicit-any */
 const minima: any = {
   version: '0.0.1',
+
+  cmd: function (command: string) {
+    return new Promise((resolve, reject) => {
+      (window as any).MDS.cmd(command, (msg: any) => {
+        responseHandler(
+          msg,
+          resolve,
+          reject,
+          'Failed to run command: ' + command
+        );
+      });
+    });
+  },
+
   file: {
     list: function (path: string) {
       return new Promise((resolve, reject) => {
@@ -26,6 +40,13 @@ const minima: any = {
     load: function (path: string) {
       return new Promise((resolve, reject) => {
         (window as any).MDS.file.load(path, (msg: any) => {
+          responseHandler(msg, resolve, reject, 'Failed to load file: ' + path);
+        });
+      });
+    },
+    loadbinary: function (path: string) {
+      return new Promise((resolve, reject) => {
+        (window as any).MDS.file.loadbinary(path, (msg: any) => {
           responseHandler(msg, resolve, reject, 'Failed to load file: ' + path);
         });
       });
@@ -103,17 +124,11 @@ const minima: any = {
       });
     },
   },
-  cmd: function (command: string) {
-    return new Promise((resolve, reject) => {
-      (window as any).MDS.cmd(command, (msg: any) => {
-        responseHandler(
-          msg,
-          resolve,
-          reject,
-          'Failed to run command: ' + command
-        );
-      });
-    });
+
+  util: {
+    hexToBase64: function (hex: string) {
+      return (window as any).MDS.util.hexToBase64(hex);
+    },
   },
 };
 
