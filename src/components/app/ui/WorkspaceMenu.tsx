@@ -31,7 +31,7 @@ import WorkspaceCreateBlank from './WorkspaceCreateBlank';
 import WorkspaceDelete from './WorkspaceDelete';
 import WorkspaceDeleteAll from './WorkspaceDeleteAll';
 import WorkspaceRename from './WorkspaceRename';
-import WorkspaceDownload from './WorkspaceDownload';
+import WorkspaceExport from './WorkspaceExport';
 
 // Workspace menu item component
 function WorkspaceMenuItem({
@@ -141,24 +141,24 @@ function WorkspaceMenu({ workspaces }) {
 
           {/* TODO - enable when the feature is ready */}
           <WorkspaceMenuItem
-            label="Download Workspace"
-            icon={<LuDownload />}
+            label="Export Workspace"
+            icon={<LuUpload />}
             onClick={() => {
-              setModalType('download');
+              setModalType('export');
               onOpen();
             }}
             disabled={workspaces.length < 1}
           >
-            Download
+            Export
           </WorkspaceMenuItem>
 
           <WorkspaceMenuItem
-            label="Upload Workspace"
-            icon={<LuUpload />}
+            label="Import Workspace"
+            icon={<LuDownload />}
             onClick={() => {}}
             disabled
           >
-            Upload
+            Import
           </WorkspaceMenuItem>
 
           <WorkspaceMenuItem
@@ -227,7 +227,7 @@ function WorkspaceMenu({ workspaces }) {
           <WorkspaceCreateBlank onClose={onClose} />
         )}
         {modalType === 'copy' && <WorkspaceCopy onClose={onClose} />}
-        {modalType === 'download' && <WorkspaceDownload onClose={onClose} />}
+        {modalType === 'export' && <WorkspaceExport onClose={onClose} />}
         {modalType === 'delete' && <WorkspaceDelete onClose={onClose} />}
         {modalType === 'delete-all' && <WorkspaceDeleteAll onClose={onClose} />}
       </Modal>

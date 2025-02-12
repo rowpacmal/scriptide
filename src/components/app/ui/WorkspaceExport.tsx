@@ -13,7 +13,7 @@ import useFileStore from '@/store/useFileStore';
 import minima from '@/lib/minima';
 
 // Workspace rename modal component
-function WorkspaceDownload({ onClose }) {
+function WorkspaceExport({ onClose }) {
   // Define toast
   const toast = useToast();
 
@@ -31,7 +31,7 @@ function WorkspaceDownload({ onClose }) {
   const [isLoading, setIsLoading] = useState(false);
 
   // Define handlers
-  async function handleDownload() {
+  async function handleExport() {
     if (!zipName.endsWith('.zip')) {
       toast({
         title: 'Invalid zip name',
@@ -46,7 +46,7 @@ function WorkspaceDownload({ onClose }) {
     if (!currentWorkspace || !files) {
       toast({
         title: 'No workspace selected',
-        description: 'Please select a workspace to download',
+        description: 'Please select a workspace to export',
         status: 'warning',
         duration: 3000,
         isClosable: true,
@@ -82,7 +82,7 @@ function WorkspaceDownload({ onClose }) {
       console.error(error);
 
       toast({
-        title: 'Error downloading workspace',
+        title: 'Error exporting workspace',
         status: 'error',
         duration: 3000,
         isClosable: true,
@@ -94,15 +94,15 @@ function WorkspaceDownload({ onClose }) {
   // Render
   return (
     <ConfirmModal
-      title="Download workspace"
-      buttonLabel="Download"
+      title="Export workspace"
+      buttonLabel="Export"
       onClose={onClose}
-      onClick={handleDownload}
+      onClick={handleExport}
       disabled={!zipName || isLoading}
     >
       <Text fontSize="sm" pb={4} textAlign="center">
-        Create a zip file of the workspace for download. Please type a name for
-        the downloaded zip file.
+        Create a zip file of the workspace for export. Please type a name for
+        the exported zip file.
       </Text>
 
       <Box px={4}>
@@ -145,4 +145,4 @@ function WorkspaceDownload({ onClose }) {
 }
 
 // Export
-export default WorkspaceDownload;
+export default WorkspaceExport;
