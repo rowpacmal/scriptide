@@ -5,8 +5,11 @@ import { useState } from 'react';
 import useWorkspaceStore from '@/store/useWorkspaceStore';
 // Import components
 import ConfirmModal from './ConfirmModal';
+// Import hooks
 import useZipFile from '@/hooks/useZipFile';
+// Import stores
 import useFileStore from '@/store/useFileStore';
+// Import libraries
 import minima from '@/lib/minima';
 
 // Workspace rename modal component
@@ -15,7 +18,7 @@ function WorkspaceDownload({ onClose }) {
   const toast = useToast();
 
   // Define zip file
-  const { addZipFile, generateZip } = useZipFile();
+  const { addZipFile, addZipImage, generateZip } = useZipFile();
 
   // Define stores
   const currentWorkspace = useWorkspaceStore((state) => state.currentWorkspace);
@@ -23,13 +26,31 @@ function WorkspaceDownload({ onClose }) {
 
   // Define state
   const [zipName, setZipName] = useState(
-    `${currentWorkspace?.replaceAll(' ', '_')}.zip`
+    `${currentWorkspace?.replaceAll(' ', '_')}.mds.zip`
   );
   const [isLoading, setIsLoading] = useState(false);
 
   // Define handlers
   async function handleDownload() {
+    if (!zipName.endsWith('.zip')) {
+      toast({
+        title: 'Invalid zip name',
+        description: 'Zip name must end with .zip',
+        status: 'warning',
+        duration: 3000,
+        isClosable: true,
+      });
+      return;
+    }
+
     if (!currentWorkspace || !files) {
+      toast({
+        title: 'No workspace selected',
+        description: 'Please select a workspace to download',
+        status: 'warning',
+        duration: 3000,
+        isClosable: true,
+      });
       return;
     }
 
@@ -37,15 +58,25 @@ function WorkspaceDownload({ onClose }) {
       setIsLoading(true);
 
       for (const file of files) {
-        const data = (
-          await minima.file.load(`workspaces/${currentWorkspace}/${file}`)
-        ).response.load.data;
+        if (file.endsWith('.png')) {
+          const binary = (
+            await minima.file.loadbinary(
+              `workspaces/${currentWorkspace}/${file}`
+            )
+          ).response.load.data;
 
-        addZipFile(file, data);
+          const base64 = minima.util.hexToBase64(binary);
+          addZipImage(file, base64);
+        } else {
+          const data = (
+            await minima.file.load(`workspaces/${currentWorkspace}/${file}`)
+          ).response.load.data;
+
+          addZipFile(file, data);
+        }
       }
 
       generateZip(zipName);
-
       setIsLoading(false);
     } catch (error) {
       console.error(error);
@@ -66,19 +97,7 @@ function WorkspaceDownload({ onClose }) {
       title="Download workspace"
       buttonLabel="Download"
       onClose={onClose}
-      onClick={() => {
-        if (!zipName.endsWith('.zip')) {
-          toast({
-            title: 'Invalid zip name',
-            status: 'warning',
-            duration: 3000,
-            isClosable: true,
-          });
-          return;
-        }
-
-        handleDownload();
-      }}
+      onClick={handleDownload}
       disabled={!zipName || isLoading}
     >
       <Text fontSize="sm" pb={4} textAlign="center">
