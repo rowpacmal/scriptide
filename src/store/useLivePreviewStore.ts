@@ -58,8 +58,31 @@ export const useLivePreviewStore = create<ILivePreviewStore>((set) => ({
     let code = (
       await minima.file.load(`workspaces/${currentWorkspace}/index.html`)
     ).response.load.data;
-
     // console.log(code);
+
+    if (!code) {
+      set({ livePreview: '' });
+      return;
+    }
+
+    if (files.includes('debug.conf')) {
+      const conf = (
+        await minima.file.load(`workspaces/${currentWorkspace}/debug.conf`)
+      ).response.load.data;
+      const json = JSON.parse(conf);
+      // console.log(json);
+
+      const debug = `
+      <script>
+        var DEBUG = "${json.debug}" === 'true';
+        var DEBUG_HOST = "${json.host}";
+        var DEBUG_PORT = "${json.port}";
+        var DEBUG_UID = "${json.uid}";
+      </script>
+    `;
+
+      code = code.replace(/<!--\s*mds-debug\s*-->/, debug);
+    }
 
     const matches = code.matchAll(/(?:href|src)=["']?([^"'\s>]+)["']?/gi);
     const savedSubstrings: string[] = [];
