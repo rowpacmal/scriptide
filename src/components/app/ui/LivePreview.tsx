@@ -9,10 +9,12 @@ function LivePreview() {
 
   // Define store
   const livePreview = useLivePreviewStore((state) => state.livePreview);
+  const setLivePreview = useLivePreviewStore((state) => state.setLivePreview);
   const blobObjectURLs = useLivePreviewStore((state) => state.blobObjectURLs);
   const refreshLivePreview = useLivePreviewStore(
     (state) => state.refreshLivePreview
   );
+  const setShowPreview = useLivePreviewStore((state) => state.setShowPreview);
   const files = useFileStore((state) => state.files);
 
   useEffect(() => {
@@ -83,7 +85,10 @@ function LivePreview() {
             bg="transparent"
             color="gray.500"
             _hover={{ bg: 'transparent', color: 'gray.50' }}
-            onClick={() => {}}
+            onClick={() => {
+              setShowPreview(false);
+              setLivePreview('');
+            }}
           >
             <LuX size={20} />
           </Button>

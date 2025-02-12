@@ -16,6 +16,7 @@ import Console from './ui/Console';
 import CodeEditorHeader from './ui/CodeEditorHeader';
 import ConsoleHeader from './ui/ConsoleHeader';
 import LivePreview from './ui/LivePreview';
+import useLivePreviewStore from '@/store/useLivePreviewStore';
 
 // Utility component
 function PanelHandle({ direction }) {
@@ -57,6 +58,9 @@ function Content() {
   const [isConsoleCollapsed, setIsConsoleCollapsed] = useState(false);
   const [isControlPanelCollapsed, setIsControlPanelCollapsed] = useState(false);
   const [isOverviewCollapsed, setIsOverviewCollapsed] = useState(false);
+
+  // Define store
+  const showPreview = useLivePreviewStore((state) => state.showPreview);
 
   // Define effects
   // useEffect(() => {}, []);
@@ -122,6 +126,8 @@ function Content() {
           storage={localStorage}
         >
           <Panel
+            id="panel-control"
+            order={0}
             ref={controlPanelRef}
             collapsible={true}
             collapsedSize={0}
@@ -135,7 +141,7 @@ function Content() {
 
           <PanelHandle direction="vertical" />
 
-          <Panel minSize={40}>
+          <Panel id="panel-code-editor" order={1} minSize={40}>
             <PanelGroup
               direction="vertical"
               autoSaveId="panel-group-2"
@@ -171,16 +177,21 @@ function Content() {
             </PanelGroup>
           </Panel>
 
-          <PanelHandle direction="vertical" />
+          {showPreview && (
+            <>
+              <PanelHandle direction="vertical" />
 
-          <Panel order={1} minSize={20}>
-            <LivePreview />
-          </Panel>
+              <Panel id="panel-live-preview" order={2} minSize={20}>
+                <LivePreview />
+              </Panel>
+            </>
+          )}
 
           <PanelHandle direction="vertical" />
 
           <Panel
-            order={2}
+            id="panel-overview"
+            order={3}
             ref={overviewRef}
             collapsible={true}
             collapsedSize={0}

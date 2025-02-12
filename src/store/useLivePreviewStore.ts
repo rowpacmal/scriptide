@@ -10,6 +10,11 @@ export interface ILivePreviewStore {
   livePreview: string;
   setLivePreview: (livePreview: string) => void;
 
+  showPreview: boolean;
+  setShowPreview: (showPreview: boolean) => void;
+
+  togglePreview: () => void;
+
   blobObjectURLs: string[];
   setBlobObjectURLs: (blobObjectURLs: string[]) => void;
 
@@ -20,6 +25,21 @@ export interface ILivePreviewStore {
 export const useLivePreviewStore = create<ILivePreviewStore>((set) => ({
   livePreview: '',
   setLivePreview: (livePreview: string) => set({ livePreview }),
+
+  showPreview: false,
+  setShowPreview: (showPreview: boolean) => set({ showPreview }),
+
+  togglePreview: () => {
+    set((state) => {
+      const showPreview = !state.showPreview;
+
+      if (!showPreview) {
+        set({ livePreview: '' });
+      }
+
+      return { showPreview };
+    });
+  },
 
   blobObjectURLs: [],
   setBlobObjectURLs: (blobObjectURLs: string[]) => set({ blobObjectURLs }),
@@ -34,7 +54,7 @@ export const useLivePreviewStore = create<ILivePreviewStore>((set) => ({
     }
 
     const currentWorkspace = useWorkspaceStore.getState().currentWorkspace;
-    const blobObjectURLs = [];
+    const blobObjectURLs: string[] = [];
     let code = (
       await minima.file.load(`workspaces/${currentWorkspace}/index.html`)
     ).response.load.data;
@@ -42,7 +62,7 @@ export const useLivePreviewStore = create<ILivePreviewStore>((set) => ({
     // console.log(code);
 
     const matches = code.matchAll(/(?:href|src)=["']?([^"'\s>]+)["']?/gi);
-    const savedSubstrings = [];
+    const savedSubstrings: string[] = [];
 
     for (const match of matches) {
       if (match[0].includes('http') || match[0].includes('https')) {
@@ -74,7 +94,7 @@ export const useLivePreviewStore = create<ILivePreviewStore>((set) => ({
 
           for (let i = 0; i < savedSubstrings.length; i++) {
             if (savedSubstrings[i].includes(file)) {
-              const split = savedSubstrings[i].split('"');
+              const split: any = savedSubstrings[i].split('"');
               split[1] = url;
               const join = split.join('"');
               code = code.replace(savedSubstrings[i], join);

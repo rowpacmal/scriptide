@@ -11,6 +11,7 @@ import {
   LuChevronsLeft,
   LuChevronsRight,
   LuPlay,
+  LuRadio,
   LuSave,
   LuToggleLeft,
   LuToggleRight,
@@ -75,6 +76,8 @@ function CodeEditorHeader({ isOverviewCollapsed, handelToggleOverview }) {
   const refreshLivePreview = useLivePreviewStore(
     (state) => state.refreshLivePreview
   );
+  const showPreview = useLivePreviewStore((state) => state.showPreview);
+  const togglePreview = useLivePreviewStore((state) => state.togglePreview);
 
   // Define handlers
   const handleRunScript = useRunScript();
@@ -157,6 +160,15 @@ function CodeEditorHeader({ isOverviewCollapsed, handelToggleOverview }) {
             )}
           </CodeEditorHeaderButton>
         </HStack>
+
+        <Box borderRight="1px solid" borderColor="gray.700">
+          <CodeEditorHeaderButton
+            label={(showPreview ? 'Hide' : 'Show') + ' live preview'}
+            onClick={togglePreview}
+          >
+            <LuRadio />
+          </CodeEditorHeaderButton>
+        </Box>
       </HStack>
 
       <Box>
