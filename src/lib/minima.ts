@@ -123,6 +123,18 @@ const minima: any = {
         });
       });
     },
+    deletefromweb: function (path: string) {
+      return new Promise((resolve, reject) => {
+        (window as any).MDS.file.deletefromweb(path, (msg: any) => {
+          responseHandler(
+            msg,
+            resolve,
+            reject,
+            'Failed to delete file from web folder: ' + path
+          );
+        });
+      });
+    },
   },
 
   util: {
