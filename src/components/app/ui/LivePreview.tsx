@@ -29,7 +29,7 @@ function LivePreview() {
     }
   }, [files]);
 
-  useEffect(() => {
+  /* useEffect(() => {
     if (!livePreview) {
       setPreviewURL(''); // Clear the preview URL if HTML is empty
       return;
@@ -52,7 +52,33 @@ function LivePreview() {
         URL.revokeObjectURL(temp[i]);
       }
     };
-  }, [livePreview]); // Important: Add 'html' to the dependency array
+  }, [livePreview]); // Important: Add 'html' to the dependency array */
+
+  /* useEffect(() => {
+    if (!livePreview) {
+      setPreviewURL(''); // Clear the preview URL if HTML is empty
+      return;
+    }
+
+    setPreviewURL(livePreview.find((f) => f.file === 'index.html')?.url || '');
+
+    return () => {
+      const temp = livePreview.map((f) => f.url);
+
+      for (let i = 0; i < temp.length; i++) {
+        URL.revokeObjectURL(temp[i]);
+      }
+    };
+  }, [livePreview]); */
+
+  useEffect(() => {
+    if (!livePreview) {
+      setPreviewURL(''); // Clear the preview URL if HTML is empty
+      return;
+    }
+
+    setPreviewURL(livePreview);
+  }, [livePreview]);
 
   return (
     <VStack w="100%" h="100%" fontSize="sm" gap={0}>
