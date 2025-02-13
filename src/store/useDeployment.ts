@@ -50,7 +50,9 @@ const useDeployment = create<IDeployment>((set, get) => ({
 
     set({ deployedScripts });
   },
-  getScript: async (address: string) => {},
+  getScript: async () =>
+    // address: string
+    {},
   deployScript: async (script: string, trackall: boolean, clean: boolean) => {
     await minima.cmd(
       `newscript trackall:${trackall} clean:${clean} script:"${script}"`
@@ -58,7 +60,9 @@ const useDeployment = create<IDeployment>((set, get) => ({
 
     get().getAllScripts();
   },
-  removeScript: async (address: string) => {},
+  removeScript: async () =>
+    // address: string
+    {},
 }));
 
 // Export the store

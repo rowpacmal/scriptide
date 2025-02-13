@@ -1,9 +1,9 @@
 import { create } from 'zustand';
-import useFileStore from './useFileStore';
+// import useFileStore from './useFileStore';
 import minima from '@/lib/minima';
 import useWorkspaceStore from './useWorkspaceStore';
-import isImageFileName from '@/utils/isImageFileName';
-import base64ToImage from '@/utils/base64ToImage';
+// import isImageFileName from '@/utils/isImageFileName';
+// import base64ToImage from '@/utils/base64ToImage';
 
 // Interface of the store
 export interface ILivePreviewStore {

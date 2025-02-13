@@ -73,7 +73,7 @@ function Deploy() {
   // Define state
   const [trackall, setTrackall] = useState(false);
   const [clean, setClean] = useState(false);
-  const [activeScript, setActiveScript] = useState(null);
+  const [activeScript, setActiveScript]: [any, any] = useState(null);
 
   // Define handlers
   async function handleDeploy() {
@@ -230,7 +230,7 @@ function Deploy() {
         >
           {deployedScripts.length > 0 ? (
             <>
-              {deployedScripts.map((script, index) => (
+              {deployedScripts.map((script: any, index) => (
                 <Text
                   key={index}
                   w="100%"

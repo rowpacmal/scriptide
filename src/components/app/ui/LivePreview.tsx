@@ -10,7 +10,7 @@ function LivePreview() {
   // Define store
   const livePreview = useLivePreviewStore((state) => state.livePreview);
   const setLivePreview = useLivePreviewStore((state) => state.setLivePreview);
-  const blobObjectURLs = useLivePreviewStore((state) => state.blobObjectURLs);
+  // const blobObjectURLs = useLivePreviewStore((state) => state.blobObjectURLs);
   const refreshLivePreview = useLivePreviewStore(
     (state) => state.refreshLivePreview
   );

@@ -1,9 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 // Import dependencies
-import { createContext, useRef, useEffect, useState } from 'react';
-// Import constants
-import { GLOBALS_DEFAULT_OBJECT } from './constants';
+import { createContext, useRef, useEffect } from 'react';
 // Import store
 import useWorkspaceStore from './store/useWorkspaceStore';
 // Import hooks
