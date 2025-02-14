@@ -37,6 +37,13 @@ const minima: any = {
         });
       });
     },
+    savebinary: function (path: string, hexdata: string) {
+      return new Promise((resolve, reject) => {
+        (window as any).MDS.file.savebinary(path, hexdata, (msg: any) => {
+          responseHandler(msg, resolve, reject, 'Failed to save file: ' + path);
+        });
+      });
+    },
     load: function (path: string) {
       return new Promise((resolve, reject) => {
         (window as any).MDS.file.load(path, (msg: any) => {
@@ -140,6 +147,9 @@ const minima: any = {
   util: {
     hexToBase64: function (hex: string) {
       return (window as any).MDS.util.hexToBase64(hex);
+    },
+    base64ToHex: function (str: string) {
+      return (window as any).MDS.util.base64ToHex(str);
     },
   },
 };
