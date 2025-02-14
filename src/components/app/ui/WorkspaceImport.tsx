@@ -25,7 +25,7 @@ function WorkspaceImport({ onClose }) {
 
   // Define upload
   const { error, isUploading, progress, handleUploadWorkspace } =
-    useUploadWorkspace(fileInputRef);
+    useUploadWorkspace();
 
   // Define state
   const [fileToUpload, setFileToUpload] = useState<File | null>(null);

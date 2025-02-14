@@ -6,7 +6,7 @@ import isTextFile from '@/utils/isTextFile';
 import JSZip from 'jszip';
 import { useState } from 'react';
 
-function useUploadWorkspace(fileInput: any) {
+function useUploadWorkspace() {
   // Define store
   const setCurrentWorkspace = useWorkspaceStore(
     (state) => state.setCurrentWorkspace
