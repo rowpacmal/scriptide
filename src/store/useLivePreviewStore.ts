@@ -420,7 +420,7 @@ export const useLivePreviewStore = create<ILivePreviewStore>((set, get) => ({
       }
 
       // If debug.conf exists, inject debug settings
-      // Need to use <!-- mds-debug --> in html document to inject the debug settings
+      // inject the debug settings into .html files as a <script> in <head>
       if (files.includes('debug.conf')) {
         const conf = (
           await minima.file.load(`workspaces/${currentWorkspace}/debug.conf`)
@@ -439,7 +439,7 @@ export const useLivePreviewStore = create<ILivePreviewStore>((set, get) => ({
 
         for (const file of files) {
           if (file === 'index.html') {
-            indexHtml = indexHtml.replace(/<!--\s*mds-debug\s*-->/, debug);
+            indexHtml = indexHtml.replace('</head>', debug + '</head>');
             continue;
           }
 
@@ -449,7 +449,7 @@ export const useLivePreviewStore = create<ILivePreviewStore>((set, get) => ({
                 `livepreview/${currentWorkspace}/${timestamp}/${file}`
               )
             ).response.load.data;
-            data = data.replace(/<!--\s*mds-debug\s*-->/, debug);
+            data = data.replace('</head>', debug + '</head>');
 
             await minima.file.save(
               `livepreview/${currentWorkspace}/${timestamp}/${file}`,
