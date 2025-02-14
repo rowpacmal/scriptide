@@ -11,6 +11,7 @@ import useZipFile from '@/hooks/useZipFile';
 import useFileStore from '@/store/useFileStore';
 // Import libraries
 import minima from '@/lib/minima';
+import isImageFileName from '@/utils/isImageFileName';
 
 // Workspace rename modal component
 function WorkspaceExport({ onClose }) {
@@ -58,7 +59,7 @@ function WorkspaceExport({ onClose }) {
       setIsLoading(true);
 
       for (const file of files) {
-        if (file.endsWith('.png')) {
+        if (isImageFileName(file)) {
           const binary = (
             await minima.file.loadbinary(
               `workspaces/${currentWorkspace}/${file}`
