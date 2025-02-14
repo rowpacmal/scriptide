@@ -8,6 +8,9 @@ import { useState } from 'react';
 
 function useUploadWorkspace(fileInput: any) {
   // Define store
+  const setCurrentWorkspace = useWorkspaceStore(
+    (state) => state.setCurrentWorkspace
+  );
   const refreshWorkspaces = useWorkspaceStore(
     (state) => state.refreshWorkspaces
   );
@@ -84,6 +87,7 @@ function useUploadWorkspace(fileInput: any) {
           }
         });
 
+        setCurrentWorkspace(workspace);
         refreshWorkspaces();
         setIsUploading(false);
       } catch (err: any) {

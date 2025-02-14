@@ -37,16 +37,22 @@ const useWorkspaceStore = create<IWorkspaceStore>((set, get) => ({
     const workspaces: string[] = await getFiles('workspaces');
     set({ workspaces });
 
-    const currentWorkspace = get().currentWorkspace;
-    const lastWorkspace = workspaces.at(-1);
-    set({ currentWorkspace: currentWorkspace || lastWorkspace || null });
-
-    if (!currentWorkspace || !lastWorkspace) {
+    if (workspaces.length < 1) {
+      set({ currentWorkspace: null });
       useFileStore.setState({ files: [] });
       return;
     }
 
-    useFileStore.getState().refreshFiles(currentWorkspace || lastWorkspace);
+    const workspace = get().currentWorkspace;
+    if (!workspace) {
+      const firstWorkspace = workspaces[0];
+      set({ currentWorkspace: firstWorkspace });
+      useFileStore.getState().refreshFiles(firstWorkspace);
+      return;
+    }
+
+    set({ currentWorkspace: workspace });
+    useFileStore.getState().refreshFiles(workspace);
   },
   addWorkspace: async (newWorkspace: string) => {
     await minima.file.makedir(`workspaces/${newWorkspace}`);

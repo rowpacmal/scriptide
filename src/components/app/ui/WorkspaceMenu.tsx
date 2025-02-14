@@ -135,7 +135,7 @@ function WorkspaceMenu({ workspaces }) {
               setModalType('copy');
               onOpen();
             }}
-            disabled={workspaces.length < 1}
+            disabled={workspaces.length < 1 || workspaces.length >= 30}
           >
             Copy
           </WorkspaceMenuItem>
@@ -160,6 +160,7 @@ function WorkspaceMenu({ workspaces }) {
               setModalType('import');
               onOpen();
             }}
+            disabled={workspaces.length >= 30}
           >
             Import
           </WorkspaceMenuItem>
@@ -191,7 +192,7 @@ function WorkspaceMenu({ workspaces }) {
           </WorkspaceMenuItem>
 
           {/* TODO - enable when the feature is ready */}
-          <WorkspaceMenuItem
+          {/* <WorkspaceMenuItem
             label="Backup Workspaces"
             icon={<LuHardDriveDownload />}
             onClick={() => {}}
@@ -207,7 +208,7 @@ function WorkspaceMenu({ workspaces }) {
             disabled
           >
             Restore
-          </WorkspaceMenuItem>
+          </WorkspaceMenuItem> */}
 
           {/* Used for debugging during development */}
           {/* <MenuDivider my={1} />

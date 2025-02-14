@@ -21,11 +21,10 @@ function WorkspaceImport({ onClose }) {
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
   // Define Store
-  const currentWorkspace = useWorkspaceStore((state) => state.currentWorkspace);
   const workspaces = useWorkspaceStore((state) => state.workspaces);
 
   // Define upload
-  const { error, isUploading, progress, handleUploadWorkspace, fileContents } =
+  const { error, isUploading, progress, handleUploadWorkspace } =
     useUploadWorkspace(fileInputRef);
 
   // Define state
@@ -100,9 +99,6 @@ function WorkspaceImport({ onClose }) {
       buttonLabel="Import"
       onClose={onClose}
       onClick={() => {
-        if (!currentWorkspace) {
-          return;
-        }
         if (workspaces.includes(workspaceName)) {
           toast({
             title: 'Workspace name already exists',
