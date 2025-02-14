@@ -2,7 +2,7 @@ import { create } from 'zustand';
 import useFileStore from './useFileStore';
 import minima from '@/lib/minima';
 import useWorkspaceStore from './useWorkspaceStore';
-// import isImageFileName from '@/utils/isImageFileName';
+// import isImageFile from '@/utils/isImageFile';
 // import base64ToImage from '@/utils/base64ToImage';
 
 // Interface of the store
@@ -115,7 +115,7 @@ export const useLivePreviewStore = create<ILivePreviewStore>((set, get) => ({
 
         // console.log(file);
 
-        if (isImageFileName(file)) {
+        if (isImageFile(file)) {
           const binary = (
             await minima.file.loadbinary(
               `workspaces/${currentWorkspace}/${file}`
@@ -191,7 +191,7 @@ export const useLivePreviewStore = create<ILivePreviewStore>((set, get) => ({
     const supportFiles: TFile[] = [];
 
     for (const file of files) {
-      if (isImageFileName(file)) {
+      if (isImageFile(file)) {
         const binary = (
           await minima.file.loadbinary(`workspaces/${currentWorkspace}/${file}`)
         ).response.load.data;

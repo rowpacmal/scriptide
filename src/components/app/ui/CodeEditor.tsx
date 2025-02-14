@@ -13,7 +13,7 @@ import { DEFAULT_EDITOR_THEME } from '@/constants';
 import minima from '@/lib/minima';
 // Import utilities
 import getExtension from '@/utils/getExtension';
-import isImageFileName from '@/utils/isImageFileName';
+import isImageFile from '@/utils/isImageFile';
 import base64ToImage from '@/utils/base64ToImage';
 
 function CodeEditor() {
@@ -57,7 +57,7 @@ function CodeEditor() {
     if (currentFile) {
       setLang(getExtension(currentFile));
 
-      if (isImageFileName(currentFile)) {
+      if (isImageFile(currentFile)) {
         handleImageFile();
       }
     }
@@ -91,7 +91,7 @@ function CodeEditor() {
         />
       ) : (
         <>
-          {isImageFileName(currentFile) ? (
+          {isImageFile(currentFile) ? (
             <Image w="auto" h="auto" p={4} src={imgSrc || ''} />
           ) : (
             <Box
