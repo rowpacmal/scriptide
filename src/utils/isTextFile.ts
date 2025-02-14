@@ -18,7 +18,8 @@ function isTextFile(fileName: string | null) {
     'js',
     'kvm',
     'conf',
-    'mdsignore',
+    'ignore',
+    'keep',
   ].includes(ext);
 }
 

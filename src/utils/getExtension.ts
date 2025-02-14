@@ -8,7 +8,7 @@ function getExtension(file: string) {
       return KISS_VM_LANGUAGE;
 
     case 'conf':
-    case 'mdsignore':
+    case 'ignore':
     case 'json':
       return 'json';
 
@@ -21,6 +21,7 @@ function getExtension(file: string) {
     case 'js':
       return 'javascript';
 
+    case 'keep':
     default:
       return 'plaintext';
   }
