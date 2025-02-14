@@ -13,7 +13,7 @@ type TScript = {
 };
 
 // Interface for the store
-interface IDeployment {
+interface IDeploymentStore {
   deployedScripts: string[];
   setDeployedScripts: (scripts: string[]) => void;
 
@@ -28,7 +28,7 @@ interface IDeployment {
 }
 
 // Create the store
-const useDeployment = create<IDeployment>((set, get) => ({
+const useDeploymentStore = create<IDeploymentStore>((set, get) => ({
   deployedScripts: [],
   setDeployedScripts: (scripts: string[]) => set({ deployedScripts: scripts }),
 
@@ -50,9 +50,7 @@ const useDeployment = create<IDeployment>((set, get) => ({
 
     set({ deployedScripts });
   },
-  getScript: async () =>
-    // address: string
-    {},
+  getScript: async () => {},
   deployScript: async (script: string, trackall: boolean, clean: boolean) => {
     await minima.cmd(
       `newscript trackall:${trackall} clean:${clean} script:"${script}"`
@@ -60,10 +58,12 @@ const useDeployment = create<IDeployment>((set, get) => ({
 
     get().getAllScripts();
   },
-  removeScript: async () =>
-    // address: string
-    {},
+  removeScript: async (address: string) => {
+    await minima.cmd(`removescript address:${address}`);
+
+    get().getAllScripts();
+  },
 }));
 
 // Export the store
-export default useDeployment;
+export default useDeploymentStore;

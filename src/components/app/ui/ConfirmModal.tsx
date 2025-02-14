@@ -12,6 +12,7 @@ function ConfirmModal({
   onClick,
   isLoading = false,
   disabled = false,
+  colorScheme = 'blue',
 }) {
   // Render
   return (
@@ -20,7 +21,7 @@ function ConfirmModal({
 
       <ModalFooter justifyContent="center" gap={2}>
         <Button
-          colorScheme="blue"
+          colorScheme={colorScheme}
           onClick={onClick}
           isLoading={isLoading}
           disabled={disabled}

@@ -2,6 +2,7 @@ import {
   Box,
   Button,
   Checkbox,
+  Code,
   HStack,
   Modal,
   ModalOverlay,
@@ -16,11 +17,12 @@ import FilteredFiles from './FilteredFiles';
 import useWorkspaceStore from '@/store/useWorkspaceStore';
 import useFileStore from '@/store/useFileStore';
 import { useEffect, useState } from 'react';
-import useDeployment from '@/store/useDeployment';
-import InfoModal from './InfoModal';
+import useDeploymentStore from '@/store/useDeploymentStore';
 import useEditorStore from '@/store/useEditorStore';
 import parseComments from '@/utils/parseComments';
 import minima from '@/lib/minima';
+import { LuFileCode2 } from 'react-icons/lu';
+import ConfirmModal from './ConfirmModal';
 
 // Util component
 function CheckboxOption({
@@ -53,6 +55,30 @@ function CheckboxOption({
     </Tooltip>
   );
 }
+function OverviewItem({ children, title, h = 'auto', className = '' }: any) {
+  return (
+    <VStack w="100%" gap={0.5}>
+      <Text w="100%" as="h3" pl={1} fontSize="xs" textTransform="uppercase">
+        {title}
+      </Text>
+
+      <Box bg="gray.900" w="100%" p={2} pb={0.5} borderRadius="md">
+        <Code
+          as="pre"
+          w="100%"
+          bg="transparent"
+          color="gray.500"
+          overflow="auto"
+          whiteSpace="pre-wrap"
+          h={h}
+          className={className}
+        >
+          {children}
+        </Code>
+      </Box>
+    </VStack>
+  );
+}
 
 // Deploy panel component
 function Deploy() {
@@ -66,9 +92,10 @@ function Deploy() {
   const code = useEditorStore((state) => state.code);
   const currentWorkspace = useWorkspaceStore((state) => state.currentWorkspace);
   const currentFile = useFileStore((state) => state.currentFile);
-  const deployedScripts = useDeployment((state) => state.deployedScripts);
-  const getAllScripts = useDeployment((state) => state.getAllScripts);
-  const deployScript = useDeployment((state) => state.deployScript);
+  const deployedScripts = useDeploymentStore((state) => state.deployedScripts);
+  const getAllScripts = useDeploymentStore((state) => state.getAllScripts);
+  const deployScript = useDeploymentStore((state) => state.deployScript);
+  const removeScript = useDeploymentStore((state) => state.removeScript);
 
   // Define state
   const [trackall, setTrackall] = useState(false);
@@ -77,12 +104,35 @@ function Deploy() {
 
   // Define handlers
   async function handleDeploy() {
-    if (!currentWorkspace || !currentFile || !code) {
+    if (!currentWorkspace || !currentFile) {
+      toast({
+        title: 'No workspace or file selected!',
+        status: 'warning',
+        duration: 6000,
+        isClosable: true,
+      });
+      return;
+    }
+
+    if (!currentFile.endsWith('.kvm')) {
+      toast({
+        title: 'Only .kvm files can be deployed!',
+        description: 'Please select a .kvm file',
+        status: 'warning',
+        duration: 6000,
+        isClosable: true,
+      });
       return;
     }
 
     // Check for code in the editor
     if (!code) {
+      toast({
+        title: 'No code in the editor!',
+        status: 'warning',
+        duration: 6000,
+        isClosable: true,
+      });
       return;
     }
 
@@ -215,62 +265,143 @@ function Deploy() {
           </Box>
         </HStack>
 
-        <VStack
-          w="100%"
-          flexGrow="1"
-          maxH="26.65rem"
-          borderTop="1px solid"
-          borderLeft="1px solid"
-          borderBottom="1px solid"
-          borderColor="gray.700"
-          p={1}
-          gap={0.5}
-          overflowY="scroll"
-          className="alt-scrollbar"
-        >
-          {deployedScripts.length > 0 ? (
-            <>
-              {deployedScripts.map((script: any, index) => (
-                <Text
-                  key={index}
+        {deployedScripts.length > 0 ? (
+          <VStack
+            w="100%"
+            flexGrow="1"
+            maxH="26.65rem"
+            borderTop="1px solid"
+            borderLeft="1px solid"
+            borderBottom="1px solid"
+            borderColor="gray.700"
+            p={1}
+            gap={0.5}
+            overflowY="scroll"
+            className="alt-scrollbar"
+          >
+            {deployedScripts.map((script: any, index) => (
+              <Box
+                key={index}
+                w="100%"
+                cursor="pointer"
+                minH="fit-content"
+                color="gray.500"
+                isTruncated
+                onClick={() => {
+                  setActiveScript(script);
+                  onOpen();
+                }}
+                _hover={{ bg: 'gray.700' }}
+                px={1}
+              >
+                <HStack
                   w="100%"
-                  cursor="pointer"
-                  minH="fit-content"
+                  borderRadius={0}
+                  border="1px solid"
+                  borderColor="transparent"
+                  justifyContent="space-between"
+                  gap={0}
                   color="gray.500"
-                  isTruncated
-                  onClick={() => {
-                    setActiveScript(script);
-                    onOpen();
-                  }}
-                  _hover={{ bg: 'gray.700' }}
-                  px={1}
+                  bg="transparent"
                 >
-                  {script.address}
-                </Text>
-              ))}
-            </>
-          ) : (
-            <Text w="100%" color="gray.500">
-              No deployed scripts
-            </Text>
-          )}
-        </VStack>
+                  <Text
+                    w="100%"
+                    display="flex"
+                    gap={1}
+                    alignItems="center"
+                    isTruncated
+                  >
+                    <Box as="span">
+                      <LuFileCode2 />
+                    </Box>
+
+                    <Text as="span" isTruncated>
+                      {script.address}
+                    </Text>
+                  </Text>
+                </HStack>
+              </Box>
+            ))}
+          </VStack>
+        ) : (
+          <Text w="100%" color="gray.500">
+            No deployed scripts
+          </Text>
+        )}
       </VStack>
 
       <Modal isOpen={isOpen} onClose={onClose} isCentered>
         <ModalOverlay />
 
-        <InfoModal title="Script Details" onClose={onClose}>
-          <Text>Address: {activeScript?.address}</Text>
-          <Text>MxAddress: {activeScript?.miniaddress}</Text>
-          <Text>PublicKey: {activeScript?.publickey}</Text>
-          <Text>Default: {activeScript?.default ? 'true' : 'false'}</Text>
-          <Text>Simple: {activeScript?.simple ? 'true' : 'false'}</Text>
-          <Text>Track: {activeScript?.track ? 'true' : 'false'}</Text>
-          <Text border="1px solid" borderColor="gray.700" px={2} py={1}>
-            {activeScript?.script}
-          </Text>
-        </InfoModal>
+        <ConfirmModal
+          title="Script Details"
+          buttonLabel="Delete"
+          colorScheme="red"
+          onClose={onClose}
+          onClick={() => {
+            removeScript(activeScript?.address);
+            toast({
+              title: 'Script deletion pending',
+              description:
+                'A script deletion request is pending. Please go to the "Pending" dapp to view the request.',
+              status: 'warning',
+              duration: 9000,
+              isClosable: true,
+            });
+          }}
+          disabled={activeScript?.default}
+        >
+          <VStack w="100%">
+            <HStack gap={4} bg="gray.900" px={2} py={1} borderRadius="md">
+              <Checkbox
+                cursor="default"
+                size="sm"
+                colorScheme="blue"
+                borderColor="gray.500"
+                _checked={{ color: 'blue.500' }}
+                isChecked={activeScript?.default}
+              >
+                Default
+              </Checkbox>
+
+              <Checkbox
+                cursor="default"
+                size="sm"
+                colorScheme="blue"
+                borderColor="gray.500"
+                _checked={{ color: 'blue.500' }}
+                isChecked={activeScript?.simple}
+              >
+                Simple
+              </Checkbox>
+
+              <Checkbox
+                cursor="default"
+                size="sm"
+                colorScheme="blue"
+                borderColor="gray.500"
+                _checked={{ color: 'blue.500' }}
+                isChecked={activeScript?.track}
+              >
+                Track
+              </Checkbox>
+            </HStack>
+
+            <OverviewItem title="Address">{activeScript?.address}</OverviewItem>
+
+            <OverviewItem title="MxAddress">
+              {activeScript?.miniaddress}
+            </OverviewItem>
+
+            <OverviewItem title="Public Key">
+              {activeScript?.publickey}
+            </OverviewItem>
+
+            <OverviewItem title="Script" h={24} className="scrollbar">
+              {activeScript?.script}
+            </OverviewItem>
+          </VStack>
+        </ConfirmModal>
       </Modal>
     </>
   );
