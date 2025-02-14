@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-// import useFileStore from './useFileStore';
+import useFileStore from './useFileStore';
 import minima from '@/lib/minima';
 import useWorkspaceStore from './useWorkspaceStore';
 // import isImageFileName from '@/utils/isImageFileName';
@@ -9,6 +9,9 @@ import useWorkspaceStore from './useWorkspaceStore';
 export interface ILivePreviewStore {
   livePreview: string;
   setLivePreview: (livePreview: string) => void;
+
+  liveURL: string;
+  setLiveURL: (liveURL: string) => void;
 
   showPreview: boolean;
   setShowPreview: (showPreview: boolean) => void;
@@ -22,9 +25,12 @@ export interface ILivePreviewStore {
 }
 
 // Create the store
-export const useLivePreviewStore = create<ILivePreviewStore>((set) => ({
+export const useLivePreviewStore = create<ILivePreviewStore>((set, get) => ({
   livePreview: '',
   setLivePreview: (livePreview: string) => set({ livePreview }),
+
+  liveURL: (window as any).DEBUG_MINIDAPPID || '',
+  setLiveURL: (liveURL: string) => set({ liveURL }),
 
   showPreview: false,
   setShowPreview: (showPreview: boolean) => set({ showPreview }),
@@ -361,17 +367,111 @@ export const useLivePreviewStore = create<ILivePreviewStore>((set) => ({
       return;
     }
 
+    await minima.file.delete(`livepreview/${currentWorkspace}`);
     await minima.file.deletefromweb(`livepreview/${currentWorkspace}`);
-    set({ livePreview: '' });
 
     const timestamp = Date.now();
-    await minima.file.copytoweb(
+    await minima.file.copy(
       `workspaces/${currentWorkspace}`,
       `livepreview/${currentWorkspace}/${timestamp}`
     );
 
+    let indexHtml = (
+      await minima.file.load(
+        `livepreview/${currentWorkspace}/${timestamp}/index.html`
+      )
+    ).response.load.data;
+
+    const files = useFileStore.getState().files;
+    if (files) {
+      // If mds.js exists, rename it to mds-lp.js
+      // This is to fix an issue where another version of mds.js had priority
+      // By changing the name, we ensure that the live preview prioritize the
+      // local mds.js file over the server one
+      if (files.includes('mds.js')) {
+        await minima.file.move(
+          `livepreview/${currentWorkspace}/${timestamp}/mds.js`,
+          `livepreview/${currentWorkspace}/${timestamp}/mds-lp.js`
+        );
+
+        for (const file of files) {
+          if (file === 'index.html') {
+            indexHtml = indexHtml.replace('/mds.js', '/mds-lp.js');
+            continue;
+          }
+
+          if (file.endsWith('.html')) {
+            let data = (
+              await minima.file.load(
+                `livepreview/${currentWorkspace}/${timestamp}/${file}`
+              )
+            ).response.load.data;
+            data = data.replace('/mds.js', '/mds-lp.js');
+
+            await minima.file.save(
+              `livepreview/${currentWorkspace}/${timestamp}/${file}`,
+              data
+            );
+          }
+        }
+      }
+
+      // If debug.conf exists, inject debug settings
+      // Need to use <!-- mds-debug --> in html document to inject the debug settings
+      if (files.includes('debug.conf')) {
+        const conf = (
+          await minima.file.load(`workspaces/${currentWorkspace}/debug.conf`)
+        ).response.load.data;
+        const json = JSON.parse(conf);
+        // console.log(json);
+
+        const debug = `
+        <script>
+          var DEBUG = "${json.debug}" === 'true';
+          var DEBUG_HOST = "${json.host}";
+          var DEBUG_PORT = "${json.port}";
+          var DEBUG_UID = "${json.uid}";
+        </script>
+      `;
+
+        for (const file of files) {
+          if (file === 'index.html') {
+            indexHtml = indexHtml.replace(/<!--\s*mds-debug\s*-->/, debug);
+            continue;
+          }
+
+          if (file.endsWith('.html')) {
+            let data = (
+              await minima.file.load(
+                `livepreview/${currentWorkspace}/${timestamp}/${file}`
+              )
+            ).response.load.data;
+            data = data.replace(/<!--\s*mds-debug\s*-->/, debug);
+
+            await minima.file.save(
+              `livepreview/${currentWorkspace}/${timestamp}/${file}`,
+              data
+            );
+          }
+        }
+      }
+    }
+
+    // Update the changes made to index.html
+    await minima.file.save(
+      `livepreview/${currentWorkspace}/${timestamp}/index.html`,
+      indexHtml
+    );
+
+    // Copy files to web folder for live preview
+    await minima.file.copytoweb(
+      `livepreview/${currentWorkspace}/${timestamp}`,
+      `livepreview/${currentWorkspace}/${timestamp}`
+    );
+
+    // Update the live preview URL
     const host = (window as any).MDS.filehost || '';
-    const apid = (window as any).DEBUG_MINIDAPPID || '';
+    const apid = get().liveURL || '';
 
     set({
       livePreview: `${host}/${apid}/livepreview/${currentWorkspace}/${timestamp}/index.html`,

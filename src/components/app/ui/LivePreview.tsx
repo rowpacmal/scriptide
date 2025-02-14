@@ -1,6 +1,6 @@
 import useFileStore from '@/store/useFileStore';
 import useLivePreviewStore from '@/store/useLivePreviewStore';
-import { Box, Button, HStack, Text, VStack } from '@chakra-ui/react';
+import { Box, Button, HStack, Input, Text, VStack } from '@chakra-ui/react';
 import { useState, useEffect } from 'react';
 import { LuRotateCw, LuX } from 'react-icons/lu';
 
@@ -16,6 +16,8 @@ function LivePreview() {
   );
   const setShowPreview = useLivePreviewStore((state) => state.setShowPreview);
   const files = useFileStore((state) => state.files);
+  const liveURL = useLivePreviewStore((state) => state.liveURL);
+  const setLiveURL = useLivePreviewStore((state) => state.setLiveURL);
 
   useEffect(() => {
     if (!files) {
@@ -89,9 +91,18 @@ function LivePreview() {
         borderBottom="1px solid"
         borderColor="gray.700"
       >
-        <Text as="h3" fontSize="xs" color="gray.500" textTransform="uppercase">
+        {/* <Text as="h3" fontSize="xs" color="gray.500" textTransform="uppercase">
           Live Preview
-        </Text>
+        </Text> */}
+
+        <Input
+          size="xs"
+          bg="gray.800"
+          color="gray.50"
+          borderColor="gray.700"
+          value={liveURL}
+          onChange={(e) => setLiveURL(e.target.value)}
+        />
 
         <HStack gap={0}>
           <Button
