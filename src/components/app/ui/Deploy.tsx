@@ -12,7 +12,7 @@ import {
   VStack,
 } from '@chakra-ui/react';
 import Workspace from './Workspace';
-import Files from './Files';
+import FilteredFiles from './FilteredFiles';
 import useWorkspaceStore from '@/store/useWorkspaceStore';
 import useFileStore from '@/store/useFileStore';
 import { useEffect, useState } from 'react';
@@ -180,11 +180,11 @@ function Deploy() {
             Scripts
           </Text>
 
-          <Files />
+          <FilteredFiles extension=".kvm" />
         </VStack>
 
         <HStack w="100%" gap={1} px={1} justify="space-between">
-          <HStack w="100%" gap={4}>
+          <HStack w="100%" rowGap={0} columnGap={4} flexWrap="wrap">
             <CheckboxOption
               label="ON will track all coins with this script address. OFF will only track coins with this script address that are relevant to you."
               onChange={() => setTrackall(!trackall)}
