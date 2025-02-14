@@ -1,10 +1,29 @@
 import useFileStore from '@/store/useFileStore';
 import useLivePreviewStore from '@/store/useLivePreviewStore';
-import { Box, Button, HStack, Input, Text, VStack } from '@chakra-ui/react';
-import { useState, useEffect } from 'react';
-import { LuRotateCw, LuX } from 'react-icons/lu';
+import {
+  Box,
+  Button,
+  HStack,
+  Input,
+  InputGroup,
+  InputLeftAddon,
+  InputRightAddon,
+  Popover,
+  PopoverArrow,
+  PopoverBody,
+  PopoverCloseButton,
+  PopoverContent,
+  PopoverHeader,
+  PopoverTrigger,
+  Text,
+  Tooltip,
+  VStack,
+} from '@chakra-ui/react';
+import { useState, useEffect, useRef } from 'react';
+import { LuRotateCw, LuSettings2, LuX } from 'react-icons/lu';
 
 function LivePreview() {
+  const iframeRef = useRef<HTMLIFrameElement | null>(null);
   const [previewURL, setPreviewURL] = useState('');
 
   // Define store
@@ -82,62 +101,186 @@ function LivePreview() {
     setPreviewURL(livePreview);
   }, [livePreview]);
 
+  const handleIframeLoad = () => {
+    console.log('iframe loaded');
+    if (iframeRef.current) {
+      // const iframe = iframeRef.current;
+      // console.log(iframe.contentDocument?.URL);
+    }
+  };
+
   return (
     <VStack w="100%" h="100%" fontSize="sm" gap={0}>
       <HStack
         w="100%"
         justify="space-between"
-        pl={2}
         borderBottom="1px solid"
         borderColor="gray.700"
+        gap={0}
       >
-        {/* <Text as="h3" fontSize="xs" color="gray.500" textTransform="uppercase">
-          Live Preview
-        </Text> */}
+        <HStack w="100%" gap={0}>
+          <Box borderRight="1px solid" borderColor="gray.700">
+            <Popover placement="top" isLazy>
+              <PopoverTrigger>
+                <Box>
+                  <Tooltip label="Settings" placement="bottom" hasArrow>
+                    <Button
+                      size="sm"
+                      bg="transparent"
+                      color="gray.500"
+                      p={0}
+                      _hover={{ bg: 'transparent', color: 'gray.50' }}
+                      _active={{
+                        bg: 'transparent',
+                      }}
+                    >
+                      <LuSettings2 />
+                    </Button>
+                  </Tooltip>
+                </Box>
+              </PopoverTrigger>
 
-        <Input
-          size="xs"
-          bg="gray.800"
-          color="gray.50"
-          borderColor="gray.700"
-          value={liveURL}
-          onChange={(e) => setLiveURL(e.target.value)}
-        />
+              <PopoverContent
+                color="gray.500"
+                bg="gray.800"
+                borderColor="gray.700"
+              >
+                <PopoverArrow bg="gray.800" shadowColor="gray.700" />
+
+                <PopoverCloseButton />
+
+                <PopoverHeader borderColor="gray.700">
+                  Live Preview
+                </PopoverHeader>
+
+                <PopoverBody>
+                  <VStack w="100%" gap={1}>
+                    <VStack w="100%" gap={0}>
+                      <InputGroup size="xs">
+                        <InputLeftAddon
+                          bg="transparent"
+                          borderColor="gray.700"
+                          textTransform="uppercase"
+                        >
+                          Dapp ID
+                        </InputLeftAddon>
+
+                        <Input
+                          bg="gray.900"
+                          color="gray.50"
+                          borderColor="gray.700"
+                          placeholder="Enter Dapp ID here"
+                          _placeholder={{ color: 'gray.700' }}
+                          value={liveURL}
+                          onChange={(e) => setLiveURL(e.target.value)}
+                          onBlur={refreshLivePreview}
+                        />
+
+                        <InputRightAddon
+                          bg="transparent"
+                          borderColor="gray.700"
+                          p={0}
+                        >
+                          <Tooltip
+                            label="Reset default"
+                            placement="bottom"
+                            hasArrow
+                          >
+                            <Button
+                              size="sm"
+                              minW="auto"
+                              bg="transparent"
+                              color="gray.500"
+                              p={1}
+                              _hover={{ bg: 'transparent', color: 'gray.50' }}
+                              _active={{
+                                bg: 'transparent',
+                              }}
+                              onClick={() => {
+                                setLiveURL(
+                                  (window as any).DEBUG_MINIDAPPID ||
+                                    window.location.href.split('/')[3]
+                                );
+                                refreshLivePreview();
+                              }}
+                            >
+                              <LuRotateCw />
+                            </Button>
+                          </Tooltip>
+                        </InputRightAddon>
+                      </InputGroup>
+                    </VStack>
+                  </VStack>
+                </PopoverBody>
+              </PopoverContent>
+            </Popover>
+          </Box>
+
+          <Box w="100%" px={2}>
+            <Tooltip label="Base source" placement="bottom" hasArrow>
+              <Input
+                size="xs"
+                bg="gray.800"
+                color="gray.50"
+                borderColor="gray.700"
+                value={previewURL}
+                onChange={(e) => setPreviewURL(e.target.value)}
+              />
+            </Tooltip>
+          </Box>
+        </HStack>
 
         <HStack gap={0}>
-          <Button
-            p={0}
-            size="sm"
-            bg="transparent"
-            color="gray.500"
-            _hover={{ bg: 'transparent', color: 'gray.50' }}
-            onClick={refreshLivePreview}
-          >
-            <LuRotateCw size={20} />
-          </Button>
+          <Box borderLeft="1px solid" borderColor="gray.700">
+            <Tooltip label="Refresh" placement="bottom" hasArrow>
+              <Button
+                size="sm"
+                bg="transparent"
+                color="gray.500"
+                p={0}
+                _hover={{ bg: 'transparent', color: 'gray.50' }}
+                _active={{
+                  bg: 'transparent',
+                }}
+                onClick={refreshLivePreview}
+              >
+                <LuRotateCw />
+              </Button>
+            </Tooltip>
+          </Box>
 
-          <Button
-            p={0}
-            size="sm"
-            bg="transparent"
-            color="gray.500"
-            _hover={{ bg: 'transparent', color: 'gray.50' }}
-            onClick={() => {
-              setShowPreview(false);
-              setLivePreview('');
-            }}
-          >
-            <LuX size={20} />
-          </Button>
+          <Box borderLeft="1px solid" borderColor="gray.700">
+            <Tooltip label="Close" placement="bottom" hasArrow>
+              <Button
+                size="sm"
+                bg="transparent"
+                color="gray.500"
+                p={0}
+                _hover={{ bg: 'transparent', color: 'gray.50' }}
+                _active={{
+                  bg: 'transparent',
+                }}
+                onClick={() => {
+                  setShowPreview(false);
+                  setLivePreview('');
+                }}
+              >
+                <LuX />
+              </Button>
+            </Tooltip>
+          </Box>
         </HStack>
       </HStack>
 
       {previewURL ? (
         <iframe
+          ref={iframeRef}
           src={previewURL}
           width="100%"
           height="100%"
           style={{ backgroundColor: 'white' }}
+          sandbox="allow-scripts allow-same-origin"
+          onLoad={handleIframeLoad}
         />
       ) : (
         <Box

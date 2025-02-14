@@ -29,7 +29,10 @@ export const useLivePreviewStore = create<ILivePreviewStore>((set, get) => ({
   livePreview: '',
   setLivePreview: (livePreview: string) => set({ livePreview }),
 
-  liveURL: (window as any).DEBUG_MINIDAPPID || '',
+  liveURL:
+    (window as any).DEBUG_MINIDAPPID ||
+    window.location.href.split('/')[3] ||
+    '0x00',
   setLiveURL: (liveURL: string) => set({ liveURL }),
 
   showPreview: false,
@@ -472,9 +475,10 @@ export const useLivePreviewStore = create<ILivePreviewStore>((set, get) => ({
     // Update the live preview URL
     const host = (window as any).MDS.filehost || '';
     const apid = get().liveURL || '';
+    const livePreview = `${host}${apid}/livepreview/${currentWorkspace}/${timestamp}/index.html`;
 
     set({
-      livePreview: `${host}/${apid}/livepreview/${currentWorkspace}/${timestamp}/index.html`,
+      livePreview,
     });
   },
 }));
