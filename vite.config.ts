@@ -44,7 +44,13 @@ export default ({ mode }) => {
       {
         name: 'copy-changelog',
         closeBundle() {
-          copyFileSync('CHANGELOGS.md', 'build/CHANGELOGS.md');
+          try {
+            copyFileSync('CHANGELOG.md', 'build/CHANGELOG.md');
+          } catch (error) {
+            console.warn(
+              'Could not copy CHANGELOG.md, please check that it exists in the root directory'
+            );
+          }
         },
       },
     ],
