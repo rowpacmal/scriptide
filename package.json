@@ -4,7 +4,7 @@
   "author": "rowpacmal-minima",
   "license": "MIT",
   "private": true,
-  "version": "3.1.0",
+  "version": "3.2.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
