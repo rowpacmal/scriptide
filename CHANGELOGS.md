@@ -21,3 +21,10 @@
 ##### [3.0.4] - February 6, 2025
 
 - Resolved an issue where the `@ADDRESS` global variable was not being set correctly.
+
+##### [3.1.0] - February 14, 2025
+
+- Added a Live Preview Panel/Window for real-time HTML rendering. To use debug settings for the MDS, create a `debug.conf` file containing `{ "debug": "...", "host": "...", "port": "...", "uid": "..." }` (change the values as needed). This file will be automatically inserted into the HTML for live preview.
+- Added Import/Export Workspaces functionality. Workspaces can now be exported as `.zip` files, including an installable `mds.zip` package.
+- Introduced a Script Deployment Panel for easier script management and deployment.
+- Image files will now open in a preview mode instead of launching the editor.
