@@ -8,6 +8,7 @@ import isImageFile from '@/utils/isImageFile';
 // Import stores
 import useEditorStore from './useEditorStore';
 import useWorkspaceStore from './useWorkspaceStore';
+import listAllFiles from '@/utils/listAllFiles';
 
 // Types for the store
 type TCurrentFile = string | null;
@@ -16,6 +17,8 @@ type TCurrentFile = string | null;
 interface IFileStore {
   files: string[];
   setFiles: (files: string[]) => void;
+
+  allFiles: string[];
 
   refreshFiles: (workspace: string) => Promise<void>;
   addFile: (newFile: string) => Promise<void>;
@@ -34,10 +37,51 @@ const useFileStore = create<IFileStore>((set, get) => ({
   files: [],
   setFiles: (files) => set({ files }),
 
+  allFiles: [],
+
   refreshFiles: async (workspace: string) => {
     const files: string[] = await getFiles(`workspaces/${workspace}`);
-
     set({ files });
+
+    const allFiles = await listAllFiles(workspace);
+    // console.log(allFiles);
+
+    const explorer: any = [];
+
+    for (const file of allFiles) {
+      const parent = file.location.split('/').splice(3);
+      let currentLevel = explorer;
+
+      for (let i = 0; i < parent.length; i++) {
+        const key = parent[i];
+
+        if (key === file.name && file.isfile) {
+          continue;
+        }
+
+        let indexOf = currentLevel.findIndex((f: any) => f.name === key);
+
+        if (indexOf === -1) {
+          currentLevel.push({
+            name: key,
+            _children: [],
+            isfile: false,
+          });
+
+          indexOf = currentLevel.length - 1;
+        }
+
+        currentLevel = currentLevel[indexOf]._children;
+      }
+
+      if (file.isfile) {
+        currentLevel.push(file);
+      }
+    }
+
+    // console.log(explorer);
+
+    set({ allFiles: explorer });
   },
   addFile: async (newFile: string) => {
     const currentWorkspace = useWorkspaceStore.getState().currentWorkspace;
