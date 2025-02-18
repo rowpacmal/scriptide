@@ -1,3 +1,4 @@
+import useFileStore from '@/store/useFileStore';
 import { Input } from '@chakra-ui/react';
 import { useEffect, useRef } from 'react';
 
@@ -6,16 +7,19 @@ function FileInput({ value, onBlur, onChange, onKeyDown }) {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const inputRef: any = useRef(null);
 
+  // Define store
+  const isFolder = useFileStore((state) => state.isFolder);
+
   // Define effect
   useEffect(() => {
     if (inputRef.current) {
       inputRef.current.focus();
 
       if (value || value.length > 0) {
-        const fileName = value.split('.');
-        fileName.pop();
+        let selection = value.split('.');
+        selection.pop();
 
-        const selection = fileName.join('.').length;
+        selection = selection.join('.').length;
         inputRef.current.setSelectionRange(0, selection);
       }
     }
@@ -25,7 +29,7 @@ function FileInput({ value, onBlur, onChange, onKeyDown }) {
   return (
     <Input
       ref={inputRef}
-      placeholder="New_File.kvm"
+      placeholder={isFolder ? 'New_Folder' : 'New_File.kvm'}
       bg="gray.800"
       size="xs"
       border="1px solid"

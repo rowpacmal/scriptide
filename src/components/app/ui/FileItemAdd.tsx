@@ -13,8 +13,11 @@ function FileItemAdd() {
   // Define store
   const files = useFileStore((state) => state.files);
   const addFile = useFileStore((state) => state.addFile);
+  const addFolder = useFileStore((state) => state.addFolder);
   const setIsAddingFile = useFileStore((state) => state.setIsAddingFile);
   const currentFolder = useFileStore((state) => state.currentFolder);
+  const isFolder = useFileStore((state) => state.isFolder);
+  const setIsFolder = useFileStore((state) => state.setIsFolder);
 
   return (
     <FileInput
@@ -27,7 +30,9 @@ function FileItemAdd() {
 
           if (name.length === 0) {
             toast({
-              title: 'File name cannot be empty.',
+              title: isFolder
+                ? 'Folder name cannot be empty.'
+                : 'File name cannot be empty.',
               status: 'warning',
               duration: 3000,
               isClosable: true,
@@ -35,17 +40,21 @@ function FileItemAdd() {
             return;
           }
 
-          if (!name.includes('.')) {
-            name += '.kvm';
-          } else if (name.endsWith('.')) {
-            name += 'kvm';
+          if (!isFolder) {
+            if (!name.includes('.')) {
+              name += '.kvm';
+            } else if (name.endsWith('.')) {
+              name += 'kvm';
+            }
           }
 
-          const newFile = name.split(' ').join('_');
+          name = name.split(' ').join('_');
 
-          if (files.includes(newFile)) {
+          if (files.includes(name)) {
             toast({
-              title: 'File name already exists.',
+              title: isFolder
+                ? 'Folder already exists.'
+                : 'File already exists.',
               status: 'warning',
               duration: 3000,
               isClosable: true,
@@ -53,9 +62,15 @@ function FileItemAdd() {
             return;
           }
 
-          addFile(`${currentFolder}/${newFile}`);
+          if (isFolder) {
+            addFolder(`${currentFolder}/${name}`);
+          } else {
+            addFile(`${currentFolder}/${name}`);
+          }
+
           setFileName('');
           setIsAddingFile(false);
+          setIsFolder(null);
         }
       }}
     />

@@ -22,6 +22,7 @@ interface IFileStore {
 
   refreshFiles: (workspace: string, loader?: boolean) => Promise<void>;
   addFile: (path: string) => Promise<void>;
+  addFolder: (path: string) => Promise<void>;
   renameFile: (oldFile: string, newFile: string) => Promise<void>;
   saveFile: () => Promise<void>;
   loadFile: (path: string) => Promise<void>;
@@ -37,6 +38,8 @@ interface IFileStore {
   setIsLoadingFiles: (isLoadingFiles: boolean) => void;
   isAddingFile: boolean;
   setIsAddingFile: (isAddingFile: boolean) => void;
+  isFolder: boolean | null;
+  setIsFolder: (isFolder: boolean | null) => void;
 }
 
 // Create the store
@@ -116,6 +119,21 @@ const useFileStore = create<IFileStore>((set, get) => ({
     set({ currentFile: path });
     useEditorStore.setState({ code: '' });
   },
+
+  addFolder: async (path: string) => {
+    const currentWorkspace = useWorkspaceStore.getState().currentWorkspace;
+
+    if (!currentWorkspace) {
+      return;
+    }
+
+    await minima.file.makedir(path);
+
+    get().refreshFiles(currentWorkspace, false);
+    set({ currentFile: path });
+    useEditorStore.setState({ code: '' });
+  },
+
   renameFile: async (oldFile: string, newFile: string) => {
     const currentWorkspace = useWorkspaceStore.getState().currentWorkspace;
 
@@ -208,6 +226,8 @@ const useFileStore = create<IFileStore>((set, get) => ({
   setIsLoadingFiles: (isLoadingFiles) => set({ isLoadingFiles }),
   isAddingFile: false,
   setIsAddingFile: (isAddingFile) => set({ isAddingFile }),
+  isFolder: null,
+  setIsFolder: (isFolder: boolean | null) => set({ isFolder }),
 }));
 
 // Export the store

@@ -68,6 +68,7 @@ function FilesMenu() {
   const currentWorkspace = useWorkspaceStore((state) => state.currentWorkspace);
   const currentFolder = useFileStore((state) => state.currentFolder);
   const setCurrentFolder = useFileStore((state) => state.setCurrentFolder);
+  const setIsFolder = useFileStore((state) => state.setIsFolder);
 
   // Define state
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -82,6 +83,7 @@ function FilesMenu() {
             label="Create new file"
             onClick={() => {
               if (!isAddingFile) {
+                setIsFolder(false);
                 setIsAddingFile(true);
               }
 
@@ -89,13 +91,24 @@ function FilesMenu() {
                 setCurrentFolder(`/workspaces/${currentWorkspace}`);
               }
             }}
-            disabled={files.length >= 30} // Increased limit from 8 to 30 (greater than this causes lag)
           >
             <LuFilePlus size={ICON_SIZE} />
           </FilesMenuItem>
 
           {/* TODO - Add folder support */}
-          <FilesMenuItem label="Create new folder" onClick={() => {}} disabled>
+          <FilesMenuItem
+            label="Create new folder"
+            onClick={() => {
+              if (!isAddingFile) {
+                setIsFolder(true);
+                setIsAddingFile(true);
+              }
+
+              if (!currentFolder) {
+                setCurrentFolder(`/workspaces/${currentWorkspace}`);
+              }
+            }}
+          >
             <LuFolderPlus size={ICON_SIZE} />
           </FilesMenuItem>
 
