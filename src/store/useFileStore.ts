@@ -147,25 +147,17 @@ const useFileStore = create<IFileStore>((set, get) => ({
       useEditorStore.getState().code
     );
   },
-  loadFile: async (file: string) => {
-    if (!file) {
+  loadFile: async (path: string) => {
+    if (!path) {
       return;
     }
 
-    if (isImageFile(file)) {
+    if (isImageFile(path)) {
       useEditorStore.setState({ code: null });
       return;
     }
 
-    const currentWorkspace = useWorkspaceStore.getState().currentWorkspace;
-
-    if (!currentWorkspace || !file) {
-      return;
-    }
-
-    const code = (
-      await minima.file.load(`workspaces/${currentWorkspace}/${file}`)
-    ).response.load.data;
+    const code = (await minima.file.load(path)).response.load.data;
 
     useEditorStore.setState({ code });
   },

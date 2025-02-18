@@ -25,8 +25,7 @@ import useWorkspaceStore from '@/store/useWorkspaceStore';
 import FileItemRename from './FileItemRename';
 
 // Constants (for debugging)
-const MINIDAPP_ID =
-  '0x07FB9BDF032652AFEE6659B348FBE362F6DE60FC1C7BCD962211436E35E316FD';
+const MINIDAPP_ID = (window as any).DEBUG_MINIDAPPID;
 
 // File item context menu component
 function FileItemContextMenu({ file, setRenamingFile }) {
@@ -169,6 +168,7 @@ function FileItem({ children, file, onClick, isActive = false }) {
           cursor="pointer"
           w="100%"
           _hover={{ bg: 'gray.800', color: 'gray.50' }}
+          borderRadius="sm"
         >
           <Menu isOpen={isOpen} onClose={onClose} placement="bottom-start">
             <MenuButton
@@ -179,7 +179,7 @@ function FileItem({ children, file, onClick, isActive = false }) {
             >
               <HStack
                 w="100%"
-                borderRadius={0}
+                borderRadius="sm"
                 border="1px solid"
                 borderColor={
                   isOpen ? (isActive ? 'blue.500' : 'gray.700') : 'transparent'

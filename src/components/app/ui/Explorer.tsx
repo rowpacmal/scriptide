@@ -7,22 +7,17 @@ import { useEffect, useState } from 'react';
 import useFileStore from '@/store/useFileStore';
 import useWorkspaceStore from '@/store/useWorkspaceStore';
 // Import components
-// import FileItem from './FileItem';
 import FilesMenu from './FilesMenu';
 import Workspace from './Workspace';
 import WorkspaceMenu from './WorkspaceMenu';
 import FileItemAdd from './FileItemAdd';
 import { LuArchive } from 'react-icons/lu';
-import FileTreeItem from './FileTreeItem';
+import { FileTree } from './FileTree';
 
 // File explorer component
 function Explorer() {
   // Define stores
-  const files = useFileStore((state) => state.files);
   const allFiles = useFileStore((state) => state.allFiles);
-  const currentFile = useFileStore((state) => state.currentFile);
-  const setCurrentFile = useFileStore((state) => state.setCurrentFile);
-  const loadFile = useFileStore((state) => state.loadFile);
   const workspaces = useWorkspaceStore((state) => state.workspaces);
   const currentWorkspace = useWorkspaceStore((state) => state.currentWorkspace);
 
@@ -79,64 +74,38 @@ function Explorer() {
               className="alt-scrollbar"
               display="box"
             >
-              {/* {files.map((item: any, index: number) => (
-                <FileItem
-                  key={index}
-                  file={item}
-                  onClick={() => {
-                    setCurrentFile(item);
-                    loadFile(item);
-                  }}
-                  isActive={currentFile === item}
-                >
-                  {item}
-                </FileItem>
-              ))} */}
-
-              {/* {allFiles
-                .sort((a, b) => a.isfile - b.isfile)
-                .map((file: any, index: number) => (
-                  <AllFilesItem key={index} file={file} />
-                ))} */}
-
               <VStack w="100%" gap={0.5}>
-                <HStack w="100%" bg="purple.700" borderRadius="sm" px={2}>
-                  <LuArchive />
+                <HStack
+                  w="100%"
+                  bg="gray.800"
+                  color="gray.500"
+                  borderRadius="sm"
+                  px={2}
+                  gap={0}
+                  isTruncated
+                >
+                  <Text
+                    w="100%"
+                    display="flex"
+                    gap={1}
+                    alignItems="center"
+                    isTruncated
+                  >
+                    <Box as="span">
+                      <LuArchive />
+                    </Box>
 
-                  <Text w="100%">{currentWorkspace}</Text>
+                    <Text as="span" isTruncated>
+                      {currentWorkspace}
+                    </Text>
+                  </Text>
                 </HStack>
 
-                <Box w="100%" pl={2}>
-                  <VStack
-                    w="100%"
-                    pl={2}
-                    pb={2}
-                    borderLeft="1px solid"
-                    // borderBottom="1px solid"
-                    borderColor="purple.700"
-                    // borderEndStartRadius="md"
-                    gap={0.5}
-                  >
-                    {allFiles.length > 0 ? (
-                      <>
-                        {allFiles
-                          .sort((a, b) => a.isfile - b.isfile)
-                          .map((file, index) => (
-                            <FileTreeItem
-                              key={index}
-                              file={file}
-                              isExpanded={isExpanded}
-                              setIsExpanded={setIsExpanded}
-                            />
-                          ))}
-                      </>
-                    ) : (
-                      <Text w="100%" color="gray.700" px={2}>
-                        -- empty --
-                      </Text>
-                    )}
-                  </VStack>
-                </Box>
+                <FileTree
+                  file={allFiles}
+                  isExpanded={isExpanded}
+                  setIsExpanded={setIsExpanded}
+                />
               </VStack>
 
               {addingFile && <FileItemAdd setAddingFile={setAddingFile} />}
