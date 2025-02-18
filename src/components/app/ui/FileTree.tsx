@@ -12,9 +12,7 @@ function FileTree({ file, isExpanded, setIsExpanded }) {
         pl={2}
         pb={2}
         borderLeft="1px solid"
-        // borderBottom="1px solid"
         borderColor="gray.800"
-        // borderEndStartRadius="md"
         gap={0.5}
       >
         {file.length > 0 ? (
