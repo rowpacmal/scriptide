@@ -10,7 +10,7 @@ import useWorkspaceStore from '@/store/useWorkspaceStore';
 import FilesMenu from './FilesMenu';
 import Workspace from './Workspace';
 import WorkspaceMenu from './WorkspaceMenu';
-import { LuArchive } from 'react-icons/lu';
+import { LuArchive, LuChevronDown, LuChevronRight } from 'react-icons/lu';
 import { FileTree } from './FileTree';
 
 // File explorer component
@@ -21,12 +21,37 @@ function Explorer() {
   const currentWorkspace = useWorkspaceStore((state) => state.currentWorkspace);
   const currentFolder = useFileStore((state) => state.currentFolder);
   const setCurrentFolder = useFileStore((state) => state.setCurrentFolder);
+  const setCurrentFile = useFileStore((state) => state.setCurrentFile);
   const isLoadingFiles = useFileStore((state) => state.isLoadingFiles);
   const isAddingFile = useFileStore((state) => state.isAddingFile);
 
   // Define state
   const [isExpanded, setIsExpanded] = useState({});
 
+  // Define handlers
+  function handleExpand() {
+    const current = `/workspaces/${currentWorkspace}`;
+
+    setIsExpanded((prevState) => {
+      if (currentFolder !== current && isExpanded[current]) {
+        return prevState;
+      }
+
+      const expand = {
+        ...prevState,
+        [current]: !prevState[current],
+      };
+
+      localStorage.setItem(
+        `${currentWorkspace}-explorer-expanded`,
+        JSON.stringify(expand)
+      );
+
+      return expand;
+    });
+  }
+
+  // Define effects
   useEffect(() => {
     setIsExpanded(
       JSON.parse(
@@ -80,7 +105,7 @@ function Explorer() {
                   gap={0.5}
                   overflowY="scroll"
                   className="alt-scrollbar"
-                  display="box"
+                  // display="box"
                   onContextMenu={(e) => {
                     e.preventDefault();
                     console.log('context menu');
@@ -101,42 +126,65 @@ function Explorer() {
                       w="100%"
                       color="gray.500"
                       borderRadius="sm"
-                      px={0.5}
-                      _hover={{ bg: 'gray.800' }}
-                      isTruncated
-                      onClick={() =>
-                        setCurrentFolder(`/workspaces/${currentWorkspace}`)
+                      gap={1}
+                      _hover={{ bg: 'gray.700' }}
+                      onClick={() => {
+                        setCurrentFolder(`/workspaces/${currentWorkspace}`);
+                        handleExpand();
+                      }}
+                      onContextMenu={() =>
+                        console.log(`/workspaces/${currentWorkspace}`)
                       }
                     >
-                      <Text
-                        w="100%"
-                        display="flex"
-                        gap={1}
-                        alignItems="center"
-                        isTruncated
-                      >
-                        <Box as="span">
-                          <LuArchive />
-                        </Box>
+                      <Box>
+                        {isExpanded[`/workspaces/${currentWorkspace}`] ? (
+                          <LuChevronDown size={16} />
+                        ) : (
+                          <LuChevronRight size={16} />
+                        )}
+                      </Box>
 
-                        <Text as="span" userSelect="none" isTruncated>
-                          {currentWorkspace}
+                      <HStack w="100%" gap={0} isTruncated>
+                        <Text
+                          w="100%"
+                          display="flex"
+                          gap={1}
+                          alignItems="center"
+                          isTruncated
+                        >
+                          <Box as="span">
+                            <LuArchive />
+                          </Box>
+
+                          <Text as="span" userSelect="none" isTruncated>
+                            {currentWorkspace}
+                          </Text>
                         </Text>
-                      </Text>
+                      </HStack>
                     </HStack>
 
-                    <FileTree
-                      file={allFiles}
-                      isExpanded={isExpanded}
-                      setIsExpanded={setIsExpanded}
-                      isAddingFile={
-                        isAddingFile &&
-                        currentFolder === `/workspaces/${currentWorkspace}`
-                      }
-                    />
+                    {isExpanded[`/workspaces/${currentWorkspace}`] && (
+                      <FileTree
+                        file={allFiles}
+                        isExpanded={isExpanded}
+                        setIsExpanded={setIsExpanded}
+                        isAddingFile={
+                          isAddingFile &&
+                          currentFolder === `/workspaces/${currentWorkspace}`
+                        }
+                      />
+                    )}
                   </VStack>
 
-                  {/* <Box w="100%" minH="1rem" flexGrow="1" /> */}
+                  <Box
+                    w="100%"
+                    minH="1rem"
+                    flexGrow="1"
+                    onClick={() => {
+                      setCurrentFile(null);
+                      setCurrentFolder(null);
+                    }}
+                  />
                 </VStack>
               </VStack>
             ) : (
