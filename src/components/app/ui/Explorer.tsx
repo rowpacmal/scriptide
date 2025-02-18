@@ -12,56 +12,8 @@ import FilesMenu from './FilesMenu';
 import Workspace from './Workspace';
 import WorkspaceMenu from './WorkspaceMenu';
 import FileItemAdd from './FileItemAdd';
-import { LuFile, LuFolder } from 'react-icons/lu';
-
-// Util component
-function AllFilesItem({ file }) {
-  if (file.isfile) {
-    return (
-      <HStack w="100%" px={2}>
-        <LuFile />
-
-        <Text w="100%">{file.name}</Text>
-      </HStack>
-    );
-  } else {
-    return (
-      <Box w="100%" py={1}>
-        <HStack w="100%" bg="blue.700" borderRadius="full" px={2}>
-          <LuFolder />
-
-          <Text w="100%">{file.name}</Text>
-        </HStack>
-
-        <Box w="100%" pl={2}>
-          <Box
-            w="100%"
-            pl={1}
-            pb={1}
-            borderLeft="1px solid"
-            borderBottom="1px solid"
-            borderColor="blue.700"
-            borderEndStartRadius="md"
-          >
-            {file._children.length > 0 ? (
-              <>
-                {file._children
-                  .sort((a, b) => a.isfile - b.isfile)
-                  .map((file, index) => (
-                    <AllFilesItem key={index} file={file} />
-                  ))}
-              </>
-            ) : (
-              <Text w="100%" color="gray.700" px={2}>
-                -- empty --
-              </Text>
-            )}
-          </Box>
-        </Box>
-      </Box>
-    );
-  }
-}
+import { LuArchive } from 'react-icons/lu';
+import FileTreeItem from './FileTreeItem';
 
 // File explorer component
 function Explorer() {
@@ -76,6 +28,15 @@ function Explorer() {
 
   // Define state
   const [addingFile, setAddingFile] = useState(false);
+  const [isExpanded, setIsExpanded] = useState({});
+
+  useEffect(() => {
+    setIsExpanded(
+      JSON.parse(
+        localStorage.getItem(`${currentWorkspace}-explorer-expanded`) || '{}'
+      )
+    );
+  }, [currentWorkspace]);
 
   // Render
   return (
@@ -138,29 +99,35 @@ function Explorer() {
                   <AllFilesItem key={index} file={file} />
                 ))} */}
 
-              <Box w="100%" py={1}>
-                <HStack w="100%" bg="blue.700" borderRadius="full" px={2}>
-                  <LuFolder />
+              <VStack w="100%" gap={0.5}>
+                <HStack w="100%" bg="purple.700" borderRadius="sm" px={2}>
+                  <LuArchive />
 
                   <Text w="100%">{currentWorkspace}</Text>
                 </HStack>
 
                 <Box w="100%" pl={2}>
-                  <Box
+                  <VStack
                     w="100%"
-                    pl={1}
-                    pb={1}
+                    pl={2}
+                    pb={2}
                     borderLeft="1px solid"
-                    borderBottom="1px solid"
-                    borderColor="blue.700"
-                    borderEndStartRadius="md"
+                    // borderBottom="1px solid"
+                    borderColor="purple.700"
+                    // borderEndStartRadius="md"
+                    gap={0.5}
                   >
                     {allFiles.length > 0 ? (
                       <>
                         {allFiles
                           .sort((a, b) => a.isfile - b.isfile)
                           .map((file, index) => (
-                            <AllFilesItem key={index} file={file} />
+                            <FileTreeItem
+                              key={index}
+                              file={file}
+                              isExpanded={isExpanded}
+                              setIsExpanded={setIsExpanded}
+                            />
                           ))}
                       </>
                     ) : (
@@ -168,9 +135,9 @@ function Explorer() {
                         -- empty --
                       </Text>
                     )}
-                  </Box>
+                  </VStack>
                 </Box>
-              </Box>
+              </VStack>
 
               {addingFile && <FileItemAdd setAddingFile={setAddingFile} />}
 

@@ -62,8 +62,15 @@ const useFileStore = create<IFileStore>((set, get) => ({
         let indexOf = currentLevel.findIndex((f: any) => f.name === key);
 
         if (indexOf === -1) {
+          const find = allFiles.find((f: any) => {
+            const location = f.location.split('/').pop();
+
+            return location === key;
+          });
+          // console.log(find);
+
           currentLevel.push({
-            name: key,
+            ...find,
             _children: [],
             isfile: false,
           });
