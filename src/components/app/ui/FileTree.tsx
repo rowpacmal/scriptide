@@ -131,7 +131,7 @@ function FileTreeItem({ file, isExpanded, setIsExpanded }) {
   if (file.isfile) {
     return (
       <FileItem
-        file={file.name}
+        file={file}
         onClick={() => {
           setCurrentFolder(file.location.split('/').slice(0, -1).join('/'));
           setCurrentFile(file.location);
