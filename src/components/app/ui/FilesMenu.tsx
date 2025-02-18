@@ -10,7 +10,7 @@ import {
 import {
   LuFilePlus,
   LuTrash2,
-  // LuFolderPlus,
+  LuFolderPlus,
   LuHardDriveUpload,
 } from 'react-icons/lu';
 // Import store
@@ -18,6 +18,7 @@ import useFileStore from '@/store/useFileStore';
 import FilesDeleteAll from './FilesDeleteAll';
 import { useState } from 'react';
 import FilesUpload from './FilesUpload';
+import useWorkspaceStore from '@/store/useWorkspaceStore';
 
 // Constants
 const ICON_SIZE = 20;
@@ -56,13 +57,17 @@ function FilesMenuItem({
 }
 
 // Files menu component
-function FilesMenu({ addingFile, setAddingFile }) {
+function FilesMenu() {
   // Define disclosure
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   // Define store
   const files = useFileStore((state) => state.files);
-  // const addFile = useFileStore((state) => state.addFile); // For debugging
+  const isAddingFile = useFileStore((state) => state.isAddingFile);
+  const setIsAddingFile = useFileStore((state) => state.setIsAddingFile);
+  const currentWorkspace = useWorkspaceStore((state) => state.currentWorkspace);
+  const currentFolder = useFileStore((state) => state.currentFolder);
+  const setCurrentFolder = useFileStore((state) => state.setCurrentFolder);
 
   // Define state
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -75,11 +80,23 @@ function FilesMenu({ addingFile, setAddingFile }) {
         <HStack gap={1}>
           <FilesMenuItem
             label="Create new file"
-            // onClick={() => addFile(`New_File_${files.length}.kvm`)} // For debugging
-            onClick={() => !addingFile && setAddingFile(true)}
+            onClick={() => {
+              if (!isAddingFile) {
+                setIsAddingFile(true);
+              }
+
+              if (!currentFolder) {
+                setCurrentFolder(`/workspaces/${currentWorkspace}`);
+              }
+            }}
             disabled={files.length >= 30} // Increased limit from 8 to 30 (greater than this causes lag)
           >
             <LuFilePlus size={ICON_SIZE} />
+          </FilesMenuItem>
+
+          {/* TODO - Add folder support */}
+          <FilesMenuItem label="Create new folder" onClick={() => {}} disabled>
+            <LuFolderPlus size={ICON_SIZE} />
           </FilesMenuItem>
 
           <FilesMenuItem
@@ -103,11 +120,6 @@ function FilesMenu({ addingFile, setAddingFile }) {
         >
           <LuTrash2 size={ICON_SIZE} />
         </FilesMenuItem>
-
-        {/* TODO - Add folder support */}
-        {/* <FilesMenuItem label="Create new folder" onClick={() => {}} disabled>
-        <LuFolderPlus size={ICON_SIZE} />
-        </FilesMenuItem> */}
       </HStack>
 
       <Modal isOpen={isOpen} onClose={onClose} isCentered>

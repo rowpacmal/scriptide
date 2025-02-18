@@ -3,8 +3,9 @@ import { Box, HStack, Text, VStack } from '@chakra-ui/react';
 import { LuChevronDown, LuChevronRight, LuFolder } from 'react-icons/lu';
 import FileItem from './FileItem';
 import useFileStore from '@/store/useFileStore';
+import FileItemAdd from './FileItemAdd';
 
-function FileTree({ file, isExpanded, setIsExpanded }) {
+function FileTree({ file, isExpanded, setIsExpanded, isAddingFile }) {
   return (
     <Box w="100%" pl={2}>
       <VStack
@@ -33,6 +34,8 @@ function FileTree({ file, isExpanded, setIsExpanded }) {
             -- empty --
           </Text>
         )}
+
+        {isAddingFile && <FileItemAdd />}
       </VStack>
     </Box>
   );
@@ -42,6 +45,7 @@ function FileTreeFolder({ file, isExpanded, setIsExpanded, isActive }) {
   const currentWorkspace = useWorkspaceStore((state) => state.currentWorkspace);
   const currentFolder = useFileStore((state) => state.currentFolder);
   const setCurrentFolder = useFileStore((state) => state.setCurrentFolder);
+  const isAddingFile = useFileStore((state) => state.isAddingFile);
 
   function handleExpand() {
     setIsExpanded((prevState) => {
@@ -81,6 +85,7 @@ function FileTreeFolder({ file, isExpanded, setIsExpanded, isActive }) {
           setCurrentFolder(file.location);
           handleExpand();
         }}
+        onContextMenu={() => console.log(file.location)}
       >
         <Box>
           {isExpanded[file.location] ? (
@@ -108,6 +113,7 @@ function FileTreeFolder({ file, isExpanded, setIsExpanded, isActive }) {
           file={file._children}
           isExpanded={isExpanded}
           setIsExpanded={setIsExpanded}
+          isAddingFile={isAddingFile && file.location === currentFolder}
         />
       )}
     </VStack>

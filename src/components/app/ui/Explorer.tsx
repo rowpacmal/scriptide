@@ -10,7 +10,6 @@ import useWorkspaceStore from '@/store/useWorkspaceStore';
 import FilesMenu from './FilesMenu';
 import Workspace from './Workspace';
 import WorkspaceMenu from './WorkspaceMenu';
-import FileItemAdd from './FileItemAdd';
 import { LuArchive } from 'react-icons/lu';
 import { FileTree } from './FileTree';
 
@@ -23,9 +22,9 @@ function Explorer() {
   const currentFolder = useFileStore((state) => state.currentFolder);
   const setCurrentFolder = useFileStore((state) => state.setCurrentFolder);
   const isLoadingFiles = useFileStore((state) => state.isLoadingFiles);
+  const isAddingFile = useFileStore((state) => state.isAddingFile);
 
   // Define state
-  const [addingFile, setAddingFile] = useState(false);
   const [isExpanded, setIsExpanded] = useState({});
 
   useEffect(() => {
@@ -66,10 +65,7 @@ function Explorer() {
           <>
             {workspaces.length > 0 ? (
               <VStack w="100%" h="100%" gap={1}>
-                <FilesMenu
-                  addingFile={addingFile}
-                  setAddingFile={setAddingFile}
-                />
+                <FilesMenu />
 
                 <VStack
                   id="FILE_EXPLORER"
@@ -85,6 +81,10 @@ function Explorer() {
                   overflowY="scroll"
                   className="alt-scrollbar"
                   display="box"
+                  onContextMenu={(e) => {
+                    e.preventDefault();
+                    console.log('context menu');
+                  }}
                 >
                   <VStack
                     w="100%"
@@ -129,20 +129,14 @@ function Explorer() {
                       file={allFiles}
                       isExpanded={isExpanded}
                       setIsExpanded={setIsExpanded}
+                      isAddingFile={
+                        isAddingFile &&
+                        currentFolder === `/workspaces/${currentWorkspace}`
+                      }
                     />
                   </VStack>
 
-                  {addingFile && <FileItemAdd setAddingFile={setAddingFile} />}
-
-                  <Box
-                    w="100%"
-                    minH="1rem"
-                    flexGrow="1"
-                    onContextMenu={(e) => {
-                      e.preventDefault();
-                      console.log('context menu');
-                    }}
-                  />
+                  {/* <Box w="100%" minH="1rem" flexGrow="1" /> */}
                 </VStack>
               </VStack>
             ) : (

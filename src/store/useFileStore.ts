@@ -17,50 +17,48 @@ type TCurrentFile = string | null;
 interface IFileStore {
   files: string[];
   setFiles: (files: string[]) => void;
-
   allFiles: string[];
+  setAllFiles: (files: string[]) => void;
 
   refreshFiles: (workspace: string, loader?: boolean) => Promise<void>;
-  addFile: (newFile: string) => Promise<void>;
+  addFile: (path: string) => Promise<void>;
   renameFile: (oldFile: string, newFile: string) => Promise<void>;
   saveFile: () => Promise<void>;
-  loadFile: (file: string) => Promise<void>;
+  loadFile: (path: string) => Promise<void>;
   deleteFile: (file: string) => Promise<void>;
   deleteAllFiles: () => Promise<void>;
 
   currentFile: TCurrentFile;
   setCurrentFile: (file: TCurrentFile) => void;
-
   currentFolder: TCurrentFile;
   setCurrentFolder: (folder: TCurrentFile) => void;
 
   isLoadingFiles: boolean;
   setIsLoadingFiles: (isLoadingFiles: boolean) => void;
+  isAddingFile: boolean;
+  setIsAddingFile: (isAddingFile: boolean) => void;
 }
 
 // Create the store
 const useFileStore = create<IFileStore>((set, get) => ({
   files: [],
   setFiles: (files) => set({ files }),
-
   allFiles: [],
+  setAllFiles: (files) => set({ allFiles: files }),
 
   refreshFiles: async (workspace: string, loader: boolean = true) => {
     if (loader) {
       set({ isLoadingFiles: true });
     }
 
-    const files: string[] = await getFiles(`workspaces/${workspace}`);
-    set({ files });
+    const listFiles = await listAllFiles(workspace);
+    // console.log(listFiles);
+    const files: string[] = [];
+    const allFiles: any = [];
 
-    const allFiles = await listAllFiles(workspace);
-    // console.log(allFiles);
-
-    const explorer: any = [];
-
-    for (const file of allFiles) {
+    for (const file of listFiles) {
       const parent = file.location.split('/').splice(3);
-      let currentLevel = explorer;
+      let currentLevel = allFiles;
 
       for (let i = 0; i < parent.length; i++) {
         const key = parent[i];
@@ -72,7 +70,7 @@ const useFileStore = create<IFileStore>((set, get) => ({
         let indexOf = currentLevel.findIndex((f: any) => f.name === key);
 
         if (indexOf === -1) {
-          const find = allFiles.find((f: any) => {
+          const find = listFiles.find((f: any) => {
             const location = f.location.split('/').pop();
 
             return location === key;
@@ -94,27 +92,28 @@ const useFileStore = create<IFileStore>((set, get) => ({
       if (file.isfile) {
         currentLevel.push(file);
       }
+
+      files.push(file.name);
     }
+    // console.log(allFiles);
 
-    // console.log(explorer);
-
-    set({ allFiles: explorer });
+    set({ files, allFiles });
 
     if (get().isLoadingFiles) {
       set({ isLoadingFiles: false });
     }
   },
-  addFile: async (newFile: string) => {
+  addFile: async (path: string) => {
     const currentWorkspace = useWorkspaceStore.getState().currentWorkspace;
 
     if (!currentWorkspace) {
       return;
     }
 
-    await minima.file.save(`workspaces/${currentWorkspace}/${newFile}`, '');
+    await minima.file.save(path, '');
 
     get().refreshFiles(currentWorkspace, false);
-    set({ currentFile: `/workspaces/${currentWorkspace}/${newFile}` });
+    set({ currentFile: path });
     useEditorStore.setState({ code: '' });
   },
   renameFile: async (oldFile: string, newFile: string) => {
@@ -202,12 +201,13 @@ const useFileStore = create<IFileStore>((set, get) => ({
 
   currentFile: null,
   setCurrentFile: (file) => set({ currentFile: file }),
-
   currentFolder: null,
   setCurrentFolder: (folder) => set({ currentFolder: folder }),
 
   isLoadingFiles: false,
   setIsLoadingFiles: (isLoadingFiles) => set({ isLoadingFiles }),
+  isAddingFile: false,
+  setIsAddingFile: (isAddingFile) => set({ isAddingFile }),
 }));
 
 // Export the store

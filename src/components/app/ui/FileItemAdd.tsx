@@ -3,7 +3,7 @@ import { useToast } from '@chakra-ui/react';
 import { useState } from 'react';
 import FileInput from './FileInput';
 
-function FileItemAdd({ setAddingFile }) {
+function FileItemAdd() {
   // Define toast
   const toast = useToast();
 
@@ -13,11 +13,13 @@ function FileItemAdd({ setAddingFile }) {
   // Define store
   const files = useFileStore((state) => state.files);
   const addFile = useFileStore((state) => state.addFile);
+  const setIsAddingFile = useFileStore((state) => state.setIsAddingFile);
+  const currentFolder = useFileStore((state) => state.currentFolder);
 
   return (
     <FileInput
       value={fileName}
-      onBlur={() => setAddingFile(false)}
+      onBlur={() => setIsAddingFile(false)}
       onChange={(e) => setFileName(e.target.value)}
       onKeyDown={(e) => {
         if (e.key === 'Enter') {
@@ -51,9 +53,9 @@ function FileItemAdd({ setAddingFile }) {
             return;
           }
 
-          addFile(newFile);
+          addFile(`${currentFolder}/${newFile}`);
           setFileName('');
-          setAddingFile(false);
+          setIsAddingFile(false);
         }
       }}
     />

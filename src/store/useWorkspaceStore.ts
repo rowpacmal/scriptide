@@ -162,7 +162,7 @@ const useWorkspaceStore = create<IWorkspaceStore>((set, get) => ({
     set({ currentWorkspace: workspace });
 
     useFileStore.getState().refreshFiles(workspace);
-    useFileStore.setState({ currentFile: null });
+    useFileStore.setState({ currentFile: null, currentFolder: null });
     useEditorStore.setState({ code: null });
   },
   deleteWorkspace: async () => {
