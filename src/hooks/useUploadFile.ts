@@ -42,9 +42,11 @@ function useUploadFile(fileInput: any) {
             setFile(undefined);
             setIsUploading(false);
 
-            if (files.includes(file.name)) {
-              onError('File already exists', workspace);
-              return;
+            for (const f of files) {
+              if (f === file.name) {
+                onError('File already exists', workspace);
+                return;
+              }
             }
 
             await minima.file.move(

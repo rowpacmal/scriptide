@@ -1,5 +1,6 @@
 import useFileStore from '@/store/useFileStore';
 import useLivePreviewStore from '@/store/useLivePreviewStore';
+import useWorkspaceStore from '@/store/useWorkspaceStore';
 import {
   Box,
   Button,
@@ -37,60 +38,22 @@ function LivePreview() {
   const files = useFileStore((state) => state.files);
   const liveURL = useLivePreviewStore((state) => state.liveURL);
   const setLiveURL = useLivePreviewStore((state) => state.setLiveURL);
+  const currentWorkspace = useWorkspaceStore((state) => state.currentWorkspace);
 
   useEffect(() => {
     if (!files) {
       return;
     }
 
-    if (files.includes('index.html')) {
-      refreshLivePreview();
-    } else {
-      setPreviewURL('');
+    for (const file of files) {
+      if (file.location === `/workspaces/${currentWorkspace}/index.html`) {
+        refreshLivePreview();
+        return;
+      }
     }
+
+    setPreviewURL('');
   }, [files]);
-
-  /* useEffect(() => {
-    if (!livePreview) {
-      setPreviewURL(''); // Clear the preview URL if HTML is empty
-      return;
-    }
-
-    // 1. Create a Blob from the HTML content
-    const blob = new Blob([livePreview], { type: 'text/html' });
-
-    // 2. Create a URL for the Blob
-    const url = URL.createObjectURL(blob);
-
-    // 3. Update the state with the URL
-    setPreviewURL(url);
-
-    // 4. Cleanup: Revoke the URL when the component unmounts or HTML changes
-    return () => {
-      const temp = [...blobObjectURLs, url];
-
-      for (let i = 0; i < temp.length; i++) {
-        URL.revokeObjectURL(temp[i]);
-      }
-    };
-  }, [livePreview]); // Important: Add 'html' to the dependency array */
-
-  /* useEffect(() => {
-    if (!livePreview) {
-      setPreviewURL(''); // Clear the preview URL if HTML is empty
-      return;
-    }
-
-    setPreviewURL(livePreview.find((f) => f.file === 'index.html')?.url || '');
-
-    return () => {
-      const temp = livePreview.map((f) => f.url);
-
-      for (let i = 0; i < temp.length; i++) {
-        URL.revokeObjectURL(temp[i]);
-      }
-    };
-  }, [livePreview]); */
 
   useEffect(() => {
     if (!livePreview) {
@@ -100,14 +63,6 @@ function LivePreview() {
 
     setPreviewURL(livePreview);
   }, [livePreview]);
-
-  const handleIframeLoad = () => {
-    console.log('iframe loaded');
-    if (iframeRef.current) {
-      // const iframe = iframeRef.current;
-      // console.log(iframe.contentDocument?.URL);
-    }
-  };
 
   return (
     <VStack w="100%" h="100%" fontSize="sm" gap={0}>
@@ -280,7 +235,6 @@ function LivePreview() {
           height="100%"
           style={{ backgroundColor: 'white' }}
           sandbox="allow-scripts allow-same-origin"
-          onLoad={handleIframeLoad}
         />
       ) : (
         <Box

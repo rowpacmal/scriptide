@@ -15,8 +15,8 @@ type TCurrentFile = string | null;
 
 // Interface for the store
 interface IFileStore {
-  files: string[];
-  setFiles: (files: string[]) => void;
+  files: any;
+  setFiles: (files: any) => void;
   allFiles: string[];
   setAllFiles: (files: string[]) => void;
 
@@ -54,12 +54,11 @@ const useFileStore = create<IFileStore>((set, get) => ({
       set({ isLoadingFiles: true });
     }
 
-    const listFiles = await listAllFiles(workspace);
-    // console.log(listFiles);
-    const files: string[] = [];
+    const files = await listAllFiles(workspace);
+    console.log(files);
     const allFiles: any = [];
 
-    for (const file of listFiles) {
+    for (const file of files) {
       const parent = file.location.split('/').splice(3);
       let currentLevel = allFiles;
 
@@ -73,7 +72,7 @@ const useFileStore = create<IFileStore>((set, get) => ({
         let indexOf = currentLevel.findIndex((f: any) => f.name === key);
 
         if (indexOf === -1) {
-          const find = listFiles.find((f: any) => {
+          const find = files.find((f: any) => {
             const location = f.location.split('/').pop();
 
             return location === key;
@@ -95,8 +94,6 @@ const useFileStore = create<IFileStore>((set, get) => ({
       if (file.isfile) {
         currentLevel.push(file);
       }
-
-      files.push(file.name);
     }
     // console.log(allFiles);
 

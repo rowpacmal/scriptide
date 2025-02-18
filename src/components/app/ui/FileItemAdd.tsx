@@ -40,7 +40,9 @@ function FileItemAdd() {
             return;
           }
 
-          if (!isFolder) {
+          if (isFolder) {
+            name = name.split('.')[0];
+          } else {
             if (!name.includes('.')) {
               name += '.kvm';
             } else if (name.endsWith('.')) {
@@ -50,22 +52,24 @@ function FileItemAdd() {
 
           name = name.split(' ').join('_');
 
-          if (files.includes(name)) {
-            toast({
-              title: isFolder
-                ? 'Folder already exists.'
-                : 'File already exists.',
-              status: 'warning',
-              duration: 3000,
-              isClosable: true,
-            });
-            return;
+          const path = `${currentFolder}/${name}`;
+
+          for (const file of files) {
+            if (file.location === path) {
+              toast({
+                title: 'File or directory with this name already exists.',
+                status: 'warning',
+                duration: 3000,
+                isClosable: true,
+              });
+              return;
+            }
           }
 
           if (isFolder) {
-            addFolder(`${currentFolder}/${name}`);
+            addFolder(path);
           } else {
-            addFile(`${currentFolder}/${name}`);
+            addFile(path);
           }
 
           setFileName('');

@@ -44,7 +44,7 @@ function WorkspaceExport({ onClose }) {
       return;
     }
 
-    if (!currentWorkspace || !files) {
+    if (!currentWorkspace || files.length < 1) {
       toast({
         title: 'No workspace selected',
         description: 'Please select a workspace to export',
@@ -59,21 +59,17 @@ function WorkspaceExport({ onClose }) {
       setIsLoading(true);
 
       for (const file of files) {
-        if (isImageFile(file)) {
-          const binary = (
-            await minima.file.loadbinary(
-              `workspaces/${currentWorkspace}/${file}`
-            )
-          ).response.load.data;
+        if (isImageFile(file.name)) {
+          const binary = (await minima.file.loadbinary(file.location)).response
+            .load.data;
 
           const base64 = minima.util.hexToBase64(binary);
-          addZipImage(file, base64);
+          addZipImage(file.name, base64);
         } else {
-          const data = (
-            await minima.file.load(`workspaces/${currentWorkspace}/${file}`)
-          ).response.load.data;
+          const data = (await minima.file.load(file.location)).response.load
+            .data;
 
-          addZipFile(file, data);
+          addZipFile(file.name, data);
         }
       }
 

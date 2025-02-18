@@ -23,7 +23,7 @@ function FilteredFiles({ extension }: { extension: string }) {
   const [filteredFiles, setFilteredFiles] = useState<string[]>([]);
 
   useEffect(() => {
-    setFilteredFiles(files.filter((file) => file.endsWith(extension)));
+    setFilteredFiles(files.filter((file) => file.name.endsWith(extension)));
   }, [files, extension]);
 
   // Render

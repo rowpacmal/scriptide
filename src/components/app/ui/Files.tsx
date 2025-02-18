@@ -54,11 +54,11 @@ function Files() {
             borderColor="gray.700"
             _hover={{ bg: 'gray.700' }}
             onClick={() => {
-              setCurrentFile(file);
-              loadFile(file);
+              setCurrentFile(file.name);
+              loadFile(file.location);
             }}
           >
-            {files.length > 0 && file}
+            {files.length > 0 && file.name}
           </MenuItem>
         ))}
       </MenuList>

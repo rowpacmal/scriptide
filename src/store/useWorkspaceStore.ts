@@ -76,22 +76,6 @@ const useWorkspaceStore = create<IWorkspaceStore>((set, get) => ({
 
     await minima.file.copy(currentFolder, newFolder);
 
-    // Old approach - replaced with above to increased performance for renaming workspace
-    /* const currentFolder = `workspaces/${currentWorkspace}`;
-    const newFolder = `workspaces/${newWorkspace}`;
-    const files = useFileStore.getState().files;
-
-    if (files.length > 0) {
-      for (const file of files) {
-        await minima.file.move(
-          `${currentFolder}/${file}`,
-          `${newFolder}/${file}`
-        );
-      }
-    } else {
-      await minima.file.makedir(newFolder);
-    } */
-
     /* Quick fix to a renaming bug, where you can rename a workspace
      * to the same name but in different case (lowercase or uppercase).
      */
@@ -130,22 +114,6 @@ const useWorkspaceStore = create<IWorkspaceStore>((set, get) => ({
       `workspaces/${currentWorkspace}`,
       `workspaces/${newWorkspace}`
     );
-
-    // Old approach - replaced with above to increased performance for copy workspace
-    /* const currentFolder = `workspaces/${currentWorkspace}`;
-    const newFolder = `workspaces/${newWorkspace}`;
-    const files = useFileStore.getState().files;
-
-    if (files.length > 0) {
-      for (const file of files) {
-        await minima.file.copy(
-          `${currentFolder}/${file}`,
-          `${newFolder}/${file}`
-        );
-      }
-    } else {
-      await minima.file.makedir(newFolder);
-    } */
 
     set((state) => ({ workspaces: [...state.workspaces, newWorkspace] }));
     set({ currentWorkspace: newWorkspace });
