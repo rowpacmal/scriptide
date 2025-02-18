@@ -55,7 +55,7 @@ const useFileStore = create<IFileStore>((set, get) => ({
     }
 
     const files = await listAllFiles(workspace);
-    console.log(files);
+    // console.log(files);
     const allFiles: any = [];
 
     for (const file of files) {
@@ -131,24 +131,20 @@ const useFileStore = create<IFileStore>((set, get) => ({
     useEditorStore.setState({ code: '' });
   },
 
-  renameFile: async (oldFile: string, newFile: string) => {
+  renameFile: async (path: string, newPath: string) => {
     const currentWorkspace = useWorkspaceStore.getState().currentWorkspace;
 
     if (!currentWorkspace) {
       return;
     }
 
-    await minima.file.move(
-      `workspaces/${currentWorkspace}/${oldFile}`,
-      `workspaces/${currentWorkspace}/${newFile}`
-    );
+    await minima.file.copy(path, newPath);
+    await minima.file.delete(path);
 
-    set((state) => ({
-      files: state.files.map((f) => (f === oldFile ? newFile : f)),
-    }));
+    get().refreshFiles(currentWorkspace, false);
 
-    if (get().currentFile === oldFile) {
-      set({ currentFile: newFile });
+    if (get().currentFile === path) {
+      set({ currentFile: newPath });
     }
   },
   saveFile: async () => {

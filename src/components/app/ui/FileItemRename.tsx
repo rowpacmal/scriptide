@@ -8,16 +8,21 @@ function FileItemRename({ file, setRenamingFile }) {
   const toast = useToast();
 
   // Define state
-  const [fileName, setFileName] = useState(file || '');
+  const [fileName, setFileName] = useState(file.name || '');
 
   // Define store
   const files = useFileStore((state) => state.files);
   const renameFile = useFileStore((state) => state.renameFile);
+  const isFolder = useFileStore((state) => state.isFolder);
+  const setIsFolder = useFileStore((state) => state.setIsFolder);
 
   return (
     <FileInput
       value={fileName}
-      onBlur={() => setRenamingFile(false)}
+      onBlur={() => {
+        setRenamingFile(false);
+        setIsFolder(null);
+      }}
       onChange={(e) => setFileName(e.target.value)}
       onKeyDown={(e) => {
         if (e.key === 'Enter') {
@@ -33,27 +38,39 @@ function FileItemRename({ file, setRenamingFile }) {
             return;
           }
 
-          if (!name.includes('.')) {
-            name += '.kvm';
-          } else if (name.endsWith('.')) {
-            name += 'kvm';
+          if (isFolder) {
+            name = name.split('.')[0];
+          } else {
+            if (!name.includes('.')) {
+              name += '.kvm';
+            } else if (name.endsWith('.')) {
+              name += 'kvm';
+            }
           }
 
-          const newFile = name.split(' ').join('_');
+          name = name.split(' ').join('_');
 
-          if (files.includes(newFile)) {
-            toast({
-              title: 'File name already exists.',
-              status: 'warning',
-              duration: 3000,
-              isClosable: true,
-            });
-            return;
+          const path = `${file.location
+            .split('/')
+            .slice(0, -1)
+            .join('/')}/${name}`;
+
+          for (const file of files) {
+            if (file.location === path) {
+              toast({
+                title: 'File or directory with this name already exists.',
+                status: 'warning',
+                duration: 3000,
+                isClosable: true,
+              });
+              return;
+            }
           }
 
-          renameFile(file, newFile);
-          setFileName('');
+          renameFile(file.location, path);
+
           setRenamingFile(false);
+          setIsFolder(null);
         }
       }}
     />
