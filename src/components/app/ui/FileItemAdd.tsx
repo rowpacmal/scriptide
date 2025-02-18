@@ -22,7 +22,10 @@ function FileItemAdd() {
   return (
     <FileInput
       value={fileName}
-      onBlur={() => setIsAddingFile(false)}
+      onBlur={() => {
+        setIsAddingFile(false);
+        setIsFolder(null);
+      }}
       onChange={(e) => setFileName(e.target.value)}
       onKeyDown={(e) => {
         if (e.key === 'Enter') {
@@ -72,7 +75,6 @@ function FileItemAdd() {
             addFile(path);
           }
 
-          setFileName('');
           setIsAddingFile(false);
           setIsFolder(null);
         }
