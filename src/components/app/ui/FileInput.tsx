@@ -16,11 +16,15 @@ function FileInput({ value, onBlur, onChange, onKeyDown }) {
       inputRef.current.focus();
 
       if (value || value.length > 0) {
-        let selection = value.split('.');
-        selection.pop();
+        let selection = value;
 
-        selection = selection.join('.').length;
-        inputRef.current.setSelectionRange(0, selection);
+        if (selection.includes('.')) {
+          selection = selection.split('.');
+          selection.pop();
+          selection = selection.join('.');
+        }
+
+        inputRef.current.setSelectionRange(0, selection.length);
       }
     }
   }, []);

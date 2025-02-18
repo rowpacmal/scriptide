@@ -71,15 +71,17 @@ function FileItem({ children, file, onClick, isActive = false }) {
                 w="100%"
                 borderRadius="sm"
                 border="1px solid"
-                borderColor={
-                  isOpen ? (isActive ? 'blue.500' : 'gray.500') : 'transparent'
-                }
+                borderColor={isOpen ? 'blue.500' : 'transparent'}
+                // borderColor={
+                //   isOpen ? (isActive ? 'blue.500' : 'gray.500') : 'transparent'
+                // }
                 justifyContent="space-between"
                 gap={0}
                 pl={2}
                 pr={1}
-                color={isActive ? 'gray.50' : 'gray.500'}
-                bg={isActive ? 'blue.700' : isOpen ? 'gray.700' : 'transparent'}
+                color={isActive ? 'blue.500' : 'gray.500'}
+                bg={isOpen ? 'gray.700' : ''}
+                // bg={isActive ? 'blue.700' : isOpen ? 'gray.700' : 'transparent'}
               >
                 <Text
                   w="100%"

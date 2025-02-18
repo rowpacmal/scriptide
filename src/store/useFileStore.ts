@@ -127,7 +127,7 @@ const useFileStore = create<IFileStore>((set, get) => ({
     await minima.file.makedir(path);
 
     get().refreshFiles(currentWorkspace, false);
-    set({ currentFile: path });
+    set({ currentFolder: path });
     useEditorStore.setState({ code: '' });
   },
 

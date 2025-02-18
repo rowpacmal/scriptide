@@ -108,7 +108,7 @@ function Explorer() {
                   // display="box"
                   onContextMenu={(e) => {
                     e.preventDefault();
-                    console.log('context menu');
+                    // console.log('context menu');
                   }}
                 >
                   <VStack

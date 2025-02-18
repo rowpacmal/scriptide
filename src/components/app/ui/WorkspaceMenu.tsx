@@ -101,7 +101,7 @@ function WorkspaceMenu({ workspaces }) {
             }}
             disabled={workspaces.length < 1}
           >
-            Rename
+            Rename...
           </WorkspaceMenuItem>
 
           <MenuDivider my={1} />
