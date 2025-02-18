@@ -20,7 +20,7 @@ interface IFileStore {
 
   allFiles: string[];
 
-  refreshFiles: (workspace: string) => Promise<void>;
+  refreshFiles: (workspace: string, loader?: boolean) => Promise<void>;
   addFile: (newFile: string) => Promise<void>;
   renameFile: (oldFile: string, newFile: string) => Promise<void>;
   saveFile: () => Promise<void>;
@@ -30,6 +30,12 @@ interface IFileStore {
 
   currentFile: TCurrentFile;
   setCurrentFile: (file: TCurrentFile) => void;
+
+  currentFolder: TCurrentFile;
+  setCurrentFolder: (folder: TCurrentFile) => void;
+
+  isLoadingFiles: boolean;
+  setIsLoadingFiles: (isLoadingFiles: boolean) => void;
 }
 
 // Create the store
@@ -39,7 +45,11 @@ const useFileStore = create<IFileStore>((set, get) => ({
 
   allFiles: [],
 
-  refreshFiles: async (workspace: string) => {
+  refreshFiles: async (workspace: string, loader: boolean = true) => {
+    if (loader) {
+      set({ isLoadingFiles: true });
+    }
+
     const files: string[] = await getFiles(`workspaces/${workspace}`);
     set({ files });
 
@@ -89,6 +99,10 @@ const useFileStore = create<IFileStore>((set, get) => ({
     // console.log(explorer);
 
     set({ allFiles: explorer });
+
+    if (get().isLoadingFiles) {
+      set({ isLoadingFiles: false });
+    }
   },
   addFile: async (newFile: string) => {
     const currentWorkspace = useWorkspaceStore.getState().currentWorkspace;
@@ -99,12 +113,8 @@ const useFileStore = create<IFileStore>((set, get) => ({
 
     await minima.file.save(`workspaces/${currentWorkspace}/${newFile}`, '');
 
-    set((state) => ({
-      files: [...state.files, newFile].sort((a, b) =>
-        a.localeCompare(b, undefined, { sensitivity: 'base' })
-      ),
-    }));
-    set({ currentFile: newFile });
+    get().refreshFiles(currentWorkspace, false);
+    set({ currentFile: `/workspaces/${currentWorkspace}/${newFile}` });
     useEditorStore.setState({ code: '' });
   },
   renameFile: async (oldFile: string, newFile: string) => {
@@ -192,6 +202,12 @@ const useFileStore = create<IFileStore>((set, get) => ({
 
   currentFile: null,
   setCurrentFile: (file) => set({ currentFile: file }),
+
+  currentFolder: null,
+  setCurrentFolder: (folder) => set({ currentFolder: folder }),
+
+  isLoadingFiles: false,
+  setIsLoadingFiles: (isLoadingFiles) => set({ isLoadingFiles }),
 }));
 
 // Export the store

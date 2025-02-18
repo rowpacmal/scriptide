@@ -167,7 +167,7 @@ function FileItem({ children, file, onClick, isActive = false }) {
         <Box
           cursor="pointer"
           w="100%"
-          _hover={{ bg: 'gray.800', color: 'gray.50' }}
+          _hover={{ bg: 'gray.700', color: 'gray.50' }}
           borderRadius="sm"
         >
           <Menu isOpen={isOpen} onClose={onClose} placement="bottom-start">
@@ -182,14 +182,14 @@ function FileItem({ children, file, onClick, isActive = false }) {
                 borderRadius="sm"
                 border="1px solid"
                 borderColor={
-                  isOpen ? (isActive ? 'blue.500' : 'gray.700') : 'transparent'
+                  isOpen ? (isActive ? 'blue.500' : 'gray.500') : 'transparent'
                 }
                 justifyContent="space-between"
                 gap={0}
                 pl={2}
                 pr={1}
                 color={isActive ? 'gray.50' : 'gray.500'}
-                bg={isActive ? 'blue.800' : isOpen ? 'gray.800' : 'transparent'}
+                bg={isActive ? 'blue.700' : isOpen ? 'gray.700' : 'transparent'}
               >
                 <Text
                   w="100%"
@@ -202,7 +202,7 @@ function FileItem({ children, file, onClick, isActive = false }) {
                     <LuFile />
                   </Box>
 
-                  <Text as="span" isTruncated>
+                  <Text as="span" userSelect="none" isTruncated>
                     {children}
                   </Text>
                 </Text>

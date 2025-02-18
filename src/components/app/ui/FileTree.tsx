@@ -1,5 +1,5 @@
 import useWorkspaceStore from '@/store/useWorkspaceStore';
-import { Box, Button, HStack, Text, VStack } from '@chakra-ui/react';
+import { Box, HStack, Text, VStack } from '@chakra-ui/react';
 import { LuChevronDown, LuChevronRight, LuFolder } from 'react-icons/lu';
 import FileItem from './FileItem';
 import useFileStore from '@/store/useFileStore';
@@ -40,44 +40,65 @@ function FileTree({ file, isExpanded, setIsExpanded }) {
   );
 }
 
-function FileTreeFolder({ file, isExpanded, setIsExpanded }) {
+function FileTreeFolder({ file, isExpanded, setIsExpanded, isActive }) {
   const currentWorkspace = useWorkspaceStore((state) => state.currentWorkspace);
+  const currentFolder = useFileStore((state) => state.currentFolder);
+  const setCurrentFolder = useFileStore((state) => state.setCurrentFolder);
+
+  function handleExpand() {
+    setIsExpanded((prevState) => {
+      if (currentFolder !== file.location && isExpanded[file.location]) {
+        return prevState;
+      }
+
+      const expand = {
+        ...prevState,
+        [file.location]: !prevState[file.location],
+      };
+
+      localStorage.setItem(
+        `${currentWorkspace}-explorer-expanded`,
+        JSON.stringify(expand)
+      );
+
+      return expand;
+    });
+  }
 
   return (
-    <VStack w="100%" gap={0.5}>
-      <HStack w="100%" bg="gray.800" borderRadius="sm" gap={0}>
-        <Button
-          size="xs"
-          bg="transparent"
-          color="gray.500"
-          _hover={{ bg: 'transparent', color: 'gray.50' }}
-          p={0}
-          onClick={() =>
-            setIsExpanded((prevState) => {
-              const expand = {
-                ...prevState,
-                [file.location]: !prevState[file.location],
-              };
+    <VStack
+      w="100%"
+      gap={0.5}
+      borderRadius="sm"
+      bg={isActive ? 'gray.800' : ''}
+    >
+      <HStack
+        cursor="pointer"
+        w="100%"
+        color="gray.500"
+        borderRadius="sm"
+        gap={1}
+        _hover={{ bg: 'gray.700' }}
+        onClick={() => {
+          setCurrentFolder(file.location);
+          handleExpand();
+        }}
+      >
+        <Box>
+          {isExpanded[file.location] ? (
+            <LuChevronDown size={16} />
+          ) : (
+            <LuChevronRight size={16} />
+          )}
+        </Box>
 
-              localStorage.setItem(
-                `${currentWorkspace}-explorer-expanded`,
-                JSON.stringify(expand)
-              );
-
-              return expand;
-            })
-          }
-        >
-          {isExpanded[file.location] ? <LuChevronDown /> : <LuChevronRight />}
-        </Button>
-
-        <HStack w="100%" gap={0} color="gray.500" isTruncated>
+        <HStack w="100%" gap={0} isTruncated>
           <Text w="100%" display="flex" gap={1} alignItems="center" isTruncated>
             <Box as="span">
               <LuFolder />
             </Box>
 
-            <Text as="span" isTruncated>
+            <Text as="span" userSelect="none" isTruncated>
               {file.name}
             </Text>
           </Text>
@@ -98,7 +119,9 @@ function FileTreeFolder({ file, isExpanded, setIsExpanded }) {
 function FileTreeItem({ file, isExpanded, setIsExpanded }) {
   // Define store
   const currentFile = useFileStore((state) => state.currentFile);
+  const currentFolder = useFileStore((state) => state.currentFolder);
   const setCurrentFile = useFileStore((state) => state.setCurrentFile);
+  const setCurrentFolder = useFileStore((state) => state.setCurrentFolder);
   const loadFile = useFileStore((state) => state.loadFile);
 
   if (file.isfile) {
@@ -106,6 +129,7 @@ function FileTreeItem({ file, isExpanded, setIsExpanded }) {
       <FileItem
         file={file.name}
         onClick={() => {
+          setCurrentFolder(file.location.split('/').slice(0, -1).join('/'));
           setCurrentFile(file.location);
           loadFile(file.location);
         }}
@@ -120,6 +144,7 @@ function FileTreeItem({ file, isExpanded, setIsExpanded }) {
         file={file}
         isExpanded={isExpanded}
         setIsExpanded={setIsExpanded}
+        isActive={file.location === currentFolder}
       />
     );
   }

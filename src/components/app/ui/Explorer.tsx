@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 // Import dependencies
-import { Box, HStack, Text, VStack } from '@chakra-ui/react';
+import { Box, HStack, Spinner, Text, VStack } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
 // Import store
 import useFileStore from '@/store/useFileStore';
@@ -20,6 +20,9 @@ function Explorer() {
   const allFiles = useFileStore((state) => state.allFiles);
   const workspaces = useWorkspaceStore((state) => state.workspaces);
   const currentWorkspace = useWorkspaceStore((state) => state.currentWorkspace);
+  const currentFolder = useFileStore((state) => state.currentFolder);
+  const setCurrentFolder = useFileStore((state) => state.setCurrentFolder);
+  const isLoadingFiles = useFileStore((state) => state.isLoadingFiles);
 
   // Define state
   const [addingFile, setAddingFile] = useState(false);
@@ -55,76 +58,99 @@ function Explorer() {
           </HStack>
         </VStack>
 
-        {workspaces.length > 0 ? (
-          <VStack w="100%" h="100%" gap={1}>
-            <FilesMenu addingFile={addingFile} setAddingFile={setAddingFile} />
-
-            <VStack
-              id="FILE_EXPLORER"
-              w="100%"
-              flexGrow="1"
-              maxH="32rem"
-              borderTop="1px solid"
-              borderLeft="1px solid"
-              borderBottom="1px solid"
-              borderColor="gray.700"
-              p={1}
-              gap={0.5}
-              overflowY="scroll"
-              className="alt-scrollbar"
-              display="box"
-            >
-              <VStack w="100%" gap={0.5}>
-                <HStack
-                  w="100%"
-                  bg="gray.800"
-                  color="gray.500"
-                  borderRadius="sm"
-                  px={2}
-                  gap={0}
-                  isTruncated
-                >
-                  <Text
-                    w="100%"
-                    display="flex"
-                    gap={1}
-                    alignItems="center"
-                    isTruncated
-                  >
-                    <Box as="span">
-                      <LuArchive />
-                    </Box>
-
-                    <Text as="span" isTruncated>
-                      {currentWorkspace}
-                    </Text>
-                  </Text>
-                </HStack>
-
-                <FileTree
-                  file={allFiles}
-                  isExpanded={isExpanded}
-                  setIsExpanded={setIsExpanded}
-                />
-              </VStack>
-
-              {addingFile && <FileItemAdd setAddingFile={setAddingFile} />}
-
-              <Box
-                w="100%"
-                minH="1rem"
-                flexGrow="1"
-                onContextMenu={(e) => {
-                  e.preventDefault();
-                  console.log('context menu');
-                }}
-              />
-            </VStack>
+        {isLoadingFiles ? (
+          <VStack w="100%" flexGrow="1" justifyContent="center">
+            <Spinner size="xl" color="gray.700" />
           </VStack>
         ) : (
-          <Text w="100%" color="gray.500">
-            No workspaces
-          </Text>
+          <>
+            {workspaces.length > 0 ? (
+              <VStack w="100%" h="100%" gap={1}>
+                <FilesMenu
+                  addingFile={addingFile}
+                  setAddingFile={setAddingFile}
+                />
+
+                <VStack
+                  id="FILE_EXPLORER"
+                  w="100%"
+                  flexGrow="1"
+                  maxH="32rem"
+                  borderTop="1px solid"
+                  borderLeft="1px solid"
+                  borderBottom="1px solid"
+                  borderColor="gray.700"
+                  p={1}
+                  gap={0.5}
+                  overflowY="scroll"
+                  className="alt-scrollbar"
+                  display="box"
+                >
+                  <VStack
+                    w="100%"
+                    gap={0.5}
+                    borderRadius="sm"
+                    bg={
+                      currentFolder === `/workspaces/${currentWorkspace}`
+                        ? 'gray.800'
+                        : ''
+                    }
+                  >
+                    <HStack
+                      cursor="pointer"
+                      w="100%"
+                      color="gray.500"
+                      borderRadius="sm"
+                      px={0.5}
+                      _hover={{ bg: 'gray.800' }}
+                      isTruncated
+                      onClick={() =>
+                        setCurrentFolder(`/workspaces/${currentWorkspace}`)
+                      }
+                    >
+                      <Text
+                        w="100%"
+                        display="flex"
+                        gap={1}
+                        alignItems="center"
+                        isTruncated
+                      >
+                        <Box as="span">
+                          <LuArchive />
+                        </Box>
+
+                        <Text as="span" userSelect="none" isTruncated>
+                          {currentWorkspace}
+                        </Text>
+                      </Text>
+                    </HStack>
+
+                    <FileTree
+                      file={allFiles}
+                      isExpanded={isExpanded}
+                      setIsExpanded={setIsExpanded}
+                    />
+                  </VStack>
+
+                  {addingFile && <FileItemAdd setAddingFile={setAddingFile} />}
+
+                  <Box
+                    w="100%"
+                    minH="1rem"
+                    flexGrow="1"
+                    onContextMenu={(e) => {
+                      e.preventDefault();
+                      console.log('context menu');
+                    }}
+                  />
+                </VStack>
+              </VStack>
+            ) : (
+              <Text w="100%" color="gray.500">
+                No workspaces
+              </Text>
+            )}
+          </>
         )}
       </VStack>
     </>
