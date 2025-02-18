@@ -106,14 +106,14 @@ const minima: any = {
         });
       });
     },
-    move: function (oldPath: string, newPath: string) {
+    move: function (path: string, newPath: string) {
       return new Promise((resolve, reject) => {
-        (window as any).MDS.file.move(oldPath, newPath, (msg: any) => {
+        (window as any).MDS.file.move(path, newPath, (msg: any) => {
           responseHandler(
             msg,
             resolve,
             reject,
-            'Failed to move file: ' + oldPath + ' to ' + newPath
+            'Failed to move file: ' + path + ' to ' + newPath
           );
         });
       });
