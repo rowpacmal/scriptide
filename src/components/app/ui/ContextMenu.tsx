@@ -2,6 +2,7 @@ import minima from '@/lib/minima';
 import useFileStore from '@/store/useFileStore';
 import { MenuDividerBase, MenuItemBase, MenuListBase } from './MenuListBase';
 import { LuDownload, LuPenLine, LuPlus, LuTrash } from 'react-icons/lu';
+import useWorkspaceStore from '@/store/useWorkspaceStore';
 
 // Constants (for debugging)
 const MINIDAPP_ID = (window as any).DEBUG_MINIDAPPID;
@@ -98,6 +99,7 @@ function FolderItemContextMenu({ file, setRenamingFile }) {
   const isAddingFile = useFileStore((state) => state.isAddingFile);
   const setIsAddingFile = useFileStore((state) => state.setIsAddingFile);
   const setIsFolder = useFileStore((state) => state.setIsFolder);
+  const currentWorkspace = useWorkspaceStore((state) => state.currentWorkspace);
 
   // Define handlers
   /* Temporary fix to download files
@@ -148,26 +150,30 @@ function FolderItemContextMenu({ file, setRenamingFile }) {
         New Folder...
       </MenuItemBase>
 
-      <MenuDividerBase />
+      {file.location.split('/').pop() !== currentWorkspace && (
+        <>
+          <MenuDividerBase />
 
-      <MenuItemBase
-        // label="Rename File"
-        icon={<LuPenLine />}
-        onClick={() => {
-          setIsFolder(true);
-          setRenamingFile(true);
-        }}
-      >
-        Rename...
-      </MenuItemBase>
+          <MenuItemBase
+            // label="Rename File"
+            icon={<LuPenLine />}
+            onClick={() => {
+              setIsFolder(true);
+              setRenamingFile(true);
+            }}
+          >
+            Rename...
+          </MenuItemBase>
 
-      <MenuItemBase
-        // label="Delete File"
-        icon={<LuTrash />}
-        onClick={() => deleteFile(file)}
-      >
-        Delete
-      </MenuItemBase>
+          <MenuItemBase
+            // label="Delete File"
+            icon={<LuTrash />}
+            onClick={() => deleteFile(file)}
+          >
+            Delete
+          </MenuItemBase>
+        </>
+      )}
 
       {/* TODO - Add copy and download support */}
       {/* <MenuDividerBase />
