@@ -3,11 +3,19 @@ import { create } from 'zustand';
 
 // Types for the store
 type TCode = string | null;
+type TAllCodes = { index: number; file: string; code: TCode; isImg: boolean };
 
 // Interface for the store
 interface IEditorStore {
   code: TCode;
   setCode: (code: TCode) => void;
+
+  allCodes: TAllCodes[];
+  setAllCodes: (allCodes: TAllCodes[]) => void;
+
+  addCode: (file: string, code: TCode, isImg: boolean) => void;
+  updateCode: (index: number, code: TCode) => void;
+  removeCode: (index: number) => void;
 
   editorZoom: number;
   setEditorZoom: (editorZoom: number) => void;
@@ -23,9 +31,31 @@ interface ILocalStorage {
 }
 
 // Create the store
-const useEditorStore = create<IEditorStore>((set) => ({
+const useEditorStore = create<IEditorStore>((set, get) => ({
   code: null,
   setCode: (code: TCode) => set({ code }),
+
+  allCodes: [],
+  setAllCodes: (allCodes: TAllCodes[]) => set({ allCodes }),
+
+  addCode: (file: string, code: TCode, isImg: boolean) => {
+    set((state) => ({
+      allCodes: [...state.allCodes, { index: Date.now(), file, code, isImg }],
+    }));
+    console.log(get().allCodes);
+  },
+  updateCode: (index: number, code: TCode) => {
+    set((state) => ({
+      allCodes: state.allCodes.map((c) =>
+        c.index === index ? { ...c, code } : c
+      ),
+    }));
+  },
+  removeCode: (index: number) => {
+    set((state) => ({
+      allCodes: state.allCodes.filter((code) => code.index !== index),
+    }));
+  },
 
   editorZoom: Number(localStorage.getItem('editor-zoom')) || 0,
   setEditorZoom: (editorZoom: number) => {

@@ -54,7 +54,7 @@ function Files() {
             borderColor="gray.700"
             _hover={{ bg: 'gray.700' }}
             onClick={() => {
-              setCurrentFile(file.name);
+              setCurrentFile(file.location);
               loadFile(file.location);
             }}
           >

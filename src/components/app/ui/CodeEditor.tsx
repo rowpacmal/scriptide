@@ -1,108 +1,87 @@
 // Import dependencies
-import { Box, Image } from '@chakra-ui/react';
+import { Box, useToast } from '@chakra-ui/react';
 import Editor from '@monaco-editor/react';
 import { useEffect, useRef, useState } from 'react';
 // Import store
 import useEditorStore from '@/store/useEditorStore';
 import useFileStore from '@/store/useFileStore';
-import useWorkspaceStore from '@/store/useWorkspaceStore';
 import useLivePreviewStore from '@/store/useLivePreviewStore';
 // Import constants
 import { DEFAULT_EDITOR_THEME } from '@/constants';
-// Import libraries
-import minima from '@/lib/minima';
 // Import utilities
 import getExtension from '@/utils/getExtension';
-import isImageFile from '@/utils/isImageFile';
-import base64ToImage from '@/utils/base64ToImage';
 
-function CodeEditor() {
+function CodeEditor({ index, file, code }) {
+  // Define toast
+  const toast = useToast();
+
   // Define refs
   const editorRef = useRef(null);
 
   // Define store
-  const code = useEditorStore((state) => state.code);
-  const setCode = useEditorStore((state) => state.setCode);
+  const updateCode = useEditorStore((state) => state.updateCode);
   const editorZoom = useEditorStore((state) => state.editorZoom);
   const editorAutoSave = useEditorStore((state) => state.editorAutoSave);
   const saveFile = useFileStore((state) => state.saveFile);
-  const currentFile = useFileStore((state) => state.currentFile);
-  const currentWorkspace = useWorkspaceStore((state) => state.currentWorkspace);
   const refreshLivePreview = useLivePreviewStore(
     (state) => state.refreshLivePreview
   );
 
   // Define state
   const [lang, setLang] = useState('plaintext');
-  const [imgSrc, setImgSrc]: [string | null, any] = useState(null);
 
   // Define handlers
   function handleOnMount(editor) {
     editorRef.current = editor;
     editor.focus();
   }
-  async function handleImageFile() {
-    const binary = (await minima.file.loadbinary(currentFile)).response.load
-      .data;
-    const base64 = minima.util.hexToBase64(binary);
-
-    setImgSrc(base64ToImage(base64));
+  function handleOnSave() {
+    saveFile(file, code);
+    refreshLivePreview();
   }
 
   // Define effect
   useEffect(() => {
-    if (currentFile) {
-      setLang(getExtension(currentFile));
-
-      if (isImageFile(currentFile)) {
-        handleImageFile();
-      }
+    if (file) {
+      setLang(getExtension(file));
     }
-  }, [currentFile]);
+  }, [file]);
 
   // Render
   return (
     <Box
       h="100%"
-      borderTop="1px solid"
-      borderColor="gray.700"
       onBlur={() => {
-        if (editorAutoSave && code) {
-          saveFile();
-          refreshLivePreview();
+        if (editorAutoSave) {
+          handleOnSave();
+        }
+      }}
+      onKeyDown={(e) => {
+        e.preventDefault();
+        if (e.key === 's' && e.ctrlKey) {
+          handleOnSave();
+          toast({
+            title: 'File saved',
+            description: file,
+            status: 'success',
+            duration: 3000,
+            isClosable: true,
+          });
         }
       }}
     >
-      {code !== null ? (
-        <Editor
-          height="100%"
-          theme={DEFAULT_EDITOR_THEME}
-          language={lang}
-          onMount={handleOnMount}
-          value={code}
-          onChange={(value) => setCode(value || '')}
-          options={{
-            fontSize: 12 + editorZoom, // Font size
-            fixedOverflowWidgets: true, // Prevents widgets from overflowing
-          }}
-        />
-      ) : (
-        <>
-          {isImageFile(currentFile) ? (
-            <Image w="auto" h="auto" p={4} src={imgSrc || ''} />
-          ) : (
-            <Box
-              h="100%"
-              display="grid"
-              placeItems="center"
-              color="gray.500"
-              fontSize="sm"
-            >
-              No file opened
-            </Box>
-          )}
-        </>
-      )}
+      <Editor
+        height="100%"
+        theme={DEFAULT_EDITOR_THEME}
+        language={lang}
+        onMount={handleOnMount}
+        value={code}
+        onChange={(value) => updateCode(index, value || '')}
+        options={{
+          fontSize: 12 + editorZoom, // Font size
+          fixedOverflowWidgets: true, // Prevents widgets from overflowing
+        }}
+      />
     </Box>
   );
 }

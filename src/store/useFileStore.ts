@@ -23,7 +23,7 @@ interface IFileStore {
   addFile: (path: string) => Promise<void>;
   addFolder: (path: string) => Promise<void>;
   renameFile: (path: string, newPath: string) => Promise<void>;
-  saveFile: () => Promise<void>;
+  saveFile: (path: string, data: string) => Promise<void>;
   loadFile: (path: string) => Promise<void>;
   deleteFile: (path: string) => Promise<void>;
   deleteAllFiles: () => Promise<void>;
@@ -143,25 +143,15 @@ const useFileStore = create<IFileStore>((set, get) => ({
       set({ currentFile: newPath });
     }
   },
-  saveFile: async () => {
-    const currentFile = get().currentFile;
-    if (!currentFile) {
+  saveFile: async (path: string, data: string) => {
+    if (!path) {
+      return;
+    }
+    if (isImageFile(path)) {
       return;
     }
 
-    if (isImageFile(currentFile)) {
-      return;
-    }
-
-    const currentWorkspace = useWorkspaceStore.getState().currentWorkspace;
-    if (!currentWorkspace || !currentFile) {
-      return;
-    }
-
-    await minima.file.save(
-      `workspaces/${currentWorkspace}/${currentFile}`,
-      useEditorStore.getState().code
-    );
+    await minima.file.save(path, data);
   },
   loadFile: async (path: string) => {
     if (!path) {
@@ -169,13 +159,16 @@ const useFileStore = create<IFileStore>((set, get) => ({
     }
 
     if (isImageFile(path)) {
-      useEditorStore.setState({ code: null });
+      const binary = (await minima.file.loadbinary(path)).response.load.data;
+      const base64 = minima.util.hexToBase64(binary);
+      // useEditorStore.setState({ code: base64 });
+      useEditorStore.getState().addCode(path, base64, true);
       return;
     }
 
     const code = (await minima.file.load(path)).response.load.data;
-
-    useEditorStore.setState({ code });
+    // useEditorStore.setState({ code });
+    useEditorStore.getState().addCode(path, code, false);
   },
   deleteFile: async (path: string) => {
     const currentWorkspace = useWorkspaceStore.getState().currentWorkspace;

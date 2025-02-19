@@ -137,3 +137,12 @@ body {
 #root .alt-scrollbar::-webkit-scrollbar-corner {
   border: 1px solid #2d3748;
 }
+
+/* Tab Scrollbar */
+#root .tab-scrollbar::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+#root .tab-scrollbar::-webkit-scrollbar-thumb {
+  border-radius: 0;
+}

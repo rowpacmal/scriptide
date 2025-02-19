@@ -31,10 +31,10 @@ function SidebarButton({
   return (
     <Tooltip label={label} placement="top-start" hasArrow>
       <HStack gap={1}>
-        <Box bg={active ? 'orange.500' : 'transparent'} w={0.5} h="100%" />
+        <Box bg={active ? 'blue.500' : 'transparent'} w={0.5} h="100%" />
 
         <Button
-          colorScheme="orange"
+          colorScheme="blue"
           p={0}
           bg="transparent"
           color={active ? 'gray.50' : 'gray.500'}
@@ -89,7 +89,7 @@ function Sidebar({ isControlPanelCollapsed, handelToggleControlPanel }) {
         <Tooltip label={NAVIGATION_LABELS.home} placement="right" hasArrow>
           <Button
             variant="unstyled"
-            colorScheme="orange"
+            colorScheme="blue"
             p={0}
             pl={1.5}
             onClick={() => handleNavigationChange('home')}
