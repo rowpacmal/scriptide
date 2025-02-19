@@ -21,7 +21,12 @@ import {
   VStack,
 } from '@chakra-ui/react';
 import { useState, useEffect, useRef } from 'react';
-import { LuRotateCw, LuSettings2, LuX } from 'react-icons/lu';
+import {
+  LuRotateCw,
+  LuSettings2,
+  LuSquareArrowOutUpRight,
+  LuX,
+} from 'react-icons/lu';
 
 function LivePreview() {
   const iframeRef = useRef<HTMLIFrameElement | null>(null);
@@ -169,6 +174,24 @@ function LivePreview() {
                 </PopoverBody>
               </PopoverContent>
             </Popover>
+          </Box>
+
+          <Box borderRight="1px solid" borderColor="gray.700">
+            <Tooltip label="Open in new tab" placement="bottom" hasArrow>
+              <Button
+                size="sm"
+                bg="transparent"
+                color="gray.500"
+                p={0}
+                _hover={{ bg: 'transparent', color: 'gray.50' }}
+                _active={{
+                  bg: 'transparent',
+                }}
+                onClick={() => {}}
+              >
+                <LuSquareArrowOutUpRight />
+              </Button>
+            </Tooltip>
           </Box>
 
           <Box w="100%" px={2}>
