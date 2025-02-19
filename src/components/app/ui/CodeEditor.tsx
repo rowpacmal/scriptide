@@ -42,11 +42,8 @@ function CodeEditor() {
     editor.focus();
   }
   async function handleImageFile() {
-    const binary = (
-      await minima.file.loadbinary(
-        `workspaces/${currentWorkspace}/${currentFile}`
-      )
-    ).response.load.data;
+    const binary = (await minima.file.loadbinary(currentFile)).response.load
+      .data;
     const base64 = minima.util.hexToBase64(binary);
 
     setImgSrc(base64ToImage(base64));
