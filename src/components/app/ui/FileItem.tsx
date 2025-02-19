@@ -20,7 +20,7 @@ import { FileItemContextMenu } from './ContextMenu';
 // File item context menu component
 
 // File item component
-function FileItem({ children, file, onClick, isActive = false }) {
+function FileItem({ file, onClick, isActive = false }) {
   // Define disclosure
   const { isOpen, onOpen, onClose } = useDisclosure();
 
@@ -95,7 +95,7 @@ function FileItem({ children, file, onClick, isActive = false }) {
                   </Box>
 
                   <Text as="span" userSelect="none" isTruncated>
-                    {children}
+                    {file.name}
                   </Text>
                 </Text>
               </HStack>

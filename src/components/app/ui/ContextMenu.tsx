@@ -45,7 +45,7 @@ function FileItemContextMenu({ file, setRenamingFile }) {
       <MenuItemBase
         // label="Delete File"
         icon={<LuTrash />}
-        onClick={() => deleteFile(file)}
+        onClick={() => deleteFile(file.location)}
       >
         Delete
       </MenuItemBase>
@@ -168,7 +168,7 @@ function FolderItemContextMenu({ file, setRenamingFile }) {
           <MenuItemBase
             // label="Delete File"
             icon={<LuTrash />}
-            onClick={() => deleteFile(file)}
+            onClick={() => deleteFile(file.location)}
           >
             Delete
           </MenuItemBase>

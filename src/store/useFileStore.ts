@@ -3,7 +3,6 @@ import { create } from 'zustand';
 // Import libraries
 import minima from '@/lib/minima';
 // Import utilities
-import getFiles from '@/utils/getFiles';
 import isImageFile from '@/utils/isImageFile';
 // Import stores
 import useEditorStore from './useEditorStore';
@@ -23,10 +22,10 @@ interface IFileStore {
   refreshFiles: (workspace: string, loader?: boolean) => Promise<void>;
   addFile: (path: string) => Promise<void>;
   addFolder: (path: string) => Promise<void>;
-  renameFile: (oldFile: string, newFile: string) => Promise<void>;
+  renameFile: (path: string, newPath: string) => Promise<void>;
   saveFile: () => Promise<void>;
   loadFile: (path: string) => Promise<void>;
-  deleteFile: (file: string) => Promise<void>;
+  deleteFile: (path: string) => Promise<void>;
   deleteAllFiles: () => Promise<void>;
 
   currentFile: TCurrentFile;
@@ -116,7 +115,6 @@ const useFileStore = create<IFileStore>((set, get) => ({
     set({ currentFile: path });
     useEditorStore.setState({ code: '' });
   },
-
   addFolder: async (path: string) => {
     const currentWorkspace = useWorkspaceStore.getState().currentWorkspace;
 
@@ -128,9 +126,7 @@ const useFileStore = create<IFileStore>((set, get) => ({
 
     get().refreshFiles(currentWorkspace, false);
     set({ currentFolder: path });
-    useEditorStore.setState({ code: '' });
   },
-
   renameFile: async (path: string, newPath: string) => {
     const currentWorkspace = useWorkspaceStore.getState().currentWorkspace;
 
@@ -181,21 +177,21 @@ const useFileStore = create<IFileStore>((set, get) => ({
 
     useEditorStore.setState({ code });
   },
-  deleteFile: async (file: string) => {
+  deleteFile: async (path: string) => {
     const currentWorkspace = useWorkspaceStore.getState().currentWorkspace;
 
     if (!currentWorkspace) {
       return;
     }
 
-    await minima.file.delete(`workspaces/${currentWorkspace}/${file}`);
+    await minima.file.delete(path);
 
-    if (file === get().currentFile) {
+    if (path === get().currentFile) {
       set({ currentFile: null });
       useEditorStore.setState({ code: null });
     }
 
-    set((state) => ({ files: state.files.filter((f) => f !== file) }));
+    get().refreshFiles(currentWorkspace, false);
   },
   deleteAllFiles: async () => {
     const currentWorkspace = useWorkspaceStore.getState().currentWorkspace;
@@ -207,7 +203,7 @@ const useFileStore = create<IFileStore>((set, get) => ({
     await minima.file.delete(`workspaces/${currentWorkspace}`);
     await minima.file.makedir(`workspaces/${currentWorkspace}`);
 
-    set({ files: [] });
+    set({ files: [], allFiles: [] });
   },
 
   currentFile: null,
