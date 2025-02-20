@@ -77,12 +77,12 @@ function CodeEditorPanel() {
             >
               {allCodes.map(({ index, file }) => (
                 <Tooltip
+                  key={index}
                   label={file.split('/').pop()}
                   placement="bottom"
                   hasArrow
                 >
                   <Tab
-                    key={index}
                     p={0}
                     borderRadius="none"
                     borderTopColor="transparent"
