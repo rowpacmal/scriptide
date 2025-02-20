@@ -1,7 +1,7 @@
 // Import dependencies
 import { Box, useToast } from '@chakra-ui/react';
 import Editor from '@monaco-editor/react';
-import { useEffect, useRef } from 'react';
+import { useRef } from 'react';
 // Import store
 import useEditorStore from '@/store/useEditorStore';
 import useFileStore from '@/store/useFileStore';
@@ -37,13 +37,6 @@ function CodeEditor({ index, file, code }) {
     refreshLivePreview();
   }
 
-  // Define effect
-  useEffect(() => {
-    // console.log(index);
-    // console.log(file);
-    // console.log(code);
-  }, []);
-
   // Render
   return (
     <Box
@@ -54,8 +47,8 @@ function CodeEditor({ index, file, code }) {
         }
       }}
       onKeyDown={(e) => {
-        e.preventDefault();
         if (e.key === 's' && e.ctrlKey) {
+          e.preventDefault();
           handleOnSave();
           toast({
             title: 'File saved',
@@ -73,12 +66,7 @@ function CodeEditor({ index, file, code }) {
         language={getExtension(file)}
         onMount={handleOnMount}
         value={code}
-        onChange={(value) => {
-          console.log('edit');
-          console.log(value);
-
-          updateCode(index, value || '');
-        }}
+        onChange={(value) => updateCode(index, value || '')}
         options={{
           fontSize: 12 + editorZoom, // Font size
           fixedOverflowWidgets: true, // Prevents widgets from overflowing

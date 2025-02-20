@@ -24,6 +24,8 @@ import useFileStore from '@/store/useFileStore';
 import useLivePreviewStore from '@/store/useLivePreviewStore';
 // Import hooks
 import useRunScript from '../../../hooks/useRunScript';
+import isImageFile from '@/utils/isImageFile';
+import { useMemo } from 'react';
 
 // Code editor header button component
 function CodeEditorHeaderButton({
@@ -63,7 +65,6 @@ function CodeEditorHeader({ isOverviewCollapsed, handelToggleOverview }) {
   const toast = useToast();
 
   // Define store
-  const code = useEditorStore((state) => state.code);
   const allCodes = useEditorStore((state) => state.allCodes);
   const editorZoom = useEditorStore((state) => state.editorZoom);
   const setEditorZoom = useEditorStore((state) => state.setEditorZoom);
@@ -81,6 +82,12 @@ function CodeEditorHeader({ isOverviewCollapsed, handelToggleOverview }) {
   const showPreview = useLivePreviewStore((state) => state.showPreview);
   const togglePreview = useLivePreviewStore((state) => state.togglePreview);
 
+  // Define memo
+  const disableButton = useMemo(
+    () => currentFile === null || isImageFile(currentFile),
+    [currentFile]
+  );
+
   // Define handlers
   const handleRunScript = useRunScript();
 
@@ -93,7 +100,7 @@ function CodeEditorHeader({ isOverviewCollapsed, handelToggleOverview }) {
             label="Run script"
             hoverColor="green.500"
             onClick={handleRunScript}
-            disabled={code === null}
+            disabled={disableButton}
           >
             <LuPlay />
           </CodeEditorHeaderButton>
@@ -103,7 +110,7 @@ function CodeEditorHeader({ isOverviewCollapsed, handelToggleOverview }) {
           <CodeEditorHeaderButton
             label="Zoom out"
             onClick={editorZoomOut}
-            disabled={allCodes.length < 1}
+            disabled={disableButton}
           >
             <LuZoomOut />
           </CodeEditorHeaderButton>
@@ -116,15 +123,15 @@ function CodeEditorHeader({ isOverviewCollapsed, handelToggleOverview }) {
             size="xs"
             maxW={8}
             textAlign="center"
-            _hover={{ borderColor: allCodes.length < 1 ? '' : 'gray.50' }}
+            _hover={{ borderColor: disableButton ? '' : 'gray.50' }}
             _focus={{ borderColor: 'blue.500' }}
-            disabled={allCodes.length < 1}
+            disabled={disableButton}
           />
 
           <CodeEditorHeaderButton
             label="Zoom in"
             onClick={editorZoomIn}
-            disabled={allCodes.length < 1}
+            disabled={disableButton}
           >
             <LuZoomIn />
           </CodeEditorHeaderButton>
@@ -150,7 +157,7 @@ function CodeEditorHeader({ isOverviewCollapsed, handelToggleOverview }) {
                 isClosable: true,
               });
             }}
-            disabled={allCodes.length < 1}
+            disabled={disableButton}
           >
             <LuSave />
           </CodeEditorHeaderButton>
