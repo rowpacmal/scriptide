@@ -45,10 +45,20 @@ const useEditorStore = create<IEditorStore>((set) => ({
   setTabIndex: (tabIndex: number) => set({ tabIndex }),
 
   addCode: (file: string, code: TCode, isImg: boolean) => {
-    set((state) => ({
-      allCodes: [...state.allCodes, { index: Date.now(), file, code, isImg }],
-      tabIndex: state.allCodes.length,
-    }));
+    set((state) => {
+      const allCodes = [...state.allCodes];
+
+      if (allCodes.find((c) => c.file === file)) {
+        return {
+          tabIndex: allCodes.findIndex((c) => c.file === file),
+        };
+      }
+
+      return {
+        allCodes: [...allCodes, { index: Date.now(), file, code, isImg }],
+        tabIndex: allCodes.length,
+      };
+    });
   },
   updateCode: (index: number, code: TCode) => {
     set((state) => ({
