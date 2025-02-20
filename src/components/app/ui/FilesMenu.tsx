@@ -115,6 +115,10 @@ function FilesMenu() {
           <FilesMenuItem
             label="Upload file"
             onClick={() => {
+              if (!currentFolder) {
+                setCurrentFolder(`/workspaces/${currentWorkspace}`);
+              }
+
               setModalType('upload');
               onOpen();
             }}

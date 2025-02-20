@@ -10,7 +10,6 @@ import {
 import ConfirmModal from './ConfirmModal';
 import { useEffect, useRef, useState } from 'react';
 import useUploadFile from '@/hooks/useUploadFile';
-import useWorkspaceStore from '@/store/useWorkspaceStore';
 
 // Workspace rename modal component
 function FilesUpload({ onClose }) {
@@ -20,16 +19,14 @@ function FilesUpload({ onClose }) {
   // Define ref
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
-  // Define Store
-  const currentWorkspace = useWorkspaceStore((state) => state.currentWorkspace);
-
   // Define upload
-  const { error, isUploading, progress, handleUploadFile } =
+  const { isError, isUploading, progress, handleUploadFile } =
     useUploadFile(fileInputRef);
 
   // Define state
   const [fileToUpload, setFileToUpload] = useState<File | null>(null);
   const [fileName, setFileName] = useState('');
+  const [uploadFileName, setUploadFileName] = useState('');
   const [isDragging, setIsDragging] = useState(false);
 
   // Define handlers
@@ -38,18 +35,17 @@ function FilesUpload({ onClose }) {
     e.stopPropagation(); // Stop event from bubbling up
     setIsDragging(true);
   };
-
   const handleDragLeave = (e) => {
     e.preventDefault();
     e.stopPropagation();
     setIsDragging(false); // Set dragging state to false when leaving
   };
-
   const handleDrop = (e) => {
     e.preventDefault(); // Prevent default behavior
     e.stopPropagation(); // Stop event from bubbling up
     setIsDragging(false);
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const droppedFiles: any = Array.from(e.dataTransfer.files);
     setFileToUpload(droppedFiles[0]);
   };
@@ -59,30 +55,18 @@ function FilesUpload({ onClose }) {
     }
   };
 
-  // Define effect
-  useEffect(() => {
-    if (error) {
-      toast({
-        title: 'Error uploading file',
-        description: error,
-        status: 'error',
-        duration: 3000,
-        isClosable: true,
-      });
-    }
-  }, [error]);
-
+  // Define effects
   useEffect(() => {
     if (fileToUpload) {
       setFileName(fileToUpload.name);
+      setUploadFileName(fileToUpload.name);
     }
   }, [fileToUpload]);
-
   useEffect(() => {
-    if (progress === 1 && !error) {
+    if (progress === 1 && !isError) {
       toast({
         title: 'File uploaded',
-        description: fileName,
+        description: uploadFileName,
         status: 'success',
         duration: 3000,
         isClosable: true,
@@ -96,13 +80,7 @@ function FilesUpload({ onClose }) {
       title="Upload file"
       buttonLabel="Upload"
       onClose={onClose}
-      onClick={() => {
-        if (!currentWorkspace) {
-          return;
-        }
-
-        handleUploadFile(fileToUpload, currentWorkspace);
-      }}
+      onClick={() => handleUploadFile(fileToUpload, fileName)}
       disabled={!fileToUpload || isUploading}
     >
       <Text fontSize="sm" pb={4} textAlign="center">
@@ -110,11 +88,31 @@ function FilesUpload({ onClose }) {
         click the "Upload" button.
       </Text>
 
+      <Box px={4} pb={4}>
+        <Input
+          size="sm"
+          variant="outline"
+          color="gray.50"
+          borderColor="gray.700"
+          _placeholder={{ color: 'gray.700' }}
+          _focusVisible={{ borderColor: 'gray.50' }}
+          _readOnly={{ color: 'gray.500' }}
+          value={fileName}
+          onChange={(e) => {
+            const { value } = e.target;
+            if (value.length <= 30) {
+              setFileName(value);
+            }
+          }}
+          placeholder="Enter file name here"
+        />
+      </Box>
+
       <Box px={4}>
         <Input
           ref={fileInputRef}
           type="file"
-          accept=".kvm, application/javascript, text/html, text/css image/jpeg, image/png, image/gif"
+          accept=".kvm, application/javascript, text/plain, text/html, text/css image/jpeg, image/png, image/gif"
           display="none"
           onChange={(e) => {
             const files = e.target.files;
@@ -147,7 +145,7 @@ function FilesUpload({ onClose }) {
             _placeholder={{ color: 'gray.700' }}
             _focusVisible={{ borderColor: 'gray.50' }}
             _readOnly={{ color: 'gray.500' }}
-            value={fileName}
+            value={uploadFileName}
             placeholder="Choose a file or drag and drop"
             readOnly
             onDragOver={handleDragOver}
@@ -163,7 +161,7 @@ function FilesUpload({ onClose }) {
             hasStripe
             value={progress ? progress * 100 : 0}
             colorScheme={
-              error ? 'red' : progress && progress < 1 ? 'blue' : 'green'
+              isError ? 'red' : progress && progress < 1 ? 'blue' : 'green'
             }
             bg="gray.700"
           />
