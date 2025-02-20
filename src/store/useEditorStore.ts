@@ -13,6 +13,9 @@ interface IEditorStore {
   allCodes: TAllCodes[];
   setAllCodes: (allCodes: TAllCodes[]) => void;
 
+  tabIndex: number;
+  setTabIndex: (tabIndex: number) => void;
+
   addCode: (file: string, code: TCode, isImg: boolean) => void;
   updateCode: (index: number, code: TCode) => void;
   removeCode: (index: number) => void;
@@ -31,18 +34,21 @@ interface ILocalStorage {
 }
 
 // Create the store
-const useEditorStore = create<IEditorStore>((set, get) => ({
+const useEditorStore = create<IEditorStore>((set) => ({
   code: null,
   setCode: (code: TCode) => set({ code }),
 
   allCodes: [],
   setAllCodes: (allCodes: TAllCodes[]) => set({ allCodes }),
 
+  tabIndex: 0,
+  setTabIndex: (tabIndex: number) => set({ tabIndex }),
+
   addCode: (file: string, code: TCode, isImg: boolean) => {
     set((state) => ({
       allCodes: [...state.allCodes, { index: Date.now(), file, code, isImg }],
+      tabIndex: state.allCodes.length,
     }));
-    console.log(get().allCodes);
   },
   updateCode: (index: number, code: TCode) => {
     set((state) => ({

@@ -1,7 +1,7 @@
 // Import dependencies
 import { Box, useToast } from '@chakra-ui/react';
 import Editor from '@monaco-editor/react';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 // Import store
 import useEditorStore from '@/store/useEditorStore';
 import useFileStore from '@/store/useFileStore';
@@ -27,9 +27,6 @@ function CodeEditor({ index, file, code }) {
     (state) => state.refreshLivePreview
   );
 
-  // Define state
-  const [lang, setLang] = useState('plaintext');
-
   // Define handlers
   function handleOnMount(editor) {
     editorRef.current = editor;
@@ -42,10 +39,10 @@ function CodeEditor({ index, file, code }) {
 
   // Define effect
   useEffect(() => {
-    if (file) {
-      setLang(getExtension(file));
-    }
-  }, [file]);
+    // console.log(index);
+    // console.log(file);
+    // console.log(code);
+  }, []);
 
   // Render
   return (
@@ -73,10 +70,15 @@ function CodeEditor({ index, file, code }) {
       <Editor
         height="100%"
         theme={DEFAULT_EDITOR_THEME}
-        language={lang}
+        language={getExtension(file)}
         onMount={handleOnMount}
         value={code}
-        onChange={(value) => updateCode(index, value || '')}
+        onChange={(value) => {
+          console.log('edit');
+          console.log(value);
+
+          updateCode(index, value || '');
+        }}
         options={{
           fontSize: 12 + editorZoom, // Font size
           fixedOverflowWidgets: true, // Prevents widgets from overflowing

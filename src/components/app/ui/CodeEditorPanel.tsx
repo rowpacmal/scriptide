@@ -16,6 +16,20 @@ import { useRef } from 'react';
 import { LuX } from 'react-icons/lu';
 import CodeEditor from './CodeEditor';
 
+function NoOpenFile() {
+  return (
+    <Text
+      h="100%"
+      display="grid"
+      placeItems="center"
+      color="gray.500"
+      fontSize="sm"
+    >
+      No file opened
+    </Text>
+  );
+}
+
 function CodeEditorPanel() {
   // Define refs
   const scrollContainerRef: any = useRef(null);
@@ -24,6 +38,9 @@ function CodeEditorPanel() {
   const allCodes = useEditorStore((state) => state.allCodes);
   const removeCode = useEditorStore((state) => state.removeCode);
   const currentFile = useFileStore((state) => state.currentFile);
+  const setCurrentFile = useFileStore((state) => state.setCurrentFile);
+  const tabIndex = useEditorStore((state) => state.tabIndex);
+  const setTabIndex = useEditorStore((state) => state.setTabIndex);
 
   // Define handlers
   const handleWheel = (e) => {
@@ -35,7 +52,13 @@ function CodeEditorPanel() {
   return (
     <Box h="100%" borderTop="1px solid" borderColor="gray.700">
       {allCodes.length > 0 ? (
-        <Tabs variant="enclosed" h="100%" w="100%">
+        <Tabs
+          variant="enclosed"
+          h="100%"
+          w="100%"
+          index={tabIndex}
+          onChange={setTabIndex}
+        >
           <Box
             pb={1}
             ref={scrollContainerRef}
@@ -65,7 +88,7 @@ function CodeEditorPanel() {
                     borderBottomColor: 'gray.900',
                   }}
                 >
-                  <HStack gap={0}>
+                  <HStack h="100%" gap={0}>
                     <Text
                       cursor="pointer"
                       h="100%"
@@ -75,6 +98,7 @@ function CodeEditorPanel() {
                       userSelect="none"
                       display="grid"
                       placeContent="center"
+                      onClick={() => setCurrentFile(file)}
                     >
                       {file.split('/').pop()}
                     </Text>
@@ -84,7 +108,16 @@ function CodeEditorPanel() {
                       bg="transparent"
                       color="gray.500"
                       _hover={{ bg: 'transparent', color: 'gray.50' }}
-                      onClick={() => removeCode(index)}
+                      onClick={() => {
+                        removeCode(index);
+
+                        const next = allCodes[tabIndex + 1];
+                        if (next) {
+                          setCurrentFile(next.file);
+                        } else {
+                          setCurrentFile(null);
+                        }
+                      }}
                     >
                       <LuX />
                     </Box>
@@ -104,18 +137,12 @@ function CodeEditorPanel() {
                 )}
               </TabPanel>
             ))}
+
+            {!currentFile && <NoOpenFile />}
           </TabPanels>
         </Tabs>
       ) : (
-        <Text
-          h="100%"
-          display="grid"
-          placeItems="center"
-          color="gray.500"
-          fontSize="sm"
-        >
-          No file opened
-        </Text>
+        <NoOpenFile />
       )}
     </Box>
   );

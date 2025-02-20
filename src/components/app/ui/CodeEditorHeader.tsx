@@ -64,6 +64,7 @@ function CodeEditorHeader({ isOverviewCollapsed, handelToggleOverview }) {
 
   // Define store
   const code = useEditorStore((state) => state.code);
+  const allCodes = useEditorStore((state) => state.allCodes);
   const editorZoom = useEditorStore((state) => state.editorZoom);
   const setEditorZoom = useEditorStore((state) => state.setEditorZoom);
   const editorZoomIn = useEditorStore((state) => state.editorZoomIn);
@@ -72,6 +73,7 @@ function CodeEditorHeader({ isOverviewCollapsed, handelToggleOverview }) {
   const toggleEditorAutoSave = useEditorStore(
     (state) => state.toggleEditorAutoSave
   );
+  const currentFile = useFileStore((state) => state.currentFile);
   const saveFile = useFileStore((state) => state.saveFile);
   const refreshLivePreview = useLivePreviewStore(
     (state) => state.refreshLivePreview
@@ -101,7 +103,7 @@ function CodeEditorHeader({ isOverviewCollapsed, handelToggleOverview }) {
           <CodeEditorHeaderButton
             label="Zoom out"
             onClick={editorZoomOut}
-            disabled={code === null}
+            disabled={allCodes.length < 1}
           >
             <LuZoomOut />
           </CodeEditorHeaderButton>
@@ -114,15 +116,15 @@ function CodeEditorHeader({ isOverviewCollapsed, handelToggleOverview }) {
             size="xs"
             maxW={8}
             textAlign="center"
-            _hover={{ borderColor: code === null ? '' : 'gray.50' }}
+            _hover={{ borderColor: allCodes.length < 1 ? '' : 'gray.50' }}
             _focus={{ borderColor: 'blue.500' }}
-            disabled={code === null}
+            disabled={allCodes.length < 1}
           />
 
           <CodeEditorHeaderButton
             label="Zoom in"
             onClick={editorZoomIn}
-            disabled={code === null}
+            disabled={allCodes.length < 1}
           >
             <LuZoomIn />
           </CodeEditorHeaderButton>
@@ -132,17 +134,23 @@ function CodeEditorHeader({ isOverviewCollapsed, handelToggleOverview }) {
           <CodeEditorHeaderButton
             label="Save file"
             onClick={() => {
-              saveFile();
+              const fileToSave = allCodes.find((f) => f.file === currentFile);
+              if (!fileToSave) {
+                return;
+              }
+
+              const { file, code } = fileToSave;
+              saveFile(file, code || '');
               refreshLivePreview();
               toast({
                 title: 'File Saved',
-                description: 'The file has been saved successfully.',
+                description: file,
                 status: 'success',
                 duration: 3000,
                 isClosable: true,
               });
             }}
-            disabled={code === null}
+            disabled={allCodes.length < 1}
           >
             <LuSave />
           </CodeEditorHeaderButton>
