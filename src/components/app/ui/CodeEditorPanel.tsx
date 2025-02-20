@@ -3,6 +3,8 @@ import useFileStore from '@/store/useFileStore';
 import base64ToImage from '@/utils/base64ToImage';
 import {
   Box,
+  Breadcrumb,
+  BreadcrumbItem,
   HStack,
   Image,
   Tab,
@@ -11,9 +13,10 @@ import {
   TabPanels,
   Tabs,
   Text,
+  Tooltip,
 } from '@chakra-ui/react';
 import { useRef } from 'react';
-import { LuX } from 'react-icons/lu';
+import { LuChevronRight, LuX } from 'react-icons/lu';
 import CodeEditor from './CodeEditor';
 
 function NoOpenFile() {
@@ -73,56 +76,63 @@ function CodeEditorPanel() {
               minW="fit-content"
             >
               {allCodes.map(({ index, file }) => (
-                <Tab
-                  key={index}
-                  p={0}
-                  borderRadius="none"
-                  borderTopColor="transparent"
-                  borderLeft="none"
-                  borderRight="1px solid"
-                  borderRightColor="gray.700"
-                  _selected={{
-                    bg: 'gray.900',
-                    borderColor: 'gray.700',
-                    borderTopColor: 'blue.500',
-                    borderBottomColor: 'gray.900',
-                  }}
+                <Tooltip
+                  label={file.split('/').pop()}
+                  placement="bottom"
+                  hasArrow
                 >
-                  <HStack h="100%" gap={0}>
-                    <Text
-                      cursor="pointer"
-                      h="100%"
-                      color="gray.500"
-                      pl={2}
-                      fontSize="sm"
-                      userSelect="none"
-                      display="grid"
-                      placeContent="center"
-                      onClick={() => setCurrentFile(file)}
-                    >
-                      {file.split('/').pop()}
-                    </Text>
+                  <Tab
+                    key={index}
+                    p={0}
+                    borderRadius="none"
+                    borderTopColor="transparent"
+                    borderLeft="none"
+                    borderRight="1px solid"
+                    borderRightColor="gray.700"
+                    _selected={{
+                      bg: 'gray.900',
+                      borderColor: 'gray.700',
+                      borderTopColor: 'blue.500',
+                      borderBottomColor: 'gray.900',
+                    }}
+                  >
+                    <HStack h="100%" gap={0}>
+                      <Text
+                        cursor="pointer"
+                        h="100%"
+                        color="gray.500"
+                        pl={2}
+                        fontSize="sm"
+                        userSelect="none"
+                        display="grid"
+                        placeContent="center"
+                        onClick={() => setCurrentFile(file)}
+                        whiteSpace="nowrap"
+                      >
+                        {file.split('/').pop()}
+                      </Text>
 
-                    <Box
-                      p={2}
-                      bg="transparent"
-                      color="gray.500"
-                      _hover={{ bg: 'transparent', color: 'gray.50' }}
-                      onClick={() => {
-                        removeCode(index);
+                      <Box
+                        p={2}
+                        bg="transparent"
+                        color="gray.500"
+                        _hover={{ bg: 'transparent', color: 'gray.50' }}
+                        onClick={() => {
+                          removeCode(index);
 
-                        const next = allCodes[tabIndex + 1];
-                        if (next) {
-                          setCurrentFile(next.file);
-                        } else {
-                          setCurrentFile(null);
-                        }
-                      }}
-                    >
-                      <LuX />
-                    </Box>
-                  </HStack>
-                </Tab>
+                          const next = allCodes[tabIndex + 1];
+                          if (next) {
+                            setCurrentFile(next.file);
+                          } else {
+                            setCurrentFile(null);
+                          }
+                        }}
+                      >
+                        <LuX />
+                      </Box>
+                    </HStack>
+                  </Tab>
+                </Tooltip>
               ))}
             </TabList>
           </Box>
@@ -130,6 +140,29 @@ function CodeEditorPanel() {
           <TabPanels h="100%">
             {allCodes.map(({ index, file, code, isImg }) => (
               <TabPanel key={index} h="100%" p={0}>
+                <Breadcrumb
+                  spacing={1}
+                  color="gray.500"
+                  fontSize="xs"
+                  py={1}
+                  px={2}
+                  separator={
+                    <Box color="gray.700">
+                      <LuChevronRight />
+                    </Box>
+                  }
+                  userSelect="none"
+                >
+                  {['root', ...file.split('/').slice(3)].map((f, i) => (
+                    <BreadcrumbItem
+                      key={i}
+                      color={file.split('/').length - 1 === i ? 'gray.50' : ''}
+                    >
+                      <Text>{f}</Text>
+                    </BreadcrumbItem>
+                  ))}
+                </Breadcrumb>
+
                 {isImg ? (
                   <Image src={base64ToImage(code || '') || ''} />
                 ) : (
