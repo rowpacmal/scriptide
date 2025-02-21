@@ -19,6 +19,7 @@ import getIcon from '../../../utils/getIcon';
 import getType from '../../../utils/getType';
 // Import store
 import useRunScriptStore from '@/store/useRunScriptStore';
+import useAppTheme from '@/themes/useAppTheme';
 
 // Types
 type OverviewItemProps = {
@@ -30,9 +31,12 @@ type OverviewItemProps = {
 
 // Utility components
 /* function ScriptStatus({ children, label, bool }) {
+  // Define theme
+  const { colorAlt } = useAppTheme();
+  
   return (
     <HStack gap={1}>
-      <Text color="gray.500" textTransform="uppercase">
+      <Text color={colorAlt} textTransform="uppercase">
         {label}
       </Text>
 
@@ -51,6 +55,9 @@ function OverviewItem({
   // Define clipboard
   const { onCopy, value, setValue, hasCopied } = useClipboard('');
 
+  // Define theme
+  const { color, colorAlt, colorSuccess, bgAlt, borderColor } = useAppTheme();
+
   useEffect(() => {
     if (!children || typeof children !== 'string') {
       return;
@@ -63,7 +70,7 @@ function OverviewItem({
   return (
     <VStack as="section" w="100%" gap={1}>
       <HStack as="header" w="100%" justifyContent="space-between">
-        <Text as="h3" textTransform="uppercase" color="gray.500" fontSize="xs">
+        <Text as="h3" textTransform="uppercase" color={colorAlt} fontSize="xs">
           {label}
         </Text>
 
@@ -73,17 +80,17 @@ function OverviewItem({
           px={1}
           fontSize="2xs"
           borderRadius="sm"
-          color="gray.500"
+          color={hasCopied ? colorSuccess : colorAlt}
           border="1px solid"
-          borderColor="gray.700"
+          borderColor={hasCopied ? colorSuccess : borderColor}
           bg="transparent"
           _hover={{
-            color: !value ? '' : 'gray.50',
-            borderColor: !value ? '' : 'gray.50',
+            color: !value ? '' : hasCopied ? colorSuccess : color,
+            borderColor: !value ? '' : hasCopied ? colorSuccess : color,
           }}
           _active={{
-            color: !value ? '' : 'gray.50',
-            borderColor: !value ? '' : 'gray.50',
+            color: !value ? '' : color,
+            borderColor: !value ? '' : color,
           }}
           textTransform="uppercase"
           onClick={onCopy}
@@ -93,10 +100,10 @@ function OverviewItem({
         </Button>
       </HStack>
 
-      <Card w="100%" bg="gray.800" color="gray.50" p={2}>
+      <Card w="100%" bg={bgAlt} color={color} p={2}>
         <Text as="pre" h={h} overflow="auto" whiteSpace="pre-wrap" pr={2}>
           {children || (
-            <Text as="span" color="gray.500">
+            <Text as="span" color={colorAlt}>
               {placeholder}
             </Text>
           )}
@@ -106,6 +113,9 @@ function OverviewItem({
   );
 }
 function VariableItem({ variable, value }) {
+  // Define theme
+  const { accent, colorReversed, bgReversed } = useAppTheme();
+
   return (
     <Tooltip
       label={`${variable} : ${getType(value)}`}
@@ -113,12 +123,12 @@ function VariableItem({ variable, value }) {
       hasArrow
     >
       <ListItem display="grid" gridTemplateColumns="1.5rem 1fr">
-        <ListIcon as={getIcon(getType(value))} color="orange.500" my={1.5} />
+        <ListIcon as={getIcon(getType(value))} color={accent} my={1.5} />
 
         <VStack w="100%" gap={0.5}>
           <Text w="100%" wordBreak="break-all">
             {variable}&nbsp;
-            <Text as="span" color="orange.500">
+            <Text as="span" color={accent}>
               : {getType(value)}
             </Text>
           </Text>
@@ -126,7 +136,8 @@ function VariableItem({ variable, value }) {
           <Code
             w="100%"
             flexGrow={1}
-            colorScheme="orange"
+            color={colorReversed}
+            bg={bgReversed}
             wordBreak="break-all"
           >
             {value}
@@ -151,6 +162,9 @@ function Overview() {
     (state) => state.totalScriptInstructions
   );
 
+  // Define theme
+  const { accent, color, colorAlt, bgAlt } = useAppTheme();
+
   // Render
   return (
     <Box h="100%" p={2}>
@@ -160,7 +174,7 @@ function Overview() {
             as="h2"
             textTransform="uppercase"
             fontSize="lg"
-            color="gray.500"
+            color={colorAlt}
           >
             Overview
           </Text>
@@ -170,7 +184,7 @@ function Overview() {
           {/*
            * Moved the script status to the console header
            */}
-          {/* <Card bg="gray.800" color="gray.50" px={3}>
+          {/* <Card bg={bgAlt} color={color} px={3}>
             <HStack py={2} gap={3} flexWrap="wrap" justifyContent="center">
               <ScriptStatus label="Parse" bool={scriptParse}>
                 {scriptParse === null ? 'N/A' : scriptParse ? 'OK' : 'FAIL'}
@@ -211,14 +225,14 @@ function Overview() {
               <Text
                 as="h3"
                 textTransform="uppercase"
-                color="gray.500"
+                color={colorAlt}
                 fontSize="xs"
               >
                 Total instructions
               </Text>
             </HStack>
 
-            <Card w="100%" bg="gray.800" color="gray.50" p={2}>
+            <Card w="100%" bg={bgAlt} color={color} p={2}>
               <Text
                 as="pre"
                 h="auto"
@@ -228,13 +242,13 @@ function Overview() {
               >
                 {totalScriptInstructions ? (
                   <>
-                    <Text as="span" color="orange.500">
+                    <Text as="span" color={accent}>
                       {totalScriptInstructions}
                     </Text>{' '}
                     instructions
                   </>
                 ) : (
-                  <Text as="span" color="gray.500">
+                  <Text as="span" color={colorAlt}>
                     Script MxAddress here
                   </Text>
                 )}
@@ -247,14 +261,14 @@ function Overview() {
               <Text
                 as="h3"
                 textTransform="uppercase"
-                color="gray.500"
+                color={colorAlt}
                 fontSize="xs"
               >
                 Script variables
               </Text>
             </Box>
 
-            <Card w="100%" bg="gray.800" color="gray.50" p={2}>
+            <Card w="100%" bg={bgAlt} color={color} p={2}>
               {Object.entries(scriptVariables).length > 0 ? (
                 <List spacing={3}>
                   {Object.entries(scriptVariables).map(([variable, value]) => (
@@ -266,7 +280,7 @@ function Overview() {
                   ))}
                 </List>
               ) : (
-                <Text as="pre" color="gray.500" whiteSpace="pre-wrap">
+                <Text as="pre" color={colorAlt} whiteSpace="pre-wrap">
                   Script variables here
                 </Text>
               )}

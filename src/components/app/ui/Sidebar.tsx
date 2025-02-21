@@ -15,6 +15,7 @@ import {
 import { NAVIGATION_LABELS } from '@/constants';
 // Import store
 import useNavigationStore from '@/store/useNavigationStore';
+import useAppTheme from '@/themes/useAppTheme';
 
 // Constants
 const ICON_SIZE = 24;
@@ -27,20 +28,22 @@ function SidebarButton({
   onClick,
   disabled = false,
 }) {
+  // Define theme
+  const { accent, color, colorAlt } = useAppTheme();
+
   // Render
   return (
     <Tooltip label={label} placement="top-start" hasArrow>
       <HStack gap={1}>
-        <Box bg={active ? 'blue.500' : 'transparent'} w={0.5} h="100%" />
+        <Box bg={active ? accent : 'transparent'} w={0.5} h="100%" />
 
         <Button
-          colorScheme="blue"
           p={0}
           bg="transparent"
-          color={active ? 'gray.50' : 'gray.500'}
+          color={active ? color : colorAlt}
           _hover={{
             bg: 'transparent',
-            color: disabled ? '' : 'gray.50',
+            color: disabled ? '' : color,
           }}
           _active={{
             bg: 'transparent',
@@ -89,7 +92,6 @@ function Sidebar({ isControlPanelCollapsed, handelToggleControlPanel }) {
         <Tooltip label={NAVIGATION_LABELS.home} placement="right" hasArrow>
           <Button
             variant="unstyled"
-            colorScheme="blue"
             p={0}
             pl={1.5}
             onClick={() => handleNavigationChange('home')}
@@ -159,6 +161,7 @@ function Sidebar({ isControlPanelCollapsed, handelToggleControlPanel }) {
           label={NAVIGATION_LABELS.deploy}
           active={handleIsActive('deploy')}
           onClick={() => handleNavigationChange('deploy')}
+          disabled
         >
           <LuRocket size={ICON_SIZE} />
         </SidebarButton>

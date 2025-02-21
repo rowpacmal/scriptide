@@ -16,6 +16,7 @@ import {
 // Import components
 import FileItemRename from './FileItemRename';
 import { FileItemContextMenu } from './ContextMenu';
+import useAppTheme from '@/themes/useAppTheme';
 
 // File item context menu component
 
@@ -23,6 +24,9 @@ import { FileItemContextMenu } from './ContextMenu';
 function FileItem({ file, onClick, isActive = false }) {
   // Define disclosure
   const { isOpen, onOpen, onClose } = useDisclosure();
+
+  // Define theme
+  const { accent, color, colorAlt, borderColor } = useAppTheme();
 
   // Define state
   const [renamingFile, setRenamingFile] = useState(false);
@@ -57,7 +61,7 @@ function FileItem({ file, onClick, isActive = false }) {
         <Box
           cursor="pointer"
           w="100%"
-          _hover={{ bg: 'gray.700', color: 'gray.50' }}
+          _hover={{ bg: borderColor, color }}
           borderRadius="sm"
         >
           <Menu isOpen={isOpen} onClose={onClose} placement="bottom-start">
@@ -71,17 +75,13 @@ function FileItem({ file, onClick, isActive = false }) {
                 w="100%"
                 borderRadius="sm"
                 border="1px solid"
-                borderColor={isOpen ? 'blue.500' : 'transparent'}
-                // borderColor={
-                //   isOpen ? (isActive ? 'blue.500' : 'gray.500') : 'transparent'
-                // }
+                borderColor={isOpen ? accent : 'transparent'}
                 justifyContent="space-between"
                 gap={0}
                 pl={2}
                 pr={1}
-                color={isActive ? 'blue.500' : 'gray.500'}
-                bg={isOpen ? 'gray.700' : ''}
-                // bg={isActive ? 'blue.700' : isOpen ? 'gray.700' : 'transparent'}
+                color={isActive ? accent : colorAlt}
+                bg={isOpen ? borderColor : ''}
               >
                 <Text
                   w="100%"

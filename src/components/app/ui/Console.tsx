@@ -1,14 +1,17 @@
 import { Box } from '@chakra-ui/react';
 import { useEffect, useRef } from 'react';
 import { Editor } from '@monaco-editor/react';
-import { DEFAULT_EDITOR_THEME } from '../../../constants';
 import useEditorStore from '@/store/useEditorStore';
 import useConsoleStore from '@/store/useConsoleStore';
+import useAppTheme from '@/themes/useAppTheme';
 
 // Console component
 function Console() {
   // Define refs
   const consoleOutputRef = useRef(null);
+
+  // Define theme
+  const { borderColor, editorTheme } = useAppTheme();
 
   // Define store
   const editorZoom = useEditorStore((state) => state.editorZoom);
@@ -36,10 +39,10 @@ function Console() {
 
   // Render
   return (
-    <Box h="100%" borderTop="1px solid" borderColor="gray.700">
+    <Box h="100%" borderTop="1px solid" borderColor={borderColor}>
       <Editor
         height="100%"
-        theme={DEFAULT_EDITOR_THEME}
+        theme={editorTheme}
         language="json"
         onMount={handleOnMount}
         value={consoleOutput.join('\n')}

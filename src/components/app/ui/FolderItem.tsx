@@ -14,6 +14,7 @@ import { useEffect, useState } from 'react';
 import FileItemRename from './FileItemRename';
 import { LuChevronDown, LuChevronRight, LuFolder } from 'react-icons/lu';
 import { FolderItemContextMenu } from './ContextMenu';
+import useAppTheme from '@/themes/useAppTheme';
 
 function FolderItem({ file, isExpanded, setIsExpanded, isActive }) {
   // Define stores
@@ -21,6 +22,9 @@ function FolderItem({ file, isExpanded, setIsExpanded, isActive }) {
   const currentFolder = useFileStore((state) => state.currentFolder);
   const setCurrentFolder = useFileStore((state) => state.setCurrentFolder);
   const isAddingFile = useFileStore((state) => state.isAddingFile);
+
+  // Define theme
+  const { accent, color, colorAlt, bgAlt, borderColor } = useAppTheme();
 
   // Define disclosure
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -71,19 +75,14 @@ function FolderItem({ file, isExpanded, setIsExpanded, isActive }) {
   }, []);
 
   return (
-    <VStack
-      w="100%"
-      gap={0.5}
-      borderRadius="sm"
-      bg={isActive ? 'gray.800' : ''}
-    >
+    <VStack w="100%" gap={0.5} borderRadius="sm" bg={isActive ? bgAlt : ''}>
       {renamingFile ? (
         <FileItemRename file={file} setRenamingFile={setRenamingFile} />
       ) : (
         <Box
           cursor="pointer"
           w="100%"
-          _hover={{ bg: 'gray.700', color: 'gray.50' }}
+          _hover={{ bg: borderColor, color }}
           borderRadius="sm"
         >
           <Menu isOpen={isOpen} onClose={onClose} placement="bottom-start">
@@ -103,16 +102,11 @@ function FolderItem({ file, isExpanded, setIsExpanded, isActive }) {
                 w="100%"
                 borderRadius="sm"
                 border="1px solid"
-                borderColor={isOpen ? 'gray.500' : 'transparent'}
-                // borderColor={
-                //   isOpen ? (isActive ? 'blue.500' : 'gray.500') : 'transparent'
-                // }
+                borderColor={isOpen ? accent : 'transparent'}
                 justifyContent="space-between"
                 gap={0}
-                color="gray.500"
-                // color={isActive ? 'gray.50' : 'gray.500'}
-                bg={isOpen ? 'gray.700' : ''}
-                // bg={isActive ? 'blue.700' : isOpen ? 'gray.700' : 'transparent'}
+                color={colorAlt}
+                bg={isOpen ? borderColor : ''}
               >
                 <Box>
                   {isExpanded[file.location] ? (

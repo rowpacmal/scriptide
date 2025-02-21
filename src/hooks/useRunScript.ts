@@ -15,6 +15,7 @@ import useGlobalVariableStore from '@/store/useGlobalVariableStore';
 import useSignatureStore from '@/store/useSignatureStore';
 import useStateVariableStore from '@/store/useStateVariableStore';
 import usePrevStateVariableStore from '@/store/usePrevStateVariableStore';
+import useFileStore from '@/store/useFileStore';
 
 // Run script hook
 function useRunScript() {
@@ -22,7 +23,8 @@ function useRunScript() {
   const toast = useToast();
 
   // Define store
-  const code = useEditorStore((state) => state.code);
+  const currentFile = useFileStore((state) => state.currentFile);
+  const allCodes = useEditorStore((state) => state.allCodes);
   const globals = useGlobalVariableStore((state) => state.globals);
   const signatures = useSignatureStore((state) => state.signatures);
   const stateVariables = useStateVariableStore((state) => state.stateVariables);
@@ -53,6 +55,8 @@ function useRunScript() {
 
   // Define handler
   async function handleRunScript(): Promise<void> {
+    const code = allCodes.find((c) => c.file === currentFile)?.code;
+
     // Check for code in the editor
     if (!code) {
       return;

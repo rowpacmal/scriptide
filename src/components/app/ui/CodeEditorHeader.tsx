@@ -10,7 +10,6 @@ import {
 import {
   LuChevronsLeft,
   LuChevronsRight,
-  LuPlay,
   LuRadio,
   LuSave,
   LuToggleLeft,
@@ -18,6 +17,7 @@ import {
   LuZoomIn,
   LuZoomOut,
 } from 'react-icons/lu';
+import { TbPlayerPlayFilled } from 'react-icons/tb';
 // Import store
 import useEditorStore from '@/store/useEditorStore';
 import useFileStore from '@/store/useFileStore';
@@ -25,27 +25,31 @@ import useLivePreviewStore from '@/store/useLivePreviewStore';
 // Import hooks
 import useRunScript from '../../../hooks/useRunScript';
 import isImageFile from '@/utils/isImageFile';
-import { useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
+import useAppTheme from '@/themes/useAppTheme';
 
 // Code editor header button component
 function CodeEditorHeaderButton({
   children,
   label,
-  hoverColor = 'gray.50',
+  hoverColor = '',
   onClick,
   disabled = false,
 }) {
+  // Define theme
+  const { color, colorAlt } = useAppTheme();
+
   // Render
   return (
     <Tooltip label={label} placement="bottom" hasArrow>
       <Button
         size="sm"
         bg="transparent"
-        color="gray.500"
+        color={colorAlt}
         p={0}
         _hover={{
           bg: 'transparent',
-          color: disabled ? '' : hoverColor,
+          color: disabled ? '' : hoverColor || color,
         }}
         _active={{
           bg: 'transparent',
@@ -63,6 +67,9 @@ function CodeEditorHeaderButton({
 function CodeEditorHeader({ isOverviewCollapsed, handelToggleOverview }) {
   // Define toast
   const toast = useToast();
+
+  // Define theme
+  const { accent, borderColor, color, colorSuccess } = useAppTheme();
 
   // Define store
   const allCodes = useEditorStore((state) => state.allCodes);
@@ -82,6 +89,9 @@ function CodeEditorHeader({ isOverviewCollapsed, handelToggleOverview }) {
   const showPreview = useLivePreviewStore((state) => state.showPreview);
   const togglePreview = useLivePreviewStore((state) => state.togglePreview);
 
+  // Define states
+  const [zoom, setZoom] = useState(editorZoom || '0');
+
   // Define memo
   const disableButton = useMemo(
     () => currentFile === null || isImageFile(currentFile),
@@ -90,42 +100,88 @@ function CodeEditorHeader({ isOverviewCollapsed, handelToggleOverview }) {
 
   // Define handlers
   const handleRunScript = useRunScript();
+  function handleEditorZoom() {
+    if (zoom === '-') {
+      setZoom(editorZoom);
+      return;
+    }
+
+    const currentZoom = Number(zoom);
+
+    if (!currentZoom && currentZoom !== 0) {
+      return;
+    }
+    if (isNaN(currentZoom)) {
+      setEditorZoom(editorZoom);
+      return;
+    }
+
+    setEditorZoom(currentZoom);
+  }
+
+  // Define effects
+  useEffect(() => {
+    setZoom(editorZoom);
+  }, [editorZoom]);
 
   // Render
   return (
     <HStack gap={0} justify="space-between">
       <HStack gap={0}>
-        <Box borderRight="1px solid" borderColor="gray.700">
+        <Box borderRight="1px solid" borderColor={borderColor}>
           <CodeEditorHeaderButton
             label="Run script"
-            hoverColor="green.500"
+            hoverColor={colorSuccess}
             onClick={handleRunScript}
             disabled={disableButton}
           >
-            <LuPlay />
+            <TbPlayerPlayFilled />
           </CodeEditorHeaderButton>
         </Box>
 
-        <HStack gap={0} borderRight="1px solid" borderColor="gray.700">
+        <HStack gap={0} borderRight="1px solid" borderColor={borderColor}>
           <CodeEditorHeaderButton
             label="Zoom out"
             onClick={editorZoomOut}
-            disabled={disableButton}
+            disabled={disableButton || editorZoom <= -6}
           >
             <LuZoomOut />
           </CodeEditorHeaderButton>
 
           <Input
-            value={editorZoom}
+            value={zoom}
             onChange={(e) => {
-              setEditorZoom(Number(e.target.value));
+              const { value } = e.target;
+              if (!/(^-[1-6]|[0-9]|[1-9][0-9])?$/.test(value)) {
+                return;
+              }
+              if (
+                Number(value) < -6 ||
+                Number(value) > 99 ||
+                (value.startsWith('0') && value.length > 1) ||
+                value.startsWith('--') ||
+                (!value.startsWith('-') && isNaN(Number(value)))
+              ) {
+                return;
+              }
+
+              setZoom(value);
             }}
             size="xs"
             maxW={8}
             textAlign="center"
-            _hover={{ borderColor: disableButton ? '' : 'gray.50' }}
-            _focus={{ borderColor: 'blue.500' }}
+            borderColor={borderColor}
+            _hover={{ borderColor: disableButton ? '' : color }}
+            _focusVisible={{
+              borderColor: accent,
+            }}
             disabled={disableButton}
+            onBlur={handleEditorZoom}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter') {
+                handleEditorZoom();
+              }
+            }}
           />
 
           <CodeEditorHeaderButton
@@ -137,7 +193,7 @@ function CodeEditorHeader({ isOverviewCollapsed, handelToggleOverview }) {
           </CodeEditorHeaderButton>
         </HStack>
 
-        <HStack gap={0} borderRight="1px solid" borderColor="gray.700">
+        <HStack gap={0} borderRight="1px solid" borderColor={borderColor}>
           <CodeEditorHeaderButton
             label="Save file"
             onClick={() => {
@@ -167,7 +223,7 @@ function CodeEditorHeader({ isOverviewCollapsed, handelToggleOverview }) {
             onClick={toggleEditorAutoSave}
           >
             {editorAutoSave ? (
-              <Box as="span" color="green.500">
+              <Box as="span" color={accent}>
                 <LuToggleRight size={20} />
               </Box>
             ) : (
@@ -176,7 +232,7 @@ function CodeEditorHeader({ isOverviewCollapsed, handelToggleOverview }) {
           </CodeEditorHeaderButton>
         </HStack>
 
-        <Box borderRight="1px solid" borderColor="gray.700">
+        <Box borderRight="1px solid" borderColor={borderColor}>
           <CodeEditorHeaderButton
             label={(showPreview ? 'Hide' : 'Show') + ' live preview'}
             onClick={togglePreview}

@@ -3,6 +3,7 @@ import FileItem from './FileItem';
 import useFileStore from '@/store/useFileStore';
 import FileItemAdd from './FileItemAdd';
 import FolderItem from './FolderItem';
+import useAppTheme from '@/themes/useAppTheme';
 
 function FileTree({
   file,
@@ -11,6 +12,9 @@ function FileTree({
   isAddingFile = false,
   isRoot = false,
 }) {
+  // Define theme
+  const { borderColor, borderColorAlt } = useAppTheme();
+
   return (
     <Box w="100%" pl={!isRoot ? 2 : 0}>
       <VStack
@@ -18,7 +22,7 @@ function FileTree({
         pl={!isRoot ? 2 : 0}
         pb={!isRoot ? 2 : 0}
         borderLeft={!isRoot ? '1px solid' : ''}
-        borderColor={!isRoot ? 'whiteAlpha.100' : ''}
+        borderColor={!isRoot ? borderColorAlt : ''}
         gap={0.5}
       >
         {file.length > 0 ? (
@@ -37,7 +41,7 @@ function FileTree({
         ) : (
           <>
             {!isAddingFile && (
-              <Text w="100%" color="gray.700" px={2} userSelect="none">
+              <Text w="100%" color={borderColor} px={2} userSelect="none">
                 -- empty --
               </Text>
             )}

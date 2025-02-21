@@ -14,9 +14,13 @@ import States from './States';
 import Explorer from './Explorer';
 import Home from './Home';
 import Deploy from './Deploy';
+import useAppTheme from '@/themes/useAppTheme';
 
 // Control panel component
 function ControlPanel() {
+  // Define theme
+  const { color, colorAlt, borderColor } = useAppTheme();
+
   // Define store
   const navigation = useNavigationStore((state) => state.navigation);
   const refreshWorkspaces = useWorkspaceStore(
@@ -25,14 +29,14 @@ function ControlPanel() {
 
   // Render
   return (
-    <Box h="100%" p={2} borderLeft="1px solid" borderColor="gray.700">
+    <Box h="100%" p={2} borderLeft="1px solid" borderColor={borderColor}>
       <VStack as="section" h="100%" pr={2} overflow="auto">
         <HStack as="header" w="100%" justifyContent="space-between">
           <Text
             as="h2"
             textTransform="uppercase"
             fontSize="lg"
-            color="gray.500"
+            color={colorAlt}
             minH="2rem"
             display="flex"
             alignItems="center"
@@ -45,8 +49,8 @@ function ControlPanel() {
               p={0}
               size="sm"
               bg="transparent"
-              color="gray.500"
-              _hover={{ bg: 'transparent', color: 'gray.50' }}
+              color={colorAlt}
+              _hover={{ bg: 'transparent', color }}
               onClick={() => refreshWorkspaces()}
             >
               <LuRotateCw size={20} />
@@ -57,7 +61,7 @@ function ControlPanel() {
         {navigation === 'home' && <Home />}
         {navigation === 'explorer' && <Explorer />}
         {navigation === 'search' && (
-          <Text color="gray.500">Not implemented!</Text>
+          <Text color={colorAlt}>Not implemented!</Text>
         )}
 
         {navigation === 'states' && <States />}
@@ -67,10 +71,10 @@ function ControlPanel() {
         {navigation === 'deploy' && <Deploy />}
 
         {navigation === 'plugins' && (
-          <Text color="gray.500">Not implemented!</Text>
+          <Text color={colorAlt}>Not implemented!</Text>
         )}
         {navigation === 'settings' && (
-          <Text color="gray.500">Not implemented!</Text>
+          <Text color={colorAlt}>Not implemented!</Text>
         )}
       </VStack>
     </Box>

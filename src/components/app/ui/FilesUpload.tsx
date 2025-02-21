@@ -10,11 +10,15 @@ import {
 import ConfirmModal from './ConfirmModal';
 import { useEffect, useRef, useState } from 'react';
 import useUploadFile from '@/hooks/useUploadFile';
+import useAppTheme from '@/themes/useAppTheme';
 
 // Workspace rename modal component
 function FilesUpload({ onClose }) {
   // Define toast
   const toast = useToast();
+
+  // Define theme
+  const { accent, color, colorAlt, borderColor } = useAppTheme();
 
   // Define ref
   const fileInputRef = useRef<HTMLInputElement | null>(null);
@@ -92,11 +96,14 @@ function FilesUpload({ onClose }) {
         <Input
           size="sm"
           variant="outline"
-          color="gray.50"
-          borderColor="gray.700"
-          _placeholder={{ color: 'gray.700' }}
-          _focusVisible={{ borderColor: 'gray.50' }}
-          _readOnly={{ color: 'gray.500' }}
+          color={color}
+          borderColor={borderColor}
+          _placeholder={{ color: borderColor }}
+          _hover={{ borderColor: color }}
+          _focusVisible={{
+            borderColor: accent,
+          }}
+          _readOnly={{ color: colorAlt }}
           value={fileName}
           onChange={(e) => {
             const { value } = e.target;
@@ -138,13 +145,16 @@ function FilesUpload({ onClose }) {
           <Input
             size="sm"
             variant="outline"
-            color="gray.50"
-            borderColor="gray.700"
-            outlineColor={isDragging ? 'blue.500' : ''}
+            color={color}
+            borderColor={borderColor}
+            outlineColor={isDragging ? accent : ''}
             transition="outline-color 0.2s linear"
-            _placeholder={{ color: 'gray.700' }}
-            _focusVisible={{ borderColor: 'gray.50' }}
-            _readOnly={{ color: 'gray.500' }}
+            _placeholder={{ color: borderColor }}
+            _hover={{ borderColor: color }}
+            _focusVisible={{
+              borderColor: accent,
+            }}
+            _readOnly={{ color: colorAlt }}
             value={uploadFileName}
             placeholder="Choose a file or drag and drop"
             readOnly
@@ -156,14 +166,19 @@ function FilesUpload({ onClose }) {
       </Box>
 
       <Box pt={4}>
-        <Box border="1px solid" borderColor="gray.700" borderRadius="md" p={2}>
+        <Box
+          border="1px solid"
+          borderColor={borderColor}
+          borderRadius="md"
+          p={2}
+        >
           <Progress
             hasStripe
             value={progress ? progress * 100 : 0}
             colorScheme={
               isError ? 'red' : progress && progress < 1 ? 'blue' : 'green'
             }
-            bg="gray.700"
+            bg={borderColor}
           />
         </Box>
       </Box>

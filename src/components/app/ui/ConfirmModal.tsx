@@ -2,6 +2,7 @@
 import { Button, ModalBody, ModalFooter } from '@chakra-ui/react';
 // Import components
 import ModalBase from './ModalBase';
+import useAppTheme from '@/themes/useAppTheme';
 
 // Confirm modal component
 function ConfirmModal({
@@ -14,10 +15,13 @@ function ConfirmModal({
   disabled = false,
   colorScheme = 'blue',
 }) {
+  // Define theme
+  const { colorAlt } = useAppTheme();
+
   // Render
   return (
     <ModalBase title={title}>
-      <ModalBody>{children}</ModalBody>
+      <ModalBody color={colorAlt}>{children}</ModalBody>
 
       <ModalFooter justifyContent="center" gap={2}>
         <Button

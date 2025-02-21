@@ -6,14 +6,16 @@ import { useRef } from 'react';
 import useEditorStore from '@/store/useEditorStore';
 import useFileStore from '@/store/useFileStore';
 import useLivePreviewStore from '@/store/useLivePreviewStore';
-// Import constants
-import { DEFAULT_EDITOR_THEME } from '@/constants';
 // Import utilities
 import getExtension from '@/utils/getExtension';
+import useAppTheme from '@/themes/useAppTheme';
 
 function CodeEditor({ index, file, code }) {
   // Define toast
   const toast = useToast();
+
+  // Define theme
+  const { editorTheme } = useAppTheme();
 
   // Define refs
   const editorRef = useRef(null);
@@ -62,7 +64,7 @@ function CodeEditor({ index, file, code }) {
     >
       <Editor
         height="100%"
-        theme={DEFAULT_EDITOR_THEME}
+        theme={editorTheme}
         language={getExtension(file)}
         onMount={handleOnMount}
         value={code}

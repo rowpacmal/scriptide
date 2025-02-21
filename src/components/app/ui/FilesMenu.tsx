@@ -19,6 +19,7 @@ import FilesDeleteAll from './FilesDeleteAll';
 import { useState } from 'react';
 import FilesUpload from './FilesUpload';
 import useWorkspaceStore from '@/store/useWorkspaceStore';
+import useAppTheme from '@/themes/useAppTheme';
 
 // Constants
 const ICON_SIZE = 20;
@@ -31,6 +32,9 @@ function FilesMenuItem({
   isLoading = false,
   disabled = false,
 }) {
+  // Define theme
+  const { color, colorAlt } = useAppTheme();
+
   // Render
   return (
     <Tooltip label={label} placement="top" hasArrow>
@@ -39,13 +43,13 @@ function FilesMenuItem({
         h="auto"
         minW="auto"
         bg="transparent"
-        color="gray.500"
+        color={colorAlt}
         _hover={{
           bg: 'transparent',
-          color: disabled ? '' : 'gray.50',
+          color: disabled ? '' : color,
           transform: disabled ? '' : 'scale(1.2)',
         }}
-        _active={{ bg: 'transparent', color: 'gray.50' }}
+        _active={{ bg: 'transparent', color: color }}
         onClick={onClick}
         isLoading={isLoading}
         disabled={disabled}

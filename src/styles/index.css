@@ -81,39 +81,34 @@ body {
 }
 
 /* Scrollbar */
-#root *::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
-}
-#root *::-webkit-scrollbar-track {
-  background: transparent;
-}
-#root *::-webkit-scrollbar-thumb {
-  background: #52525b;
-  border-radius: 8px;
-}
-#root *::-webkit-scrollbar-thumb:hover {
-  background: #71717a;
-}
-#root *::-webkit-scrollbar-corner {
-  background: transparent;
-}
-
-/* Scrollbar (with class) */
+#root *::-webkit-scrollbar,
 .scrollbar::-webkit-scrollbar {
   width: 8px;
   height: 8px;
 }
+#root *::-webkit-scrollbar-track,
 .scrollbar::-webkit-scrollbar-track {
-  background: transparent;
-}
-.scrollbar::-webkit-scrollbar-thumb {
-  background: #52525b;
+  background: #00000044;
   border-radius: 8px;
 }
-.scrollbar::-webkit-scrollbar-thumb:hover {
-  background: #71717a;
+#root *::-webkit-scrollbar-thumb,
+.scrollbar::-webkit-scrollbar-thumb {
+  background: #00000066;
+  border-radius: 8px;
 }
+html[data-theme*='dark'] #root *::-webkit-scrollbar-thumb,
+html[data-theme*='dark'] .scrollbar::-webkit-scrollbar-thumb {
+  background: #ffffff44;
+}
+#root *::-webkit-scrollbar-thumb:hover,
+.scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #00000044;
+}
+html[data-theme*='dark'] #root *::-webkit-scrollbar-thumb:hover,
+html[data-theme*='dark'] .scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #ffffff66;
+}
+#root *::-webkit-scrollbar-corner,
 .scrollbar::-webkit-scrollbar-corner {
   background: transparent;
 }
@@ -123,25 +118,20 @@ body {
   width: 14px;
   height: 14px;
 }
-#root .alt-scrollbar::-webkit-scrollbar-track:horizontal {
-  border-top: 1px solid #2d3748;
-  border-bottom: 1px solid #2d3748;
-}
-#root .alt-scrollbar::-webkit-scrollbar-track:vertical {
-  border-left: 1px solid #2d3748;
-  border-right: 1px solid #2d3748;
+#root .alt-scrollbar::-webkit-scrollbar-track {
+  border-radius: 0;
 }
 #root .alt-scrollbar::-webkit-scrollbar-thumb {
   border-radius: 0;
-}
-#root .alt-scrollbar::-webkit-scrollbar-corner {
-  border: 1px solid #2d3748;
 }
 
 /* Tab Scrollbar */
 #root .tab-scrollbar::-webkit-scrollbar {
   width: 4px;
   height: 4px;
+}
+#root .tab-scrollbar::-webkit-scrollbar-track {
+  border-radius: 0;
 }
 #root .tab-scrollbar::-webkit-scrollbar-thumb {
   border-radius: 0;

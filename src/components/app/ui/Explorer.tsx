@@ -11,6 +11,8 @@ import FilesMenu from './FilesMenu';
 import Workspace from './Workspace';
 import WorkspaceMenu from './WorkspaceMenu';
 import { FileTree } from './FileTree';
+import useAppTheme from '@/themes/useAppTheme';
+import useEditorStore from '@/store/useEditorStore';
 
 // File explorer component
 function Explorer() {
@@ -21,6 +23,10 @@ function Explorer() {
   const setCurrentFolder = useFileStore((state) => state.setCurrentFolder);
   const setCurrentFile = useFileStore((state) => state.setCurrentFile);
   const isLoadingFiles = useFileStore((state) => state.isLoadingFiles);
+  const setTabIndex = useEditorStore((state) => state.setTabIndex);
+
+  // Define theme
+  const { colorAlt, borderColor } = useAppTheme();
 
   // Define state
   const [isExpanded, setIsExpanded] = useState({});
@@ -61,7 +67,7 @@ function Explorer() {
             as="h3"
             fontSize="xs"
             textTransform="uppercase"
-            color="gray.500"
+            color={colorAlt}
           >
             Workspaces
           </Text>
@@ -75,7 +81,7 @@ function Explorer() {
 
         {isLoadingFiles ? (
           <VStack w="100%" flexGrow="1" justifyContent="center">
-            <Spinner size="xl" color="gray.700" />
+            <Spinner size="xl" color={borderColor} />
           </VStack>
         ) : (
           <>
@@ -88,19 +94,13 @@ function Explorer() {
                   w="100%"
                   flexGrow="1"
                   maxH="32rem"
-                  borderTop="1px solid"
-                  borderLeft="1px solid"
-                  borderBottom="1px solid"
-                  borderColor="gray.700"
+                  border="1px solid"
+                  borderColor={borderColor}
                   p={1}
                   gap={0.5}
                   overflowY="scroll"
                   className="alt-scrollbar"
-                  // display="box"
-                  onContextMenu={(e) => {
-                    e.preventDefault();
-                    // console.log('context menu');
-                  }}
+                  onContextMenu={(e) => e.preventDefault()}
                 >
                   <FileTree
                     file={file}
@@ -116,12 +116,13 @@ function Explorer() {
                     onClick={() => {
                       setCurrentFile(null);
                       setCurrentFolder(null);
+                      setTabIndex(-1);
                     }}
                   />
                 </VStack>
               </VStack>
             ) : (
-              <Text w="100%" color="gray.500">
+              <Text w="100%" color={colorAlt}>
                 No workspaces
               </Text>
             )}

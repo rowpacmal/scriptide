@@ -10,6 +10,7 @@ import {
 import { LuChevronDown } from 'react-icons/lu';
 // Import store
 import useWorkspaceStore from '@/store/useWorkspaceStore';
+import useAppTheme from '@/themes/useAppTheme';
 
 // Workspace component
 function Workspace() {
@@ -17,6 +18,9 @@ function Workspace() {
   const workspaces = useWorkspaceStore((state) => state.workspaces);
   const currentWorkspace = useWorkspaceStore((state) => state.currentWorkspace);
   const updateWorkspace = useWorkspaceStore((state) => state.updateWorkspace);
+
+  // Define theme
+  const { bg, bgAlt, borderColor, color, colorAlt } = useAppTheme();
 
   // Render
   return (
@@ -27,10 +31,10 @@ function Workspace() {
         size="sm"
         fontWeight="normal"
         variant="outline"
-        color="gray.500"
-        borderColor="gray.700"
-        _hover={{ color: 'gray.50', bg: 'gray.800' }}
-        _active={{ color: 'gray.50', bg: 'gray.800' }}
+        color={colorAlt}
+        borderColor={borderColor}
+        _hover={{ color, bg: bgAlt }}
+        _active={{ color, bg: bgAlt }}
         as={Button}
         rightIcon={<LuChevronDown />}
         disabled={workspaces.length < 1}
@@ -40,14 +44,15 @@ function Workspace() {
         </Text>
       </MenuButton>
 
-      <MenuList bg="gray.800" borderColor="gray.700" py={0} overflow="hidden">
+      <MenuList bg={bg} borderColor={borderColor} py={0} overflow="hidden">
         {workspaces.map((workspace, index) => (
           <MenuItem
             key={index}
             py={1}
+            color={colorAlt}
             bg="transparent"
-            borderColor="gray.700"
-            _hover={{ bg: 'gray.700' }}
+            borderColor={borderColor}
+            _hover={{ color, bg: bgAlt }}
             onClick={() => updateWorkspace(workspace)}
           >
             {workspaces.length > 0 && workspace}

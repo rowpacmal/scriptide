@@ -33,6 +33,7 @@ import WorkspaceDeleteAll from './WorkspaceDeleteAll';
 import WorkspaceRename from './WorkspaceRename';
 import WorkspaceExport from './WorkspaceExport';
 import WorkspaceImport from './WorkspaceImport';
+import useAppTheme from '@/themes/useAppTheme';
 
 // Workspace menu item component
 function WorkspaceMenuItem({
@@ -42,13 +43,17 @@ function WorkspaceMenuItem({
   onClick,
   disabled = false,
 }) {
+  // Define theme
+  const { bgAlt, borderColor, color, colorAlt } = useAppTheme();
+
   return (
     <Tooltip label={label} placement="right" hasArrow>
       <MenuItem
         py={1}
+        color={colorAlt}
         bg="transparent"
-        borderColor="gray.700"
-        _hover={{ bg: 'gray.700' }}
+        borderColor={borderColor}
+        _hover={{ color, bg: bgAlt }}
         icon={icon}
         onClick={onClick}
         isDisabled={disabled}
@@ -64,6 +69,9 @@ function WorkspaceMenu({ workspaces }) {
   // Define disclosure
   const { isOpen, onOpen, onClose } = useDisclosure();
 
+  // Define theme
+  const { bg, borderColor, color, colorAlt } = useAppTheme();
+
   // Define state
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [modalType, setModalType]: [string | null, any] = useState(null);
@@ -77,17 +85,17 @@ function WorkspaceMenu({ workspaces }) {
           h="auto"
           minW="auto"
           bg="transparent"
-          color="gray.500"
-          _hover={{ bg: 'transparent', color: 'gray.50' }}
-          _active={{ bg: 'transparent', color: 'gray.50' }}
+          color={colorAlt}
+          _hover={{ bg: 'transparent', color }}
+          _active={{ bg: 'transparent', color }}
           as={Button}
         >
           <LuMenu size={24} />
         </MenuButton>
 
         <MenuList
-          bg="gray.800"
-          borderColor="gray.700"
+          bg={bg}
+          borderColor={borderColor}
           py={0}
           overflow="hidden"
           minW="auto"

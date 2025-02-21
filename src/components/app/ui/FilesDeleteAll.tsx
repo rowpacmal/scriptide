@@ -2,6 +2,7 @@ import { Box, Highlight, Input, Text } from '@chakra-ui/react';
 import ConfirmModal from './ConfirmModal';
 import { useState } from 'react';
 import useFileStore from '@/store/useFileStore';
+import useAppTheme from '@/themes/useAppTheme';
 
 // Constants
 const CONFIRM_TEXT = 'Delete all files';
@@ -13,6 +14,9 @@ function FilesDeleteAll({ onClose }) {
 
   // Define state
   const [confirmText, setConfirmText] = useState('');
+
+  // Define theme
+  const { accent, color, colorAlt, borderColor } = useAppTheme();
 
   // Render
   return (
@@ -53,11 +57,13 @@ function FilesDeleteAll({ onClose }) {
         <Input
           size="sm"
           variant="outline"
-          color="gray.50"
-          borderColor="gray.700"
-          _placeholder={{ color: 'gray.700' }}
-          _focusVisible={{ borderColor: 'gray.50' }}
-          _readOnly={{ color: 'gray.500' }}
+          borderColor={borderColor}
+          _placeholder={{ color: borderColor }}
+          _hover={{ borderColor: color }}
+          _focusVisible={{
+            borderColor: accent,
+          }}
+          _readOnly={{ color: colorAlt }}
           value={confirmText}
           onChange={(e) => setConfirmText(e.target.value)}
           placeholder="Enter confirm text here"

@@ -1,4 +1,5 @@
 import useFileStore from '@/store/useFileStore';
+import useAppTheme from '@/themes/useAppTheme';
 import { Input } from '@chakra-ui/react';
 import { useEffect, useRef } from 'react';
 
@@ -6,6 +7,9 @@ function FileInput({ value, onBlur, onChange, onKeyDown }) {
   // Define ref
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const inputRef: any = useRef(null);
+
+  // Define theme
+  const { bgAlt, borderColor } = useAppTheme();
 
   // Define store
   const isFolder = useFileStore((state) => state.isFolder);
@@ -34,12 +38,12 @@ function FileInput({ value, onBlur, onChange, onKeyDown }) {
     <Input
       ref={inputRef}
       placeholder={isFolder ? 'New_Folder' : 'New_File.kvm'}
-      bg="gray.800"
+      bg={bgAlt}
       size="xs"
       border="1px solid"
-      borderColor="gray.700"
+      borderColor={borderColor}
       borderRadius="none"
-      _placeholder={{ color: 'gray.700' }}
+      _placeholder={{ color: borderColor }}
       value={value}
       onBlur={onBlur}
       onChange={onChange}

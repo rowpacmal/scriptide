@@ -16,20 +16,27 @@ import ConsoleHeader from './ui/ConsoleHeader';
 import LivePreview from './ui/LivePreview';
 import useLivePreviewStore from '@/store/useLivePreviewStore';
 import CodeEditorPanel from './ui/CodeEditorPanel';
+import useAppTheme from '@/themes/useAppTheme';
 
 // Utility component
 function PanelHandle({ direction }) {
+  const { accent, borderColor } = useAppTheme();
   const [isDragging, setIsDragging] = useState(false);
 
   return (
     <PanelResizeHandle
-      className={
-        'border-gray-700 relative ' +
-        (direction === 'horizontal' ? 'border-t' : 'border-l')
-      }
+      className="relative"
       onDragging={(isDragging) => setIsDragging(isDragging)}
       hitAreaMargins={{ coarse: 5, fine: 5 }}
     >
+      <Box
+        h="100%"
+        w="100%"
+        borderLeft={direction === 'vertical' ? '1px solid' : ''}
+        borderTop={direction === 'horizontal' ? '1px solid' : ''}
+        borderColor={borderColor}
+      />
+
       <Box
         position="absolute"
         top="50%"
@@ -37,9 +44,9 @@ function PanelHandle({ direction }) {
         transform="translate(-50%, -50%)"
         h={direction === 'horizontal' ? 1.5 : '100%'}
         w={direction === 'vertical' ? 1.5 : '100%'}
-        bg={isDragging ? 'orange.500' : 'transparent'}
+        bg={isDragging ? accent : 'transparent'}
         transition="background-color 0.2s linear"
-        _hover={{ bg: 'orange.500' }}
+        _hover={{ bg: accent }}
         zIndex={99}
       />
     </PanelResizeHandle>

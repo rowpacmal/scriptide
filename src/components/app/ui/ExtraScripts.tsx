@@ -35,12 +35,16 @@ import {
 // Import store
 import useExtraScriptStore from '@/store/useExtraScriptStore';
 // Import constants
-import { DEFAULT_EDITOR_THEME, KISS_VM_LANGUAGE } from '../../../constants';
+import { KISS_VM_LANGUAGE } from '../../../constants';
+import useAppTheme from '@/themes/useAppTheme';
 
 // Extra scripts component
 function ExtraScripts() {
   // Define disclosure
   const { isOpen, onOpen, onClose } = useDisclosure();
+
+  // Define theme
+  const { editorTheme } = useAppTheme();
 
   // Define stores
   const extraScripts = useExtraScriptStore((state) => state.extraScripts);
@@ -256,7 +260,7 @@ function ExtraScripts() {
           >
             <Editor
               height="100%"
-              theme={DEFAULT_EDITOR_THEME}
+              theme={editorTheme}
               language={KISS_VM_LANGUAGE}
               value={extraScripts[currentExtraScript].value}
               onChange={(value) => updateExtraScript(value || '')}
