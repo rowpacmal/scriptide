@@ -13,6 +13,23 @@ import { LuMinus, LuPlus } from 'react-icons/lu';
 // Import store
 import useRunScriptStore from '@/store/useRunScriptStore';
 import useGlobalVariableStore from '@/store/useGlobalVariableStore';
+import useAppTheme from '@/themes/useAppTheme';
+
+// constants
+const GLOBAL_DETAILS = {
+  '@ADDRESS': 'View the script address (read only).', // This is read only field
+  '@BLOCK': 'Set the current block number.',
+  '@BLOCKMILLI': 'Set the current block time in milliseconds.',
+  '@CREATED': 'Set the block this coin was created in.',
+  '@COINAGE': 'Set the difference in @BLOCK and @CREATED.',
+  '@COINID': 'Set the coin ID.',
+  '@TOKENID': 'Set the token ID.',
+  '@AMOUNT': 'Set the amount.',
+  '@INPUT':
+    'Set the input index of a coin used in the transaction, first input coin has an index of 0.',
+  '@TOTIN': 'Set the total number of input coins.',
+  '@TOTOUT': 'Set the total number of output coins.',
+};
 
 // Globals component
 function Globals() {
@@ -32,27 +49,14 @@ function Globals() {
     localStorage.setItem('accordion-index', JSON.stringify(index));
   }
 
-  // constants
-  const GLOBAL_DETAILS = {
-    '@ADDRESS': 'View the script address (read only).', // This is read only field
-    '@BLOCK': 'Set the current block number.',
-    '@BLOCKMILLI': 'Set the current block time in milliseconds.',
-    '@CREATED': 'Set the block this coin was created in.',
-    '@COINAGE': 'Set the difference in @BLOCK and @CREATED.',
-    '@COINID': 'Set the coin ID.',
-    '@TOKENID': 'Set the token ID.',
-    '@AMOUNT': 'Set the amount.',
-    '@INPUT':
-      'Set the input index of a coin used in the transaction, first input coin has an index of 0.',
-    '@TOTIN': 'Set the total number of input coins.',
-    '@TOTOUT': 'Set the total number of output coins.',
-  };
+  // Define theme
+  const { borderColor, color, colorAlt } = useAppTheme();
 
   // Render
   return (
     <VStack w="100%" fontSize="sm" gap={3}>
       <Accordion
-        borderColor="gray.700"
+        borderColor={borderColor}
         w="100%"
         index={accordionIndex}
         onChange={handleOnChange}
@@ -79,25 +83,23 @@ function Globals() {
           >
             {({ isExpanded }) => (
               <>
-                <AccordionButton>
-                  <Text as="span" flex="1" textAlign="left" color="gray.500">
+                <AccordionButton color={colorAlt} _hover={{ color }}>
+                  <Text as="span" flex="1" textAlign="left">
                     {global}
                   </Text>
 
                   {isExpanded ? <LuMinus /> : <LuPlus />}
                 </AccordionButton>
 
-                <AccordionPanel pb={4}>
-                  <Text pb={4} color="gray.500">
-                    {GLOBAL_DETAILS[global]}
-                  </Text>
+                <AccordionPanel pb={4} color={colorAlt}>
+                  <Text pb={4}>{GLOBAL_DETAILS[global]}</Text>
 
                   <Input
                     size="sm"
                     variant="outline"
-                    borderColor="gray.700"
-                    _placeholder={{ color: 'gray.700' }}
-                    _readOnly={{ color: 'gray.500' }}
+                    borderColor={borderColor}
+                    _placeholder={{ color: borderColor }}
+                    _readOnly={{ color: colorAlt }}
                     placeholder="Enter value here"
                     /* If the global is '@ADDRESS', show the script address
                      * from the script0xAddress state, and disable onchange handler
