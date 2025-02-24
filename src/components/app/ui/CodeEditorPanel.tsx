@@ -1,12 +1,10 @@
 import useEditorStore from '@/store/useEditorStore';
 import useFileStore from '@/store/useFileStore';
-import base64ToImage from '@/utils/base64ToImage';
 import {
   Box,
   Breadcrumb,
   BreadcrumbItem,
   HStack,
-  Image,
   Tab,
   TabList,
   TabPanel,
@@ -19,6 +17,7 @@ import { useRef } from 'react';
 import { LuChevronRight, LuX } from 'react-icons/lu';
 import CodeEditor from './CodeEditor';
 import useAppTheme from '@/themes/useAppTheme';
+import ImageView from './ImageView';
 
 function NoOpenFile() {
   const { colorAlt } = useAppTheme();
@@ -197,14 +196,7 @@ function CodeEditorPanel() {
 
                   <Box h="calc(100% - 1.5rem)">
                     {isImg ? (
-                      <Box
-                        p={2}
-                        h="100%"
-                        overflow="auto"
-                        className="alt-scrollbar"
-                      >
-                        <Image src={base64ToImage(code || '') || ''} />
-                      </Box>
+                      <ImageView src={code} />
                     ) : (
                       <CodeEditor file={file} code={code} />
                     )}
