@@ -16,7 +16,7 @@ function useAppTheme() {
     bgAlt: useColorModeValue('gray.200', 'gray.800'),
     bgReversed: useColorModeValue('gray.900', 'gray.50'),
     bgShade: useColorModeValue('blackAlpha.100', 'blackAlpha.300'),
-    borderColor: useColorModeValue('gray.300', 'gray.700'),
+    borderColor: useColorModeValue('gray.400', 'gray.700'),
     borderColorAlt: useColorModeValue('blackAlpha.200', 'whiteAlpha.200'),
     color: useColorModeValue('gray.900', 'gray.50'),
     colorAlt: useColorModeValue('gray.600', 'gray.400'),

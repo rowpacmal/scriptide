@@ -11,6 +11,7 @@ import {
 import { LuArrowDown, LuArrowUp, LuTrash2 } from 'react-icons/lu';
 // Import store
 import useSignatureStore from '@/store/useSignatureStore';
+import useAppTheme from '@/themes/useAppTheme';
 
 // Signatures component
 function Signatures() {
@@ -21,11 +22,14 @@ function Signatures() {
   const updateSignature = useSignatureStore((state) => state.updateSignature);
   const removeSignature = useSignatureStore((state) => state.removeSignature);
 
+  // Define theme
+  const { bgAlt, borderColor, color, colorAlt } = useAppTheme();
+
   // Render
   return (
     <VStack w="100%" fontSize="sm" gap={3}>
       <HStack w="100%" justify="space-between">
-        <Text as="h3" textTransform="uppercase" color="gray.500" fontSize="xs">
+        <Text as="h3" textTransform="uppercase" color={colorAlt} fontSize="xs">
           Signers
         </Text>
 
@@ -35,13 +39,13 @@ function Signatures() {
             h="auto"
             minW="auto"
             bg="transparent"
-            color="gray.500"
+            color={colorAlt}
             _hover={{
               bg: 'transparent',
-              color: signatures.length >= 10 ? '' : 'gray.50',
+              color: signatures.length >= 10 ? '' : color,
               transform: signatures.length >= 10 ? '' : 'scale(1.2)',
             }}
-            _active={{ bg: 'transparent', color: 'gray.50' }}
+            _active={{ bg: 'transparent', color }}
             onClick={addSignature}
             disabled={signatures.length >= 10}
           >
@@ -53,13 +57,13 @@ function Signatures() {
             h="auto"
             minW="auto"
             bg="transparent"
-            color="gray.500"
+            color={colorAlt}
             _hover={{
               bg: 'transparent',
-              color: signatures.length < 1 ? '' : 'gray.50',
+              color: signatures.length < 1 ? '' : color,
               transform: signatures.length < 1 ? '' : 'scale(1.2)',
             }}
-            _active={{ bg: 'transparent', color: 'gray.50' }}
+            _active={{ bg: 'transparent', color }}
             onClick={() => removeSignature()}
             disabled={signatures.length < 1}
           >
@@ -71,13 +75,13 @@ function Signatures() {
             h="auto"
             minW="auto"
             bg="transparent"
-            color="gray.500"
+            color={colorAlt}
             _hover={{
               bg: 'transparent',
-              color: signatures.length < 1 ? '' : 'gray.50',
+              color: signatures.length < 1 ? '' : color,
               transform: signatures.length < 1 ? '' : 'scale(1.2)',
             }}
-            _active={{ bg: 'transparent', color: 'gray.50' }}
+            _active={{ bg: 'transparent', color }}
             onClick={() => setSignatures([])}
             disabled={signatures.length < 1}
           >
@@ -91,17 +95,17 @@ function Signatures() {
           {signatures.map((_, index) => (
             <HStack key={index} w="100%">
               <InputGroup size="sm">
-                <InputLeftAddon bg="gray.800" borderColor="gray.700">
-                  <Text color="gray.500" whiteSpace="nowrap">
+                <InputLeftAddon bg={bgAlt} borderColor={borderColor}>
+                  <Text color={colorAlt} whiteSpace="nowrap">
                     {index < 10 ? `0${index}` : index}
                   </Text>
                 </InputLeftAddon>
 
                 <Input
                   variant="outline"
-                  borderColor="gray.700"
-                  _placeholder={{ color: 'gray.700' }}
-                  _readOnly={{ color: 'gray.500' }}
+                  borderColor={borderColor}
+                  _placeholder={{ color: borderColor }}
+                  _readOnly={{ color: colorAlt }}
                   value={signatures[index]}
                   onChange={(e) => updateSignature(index, e.target.value)}
                   placeholder="Enter value here"
@@ -111,7 +115,7 @@ function Signatures() {
           ))}
         </>
       ) : (
-        <Text w="100%" color="gray.500">
+        <Text w="100%" color={colorAlt}>
           No signatures
         </Text>
       )}
