@@ -20,6 +20,8 @@ import getType from '../../../utils/getType';
 // Import store
 import useRunScriptStore from '@/store/useRunScriptStore';
 import useAppTheme from '@/themes/useAppTheme';
+import useRunScript from '@/hooks/useRunScript';
+import useFileStore from '@/store/useFileStore';
 
 // Types
 type OverviewItemProps = {
@@ -30,10 +32,10 @@ type OverviewItemProps = {
 };
 
 // Utility components
-/* function ScriptStatus({ children, label, bool }) {
+function ScriptStatus({ children, label, bool }) {
   // Define theme
   const { colorAlt } = useAppTheme();
-  
+
   return (
     <HStack gap={1}>
       <Text color={colorAlt} textTransform="uppercase">
@@ -45,7 +47,7 @@ type OverviewItemProps = {
       </Code>
     </HStack>
   );
-} */
+}
 function OverviewItem({
   children,
   label,
@@ -154,22 +156,35 @@ function Overview() {
   const cleanScript = useRunScriptStore((state) => state.cleanScript);
   const script0xAddress = useRunScriptStore((state) => state.script0xAddress);
   const scriptMxAddress = useRunScriptStore((state) => state.scriptMxAddress);
-  // const scriptParse = useRunScriptStore((state) => state.scriptParse);
-  // const scriptSuccess = useRunScriptStore((state) => state.scriptSuccess);
-  // const scriptMonotonic = useRunScriptStore((state) => state.scriptMonotonic);
+  const scriptParse = useRunScriptStore((state) => state.scriptParse);
+  const scriptSuccess = useRunScriptStore((state) => state.scriptSuccess);
+  const scriptMonotonic = useRunScriptStore((state) => state.scriptMonotonic);
   const scriptVariables = useRunScriptStore((state) => state.scriptVariables);
   const totalScriptInstructions = useRunScriptStore(
     (state) => state.totalScriptInstructions
   );
+  const currentFile = useFileStore((state) => state.currentFile);
 
   // Define theme
   const { accent, color, colorAlt, bgAlt } = useAppTheme();
 
+  // Define handlers
+  const handleRunScript = useRunScript();
+
   // Render
   return (
-    <Box h="100%" p={2}>
-      <VStack as="section" h="100%" pr={2} overflow="auto">
-        <Box as="header" w="100%">
+    <Box
+      h="100%"
+      w="100%"
+      // p={2}
+    >
+      <VStack
+        as="section"
+        h="100%"
+        // pr={2}
+        // overflow="auto"
+      >
+        {/* <Box as="header" w="100%">
           <Text
             as="h2"
             textTransform="uppercase"
@@ -178,31 +193,49 @@ function Overview() {
           >
             Overview
           </Text>
-        </Box>
+        </Box> */}
 
         <VStack w="100%" fontSize="sm" gap={3}>
           {/*
            * Moved the script status to the console header
            */}
-          {/* <Card bg={bgAlt} color={color} px={3}>
-            <HStack py={2} gap={3} flexWrap="wrap" justifyContent="center">
-              <ScriptStatus label="Parse" bool={scriptParse}>
-                {scriptParse === null ? 'N/A' : scriptParse ? 'OK' : 'FAIL'}
-              </ScriptStatus>
 
-              <ScriptStatus label="Run" bool={scriptSuccess}>
-                {scriptSuccess === null ? 'N/A' : scriptSuccess ? 'OK' : 'FAIL'}
-              </ScriptStatus>
+          <VStack w="100%" gap={3} py={3}>
+            <Box w="100%" maxW="24rem">
+              <Button
+                w="100%"
+                colorScheme="green"
+                onClick={handleRunScript}
+                disabled={currentFile?.split('.').pop() !== 'kvm'}
+              >
+                Run and Debug
+              </Button>
+            </Box>
 
-              <ScriptStatus label="Monotonic" bool={scriptMonotonic}>
-                {scriptMonotonic === null
-                  ? 'N/A'
-                  : scriptMonotonic
-                  ? 'YES'
-                  : 'NO'}
-              </ScriptStatus>
-            </HStack>
-          </Card> */}
+            <Card bg={bgAlt} color={color} px={3}>
+              <HStack py={2} gap={3} flexWrap="wrap" justifyContent="center">
+                <ScriptStatus label="Parse" bool={scriptParse}>
+                  {scriptParse === null ? 'N/A' : scriptParse ? 'OK' : 'FAIL'}
+                </ScriptStatus>
+
+                <ScriptStatus label="Run" bool={scriptSuccess}>
+                  {scriptSuccess === null
+                    ? 'N/A'
+                    : scriptSuccess
+                    ? 'OK'
+                    : 'FAIL'}
+                </ScriptStatus>
+
+                <ScriptStatus label="Monotonic" bool={scriptMonotonic}>
+                  {scriptMonotonic === null
+                    ? 'N/A'
+                    : scriptMonotonic
+                    ? 'YES'
+                    : 'NO'}
+                </ScriptStatus>
+              </HStack>
+            </Card>
+          </VStack>
 
           <OverviewItem
             label="Clean script"
@@ -270,7 +303,7 @@ function Overview() {
 
             <Card w="100%" bg={bgAlt} color={color} p={2}>
               {Object.entries(scriptVariables).length > 0 ? (
-                <List spacing={3}>
+                <List spacing={1}>
                   {Object.entries(scriptVariables).map(([variable, value]) => (
                     <VariableItem
                       key={variable}

@@ -29,6 +29,7 @@ function NoOpenFile() {
       placeItems="center"
       color={colorAlt}
       fontSize="sm"
+      userSelect="none"
     >
       No file opened
     </Text>

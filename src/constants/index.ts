@@ -32,12 +32,13 @@ const GLOBALS_DEFAULT_OBJECT = {
 const NAVIGATION_LABELS = {
   home: 'Home',
   explorer: 'File explorer',
+  'kiss-vm': 'Run and Debug KISS VM',
   search: 'Search in files',
   states: 'State Variables',
   globals: 'Global Variables',
   signatures: 'Signatures',
   scripts: 'Extra scripts',
-  deploy: 'Deployment',
+  deploy: 'Build and Deploy',
   plugins: 'Plugin manager',
   settings: 'Settings',
 };

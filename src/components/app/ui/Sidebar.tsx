@@ -1,15 +1,17 @@
 // Import dependencies
 import { Box, Button, HStack, Image, Tooltip, VStack } from '@chakra-ui/react';
 import {
-  LuBraces,
-  LuCode,
+  // LuBraces,
+  LuBugPlay,
+  // LuCode,
   LuFiles,
-  LuGlobe,
-  LuLock,
+  // LuGlobe,
+  // LuLock,
   LuRocket,
   // LuPlug,
-  // LuSearch,
-  // LuSettings,
+  LuSearch,
+  LuSettings,
+  LuZap,
 } from 'react-icons/lu';
 // Import constants
 import { NAVIGATION_LABELS } from '@/constants';
@@ -116,16 +118,24 @@ function Sidebar({ isControlPanelCollapsed, handelToggleControlPanel }) {
         </SidebarButton>
 
         {/* TODO - enable search feature */}
-        {/* <SidebarButton
+        <SidebarButton
           label={NAVIGATION_LABELS.search}
           active={handleIsActive('search')}
           onClick={() => handleNavigationChange('search')}
           disabled
         >
           <LuSearch size={ICON_SIZE} />
-        </SidebarButton> */}
+        </SidebarButton>
 
         <SidebarButton
+          label={NAVIGATION_LABELS['kiss-vm']}
+          active={handleIsActive('kiss-vm')}
+          onClick={() => handleNavigationChange('kiss-vm')}
+        >
+          <LuZap size={ICON_SIZE} />
+        </SidebarButton>
+
+        {/* <SidebarButton
           label={NAVIGATION_LABELS.states}
           active={handleIsActive('states')}
           onClick={() => handleNavigationChange('states')}
@@ -153,9 +163,10 @@ function Sidebar({ isControlPanelCollapsed, handelToggleControlPanel }) {
           label={NAVIGATION_LABELS.scripts}
           active={handleIsActive('scripts')}
           onClick={() => handleNavigationChange('scripts')}
+          disabled
         >
           <LuCode size={ICON_SIZE} />
-        </SidebarButton>
+        </SidebarButton> */}
 
         <SidebarButton
           label={NAVIGATION_LABELS.deploy}
@@ -167,16 +178,16 @@ function Sidebar({ isControlPanelCollapsed, handelToggleControlPanel }) {
         </SidebarButton>
       </VStack>
 
-      {/* TODO - enable plugins and settings features */}
-      {/* <VStack>
-        <SidebarButton
+      <VStack>
+        {/* TODO - enable plugins features */}
+        {/* <SidebarButton
           label={NAVIGATION_LABELS.plugins}
           active={handleIsActive('plugins')}
           onClick={() => handleNavigationChange('plugins')}
           disabled
         >
           <LuPlug size={ICON_SIZE} />
-        </SidebarButton>
+        </SidebarButton> */}
 
         <SidebarButton
           label={NAVIGATION_LABELS.settings}
@@ -186,7 +197,7 @@ function Sidebar({ isControlPanelCollapsed, handelToggleControlPanel }) {
         >
           <LuSettings size={ICON_SIZE} />
         </SidebarButton>
-      </VStack> */}
+      </VStack>
     </VStack>
   );
 }

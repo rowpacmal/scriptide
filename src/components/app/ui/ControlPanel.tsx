@@ -15,6 +15,7 @@ import Explorer from './Explorer';
 import Home from './Home';
 import Deploy from './Deploy';
 import useAppTheme from '@/themes/useAppTheme';
+import KissVMPanel from './KissVMPanel';
 
 // Control panel component
 function ControlPanel() {
@@ -60,6 +61,7 @@ function ControlPanel() {
 
         {navigation === 'home' && <Home />}
         {navigation === 'explorer' && <Explorer />}
+        {navigation === 'kiss-vm' && <KissVMPanel />}
         {navigation === 'search' && (
           <Text color={colorAlt}>Not implemented!</Text>
         )}

@@ -183,6 +183,7 @@ function Content() {
             </PanelGroup>
           </Panel>
 
+          {/*
           {showPreview && (
             <>
               <PanelHandle direction="vertical" />
@@ -192,6 +193,7 @@ function Content() {
               </Panel>
             </>
           )}
+          */}
 
           <PanelHandle direction="vertical" />
 
@@ -206,7 +208,7 @@ function Content() {
             onCollapse={() => setIsOverviewCollapsed(true)}
             onExpand={() => setIsOverviewCollapsed(false)}
           >
-            <Overview />
+            <LivePreview />
           </Panel>
         </PanelGroup>
       </HStack>
