@@ -14,6 +14,7 @@ import { LuPlus, LuTrash2, LuX } from 'react-icons/lu';
 // Import store
 import useStateVariableStore from '@/store/useStateVariableStore';
 import usePrevStateVariableStore from '@/store/usePrevStateVariableStore';
+import useAppTheme from '@/themes/useAppTheme';
 
 // Utility component
 function StateItem({ index }) {
@@ -29,17 +30,20 @@ function StateItem({ index }) {
     (state) => state.removeStateVariable
   );
 
+  // Define theme
+  const { bg, bgAlt, borderColor, colorAlt, colorError } = useAppTheme();
+
   // Render
   return (
     <InputGroup size="sm">
-      <InputLeftAddon bg="gray.800" borderColor="gray.700" px={1}>
+      <InputLeftAddon bg={bgAlt} borderColor={borderColor} px={1}>
         <Input
           size="xs"
           // variant="flushed"
-          bg="gray.900"
-          borderColor="gray.700"
-          _placeholder={{ color: 'gray.700' }}
-          _readOnly={{ color: 'gray.500' }}
+          bg={bg}
+          borderColor={borderColor}
+          _placeholder={{ color: borderColor }}
+          _readOnly={{ color: colorAlt }}
           value={stateVariables[index].index}
           onChange={(e) => updateStateVariableKey(index, e.target.value)}
           placeholder="Indx"
@@ -49,17 +53,17 @@ function StateItem({ index }) {
       </InputLeftAddon>
 
       <Input
-        borderColor="gray.700"
-        _placeholder={{ color: 'gray.700' }}
-        _readOnly={{ color: 'gray.500' }}
+        borderColor={borderColor}
+        _placeholder={{ color: borderColor }}
+        _readOnly={{ color: colorAlt }}
         value={stateVariables[index].value}
         onChange={(e) => updateStateVariableValue(index, e.target.value)}
         placeholder="Enter value here"
       />
 
       <InputRightAddon
-        bg="gray.800"
-        borderColor="gray.700"
+        bg={bgAlt}
+        borderColor={borderColor}
         borderLeft={0}
         px={1}
       >
@@ -68,8 +72,8 @@ function StateItem({ index }) {
           h="auto"
           minW="auto"
           bg="transparent"
-          color="gray.500"
-          _hover={{ bg: 'transparent', color: 'red.500' }}
+          color={colorAlt}
+          _hover={{ bg: 'transparent', color: colorError }}
           onClick={() => removeStateVariable(index)}
         >
           <LuX size={20} />
@@ -93,17 +97,20 @@ function PrevStateItem({ index }) {
     (state) => state.removePrevStateVariable
   );
 
+  // Define theme
+  const { bg, bgAlt, borderColor, colorAlt, colorError } = useAppTheme();
+
   // Render
   return (
     <InputGroup size="sm">
-      <InputLeftAddon bg="gray.800" borderColor="gray.700" px={1}>
+      <InputLeftAddon bg={bgAlt} borderColor={borderColor} px={1}>
         <Input
           size="xs"
           // variant="flushed"
-          bg="gray.900"
-          borderColor="gray.700"
-          _placeholder={{ color: 'gray.700' }}
-          _readOnly={{ color: 'gray.500' }}
+          bg={bg}
+          borderColor={borderColor}
+          _placeholder={{ color: borderColor }}
+          _readOnly={{ color: colorAlt }}
           value={prevStateVariables[index].index}
           onChange={(e) => updatePrevStateVariableKey(index, e.target.value)}
           placeholder="Indx"
@@ -113,22 +120,22 @@ function PrevStateItem({ index }) {
       </InputLeftAddon>
 
       <Input
-        borderColor="gray.700"
-        _placeholder={{ color: 'gray.700' }}
-        _readOnly={{ color: 'gray.500' }}
+        borderColor={borderColor}
+        _placeholder={{ color: borderColor }}
+        _readOnly={{ color: colorAlt }}
         value={prevStateVariables[index].value}
         onChange={(e) => updatePrevStateVariableValue(index, e.target.value)}
         placeholder="Enter value here"
       />
 
-      <InputRightAddon bg="gray.800" borderColor="gray.700" px={1}>
+      <InputRightAddon bg={bgAlt} borderColor={borderColor} px={1}>
         <Button
           p={0}
           h="auto"
           minW="auto"
           bg="transparent"
-          color="gray.500"
-          _hover={{ bg: 'transparent', color: 'red.500' }}
+          color={colorAlt}
+          _hover={{ bg: 'transparent', color: colorError }}
           onClick={() => removePrevStateVariable(index)}
         >
           <LuX size={20} />
@@ -159,6 +166,9 @@ function States() {
     (state) => state.removeAllPrevStateVariables
   );
 
+  // Define theme
+  const { borderColor, color, colorAlt } = useAppTheme();
+
   // Render
   return (
     <VStack w="100%" fontSize="sm" gap={3}>
@@ -167,7 +177,7 @@ function States() {
           <Text
             as="h3"
             textTransform="uppercase"
-            color="gray.500"
+            color={colorAlt}
             fontSize="xs"
           >
             States
@@ -179,13 +189,13 @@ function States() {
               h="auto"
               minW="auto"
               bg="transparent"
-              color="gray.500"
+              color={colorAlt}
               _hover={{
                 bg: 'transparent',
-                color: stateVariables.length > 255 ? '' : 'gray.50',
+                color: stateVariables.length > 255 ? '' : color,
                 transform: stateVariables.length > 255 ? '' : 'scale(1.2)',
               }}
-              _active={{ bg: 'transparent', color: 'gray.50' }}
+              _active={{ bg: 'transparent', color }}
               onClick={addStateVariable}
               disabled={stateVariables.length > 255}
             >
@@ -197,13 +207,13 @@ function States() {
               h="auto"
               minW="auto"
               bg="transparent"
-              color="gray.500"
+              color={colorAlt}
               _hover={{
                 bg: 'transparent',
-                color: stateVariables.length < 1 ? '' : 'gray.50',
+                color: stateVariables.length < 1 ? '' : color,
                 transform: stateVariables.length < 1 ? '' : 'scale(1.2)',
               }}
-              _active={{ bg: 'transparent', color: 'gray.50' }}
+              _active={{ bg: 'transparent', color }}
               onClick={removeAllStateVariables}
               disabled={stateVariables.length < 1}
             >
@@ -220,21 +230,21 @@ function States() {
               ))}
             </>
           ) : (
-            <Text w="100%" color="gray.500">
+            <Text w="100%" color={colorAlt}>
               No state variables
             </Text>
           )}
         </VStack>
       </VStack>
 
-      <Divider borderColor="gray.700" />
+      <Divider borderColor={borderColor} />
 
       <VStack w="100%" gap={1}>
         <HStack w="100%" justify="space-between">
           <Text
             as="h3"
             textTransform="uppercase"
-            color="gray.500"
+            color={colorAlt}
             fontSize="xs"
           >
             PrevStates
@@ -246,13 +256,13 @@ function States() {
               h="auto"
               minW="auto"
               bg="transparent"
-              color="gray.500"
+              color={colorAlt}
               _hover={{
                 bg: 'transparent',
-                color: prevStateVariables.length > 255 ? '' : 'gray.50',
+                color: prevStateVariables.length > 255 ? '' : color,
                 transform: prevStateVariables.length > 255 ? '' : 'scale(1.2)',
               }}
-              _active={{ bg: 'transparent', color: 'gray.50' }}
+              _active={{ bg: 'transparent', color }}
               onClick={addPrevStateVariable}
               disabled={prevStateVariables.length > 255}
             >
@@ -264,13 +274,13 @@ function States() {
               h="auto"
               minW="auto"
               bg="transparent"
-              color="gray.500"
+              color={colorAlt}
               _hover={{
                 bg: 'transparent',
-                color: prevStateVariables.length < 1 ? '' : 'gray.50',
+                color: prevStateVariables.length < 1 ? '' : color,
                 transform: prevStateVariables.length < 1 ? '' : 'scale(1.2)',
               }}
-              _active={{ bg: 'transparent', color: 'gray.50' }}
+              _active={{ bg: 'transparent', color }}
               onClick={removeAllPrevStateVariables}
               disabled={prevStateVariables.length < 1}
             >
@@ -287,7 +297,7 @@ function States() {
               ))}
             </>
           ) : (
-            <Text w="100%" color="gray.500">
+            <Text w="100%" color={colorAlt}>
               No prevstate variables
             </Text>
           )}
