@@ -124,6 +124,12 @@ html[data-theme*='dark'] .scrollbar::-webkit-scrollbar-thumb:hover {
 #root .alt-scrollbar::-webkit-scrollbar-thumb {
   border-radius: 0;
 }
+#root .alt-scrollbar::-webkit-scrollbar-corner {
+  background: #cbd5e0;
+}
+html[data-theme*='dark'] #root .alt-scrollbar::-webkit-scrollbar-corner {
+  background: #2d3748;
+}
 
 /* Tab Scrollbar */
 #root .tab-scrollbar::-webkit-scrollbar {
@@ -135,4 +141,9 @@ html[data-theme*='dark'] .scrollbar::-webkit-scrollbar-thumb:hover {
 }
 #root .tab-scrollbar::-webkit-scrollbar-thumb {
   border-radius: 0;
+}
+
+/* No Scrollbar */
+#root .no-scrollbar::-webkit-scrollbar {
+  display: none;
 }
