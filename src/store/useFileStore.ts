@@ -114,6 +114,7 @@ const useFileStore = create<IFileStore>((set, get) => ({
     get().refreshFiles(currentWorkspace, false);
     set({ currentFile: path });
     useEditorStore.setState({ code: '' });
+    useEditorStore.getState().addCode(path, '', false);
   },
   addFolder: async (path: string) => {
     const currentWorkspace = useWorkspaceStore.getState().currentWorkspace;

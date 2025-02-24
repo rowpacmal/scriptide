@@ -54,6 +54,10 @@ export const useLivePreviewStore = create<ILivePreviewStore>((set, get) => ({
   setBlobObjectURLs: (blobObjectURLs: string[]) => set({ blobObjectURLs }),
 
   refreshLivePreview: async () => {
+    if (!get().showPreview) {
+      return;
+    }
+
     const currentWorkspace = useWorkspaceStore.getState().currentWorkspace;
     if (!currentWorkspace) {
       set({ livePreview: '' });

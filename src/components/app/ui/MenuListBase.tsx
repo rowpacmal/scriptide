@@ -1,4 +1,5 @@
 // Import dependencies
+import useAppTheme from '@/themes/useAppTheme';
 import {
   MenuDivider,
   MenuItem,
@@ -18,6 +19,9 @@ function MenuItemBase({
   onClick,
   disabled = false,
 }) {
+  // Define theme
+  const { borderColor, color } = useAppTheme();
+
   return (
     <>
       {/* Disabled the tooltip - was distractive */}
@@ -25,8 +29,8 @@ function MenuItemBase({
       <MenuItem
         py={1}
         bg="transparent"
-        borderColor="gray.700"
-        _hover={{ bg: 'gray.700' }}
+        borderColor={borderColor}
+        _hover={{ bg: borderColor, color }}
         icon={icon}
         onClick={onClick}
         isDisabled={disabled}
@@ -40,11 +44,15 @@ function MenuItemBase({
 
 // Menu list base component
 function MenuListBase({ children }) {
+  // Define theme
+  const { bg, borderColor, colorAlt } = useAppTheme();
+
   // Render
   return (
     <MenuList
-      bg="gray.800"
-      borderColor="gray.700"
+      color={colorAlt}
+      bg={bg}
+      borderColor={borderColor}
       py={0}
       overflow="hidden"
       minW="auto"

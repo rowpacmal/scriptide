@@ -3,7 +3,7 @@ import { create } from 'zustand';
 
 // Types for the store
 type TCode = string | null;
-type TAllCodes = { index: number; file: string; code: TCode; isImg: boolean };
+type TAllCodes = { file: string; code: TCode; isImg: boolean };
 
 // Interface for the store
 interface IEditorStore {
@@ -17,8 +17,8 @@ interface IEditorStore {
   setTabIndex: (tabIndex: number) => void;
 
   addCode: (file: string, code: TCode, isImg: boolean) => void;
-  updateCode: (index: number, code: TCode) => void;
-  removeCode: (index: number) => void;
+  updateCode: (file: string, code: TCode) => void;
+  removeCode: (file: string) => void;
 
   editorZoom: number;
   setEditorZoom: (editorZoom: number) => void;
@@ -55,21 +55,21 @@ const useEditorStore = create<IEditorStore>((set) => ({
       }
 
       return {
-        allCodes: [...allCodes, { index: Date.now(), file, code, isImg }],
+        allCodes: [...allCodes, { file, code, isImg }],
         tabIndex: allCodes.length,
       };
     });
   },
-  updateCode: (index: number, code: TCode) => {
+  updateCode: (file: string, code: TCode) => {
     set((state) => ({
       allCodes: state.allCodes.map((c) =>
-        c.index === index ? { ...c, code } : c
+        c.file === file ? { ...c, code } : c
       ),
     }));
   },
-  removeCode: (index: number) => {
+  removeCode: (file: string) => {
     set((state) => ({
-      allCodes: state.allCodes.filter((code) => code.index !== index),
+      allCodes: state.allCodes.filter((code) => code.file !== file),
     }));
   },
 

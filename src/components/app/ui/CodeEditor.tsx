@@ -10,7 +10,7 @@ import useLivePreviewStore from '@/store/useLivePreviewStore';
 import getExtension from '@/utils/getExtension';
 import useAppTheme from '@/themes/useAppTheme';
 
-function CodeEditor({ index, file, code }) {
+function CodeEditor({ file, code }) {
   // Define toast
   const toast = useToast();
 
@@ -68,7 +68,7 @@ function CodeEditor({ index, file, code }) {
         language={getExtension(file)}
         onMount={handleOnMount}
         value={code}
-        onChange={(value) => updateCode(index, value || '')}
+        onChange={(value) => updateCode(file, value || '')}
         options={{
           fontSize: 12 + editorZoom, // Font size
           fixedOverflowWidgets: true, // Prevents widgets from overflowing

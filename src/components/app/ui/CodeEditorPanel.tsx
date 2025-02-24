@@ -38,6 +38,7 @@ function NoOpenFile() {
 
 function CodeEditorPanel() {
   // Define refs
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const scrollContainerRef: any = useRef(null);
 
   // Define theme
@@ -91,9 +92,9 @@ function CodeEditorPanel() {
                 }
               }}
             >
-              {allCodes.map(({ index, file }) => (
+              {allCodes.map(({ file }) => (
                 <Tooltip
-                  key={index}
+                  key={file}
                   label={file.split('/').pop()}
                   placement="bottom"
                   hasArrow
@@ -140,7 +141,7 @@ function CodeEditorPanel() {
                         color={colorAlt}
                         _hover={{ bg: 'transparent', color }}
                         onClick={() => {
-                          removeCode(index);
+                          removeCode(file);
 
                           const next = allCodes[tabIndex + 1];
                           if (next) {
@@ -165,11 +166,11 @@ function CodeEditorPanel() {
           </Box>
 
           <TabPanels h="calc(100% - 2.5rem)">
-            {allCodes.map(({ index, file, code, isImg }) => {
+            {allCodes.map(({ file, code, isImg }) => {
               const path = ['root', ...file.split('/').slice(3)];
 
               return (
-                <TabPanel key={index} h="100%" p={0}>
+                <TabPanel key={file} h="100%" p={0}>
                   <Breadcrumb
                     spacing={1}
                     color={colorAlt}
@@ -205,7 +206,7 @@ function CodeEditorPanel() {
                         <Image src={base64ToImage(code || '') || ''} />
                       </Box>
                     ) : (
-                      <CodeEditor index={index} file={file} code={code} />
+                      <CodeEditor file={file} code={code} />
                     )}
                   </Box>
                 </TabPanel>
