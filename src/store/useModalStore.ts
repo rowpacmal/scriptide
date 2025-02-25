@@ -2,6 +2,7 @@ import { create } from 'zustand';
 
 // Enum for the modal types
 export enum MODAL_TYPES {
+  // Workspace modals
   RENAME_WORKSPACE = 'renameWorkspace',
   CREATE_BLANK_WORKSPACE = 'createBlankWorkspace',
   COPY_WORKSPACE = 'copyWorkspace',
@@ -9,6 +10,10 @@ export enum MODAL_TYPES {
   IMPORT_WORKSPACE = 'importWorkspace',
   DELETE_WORKSPACE = 'deleteWorkspace',
   DELETE_ALL_WORKSPACES = 'deleteAllWorkspaces',
+
+  // File modals
+  UPLOAD_FILE = 'uploadFile',
+  DELETE_ALL_FILES = 'deleteAllFiles',
 }
 
 // Type for the store

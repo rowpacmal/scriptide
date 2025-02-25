@@ -1,12 +1,5 @@
 // Import dependencies
-import {
-  Button,
-  HStack,
-  Modal,
-  ModalOverlay,
-  Tooltip,
-  useDisclosure,
-} from '@chakra-ui/react';
+import { Button, HStack, Tooltip } from '@chakra-ui/react';
 import {
   LuFilePlus,
   LuTrash2,
@@ -15,11 +8,9 @@ import {
 } from 'react-icons/lu';
 // Import store
 import useFileStore from '@/store/useFileStore';
-import FilesDeleteAll from './modals/FilesDeleteAll';
-import { useState } from 'react';
-import FilesUpload from './modals/FilesUpload';
 import useWorkspaceStore from '@/store/useWorkspaceStore';
 import useAppTheme from '@/themes/useAppTheme';
+import useModalStore, { MODAL_TYPES } from '@/store/useModalStore';
 
 // Constants
 const ICON_SIZE = 20;
@@ -62,9 +53,6 @@ function FilesMenuItem({
 
 // Files menu component
 function FilesMenu() {
-  // Define disclosure
-  const { isOpen, onOpen, onClose } = useDisclosure();
-
   // Define store
   const files = useFileStore((state) => state.files);
   const isAddingFile = useFileStore((state) => state.isAddingFile);
@@ -73,83 +61,72 @@ function FilesMenu() {
   const currentFolder = useFileStore((state) => state.currentFolder);
   const setCurrentFolder = useFileStore((state) => state.setCurrentFolder);
   const setIsFolder = useFileStore((state) => state.setIsFolder);
-
-  // Define state
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const [modalType, setModalType]: [string | null, any] = useState(null);
+  const setModalType = useModalStore((state) => state.setModalType);
+  const onOpen = useModalStore((state) => state.onOpen);
 
   // Render
   return (
-    <>
-      <HStack w="100%" px={1} justify="space-between" gap={1}>
-        <HStack gap={1}>
-          <FilesMenuItem
-            label="Create new file"
-            onClick={() => {
-              if (!isAddingFile) {
-                setIsFolder(false);
-                setIsAddingFile(true);
-              }
+    <HStack w="100%" px={1} justify="space-between" gap={1}>
+      <HStack gap={1}>
+        <FilesMenuItem
+          label="Create new file"
+          onClick={() => {
+            if (!isAddingFile) {
+              setIsFolder(false);
+              setIsAddingFile(true);
+            }
 
-              if (!currentFolder) {
-                setCurrentFolder(`/workspaces/${currentWorkspace}`);
-              }
-            }}
-          >
-            <LuFilePlus size={ICON_SIZE} />
-          </FilesMenuItem>
+            if (!currentFolder) {
+              setCurrentFolder(`/workspaces/${currentWorkspace}`);
+            }
+          }}
+        >
+          <LuFilePlus size={ICON_SIZE} />
+        </FilesMenuItem>
 
-          {/* TODO - Add folder support */}
-          <FilesMenuItem
-            label="Create new folder"
-            onClick={() => {
-              if (!isAddingFile) {
-                setIsFolder(true);
-                setIsAddingFile(true);
-              }
+        {/* TODO - Add folder support */}
+        <FilesMenuItem
+          label="Create new folder"
+          onClick={() => {
+            if (!isAddingFile) {
+              setIsFolder(true);
+              setIsAddingFile(true);
+            }
 
-              if (!currentFolder) {
-                setCurrentFolder(`/workspaces/${currentWorkspace}`);
-              }
-            }}
-          >
-            <LuFolderPlus size={ICON_SIZE} />
-          </FilesMenuItem>
-
-          <FilesMenuItem
-            label="Upload file"
-            onClick={() => {
-              if (!currentFolder) {
-                setCurrentFolder(`/workspaces/${currentWorkspace}`);
-              }
-
-              setModalType('upload');
-              onOpen();
-            }}
-          >
-            <LuHardDriveUpload size={ICON_SIZE} />
-          </FilesMenuItem>
-        </HStack>
+            if (!currentFolder) {
+              setCurrentFolder(`/workspaces/${currentWorkspace}`);
+            }
+          }}
+        >
+          <LuFolderPlus size={ICON_SIZE} />
+        </FilesMenuItem>
 
         <FilesMenuItem
-          label="Delete all files"
+          label="Upload file"
           onClick={() => {
-            setModalType('delete-all');
+            if (!currentFolder) {
+              setCurrentFolder(`/workspaces/${currentWorkspace}`);
+            }
+
+            setModalType(MODAL_TYPES.UPLOAD_FILE);
             onOpen();
           }}
-          disabled={files.length < 1}
         >
-          <LuTrash2 size={ICON_SIZE} />
+          <LuHardDriveUpload size={ICON_SIZE} />
         </FilesMenuItem>
       </HStack>
 
-      <Modal isOpen={isOpen} onClose={onClose} isCentered>
-        <ModalOverlay />
-
-        {modalType === 'upload' && <FilesUpload onClose={onClose} />}
-        {modalType === 'delete-all' && <FilesDeleteAll onClose={onClose} />}
-      </Modal>
-    </>
+      <FilesMenuItem
+        label="Delete all files"
+        onClick={() => {
+          setModalType(MODAL_TYPES.DELETE_ALL_FILES);
+          onOpen();
+        }}
+        disabled={files.length < 1}
+      >
+        <LuTrash2 size={ICON_SIZE} />
+      </FilesMenuItem>
+    </HStack>
   );
 }
 

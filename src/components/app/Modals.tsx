@@ -4,6 +4,8 @@ import { useMemo } from 'react';
 // Import store
 import useModalStore, { MODAL_TYPES } from '@/store/useModalStore';
 // Import components
+import FilesDeleteAll from '../ui/modals/FilesDeleteAll';
+import FilesUpload from '../ui/modals/FilesUpload';
 import WorkspaceCreateBlank from '@/components/ui/modals/WorkspaceCreateBlank';
 import WorkspaceCopy from '@/components/ui/modals/WorkspaceCopy';
 import WorkspaceDelete from '@/components/ui/modals/WorkspaceDelete';
@@ -43,6 +45,13 @@ function Modals() {
 
       case MODAL_TYPES.DELETE_ALL_WORKSPACES:
         return <WorkspaceDeleteAll onClose={onClose} />;
+
+      // File modals
+      case MODAL_TYPES.UPLOAD_FILE:
+        return <FilesUpload onClose={onClose} />;
+
+      case MODAL_TYPES.DELETE_ALL_FILES:
+        return <FilesDeleteAll onClose={onClose} />;
 
       default:
         return null;
