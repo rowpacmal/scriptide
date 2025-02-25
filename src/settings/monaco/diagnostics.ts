@@ -1,5 +1,5 @@
 // Import constants
-import { KISS_VM_LANGUAGE } from '../../constants';
+import { KISS_VM_LANGUAGE } from '@/constants';
 
 // Constants
 const LANGUAGE_CHECKER_ID = 'kvm';

@@ -2,9 +2,9 @@
 import {
   DEFAULT_EDITOR_THEME_DARK,
   DEFAULT_EDITOR_THEME_LIGHT,
-} from '../../constants';
-// import darkTheme from '../../themes/editor/dark';
-// import lightTheme from '../../themes/editor/light';
+} from '@/constants';
+// import darkTheme from '@/themes/editor/dark';
+// import lightTheme from '@/themes/editor/light';
 
 // Constants
 const DEFAULT_THEME_COLORS_DARK = {

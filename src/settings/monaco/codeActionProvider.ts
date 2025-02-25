@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 // Import constants
-import { KISS_VM_LANGUAGE } from '../../constants';
+import { KISS_VM_LANGUAGE } from '@/constants';
 
 // Language register config
 function codeActionProvider(monaco) {

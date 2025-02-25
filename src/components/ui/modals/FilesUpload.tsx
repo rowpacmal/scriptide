@@ -7,7 +7,7 @@ import {
   Text,
   useToast,
 } from '@chakra-ui/react';
-import ConfirmModal from './ConfirmModal';
+import ConfirmModal from '../bases/ConfirmModal';
 import { useEffect, useRef, useState } from 'react';
 import useUploadFile from '@/hooks/useUploadFile';
 import useAppTheme from '@/themes/useAppTheme';

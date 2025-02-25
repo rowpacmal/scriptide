@@ -22,7 +22,7 @@ import useEditorStore from '@/store/useEditorStore';
 import parseComments from '@/utils/parseComments';
 import minima from '@/lib/minima';
 import { LuFileCode2 } from 'react-icons/lu';
-import ConfirmModal from './ConfirmModal';
+import ConfirmModal from './bases/ConfirmModal';
 
 // Util component
 function CheckboxOption({

@@ -2,7 +2,7 @@
 import { Box, Button, HStack, Text, VStack } from '@chakra-ui/react';
 import { LuRotateCw } from 'react-icons/lu';
 // Import constants
-import { NAVIGATION_LABELS } from '../../../constants';
+import { NAVIGATION_LABELS } from '@/constants';
 // Import store
 import useNavigationStore from '@/store/useNavigationStore';
 import useWorkspaceStore from '@/store/useWorkspaceStore';

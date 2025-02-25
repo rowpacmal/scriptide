@@ -1,5 +1,5 @@
 // Import constants
-import { KISS_VM_LANGUAGE } from '../../constants';
+import { KISS_VM_LANGUAGE } from '@/constants';
 
 // Monarch token provider config
 function monarchTokensProvider(monaco) {

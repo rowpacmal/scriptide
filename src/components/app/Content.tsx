@@ -7,15 +7,15 @@ import {
 } from 'react';
 import { Panel, PanelGroup, PanelResizeHandle } from 'react-resizable-panels';
 // Import components
-import Overview from './ui/Overview';
-import Sidebar from './ui/Sidebar';
-import ControlPanel from './ui/ControlPanel';
-import Console from './ui/Console';
-import CodeEditorHeader from './ui/CodeEditorHeader';
-import ConsoleHeader from './ui/ConsoleHeader';
-import LivePreview from './ui/LivePreview';
+import Overview from '@/components/ui/Overview';
+import Sidebar from '@/components/ui/Sidebar';
+import ControlPanel from '@/components/ui/ControlPanel';
+import Console from '@/components/ui/Console';
+import CodeEditorHeader from '@/components/ui/CodeEditorHeader';
+import ConsoleHeader from '@/components/ui/ConsoleHeader';
+import LivePreview from '@/components/ui/LivePreview';
 import useLivePreviewStore from '@/store/useLivePreviewStore';
-import CodeEditorPanel from './ui/CodeEditorPanel';
+import CodeEditorPanel from '@/components/ui/CodeEditorPanel';
 import useAppTheme from '@/themes/useAppTheme';
 
 // Utility component

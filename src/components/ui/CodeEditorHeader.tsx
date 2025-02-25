@@ -23,7 +23,7 @@ import useEditorStore from '@/store/useEditorStore';
 import useFileStore from '@/store/useFileStore';
 import useLivePreviewStore from '@/store/useLivePreviewStore';
 // Import hooks
-import useRunScript from '../../../hooks/useRunScript';
+import useRunScript from '@/hooks/useRunScript';
 import isImageFile from '@/utils/isImageFile';
 import { useEffect, useMemo, useState } from 'react';
 import useAppTheme from '@/themes/useAppTheme';

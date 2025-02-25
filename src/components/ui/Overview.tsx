@@ -15,8 +15,8 @@ import {
 } from '@chakra-ui/react';
 import { useEffect } from 'react';
 // Import utilities
-import getIcon from '../../../utils/getIcon';
-import getType from '../../../utils/getType';
+import getIcon from '@/utils/getIcon';
+import getType from '@/utils/getType';
 // Import store
 import useRunScriptStore from '@/store/useRunScriptStore';
 import useAppTheme from '@/themes/useAppTheme';

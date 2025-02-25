@@ -35,7 +35,7 @@ import {
 // Import store
 import useExtraScriptStore from '@/store/useExtraScriptStore';
 // Import constants
-import { KISS_VM_LANGUAGE } from '../../../constants';
+import { KISS_VM_LANGUAGE } from '@/constants';
 import useAppTheme from '@/themes/useAppTheme';
 
 // Extra scripts component

@@ -4,7 +4,7 @@ import { useState } from 'react';
 // Import store
 import useWorkspaceStore from '@/store/useWorkspaceStore';
 // Import components
-import ConfirmModal from './ConfirmModal';
+import ConfirmModal from '../bases/ConfirmModal';
 // Import hooks
 import useZipFile from '@/hooks/useZipFile';
 // Import stores

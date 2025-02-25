@@ -1,5 +1,5 @@
 // Import constants
-import { KISS_VM_LANGUAGE } from '../../constants';
+import { KISS_VM_LANGUAGE } from '@/constants';
 
 // Completion item provider config
 function completionItemProvider(monaco) {

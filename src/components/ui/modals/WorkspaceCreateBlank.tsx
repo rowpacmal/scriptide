@@ -1,28 +1,33 @@
+// Import dependencies
 import { Box, Input, Text, useToast } from '@chakra-ui/react';
-import ConfirmModal from './ConfirmModal';
 import { useState } from 'react';
+// Import store
 import useWorkspaceStore from '@/store/useWorkspaceStore';
+// Import components
+import ConfirmModal from '../bases/ConfirmModal';
+
+// Constants
+const PRESET_NAME = 'Workspace';
 
 // Workspace rename modal component
-function WorkspaceCopy({ onClose }) {
+function WorkspaceCreateBlank({ onClose }) {
   // Define toast
   const toast = useToast();
 
   // Define stores
   const workspaces = useWorkspaceStore((state) => state.workspaces);
-  const currentWorkspace = useWorkspaceStore((state) => state.currentWorkspace);
-  const copyWorkspace = useWorkspaceStore((state) => state.copyWorkspace);
+  const addWorkspace = useWorkspaceStore((state) => state.addWorkspace);
 
   // Define state
   const [workspaceName, setWorkspaceName] = useState(
-    `${currentWorkspace} Copy`
+    `${PRESET_NAME} ${workspaces.length + 1}`
   );
 
   // Render
   return (
     <ConfirmModal
-      title="Copy workspace"
-      buttonLabel="Save"
+      title="Create new workspace"
+      buttonLabel="Create"
       onClose={onClose}
       onClick={() => {
         if (workspaces.includes(workspaceName)) {
@@ -36,15 +41,14 @@ function WorkspaceCopy({ onClose }) {
           return;
         }
 
-        copyWorkspace(workspaceName);
+        addWorkspace(workspaceName);
         setWorkspaceName('');
         onClose();
       }}
-      disabled={workspaceName === currentWorkspace}
+      disabled={!workspaceName}
     >
       <Text fontSize="sm" pb={4} textAlign="center">
-        Copy the current workspace. Please type a new name for the new
-        workspace.
+        Create a new blank workspace. Please type a name for the new workspace.
       </Text>
 
       <Box px={4}>
@@ -71,4 +75,4 @@ function WorkspaceCopy({ onClose }) {
 }
 
 // Export
-export default WorkspaceCopy;
+export default WorkspaceCreateBlank;

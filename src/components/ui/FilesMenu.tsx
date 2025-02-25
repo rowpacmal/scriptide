@@ -15,9 +15,9 @@ import {
 } from 'react-icons/lu';
 // Import store
 import useFileStore from '@/store/useFileStore';
-import FilesDeleteAll from './FilesDeleteAll';
+import FilesDeleteAll from './modals/FilesDeleteAll';
 import { useState } from 'react';
-import FilesUpload from './FilesUpload';
+import FilesUpload from './modals/FilesUpload';
 import useWorkspaceStore from '@/store/useWorkspaceStore';
 import useAppTheme from '@/themes/useAppTheme';
 
