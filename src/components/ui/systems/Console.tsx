@@ -1,8 +1,8 @@
 import { Box } from '@chakra-ui/react';
 import { useEffect, useRef } from 'react';
 import { Editor } from '@monaco-editor/react';
-import useEditorStore from '@/store/useEditorStore';
-import useConsoleStore from '@/store/useConsoleStore';
+import useEditorStore from '@/stores/useEditorStore';
+import useConsoleStore from '@/stores/useConsoleStore';
 import useAppTheme from '@/themes/useAppTheme';
 
 // Console component

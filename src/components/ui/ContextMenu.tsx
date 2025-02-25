@@ -1,12 +1,12 @@
 import minima from '@/lib/minima';
-import useFileStore from '@/store/useFileStore';
+import useFileStore from '@/stores/useFileStore';
 import {
   MenuDividerBase,
   MenuItemBase,
   MenuListBase,
 } from './systems/MenuListBase';
 import { LuDownload, LuPenLine, LuPlus, LuTrash } from 'react-icons/lu';
-import useWorkspaceStore from '@/store/useWorkspaceStore';
+import useWorkspaceStore from '@/stores/useWorkspaceStore';
 
 // Constants (for debugging)
 const MINIDAPP_ID = (window as any).DEBUG_MINIDAPPID;

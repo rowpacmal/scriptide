@@ -13,7 +13,7 @@ import Console from '@/components/ui/systems/Console';
 import CodeEditorHeader from '@/components/ui/CodeEditorHeader';
 import ConsoleHeader from '@/components/ui/ConsoleHeader';
 import LivePreview from '@/components/ui/LivePreview';
-import useLivePreviewStore from '@/store/useLivePreviewStore';
+import useLivePreviewStore from '@/stores/useLivePreviewStore';
 import CodeEditorPanel from '@/components/ui/panels/CodeEditorPanel';
 import useAppTheme from '@/themes/useAppTheme';
 

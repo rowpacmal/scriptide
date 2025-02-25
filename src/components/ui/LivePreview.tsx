@@ -1,6 +1,6 @@
-import useFileStore from '@/store/useFileStore';
-import useLivePreviewStore from '@/store/useLivePreviewStore';
-import useWorkspaceStore from '@/store/useWorkspaceStore';
+import useFileStore from '@/stores/useFileStore';
+import useLivePreviewStore from '@/stores/useLivePreviewStore';
+import useWorkspaceStore from '@/stores/useWorkspaceStore';
 import {
   Box,
   Button,

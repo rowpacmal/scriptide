@@ -7,10 +7,10 @@ import {
   LuHardDriveUpload,
 } from 'react-icons/lu';
 // Import store
-import useFileStore from '@/store/useFileStore';
-import useWorkspaceStore from '@/store/useWorkspaceStore';
+import useFileStore from '@/stores/useFileStore';
+import useWorkspaceStore from '@/stores/useWorkspaceStore';
 import useAppTheme from '@/themes/useAppTheme';
-import useModalStore, { MODAL_TYPES } from '@/store/useModalStore';
+import useModalStore, { MODAL_TYPES } from '@/stores/useModalStore';
 
 // Constants
 const ICON_SIZE = 20;

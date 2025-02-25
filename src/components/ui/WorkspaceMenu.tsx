@@ -23,8 +23,8 @@ import {
 } from 'react-icons/lu';
 // Import components
 import useAppTheme from '@/themes/useAppTheme';
-import useModalStore, { MODAL_TYPES } from '@/store/useModalStore';
-import useWorkspaceStore from '@/store/useWorkspaceStore';
+import useModalStore, { MODAL_TYPES } from '@/stores/useModalStore';
+import useWorkspaceStore from '@/stores/useWorkspaceStore';
 
 // Workspace menu item component
 function WorkspaceMenuItem({

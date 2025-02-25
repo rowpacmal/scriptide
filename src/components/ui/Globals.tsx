@@ -11,8 +11,8 @@ import {
 import { useState } from 'react';
 import { LuMinus, LuPlus } from 'react-icons/lu';
 // Import store
-import useRunScriptStore from '@/store/useRunScriptStore';
-import useGlobalVariableStore from '@/store/useGlobalVariableStore';
+import useRunScriptStore from '@/stores/useRunScriptStore';
+import useGlobalVariableStore from '@/stores/useGlobalVariableStore';
 import useAppTheme from '@/themes/useAppTheme';
 
 // constants

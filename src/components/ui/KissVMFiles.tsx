@@ -1,4 +1,4 @@
-import useFileStore from '@/store/useFileStore';
+import useFileStore from '@/stores/useFileStore';
 import useAppTheme from '@/themes/useAppTheme';
 import {
   Button,

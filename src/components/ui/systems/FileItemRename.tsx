@@ -1,4 +1,4 @@
-import useFileStore from '@/store/useFileStore';
+import useFileStore from '@/stores/useFileStore';
 import { useToast } from '@chakra-ui/react';
 import { useState } from 'react';
 import FileInput from './FileInput';

@@ -9,7 +9,7 @@ import {
 } from '@chakra-ui/react';
 import { LuChevronDown } from 'react-icons/lu';
 // Import store
-import useWorkspaceStore from '@/store/useWorkspaceStore';
+import useWorkspaceStore from '@/stores/useWorkspaceStore';
 import useAppTheme from '@/themes/useAppTheme';
 
 // Workspace component

@@ -7,8 +7,8 @@ import { NAVIGATION_LABELS } from '@/constants';
 // Import store
 import useNavigationStore, {
   NAVIGATION_STATES,
-} from '@/store/useNavigationStore';
-import useWorkspaceStore from '@/store/useWorkspaceStore';
+} from '@/stores/useNavigationStore';
+import useWorkspaceStore from '@/stores/useWorkspaceStore';
 // Import themes
 import useAppTheme from '@/themes/useAppTheme';
 // Import components

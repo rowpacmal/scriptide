@@ -33,7 +33,7 @@ import {
   LuX,
 } from 'react-icons/lu';
 // Import store
-import useExtraScriptStore from '@/store/useExtraScriptStore';
+import useExtraScriptStore from '@/stores/useExtraScriptStore';
 // Import constants
 import { KISS_VM_LANGUAGE } from '@/constants';
 import useAppTheme from '@/themes/useAppTheme';

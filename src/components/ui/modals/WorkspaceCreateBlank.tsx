@@ -2,7 +2,7 @@
 import { Box, Input, Text, useToast } from '@chakra-ui/react';
 import { useState } from 'react';
 // Import store
-import useWorkspaceStore from '@/store/useWorkspaceStore';
+import useWorkspaceStore from '@/stores/useWorkspaceStore';
 // Import components
 import ConfirmModal from './ConfirmModal';
 

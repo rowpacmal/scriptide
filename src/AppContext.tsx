@@ -3,7 +3,7 @@
 // Import dependencies
 import { createContext, useRef, useEffect } from 'react';
 // Import store
-import useWorkspaceStore from './store/useWorkspaceStore';
+import useWorkspaceStore from './stores/useWorkspaceStore';
 // Import hooks
 import useTryCatch from './hooks/useTryCatch';
 

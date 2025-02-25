@@ -4,15 +4,15 @@
 import { Box, HStack, Spinner, Text, VStack } from '@chakra-ui/react';
 import { useEffect, useMemo, useState } from 'react';
 // Import store
-import useFileStore from '@/store/useFileStore';
-import useWorkspaceStore from '@/store/useWorkspaceStore';
+import useFileStore from '@/stores/useFileStore';
+import useWorkspaceStore from '@/stores/useWorkspaceStore';
 // Import components
 import FilesMenu from '../FilesMenu';
 import Workspace from '../Workspace';
 import WorkspaceMenu from '../WorkspaceMenu';
 import { FileTree } from '../systems/FileTree';
 import useAppTheme from '@/themes/useAppTheme';
-import useEditorStore from '@/store/useEditorStore';
+import useEditorStore from '@/stores/useEditorStore';
 
 // File explorer component
 function ExplorerPanel() {

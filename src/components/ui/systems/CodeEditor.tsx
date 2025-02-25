@@ -3,9 +3,9 @@ import { Box, useToast } from '@chakra-ui/react';
 import Editor from '@monaco-editor/react';
 import { useRef } from 'react';
 // Import store
-import useEditorStore from '@/store/useEditorStore';
-import useFileStore from '@/store/useFileStore';
-import useLivePreviewStore from '@/store/useLivePreviewStore';
+import useEditorStore from '@/stores/useEditorStore';
+import useFileStore from '@/stores/useFileStore';
+import useLivePreviewStore from '@/stores/useLivePreviewStore';
 // Import utilities
 import getExtension from '@/utils/getExtension';
 import useAppTheme from '@/themes/useAppTheme';

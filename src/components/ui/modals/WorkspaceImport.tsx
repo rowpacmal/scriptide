@@ -9,7 +9,7 @@ import {
 } from '@chakra-ui/react';
 import ConfirmModal from './ConfirmModal';
 import { useEffect, useRef, useState } from 'react';
-import useWorkspaceStore from '@/store/useWorkspaceStore';
+import useWorkspaceStore from '@/stores/useWorkspaceStore';
 import useUploadWorkspace from '@/hooks/useUploadWorkspace';
 
 // Workspace rename modal component

@@ -1,7 +1,7 @@
 import { Box, Highlight, Input, Text } from '@chakra-ui/react';
 import ConfirmModal from './ConfirmModal';
 import { useState } from 'react';
-import useFileStore from '@/store/useFileStore';
+import useFileStore from '@/stores/useFileStore';
 import useAppTheme from '@/themes/useAppTheme';
 
 // Constants

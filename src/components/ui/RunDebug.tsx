@@ -1,6 +1,6 @@
 import useRunScript from '@/hooks/useRunScript';
-import useFileStore from '@/store/useFileStore';
-import useRunScriptStore from '@/store/useRunScriptStore';
+import useFileStore from '@/stores/useFileStore';
+import useRunScriptStore from '@/stores/useRunScriptStore';
 import useAppTheme from '@/themes/useAppTheme';
 import {
   Box,

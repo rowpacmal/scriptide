@@ -17,9 +17,9 @@ import {
   LuZoomOut,
 } from 'react-icons/lu';
 // Import store
-import useEditorStore from '@/store/useEditorStore';
-import useFileStore from '@/store/useFileStore';
-import useLivePreviewStore from '@/store/useLivePreviewStore';
+import useEditorStore from '@/stores/useEditorStore';
+import useFileStore from '@/stores/useFileStore';
+import useLivePreviewStore from '@/stores/useLivePreviewStore';
 // Import hooks
 import isImageFile from '@/utils/isImageFile';
 import { useEffect, useMemo, useState } from 'react';

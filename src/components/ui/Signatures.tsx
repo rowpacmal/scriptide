@@ -11,7 +11,7 @@ import {
 } from '@chakra-ui/react';
 import { LuPlus, LuTrash2, LuX } from 'react-icons/lu';
 // Import store
-import useSignatureStore from '@/store/useSignatureStore';
+import useSignatureStore from '@/stores/useSignatureStore';
 import useAppTheme from '@/themes/useAppTheme';
 
 // Signatures component

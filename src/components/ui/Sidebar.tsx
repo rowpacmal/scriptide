@@ -13,7 +13,7 @@ import { NAVIGATION_LABELS } from '@/constants';
 // Import store
 import useNavigationStore, {
   NAVIGATION_STATES,
-} from '@/store/useNavigationStore';
+} from '@/stores/useNavigationStore';
 import useAppTheme from '@/themes/useAppTheme';
 
 // Constants

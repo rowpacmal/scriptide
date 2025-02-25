@@ -1,5 +1,5 @@
-import useEditorStore from '@/store/useEditorStore';
-import useFileStore from '@/store/useFileStore';
+import useEditorStore from '@/stores/useEditorStore';
+import useFileStore from '@/stores/useFileStore';
 import {
   Box,
   Breadcrumb,

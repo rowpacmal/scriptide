@@ -2,13 +2,13 @@
 import { Box, Input, Progress, Text, useToast } from '@chakra-ui/react';
 import { useState } from 'react';
 // Import store
-import useWorkspaceStore from '@/store/useWorkspaceStore';
+import useWorkspaceStore from '@/stores/useWorkspaceStore';
 // Import components
 import ConfirmModal from './ConfirmModal';
 // Import hooks
 import useZipFile from '@/hooks/useZipFile';
 // Import stores
-import useFileStore from '@/store/useFileStore';
+import useFileStore from '@/stores/useFileStore';
 // Import libraries
 import minima from '@/lib/minima';
 import isImageFile from '@/utils/isImageFile';

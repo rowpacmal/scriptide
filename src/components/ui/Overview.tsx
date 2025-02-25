@@ -18,7 +18,7 @@ import { useEffect } from 'react';
 import getIcon from '@/utils/getIcon';
 import getType from '@/utils/getType';
 // Import store
-import useRunScriptStore from '@/store/useRunScriptStore';
+import useRunScriptStore from '@/stores/useRunScriptStore';
 import useAppTheme from '@/themes/useAppTheme';
 
 // Types

@@ -11,7 +11,7 @@ import {
 } from '@chakra-ui/react';
 import { LuPlus, LuTrash2, LuX } from 'react-icons/lu';
 // Import store
-import usePrevStateVariableStore from '@/store/usePrevStateVariableStore';
+import usePrevStateVariableStore from '@/stores/usePrevStateVariableStore';
 import useAppTheme from '@/themes/useAppTheme';
 
 // Utility component

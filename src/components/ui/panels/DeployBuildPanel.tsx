@@ -13,11 +13,11 @@ import {
   VStack,
 } from '@chakra-ui/react';
 import Workspace from '../Workspace';
-import useWorkspaceStore from '@/store/useWorkspaceStore';
-import useFileStore from '@/store/useFileStore';
+import useWorkspaceStore from '@/stores/useWorkspaceStore';
+import useFileStore from '@/stores/useFileStore';
 import { useEffect, useState } from 'react';
-import useDeploymentStore from '@/store/useDeploymentStore';
-import useEditorStore from '@/store/useEditorStore';
+import useDeploymentStore from '@/stores/useDeploymentStore';
+import useEditorStore from '@/stores/useEditorStore';
 import parseComments from '@/utils/parseComments';
 import minima from '@/lib/minima';
 import { LuFileCode2 } from 'react-icons/lu';

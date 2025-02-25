@@ -1,6 +1,6 @@
-import useWorkspaceStore from '@/store/useWorkspaceStore';
+import useWorkspaceStore from '@/stores/useWorkspaceStore';
 import { FileTree } from './FileTree';
-import useFileStore from '@/store/useFileStore';
+import useFileStore from '@/stores/useFileStore';
 import {
   Box,
   HStack,

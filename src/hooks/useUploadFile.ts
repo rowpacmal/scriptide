@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 import minima from '@/lib/minima';
-import useFileStore from '@/store/useFileStore';
-import useWorkspaceStore from '@/store/useWorkspaceStore';
+import useFileStore from '@/stores/useFileStore';
+import useWorkspaceStore from '@/stores/useWorkspaceStore';
 import { useToast } from '@chakra-ui/react';
 import { useState } from 'react';
 

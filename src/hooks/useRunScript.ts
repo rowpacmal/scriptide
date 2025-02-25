@@ -7,15 +7,15 @@ import parseComments from '../utils/parseComments';
 // Import libraries
 import minima from '@/lib/minima';
 // Import store
-import useConsoleStore from '@/store/useConsoleStore';
-import useEditorStore from '@/store/useEditorStore';
-import useRunScriptStore from '@/store/useRunScriptStore';
-import useExtraScriptStore from '@/store/useExtraScriptStore';
-import useGlobalVariableStore from '@/store/useGlobalVariableStore';
-import useSignatureStore from '@/store/useSignatureStore';
-import useStateVariableStore from '@/store/useStateVariableStore';
-import usePrevStateVariableStore from '@/store/usePrevStateVariableStore';
-import useFileStore from '@/store/useFileStore';
+import useConsoleStore from '@/stores/useConsoleStore';
+import useEditorStore from '@/stores/useEditorStore';
+import useRunScriptStore from '@/stores/useRunScriptStore';
+import useExtraScriptStore from '@/stores/useExtraScriptStore';
+import useGlobalVariableStore from '@/stores/useGlobalVariableStore';
+import useSignatureStore from '@/stores/useSignatureStore';
+import useStateVariableStore from '@/stores/useStateVariableStore';
+import usePrevStateVariableStore from '@/stores/usePrevStateVariableStore';
+import useFileStore from '@/stores/useFileStore';
 
 // Run script hook
 function useRunScript() {

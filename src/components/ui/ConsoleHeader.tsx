@@ -2,7 +2,7 @@
 import { Box, Button, HStack, Tooltip } from '@chakra-ui/react';
 import { LuBan, LuChevronsDown, LuChevronsUp } from 'react-icons/lu';
 // Import store
-import useConsoleStore from '@/store/useConsoleStore';
+import useConsoleStore from '@/stores/useConsoleStore';
 
 // Console header component
 function ConsoleHeader({ isConsoleCollapsed, handelToggleConsole }) {

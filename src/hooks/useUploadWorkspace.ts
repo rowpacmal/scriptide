@@ -1,6 +1,6 @@
 // import minima from '@/lib/minima';
 import minima from '@/lib/minima';
-import useWorkspaceStore from '@/store/useWorkspaceStore';
+import useWorkspaceStore from '@/stores/useWorkspaceStore';
 import isImageFile from '@/utils/isImageFile';
 import isTextFile from '@/utils/isTextFile';
 import JSZip from 'jszip';

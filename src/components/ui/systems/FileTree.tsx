@@ -1,6 +1,6 @@
 import { Box, Text, VStack } from '@chakra-ui/react';
 import FileItem from './FileItem';
-import useFileStore from '@/store/useFileStore';
+import useFileStore from '@/stores/useFileStore';
 import FileItemAdd from './FileItemAdd';
 import FolderItem from './FolderItem';
 import useAppTheme from '@/themes/useAppTheme';
