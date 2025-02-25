@@ -10,20 +10,17 @@ import {
 import {
   LuChevronsLeft,
   LuChevronsRight,
-  LuRadio,
   LuSave,
   LuToggleLeft,
   LuToggleRight,
   LuZoomIn,
   LuZoomOut,
 } from 'react-icons/lu';
-import { TbPlayerPlayFilled } from 'react-icons/tb';
 // Import store
 import useEditorStore from '@/store/useEditorStore';
 import useFileStore from '@/store/useFileStore';
 import useLivePreviewStore from '@/store/useLivePreviewStore';
 // Import hooks
-import useRunScript from '@/hooks/useRunScript';
 import isImageFile from '@/utils/isImageFile';
 import { useEffect, useMemo, useState } from 'react';
 import useAppTheme from '@/themes/useAppTheme';
@@ -69,7 +66,7 @@ function CodeEditorHeader({ isOverviewCollapsed, handelToggleOverview }) {
   const toast = useToast();
 
   // Define theme
-  const { accent, borderColor, color, colorSuccess } = useAppTheme();
+  const { accent, borderColor, color } = useAppTheme();
 
   // Define store
   const allCodes = useEditorStore((state) => state.allCodes);
@@ -86,7 +83,6 @@ function CodeEditorHeader({ isOverviewCollapsed, handelToggleOverview }) {
   const refreshLivePreview = useLivePreviewStore(
     (state) => state.refreshLivePreview
   );
-  const showPreview = useLivePreviewStore((state) => state.showPreview);
   const togglePreview = useLivePreviewStore((state) => state.togglePreview);
 
   // Define states
@@ -99,7 +95,6 @@ function CodeEditorHeader({ isOverviewCollapsed, handelToggleOverview }) {
   );
 
   // Define handlers
-  const handleRunScript = useRunScript();
   function handleEditorZoom() {
     if (zoom === '-') {
       setZoom(editorZoom);
@@ -128,7 +123,7 @@ function CodeEditorHeader({ isOverviewCollapsed, handelToggleOverview }) {
   return (
     <HStack gap={0} justify="space-between">
       <HStack gap={0}>
-        <Box borderRight="1px solid" borderColor={borderColor}>
+        {/* <Box borderRight="1px solid" borderColor={borderColor}>
           <CodeEditorHeaderButton
             label="Run script"
             hoverColor={colorSuccess}
@@ -137,7 +132,46 @@ function CodeEditorHeader({ isOverviewCollapsed, handelToggleOverview }) {
           >
             <TbPlayerPlayFilled />
           </CodeEditorHeaderButton>
-        </Box>
+        </Box> */}
+
+        <HStack gap={0} borderRight="1px solid" borderColor={borderColor}>
+          <CodeEditorHeaderButton
+            label="Save file"
+            onClick={() => {
+              const fileToSave = allCodes.find((f) => f.file === currentFile);
+              if (!fileToSave) {
+                return;
+              }
+
+              const { file, code } = fileToSave;
+              saveFile(file, code || '');
+              refreshLivePreview();
+              toast({
+                title: 'File Saved',
+                description: file,
+                status: 'success',
+                duration: 3000,
+                isClosable: true,
+              });
+            }}
+            disabled={disableButton}
+          >
+            <LuSave />
+          </CodeEditorHeaderButton>
+
+          <CodeEditorHeaderButton
+            label={`Auto save: ${editorAutoSave ? 'on' : 'off'}`}
+            onClick={toggleEditorAutoSave}
+          >
+            {editorAutoSave ? (
+              <Box as="span" color={accent}>
+                <LuToggleRight size={20} />
+              </Box>
+            ) : (
+              <LuToggleLeft size={20} />
+            )}
+          </CodeEditorHeaderButton>
+        </HStack>
 
         <HStack gap={0} borderRight="1px solid" borderColor={borderColor}>
           <CodeEditorHeaderButton
@@ -192,60 +226,15 @@ function CodeEditorHeader({ isOverviewCollapsed, handelToggleOverview }) {
             <LuZoomIn />
           </CodeEditorHeaderButton>
         </HStack>
-
-        <HStack gap={0} borderRight="1px solid" borderColor={borderColor}>
-          <CodeEditorHeaderButton
-            label="Save file"
-            onClick={() => {
-              const fileToSave = allCodes.find((f) => f.file === currentFile);
-              if (!fileToSave) {
-                return;
-              }
-
-              const { file, code } = fileToSave;
-              saveFile(file, code || '');
-              refreshLivePreview();
-              toast({
-                title: 'File Saved',
-                description: file,
-                status: 'success',
-                duration: 3000,
-                isClosable: true,
-              });
-            }}
-            disabled={disableButton}
-          >
-            <LuSave />
-          </CodeEditorHeaderButton>
-
-          <CodeEditorHeaderButton
-            label={`Auto save: ${editorAutoSave ? 'on' : 'off'}`}
-            onClick={toggleEditorAutoSave}
-          >
-            {editorAutoSave ? (
-              <Box as="span" color={accent}>
-                <LuToggleRight size={20} />
-              </Box>
-            ) : (
-              <LuToggleLeft size={20} />
-            )}
-          </CodeEditorHeaderButton>
-        </HStack>
-
-        <Box borderRight="1px solid" borderColor={borderColor}>
-          <CodeEditorHeaderButton
-            label={(showPreview ? 'Hide' : 'Show') + ' live preview'}
-            onClick={togglePreview}
-          >
-            <LuRadio />
-          </CodeEditorHeaderButton>
-        </Box>
       </HStack>
 
       <Box>
         <CodeEditorHeaderButton
-          label={`${isOverviewCollapsed ? 'Show' : 'Hide'} overview`}
-          onClick={handelToggleOverview}
+          label={`${isOverviewCollapsed ? 'Show' : 'Hide'} live preview`}
+          onClick={() => {
+            togglePreview();
+            handelToggleOverview();
+          }}
         >
           {isOverviewCollapsed ? <LuChevronsLeft /> : <LuChevronsRight />}
         </CodeEditorHeaderButton>

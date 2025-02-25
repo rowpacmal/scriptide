@@ -33,8 +33,8 @@ const NAVIGATION_LABELS = {
   home: 'Home',
   explorer: 'File explorer',
   search: 'Search in files',
-  kissVM: 'Run and Debug KISS VM',
-  deployBuild: 'Build and Deploy',
+  kissVM: 'Run and debug KISS VM',
+  deployBuild: 'Build and deploy',
   plugins: 'Plugin manager',
   settings: 'Settings',
 };
