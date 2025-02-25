@@ -1,14 +1,9 @@
 // Import dependencies
 import { Box, Button, HStack, Image, Tooltip, VStack } from '@chakra-ui/react';
 import {
-  // LuBraces,
-  LuBugPlay,
-  // LuCode,
   LuFiles,
-  // LuGlobe,
-  // LuLock,
   LuRocket,
-  // LuPlug,
+  LuPlug,
   LuSearch,
   LuSettings,
   LuZap,
@@ -16,7 +11,9 @@ import {
 // Import constants
 import { NAVIGATION_LABELS } from '@/constants';
 // Import store
-import useNavigationStore from '@/store/useNavigationStore';
+import useNavigationStore, {
+  NAVIGATION_STATES,
+} from '@/store/useNavigationStore';
 import useAppTheme from '@/themes/useAppTheme';
 
 // Constants
@@ -96,7 +93,7 @@ function Sidebar({ isControlPanelCollapsed, handelToggleControlPanel }) {
             variant="unstyled"
             p={0}
             pl={1.5}
-            onClick={() => handleNavigationChange('home')}
+            onClick={() => handleNavigationChange(NAVIGATION_STATES.HOME)}
           >
             <Image
               src="./scriptide.png"
@@ -111,8 +108,8 @@ function Sidebar({ isControlPanelCollapsed, handelToggleControlPanel }) {
       <VStack mb="auto">
         <SidebarButton
           label={NAVIGATION_LABELS.explorer}
-          active={handleIsActive('explorer')}
-          onClick={() => handleNavigationChange('explorer')}
+          active={handleIsActive(NAVIGATION_STATES.EXPLORER)}
+          onClick={() => handleNavigationChange(NAVIGATION_STATES.EXPLORER)}
         >
           <LuFiles size={ICON_SIZE} />
         </SidebarButton>
@@ -120,58 +117,25 @@ function Sidebar({ isControlPanelCollapsed, handelToggleControlPanel }) {
         {/* TODO - enable search feature */}
         <SidebarButton
           label={NAVIGATION_LABELS.search}
-          active={handleIsActive('search')}
-          onClick={() => handleNavigationChange('search')}
+          active={handleIsActive(NAVIGATION_STATES.SEARCH)}
+          onClick={() => handleNavigationChange(NAVIGATION_STATES.SEARCH)}
           disabled
         >
           <LuSearch size={ICON_SIZE} />
         </SidebarButton>
 
         <SidebarButton
-          label={NAVIGATION_LABELS['kiss-vm']}
-          active={handleIsActive('kiss-vm')}
-          onClick={() => handleNavigationChange('kiss-vm')}
+          label={NAVIGATION_LABELS.kissVM}
+          active={handleIsActive(NAVIGATION_STATES.KISS_VM)}
+          onClick={() => handleNavigationChange(NAVIGATION_STATES.KISS_VM)}
         >
           <LuZap size={ICON_SIZE} />
         </SidebarButton>
 
-        {/* <SidebarButton
-          label={NAVIGATION_LABELS.states}
-          active={handleIsActive('states')}
-          onClick={() => handleNavigationChange('states')}
-        >
-          <LuBraces size={ICON_SIZE} />
-        </SidebarButton>
-
         <SidebarButton
-          label={NAVIGATION_LABELS.globals}
-          active={handleIsActive('globals')}
-          onClick={() => handleNavigationChange('globals')}
-        >
-          <LuGlobe size={ICON_SIZE} />
-        </SidebarButton>
-
-        <SidebarButton
-          label={NAVIGATION_LABELS.signatures}
-          active={handleIsActive('signatures')}
-          onClick={() => handleNavigationChange('signatures')}
-        >
-          <LuLock size={ICON_SIZE} />
-        </SidebarButton>
-
-        <SidebarButton
-          label={NAVIGATION_LABELS.scripts}
-          active={handleIsActive('scripts')}
-          onClick={() => handleNavigationChange('scripts')}
-          disabled
-        >
-          <LuCode size={ICON_SIZE} />
-        </SidebarButton> */}
-
-        <SidebarButton
-          label={NAVIGATION_LABELS.deploy}
-          active={handleIsActive('deploy')}
-          onClick={() => handleNavigationChange('deploy')}
+          label={NAVIGATION_LABELS.deployBuild}
+          active={handleIsActive(NAVIGATION_STATES.DEPLOY_BUILD)}
+          onClick={() => handleNavigationChange(NAVIGATION_STATES.DEPLOY_BUILD)}
           disabled
         >
           <LuRocket size={ICON_SIZE} />
@@ -180,14 +144,14 @@ function Sidebar({ isControlPanelCollapsed, handelToggleControlPanel }) {
 
       <VStack>
         {/* TODO - enable plugins features */}
-        {/* <SidebarButton
+        <SidebarButton
           label={NAVIGATION_LABELS.plugins}
           active={handleIsActive('plugins')}
           onClick={() => handleNavigationChange('plugins')}
           disabled
         >
           <LuPlug size={ICON_SIZE} />
-        </SidebarButton> */}
+        </SidebarButton>
 
         <SidebarButton
           label={NAVIGATION_LABELS.settings}

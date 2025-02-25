@@ -13,7 +13,6 @@ import {
   VStack,
 } from '@chakra-ui/react';
 import Workspace from './Workspace';
-import FilteredFiles from './FilteredFiles';
 import useWorkspaceStore from '@/store/useWorkspaceStore';
 import useFileStore from '@/store/useFileStore';
 import { useEffect, useState } from 'react';
@@ -23,6 +22,7 @@ import parseComments from '@/utils/parseComments';
 import minima from '@/lib/minima';
 import { LuFileCode2 } from 'react-icons/lu';
 import ConfirmModal from './bases/ConfirmModal';
+import KissVMFiles from './KissVMFiles';
 
 // Util component
 function CheckboxOption({
@@ -81,7 +81,7 @@ function OverviewItem({ children, title, h = 'auto', className = '' }: any) {
 }
 
 // Deploy panel component
-function Deploy() {
+function DeployBuild() {
   // Define toast
   const toast = useToast();
 
@@ -218,19 +218,21 @@ function Deploy() {
     <>
       <VStack w="100%" h="100%" fontSize="sm" gap={3} color="gray.500">
         <VStack w="100%" gap={1}>
-          <Text as="h3" w="100%" textTransform="uppercase" fontSize="xs">
-            Workspaces
-          </Text>
+          <VStack w="100%" gap={1}>
+            <Text as="h3" w="100%" textTransform="uppercase" fontSize="xs">
+              Workspaces
+            </Text>
 
-          <Workspace />
-        </VStack>
+            <Workspace />
+          </VStack>
 
-        <VStack w="100%" gap={1}>
-          <Text as="h3" w="100%" textTransform="uppercase" fontSize="xs">
-            Scripts
-          </Text>
+          <VStack w="100%" gap={1}>
+            <Text as="h3" w="100%" textTransform="uppercase" fontSize="xs">
+              KissVM Scripts
+            </Text>
 
-          <FilteredFiles extension=".kvm" />
+            <KissVMFiles />
+          </VStack>
         </VStack>
 
         <HStack w="100%" gap={1} px={1} justify="space-between">
@@ -408,4 +410,4 @@ function Deploy() {
 }
 
 // Export
-export default Deploy;
+export default DeployBuild;

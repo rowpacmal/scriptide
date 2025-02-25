@@ -12,6 +12,8 @@ import {
   VStack,
 } from '@chakra-ui/react';
 import KissVMFiles from './KissVMFiles';
+import Workspace from './Workspace';
+import WorkspaceMenu from './WorkspaceMenu';
 
 function ScriptStatus({ children, label, bool }) {
   // Define theme
@@ -38,16 +40,46 @@ function RunDebug() {
   const currentFile = useFileStore((state) => state.currentFile);
 
   // Define theme
-  const { color, bgAlt } = useAppTheme();
+  const { colorAlt, bgAlt } = useAppTheme();
 
   // Define handlers
   const handleRunScript = useRunScript();
 
   return (
     <VStack w="100%" gap={3}>
-      <Box w="100%" maxW="24rem">
-        <KissVMFiles />
-      </Box>
+      <VStack w="100%" gap={1}>
+        <VStack w="100%" gap={1}>
+          <Text
+            as="h3"
+            w="100%"
+            textTransform="uppercase"
+            fontSize="xs"
+            color={colorAlt}
+          >
+            Workspaces
+          </Text>
+
+          <HStack w="100%">
+            <Workspace />
+
+            <WorkspaceMenu />
+          </HStack>
+        </VStack>
+
+        <VStack w="100%" gap={1}>
+          <Text
+            as="h3"
+            w="100%"
+            textTransform="uppercase"
+            fontSize="xs"
+            color={colorAlt}
+          >
+            KissVM Scripts
+          </Text>
+
+          <KissVMFiles />
+        </VStack>
+      </VStack>
 
       <Box w="100%" maxW="24rem">
         <Button
@@ -60,7 +92,7 @@ function RunDebug() {
         </Button>
       </Box>
 
-      <Card bg={bgAlt} color={color} px={3}>
+      <Card bg={bgAlt} px={3}>
         <HStack py={2} gap={3} flexWrap="wrap" justifyContent="center">
           <ScriptStatus label="Parse" bool={scriptParse}>
             {scriptParse === null ? 'N/A' : scriptParse ? 'OK' : 'FAIL'}

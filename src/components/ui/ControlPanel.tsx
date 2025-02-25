@@ -1,20 +1,20 @@
 // Import dependencies
 import { Box, Button, HStack, Text, VStack } from '@chakra-ui/react';
+import { useMemo } from 'react';
 import { LuRotateCw } from 'react-icons/lu';
 // Import constants
 import { NAVIGATION_LABELS } from '@/constants';
 // Import store
-import useNavigationStore from '@/store/useNavigationStore';
+import useNavigationStore, {
+  NAVIGATION_STATES,
+} from '@/store/useNavigationStore';
 import useWorkspaceStore from '@/store/useWorkspaceStore';
+// Import themes
+import useAppTheme from '@/themes/useAppTheme';
 // Import components
-import ExtraScripts from './ExtraScripts';
-import Globals from './Globals';
-import Signatures from './Signatures';
-import States from './States';
 import Explorer from './Explorer';
 import Home from './Home';
-import Deploy from './Deploy';
-import useAppTheme from '@/themes/useAppTheme';
+import DeployBuild from './DeployBuild';
 import KissVMPanel from './KissVMPanel';
 
 // Control panel component
@@ -27,6 +27,35 @@ function ControlPanel() {
   const refreshWorkspaces = useWorkspaceStore(
     (state) => state.refreshWorkspaces
   );
+
+  // Define state
+  const currentNavigation = useMemo(() => {
+    switch (navigation) {
+      case NAVIGATION_STATES.HOME:
+        return <Home />;
+
+      case NAVIGATION_STATES.EXPLORER:
+        return <Explorer />;
+
+      case NAVIGATION_STATES.SEARCH:
+        return null;
+
+      case NAVIGATION_STATES.KISS_VM:
+        return <KissVMPanel />;
+
+      case NAVIGATION_STATES.DEPLOY_BUILD:
+        return <DeployBuild />;
+
+      case NAVIGATION_STATES.PLUGINS:
+        return null;
+
+      case NAVIGATION_STATES.SETTINGS:
+        return null;
+
+      default:
+        return null;
+    }
+  }, [navigation]);
 
   // Render
   return (
@@ -45,7 +74,7 @@ function ControlPanel() {
             {NAVIGATION_LABELS[navigation]}
           </Text>
 
-          {navigation === 'explorer' && (
+          {(navigation === 'explorer' || navigation === 'kiss-vm') && (
             <Button
               p={0}
               size="sm"
@@ -59,25 +88,7 @@ function ControlPanel() {
           )}
         </HStack>
 
-        {navigation === 'home' && <Home />}
-        {navigation === 'explorer' && <Explorer />}
-        {navigation === 'kiss-vm' && <KissVMPanel />}
-        {navigation === 'search' && (
-          <Text color={colorAlt}>Not implemented!</Text>
-        )}
-
-        {navigation === 'states' && <States />}
-        {navigation === 'globals' && <Globals />}
-        {navigation === 'signatures' && <Signatures />}
-        {navigation === 'scripts' && <ExtraScripts />}
-        {navigation === 'deploy' && <Deploy />}
-
-        {navigation === 'plugins' && (
-          <Text color={colorAlt}>Not implemented!</Text>
-        )}
-        {navigation === 'settings' && (
-          <Text color={colorAlt}>Not implemented!</Text>
-        )}
+        {currentNavigation}
       </VStack>
     </Box>
   );

@@ -1,6 +1,17 @@
 // Import dependencies
 import { create } from 'zustand';
 
+// Enum for the navigation states
+export enum NAVIGATION_STATES {
+  HOME = 'home',
+  EXPLORER = 'explorer',
+  SEARCH = 'search',
+  KISS_VM = 'kissVM',
+  DEPLOY_BUILD = 'deployBuild',
+  PLUGINS = 'plugins',
+  SETTINGS = 'settings',
+}
+
 // Interface for the store
 interface INavigationStore {
   navigation: string;
