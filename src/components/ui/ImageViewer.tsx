@@ -2,7 +2,7 @@ import base64ToImage from '@/utils/base64ToImage';
 import { Box, Image } from '@chakra-ui/react';
 import { useEffect, useRef, useState } from 'react';
 
-function ImageView({ src }) {
+function ImageViewer({ src }) {
   const viewerRef: any = useRef<HTMLDivElement>(null);
 
   const [zoom, setZoom] = useState(100);
@@ -104,4 +104,4 @@ function ImageView({ src }) {
   );
 }
 
-export default ImageView;
+export default ImageViewer;

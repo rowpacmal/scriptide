@@ -15,7 +15,7 @@ import {
 } from 'react-icons/lu';
 // Import components
 import FileItemRename from './FileItemRename';
-import { FileItemContextMenu } from './ContextMenu';
+import { FileItemContextMenu } from '../ContextMenu';
 import useAppTheme from '@/themes/useAppTheme';
 
 // File item context menu component

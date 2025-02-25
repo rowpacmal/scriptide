@@ -7,15 +7,15 @@ import { useEffect, useMemo, useState } from 'react';
 import useFileStore from '@/store/useFileStore';
 import useWorkspaceStore from '@/store/useWorkspaceStore';
 // Import components
-import FilesMenu from './FilesMenu';
-import Workspace from './Workspace';
-import WorkspaceMenu from './WorkspaceMenu';
-import { FileTree } from './FileTree';
+import FilesMenu from '../FilesMenu';
+import Workspace from '../Workspace';
+import WorkspaceMenu from '../WorkspaceMenu';
+import { FileTree } from '../systems/FileTree';
 import useAppTheme from '@/themes/useAppTheme';
 import useEditorStore from '@/store/useEditorStore';
 
 // File explorer component
-function Explorer() {
+function ExplorerPanel() {
   // Define stores
   const allFiles = useFileStore((state) => state.allFiles);
   const workspaces = useWorkspaceStore((state) => state.workspaces);
@@ -134,4 +134,4 @@ function Explorer() {
 }
 
 // Export
-export default Explorer;
+export default ExplorerPanel;

@@ -4,7 +4,7 @@ import { useState } from 'react';
 // Import store
 import useWorkspaceStore from '@/store/useWorkspaceStore';
 // Import components
-import ConfirmModal from '../bases/ConfirmModal';
+import ConfirmModal from './ConfirmModal';
 
 // Constants
 const PRESET_NAME = 'Workspace';

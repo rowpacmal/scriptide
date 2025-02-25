@@ -15,9 +15,9 @@ import {
 } from '@chakra-ui/react';
 import { useRef } from 'react';
 import { LuChevronRight, LuX } from 'react-icons/lu';
-import CodeEditor from './CodeEditor';
+import CodeEditor from '../systems/CodeEditor';
 import useAppTheme from '@/themes/useAppTheme';
-import ImageView from './ImageView';
+import ImageViewer from '../ImageViewer';
 
 function NoOpenFile() {
   const { colorAlt } = useAppTheme();
@@ -197,7 +197,7 @@ function CodeEditorPanel() {
 
                   <Box h="calc(100% - 1.5rem)">
                     {isImg ? (
-                      <ImageView src={code} />
+                      <ImageViewer src={code} />
                     ) : (
                       <CodeEditor file={file} code={code} />
                     )}

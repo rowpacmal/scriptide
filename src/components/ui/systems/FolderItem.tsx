@@ -13,7 +13,7 @@ import {
 import { useEffect, useState } from 'react';
 import FileItemRename from './FileItemRename';
 import { LuChevronDown, LuChevronRight, LuFolder } from 'react-icons/lu';
-import { FolderItemContextMenu } from './ContextMenu';
+import { FolderItemContextMenu } from '../ContextMenu';
 import useAppTheme from '@/themes/useAppTheme';
 
 function FolderItem({ file, isExpanded, setIsExpanded, isActive }) {

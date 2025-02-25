@@ -3,8 +3,6 @@ import { Box, Button, HStack, Tooltip } from '@chakra-ui/react';
 import { LuBan, LuChevronsDown, LuChevronsUp } from 'react-icons/lu';
 // Import store
 import useConsoleStore from '@/store/useConsoleStore';
-// Import components
-import ConsoleStatus from './ConsoleStatus';
 
 // Console header component
 function ConsoleHeader({ isConsoleCollapsed, handelToggleConsole }) {
@@ -14,31 +12,27 @@ function ConsoleHeader({ isConsoleCollapsed, handelToggleConsole }) {
   // Render
   return (
     <HStack gap={0} justify="space-between">
-      <HStack gap={0}>
-        <Box>
-          <Tooltip
-            label={isConsoleCollapsed ? 'Show console' : 'Hide console'}
-            placement="top"
-            hasArrow
+      <Box>
+        <Tooltip
+          label={isConsoleCollapsed ? 'Show console' : 'Hide console'}
+          placement="top"
+          hasArrow
+        >
+          <Button
+            size="sm"
+            bg="transparent"
+            color="gray.500"
+            p={0}
+            _hover={{ bg: 'transparent', color: 'gray.50' }}
+            _active={{
+              bg: 'transparent',
+            }}
+            onClick={handelToggleConsole}
           >
-            <Button
-              size="sm"
-              bg="transparent"
-              color="gray.500"
-              p={0}
-              _hover={{ bg: 'transparent', color: 'gray.50' }}
-              _active={{
-                bg: 'transparent',
-              }}
-              onClick={handelToggleConsole}
-            >
-              {isConsoleCollapsed ? <LuChevronsUp /> : <LuChevronsDown />}
-            </Button>
-          </Tooltip>
-        </Box>
-
-        <ConsoleStatus />
-      </HStack>
+            {isConsoleCollapsed ? <LuChevronsUp /> : <LuChevronsDown />}
+          </Button>
+        </Tooltip>
+      </Box>
 
       <HStack gap={0}>
         <Box>

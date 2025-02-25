@@ -1,5 +1,5 @@
 import { Box, Input, Text, useToast } from '@chakra-ui/react';
-import ConfirmModal from '../bases/ConfirmModal';
+import ConfirmModal from './ConfirmModal';
 import { useState } from 'react';
 import useWorkspaceStore from '@/store/useWorkspaceStore';
 

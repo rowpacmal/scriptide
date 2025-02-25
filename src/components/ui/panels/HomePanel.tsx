@@ -57,7 +57,7 @@ function ChangelogItem({ children, version, date }) {
   );
 }
 
-function Home() {
+function HomePanel() {
   return (
     <VStack w="100%" color="gray.500" textAlign="center">
       <Box maxW="160px">
@@ -162,4 +162,4 @@ function Home() {
   );
 }
 
-export default Home;
+export default HomePanel;

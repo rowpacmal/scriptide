@@ -7,15 +7,14 @@ import {
 } from 'react';
 import { Panel, PanelGroup, PanelResizeHandle } from 'react-resizable-panels';
 // Import components
-import Overview from '@/components/ui/Overview';
 import Sidebar from '@/components/ui/Sidebar';
-import ControlPanel from '@/components/ui/ControlPanel';
-import Console from '@/components/ui/Console';
+import RightSidePanel from '@/components/ui/RightSidePanel';
+import Console from '@/components/ui/systems/Console';
 import CodeEditorHeader from '@/components/ui/CodeEditorHeader';
 import ConsoleHeader from '@/components/ui/ConsoleHeader';
 import LivePreview from '@/components/ui/LivePreview';
 import useLivePreviewStore from '@/store/useLivePreviewStore';
-import CodeEditorPanel from '@/components/ui/CodeEditorPanel';
+import CodeEditorPanel from '@/components/ui/panels/CodeEditorPanel';
 import useAppTheme from '@/themes/useAppTheme';
 
 // Utility component
@@ -142,7 +141,7 @@ function Content() {
             onCollapse={() => setIsControlPanelCollapsed(true)}
             onExpand={() => setIsControlPanelCollapsed(false)}
           >
-            <ControlPanel />
+            <RightSidePanel />
           </Panel>
 
           <PanelHandle direction="vertical" />

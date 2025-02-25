@@ -6,14 +6,14 @@ import {
   Text,
   VStack,
 } from '@chakra-ui/react';
-import States from './States';
-import Globals from './Globals';
-import Signatures from './Signatures';
+import States from '../States';
+import Globals from '../Globals';
+import Signatures from '../Signatures';
 import useAppTheme from '@/themes/useAppTheme';
-import Overview from './Overview';
+import Overview from '../Overview';
 import { LuChevronDown, LuChevronUp } from 'react-icons/lu';
-import PrevStates from './PrevStates';
-import RunDebug from './RunDebug';
+import PrevStates from '../PrevStates';
+import RunDebug from '../RunDebug';
 
 function PanelItem({ children, title, isTop = false, isBottom = false }) {
   // Define theme

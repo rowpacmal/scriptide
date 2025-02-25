@@ -12,13 +12,13 @@ import useWorkspaceStore from '@/store/useWorkspaceStore';
 // Import themes
 import useAppTheme from '@/themes/useAppTheme';
 // Import components
-import Explorer from './Explorer';
-import Home from './Home';
-import DeployBuild from './DeployBuild';
-import KissVMPanel from './KissVMPanel';
+import DeployBuildPanel from './panels/DeployBuildPanel';
+import ExplorerPanel from './panels/ExplorerPanel';
+import HomePanel from './panels/HomePanel';
+import KissVMPanel from './panels/KissVMPanel';
 
 // Control panel component
-function ControlPanel() {
+function RightSidePanel() {
   // Define theme
   const { color, colorAlt, borderColor } = useAppTheme();
 
@@ -32,10 +32,10 @@ function ControlPanel() {
   const currentNavigation = useMemo(() => {
     switch (navigation) {
       case NAVIGATION_STATES.HOME:
-        return <Home />;
+        return <HomePanel />;
 
       case NAVIGATION_STATES.EXPLORER:
-        return <Explorer />;
+        return <ExplorerPanel />;
 
       case NAVIGATION_STATES.SEARCH:
         return null;
@@ -44,7 +44,7 @@ function ControlPanel() {
         return <KissVMPanel />;
 
       case NAVIGATION_STATES.DEPLOY_BUILD:
-        return <DeployBuild />;
+        return <DeployBuildPanel />;
 
       case NAVIGATION_STATES.PLUGINS:
         return null;
@@ -94,4 +94,4 @@ function ControlPanel() {
   );
 }
 
-export default ControlPanel;
+export default RightSidePanel;

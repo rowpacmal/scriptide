@@ -12,7 +12,7 @@ import {
   useToast,
   VStack,
 } from '@chakra-ui/react';
-import Workspace from './Workspace';
+import Workspace from '../Workspace';
 import useWorkspaceStore from '@/store/useWorkspaceStore';
 import useFileStore from '@/store/useFileStore';
 import { useEffect, useState } from 'react';
@@ -21,8 +21,8 @@ import useEditorStore from '@/store/useEditorStore';
 import parseComments from '@/utils/parseComments';
 import minima from '@/lib/minima';
 import { LuFileCode2 } from 'react-icons/lu';
-import ConfirmModal from './bases/ConfirmModal';
-import KissVMFiles from './KissVMFiles';
+import ConfirmModal from '../modals/ConfirmModal';
+import KissVMFiles from '../KissVMFiles';
 
 // Util component
 function CheckboxOption({
@@ -81,7 +81,7 @@ function OverviewItem({ children, title, h = 'auto', className = '' }: any) {
 }
 
 // Deploy panel component
-function DeployBuild() {
+function DeployBuildPanel() {
   // Define toast
   const toast = useToast();
 
@@ -410,4 +410,4 @@ function DeployBuild() {
 }
 
 // Export
-export default DeployBuild;
+export default DeployBuildPanel;

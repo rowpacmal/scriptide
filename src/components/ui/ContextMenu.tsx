@@ -1,6 +1,10 @@
 import minima from '@/lib/minima';
 import useFileStore from '@/store/useFileStore';
-import { MenuDividerBase, MenuItemBase, MenuListBase } from './MenuListBase';
+import {
+  MenuDividerBase,
+  MenuItemBase,
+  MenuListBase,
+} from './systems/MenuListBase';
 import { LuDownload, LuPenLine, LuPlus, LuTrash } from 'react-icons/lu';
 import useWorkspaceStore from '@/store/useWorkspaceStore';
 
