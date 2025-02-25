@@ -24,6 +24,7 @@ import {
 // Import components
 import useAppTheme from '@/themes/useAppTheme';
 import useModalStore, { MODAL_TYPES } from '@/store/useModalStore';
+import useWorkspaceStore from '@/store/useWorkspaceStore';
 
 // Workspace menu item component
 function WorkspaceMenuItem({
@@ -55,11 +56,12 @@ function WorkspaceMenuItem({
 }
 
 // Workspace menu component
-function WorkspaceMenu({ workspaces }) {
+function WorkspaceMenu() {
   // Define theme
   const { bg, borderColor, color, colorAlt } = useAppTheme();
 
   // Define store
+  const workspaces = useWorkspaceStore((state) => state.workspaces);
   const setModalType = useModalStore((state) => state.setModalType);
   const onOpen = useModalStore((state) => state.onOpen);
 

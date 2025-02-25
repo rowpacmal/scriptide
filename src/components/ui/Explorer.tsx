@@ -75,7 +75,7 @@ function Explorer() {
           <HStack w="100%">
             <Workspace />
 
-            <WorkspaceMenu workspaces={workspaces} />
+            <WorkspaceMenu />
           </HStack>
         </VStack>
 
