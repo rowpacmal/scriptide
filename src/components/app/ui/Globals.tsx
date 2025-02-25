@@ -50,12 +50,15 @@ function Globals() {
   }
 
   // Define theme
-  const { borderColor, color, colorAlt } = useAppTheme();
+  const { bgAlt, borderColor, color, colorAlt } = useAppTheme();
 
   // Render
   return (
     <VStack w="100%" fontSize="sm" gap={3}>
       <Accordion
+        borderRadius="md"
+        bg={bgAlt}
+        border="1px solid"
         borderColor={borderColor}
         w="100%"
         index={accordionIndex}
@@ -83,8 +86,13 @@ function Globals() {
           >
             {({ isExpanded }) => (
               <>
-                <AccordionButton color={colorAlt} _hover={{ color }}>
-                  <Text as="span" flex="1" textAlign="left">
+                <AccordionButton
+                  px={2}
+                  py={1}
+                  color={colorAlt}
+                  _hover={{ color }}
+                >
+                  <Text as="span" flex="1" textAlign="left" fontSize="sm">
                     {global}
                   </Text>
 
@@ -100,7 +108,11 @@ function Globals() {
                     borderColor={borderColor}
                     _placeholder={{ color: borderColor }}
                     _readOnly={{ color: colorAlt }}
-                    placeholder="Enter value here"
+                    placeholder={
+                      global === '@ADDRESS'
+                        ? 'Run script first to see address'
+                        : 'Enter value here'
+                    }
                     /* If the global is '@ADDRESS', show the script address
                      * from the script0xAddress state, and disable onchange handler
                      * and set the access to read only.

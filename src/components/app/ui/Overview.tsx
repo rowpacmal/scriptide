@@ -20,8 +20,6 @@ import getType from '../../../utils/getType';
 // Import store
 import useRunScriptStore from '@/store/useRunScriptStore';
 import useAppTheme from '@/themes/useAppTheme';
-import useRunScript from '@/hooks/useRunScript';
-import useFileStore from '@/store/useFileStore';
 
 // Types
 type OverviewItemProps = {
@@ -32,22 +30,6 @@ type OverviewItemProps = {
 };
 
 // Utility components
-function ScriptStatus({ children, label, bool }) {
-  // Define theme
-  const { colorAlt } = useAppTheme();
-
-  return (
-    <HStack gap={1}>
-      <Text color={colorAlt} textTransform="uppercase">
-        {label}
-      </Text>
-
-      <Code colorScheme={bool === null ? 'gray' : bool ? 'green' : 'red'}>
-        {children}
-      </Code>
-    </HStack>
-  );
-}
 function OverviewItem({
   children,
   label,
@@ -156,172 +138,91 @@ function Overview() {
   const cleanScript = useRunScriptStore((state) => state.cleanScript);
   const script0xAddress = useRunScriptStore((state) => state.script0xAddress);
   const scriptMxAddress = useRunScriptStore((state) => state.scriptMxAddress);
-  const scriptParse = useRunScriptStore((state) => state.scriptParse);
-  const scriptSuccess = useRunScriptStore((state) => state.scriptSuccess);
-  const scriptMonotonic = useRunScriptStore((state) => state.scriptMonotonic);
+
   const scriptVariables = useRunScriptStore((state) => state.scriptVariables);
   const totalScriptInstructions = useRunScriptStore(
     (state) => state.totalScriptInstructions
   );
-  const currentFile = useFileStore((state) => state.currentFile);
 
   // Define theme
   const { accent, color, colorAlt, bgAlt } = useAppTheme();
 
-  // Define handlers
-  const handleRunScript = useRunScript();
-
   // Render
   return (
-    <Box
-      h="100%"
-      w="100%"
-      // p={2}
-    >
-      <VStack
-        as="section"
-        h="100%"
-        // pr={2}
-        // overflow="auto"
-      >
-        {/* <Box as="header" w="100%">
+    <VStack w="100%" fontSize="sm" gap={3}>
+      <OverviewItem label="Clean script" placeholder="Clean script here" h={32}>
+        {cleanScript}
+      </OverviewItem>
+
+      <OverviewItem label="0x Address" placeholder="Script 0xAddress here">
+        {script0xAddress}
+      </OverviewItem>
+
+      <OverviewItem label="Mx Address" placeholder="Script MxAddress here">
+        {scriptMxAddress}
+      </OverviewItem>
+
+      <VStack as="section" w="100%" gap={1}>
+        <HStack as="header" w="100%" justifyContent="space-between">
           <Text
-            as="h2"
+            as="h3"
             textTransform="uppercase"
-            fontSize="lg"
             color={colorAlt}
+            fontSize="xs"
           >
-            Overview
+            Total instructions
           </Text>
-        </Box> */}
+        </HStack>
 
-        <VStack w="100%" fontSize="sm" gap={3}>
-          {/*
-           * Moved the script status to the console header
-           */}
-
-          <VStack w="100%" gap={3} py={3}>
-            <Box w="100%" maxW="24rem">
-              <Button
-                w="100%"
-                colorScheme="green"
-                onClick={handleRunScript}
-                disabled={currentFile?.split('.').pop() !== 'kvm'}
-              >
-                Run and Debug
-              </Button>
-            </Box>
-
-            <Card bg={bgAlt} color={color} px={3}>
-              <HStack py={2} gap={3} flexWrap="wrap" justifyContent="center">
-                <ScriptStatus label="Parse" bool={scriptParse}>
-                  {scriptParse === null ? 'N/A' : scriptParse ? 'OK' : 'FAIL'}
-                </ScriptStatus>
-
-                <ScriptStatus label="Run" bool={scriptSuccess}>
-                  {scriptSuccess === null
-                    ? 'N/A'
-                    : scriptSuccess
-                    ? 'OK'
-                    : 'FAIL'}
-                </ScriptStatus>
-
-                <ScriptStatus label="Monotonic" bool={scriptMonotonic}>
-                  {scriptMonotonic === null
-                    ? 'N/A'
-                    : scriptMonotonic
-                    ? 'YES'
-                    : 'NO'}
-                </ScriptStatus>
-              </HStack>
-            </Card>
-          </VStack>
-
-          <OverviewItem
-            label="Clean script"
-            placeholder="Clean script here"
-            h={32}
-          >
-            {cleanScript}
-          </OverviewItem>
-
-          <OverviewItem label="0x Address" placeholder="Script 0xAddress here">
-            {script0xAddress}
-          </OverviewItem>
-
-          <OverviewItem label="Mx Address" placeholder="Script MxAddress here">
-            {scriptMxAddress}
-          </OverviewItem>
-
-          <VStack as="section" w="100%" gap={1}>
-            <HStack as="header" w="100%" justifyContent="space-between">
-              <Text
-                as="h3"
-                textTransform="uppercase"
-                color={colorAlt}
-                fontSize="xs"
-              >
-                Total instructions
+        <Card w="100%" bg={bgAlt} color={color} p={2}>
+          <Text as="pre" h="auto" overflow="auto" whiteSpace="pre-wrap" pr={2}>
+            {totalScriptInstructions ? (
+              <>
+                <Text as="span" color={accent}>
+                  {totalScriptInstructions}
+                </Text>{' '}
+                instructions
+              </>
+            ) : (
+              <Text as="span" color={colorAlt}>
+                Script MxAddress here
               </Text>
-            </HStack>
-
-            <Card w="100%" bg={bgAlt} color={color} p={2}>
-              <Text
-                as="pre"
-                h="auto"
-                overflow="auto"
-                whiteSpace="pre-wrap"
-                pr={2}
-              >
-                {totalScriptInstructions ? (
-                  <>
-                    <Text as="span" color={accent}>
-                      {totalScriptInstructions}
-                    </Text>{' '}
-                    instructions
-                  </>
-                ) : (
-                  <Text as="span" color={colorAlt}>
-                    Script MxAddress here
-                  </Text>
-                )}
-              </Text>
-            </Card>
-          </VStack>
-
-          <VStack as="section" w="100%" gap={1}>
-            <Box as="header" w="100%">
-              <Text
-                as="h3"
-                textTransform="uppercase"
-                color={colorAlt}
-                fontSize="xs"
-              >
-                Script variables
-              </Text>
-            </Box>
-
-            <Card w="100%" bg={bgAlt} color={color} p={2}>
-              {Object.entries(scriptVariables).length > 0 ? (
-                <List spacing={1}>
-                  {Object.entries(scriptVariables).map(([variable, value]) => (
-                    <VariableItem
-                      key={variable}
-                      variable={variable}
-                      value={value}
-                    />
-                  ))}
-                </List>
-              ) : (
-                <Text as="pre" color={colorAlt} whiteSpace="pre-wrap">
-                  Script variables here
-                </Text>
-              )}
-            </Card>
-          </VStack>
-        </VStack>
+            )}
+          </Text>
+        </Card>
       </VStack>
-    </Box>
+
+      <VStack as="section" w="100%" gap={1}>
+        <Box as="header" w="100%">
+          <Text
+            as="h3"
+            textTransform="uppercase"
+            color={colorAlt}
+            fontSize="xs"
+          >
+            Script variables
+          </Text>
+        </Box>
+
+        <Card w="100%" bg={bgAlt} color={color} p={2}>
+          {Object.entries(scriptVariables).length > 0 ? (
+            <List spacing={1}>
+              {Object.entries(scriptVariables).map(([variable, value]) => (
+                <VariableItem
+                  key={variable}
+                  variable={variable}
+                  value={value}
+                />
+              ))}
+            </List>
+          ) : (
+            <Text as="pre" color={colorAlt} whiteSpace="pre-wrap">
+              Script variables here
+            </Text>
+          )}
+        </Card>
+      </VStack>
+    </VStack>
   );
 }
 

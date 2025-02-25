@@ -5,10 +5,11 @@ import {
   Input,
   InputGroup,
   InputLeftAddon,
+  InputRightAddon,
   Text,
   VStack,
 } from '@chakra-ui/react';
-import { LuArrowDown, LuArrowUp, LuTrash2 } from 'react-icons/lu';
+import { LuPlus, LuTrash2, LuX } from 'react-icons/lu';
 // Import store
 import useSignatureStore from '@/store/useSignatureStore';
 import useAppTheme from '@/themes/useAppTheme';
@@ -23,71 +24,47 @@ function Signatures() {
   const removeSignature = useSignatureStore((state) => state.removeSignature);
 
   // Define theme
-  const { bgAlt, borderColor, color, colorAlt } = useAppTheme();
+  const { bgAlt, borderColor, color, colorAlt, colorError } = useAppTheme();
 
   // Render
   return (
-    <VStack w="100%" fontSize="sm" gap={3}>
+    <VStack w="100%" fontSize="sm" gap={2}>
       <HStack w="100%" justify="space-between">
-        <Text as="h3" textTransform="uppercase" color={colorAlt} fontSize="xs">
-          Signers
-        </Text>
+        <Button
+          p={0}
+          h="auto"
+          minW="auto"
+          bg="transparent"
+          color={colorAlt}
+          _hover={{
+            bg: 'transparent',
+            color: signatures.length >= 10 ? '' : color,
+            transform: signatures.length >= 10 ? '' : 'scale(1.2)',
+          }}
+          _active={{ bg: 'transparent', color }}
+          onClick={addSignature}
+          disabled={signatures.length >= 10}
+        >
+          <LuPlus size={20} />
+        </Button>
 
-        <HStack gap={1}>
-          <Button
-            p={0}
-            h="auto"
-            minW="auto"
-            bg="transparent"
-            color={colorAlt}
-            _hover={{
-              bg: 'transparent',
-              color: signatures.length >= 10 ? '' : color,
-              transform: signatures.length >= 10 ? '' : 'scale(1.2)',
-            }}
-            _active={{ bg: 'transparent', color }}
-            onClick={addSignature}
-            disabled={signatures.length >= 10}
-          >
-            <LuArrowDown size={20} />
-          </Button>
-
-          <Button
-            p={0}
-            h="auto"
-            minW="auto"
-            bg="transparent"
-            color={colorAlt}
-            _hover={{
-              bg: 'transparent',
-              color: signatures.length < 1 ? '' : color,
-              transform: signatures.length < 1 ? '' : 'scale(1.2)',
-            }}
-            _active={{ bg: 'transparent', color }}
-            onClick={() => removeSignature()}
-            disabled={signatures.length < 1}
-          >
-            <LuArrowUp size={20} />
-          </Button>
-
-          <Button
-            p={0}
-            h="auto"
-            minW="auto"
-            bg="transparent"
-            color={colorAlt}
-            _hover={{
-              bg: 'transparent',
-              color: signatures.length < 1 ? '' : color,
-              transform: signatures.length < 1 ? '' : 'scale(1.2)',
-            }}
-            _active={{ bg: 'transparent', color }}
-            onClick={() => setSignatures([])}
-            disabled={signatures.length < 1}
-          >
-            <LuTrash2 size={20} />
-          </Button>
-        </HStack>
+        <Button
+          p={0}
+          h="auto"
+          minW="auto"
+          bg="transparent"
+          color={colorAlt}
+          _hover={{
+            bg: 'transparent',
+            color: signatures.length < 1 ? '' : color,
+            transform: signatures.length < 1 ? '' : 'scale(1.2)',
+          }}
+          _active={{ bg: 'transparent', color }}
+          onClick={() => setSignatures([])}
+          disabled={signatures.length < 1}
+        >
+          <LuTrash2 size={20} />
+        </Button>
       </HStack>
 
       {signatures.length > 0 ? (
@@ -97,7 +74,7 @@ function Signatures() {
               <InputGroup size="sm">
                 <InputLeftAddon bg={bgAlt} borderColor={borderColor}>
                   <Text color={colorAlt} whiteSpace="nowrap">
-                    {index < 10 ? `0${index}` : index}
+                    {index}
                   </Text>
                 </InputLeftAddon>
 
@@ -110,6 +87,25 @@ function Signatures() {
                   onChange={(e) => updateSignature(index, e.target.value)}
                   placeholder="Enter value here"
                 />
+
+                <InputRightAddon
+                  bg={bgAlt}
+                  borderColor={borderColor}
+                  borderLeft={0}
+                  px={1}
+                >
+                  <Button
+                    p={0}
+                    h="auto"
+                    minW="auto"
+                    bg="transparent"
+                    color={colorAlt}
+                    _hover={{ bg: 'transparent', color: colorError }}
+                    onClick={() => removeSignature(index)}
+                  >
+                    <LuX size={20} />
+                  </Button>
+                </InputRightAddon>
               </InputGroup>
             </HStack>
           ))}

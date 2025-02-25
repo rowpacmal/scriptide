@@ -11,21 +11,23 @@ import {
 } from '@chakra-ui/react';
 import { LuPlus, LuTrash2, LuX } from 'react-icons/lu';
 // Import store
-import useStateVariableStore from '@/store/useStateVariableStore';
+import usePrevStateVariableStore from '@/store/usePrevStateVariableStore';
 import useAppTheme from '@/themes/useAppTheme';
 
 // Utility component
-function StateItem({ index }) {
-  // Define store
-  const stateVariables = useStateVariableStore((state) => state.stateVariables);
-  const updateStateVariableKey = useStateVariableStore(
-    (state) => state.updateStateVariableKey
+function PrevStateItem({ index }) {
+  // Define stores
+  const prevStateVariables = usePrevStateVariableStore(
+    (state) => state.prevStateVariables
   );
-  const updateStateVariableValue = useStateVariableStore(
-    (state) => state.updateStateVariableValue
+  const updatePrevStateVariableKey = usePrevStateVariableStore(
+    (state) => state.updatePrevStateVariableKey
   );
-  const removeStateVariable = useStateVariableStore(
-    (state) => state.removeStateVariable
+  const updatePrevStateVariableValue = usePrevStateVariableStore(
+    (state) => state.updatePrevStateVariableValue
+  );
+  const removePrevStateVariable = usePrevStateVariableStore(
+    (state) => state.removePrevStateVariable
   );
 
   // Define theme
@@ -42,8 +44,8 @@ function StateItem({ index }) {
           borderColor={borderColor}
           _placeholder={{ color: borderColor }}
           _readOnly={{ color: colorAlt }}
-          value={stateVariables[index].index}
-          onChange={(e) => updateStateVariableKey(index, e.target.value)}
+          value={prevStateVariables[index].index}
+          onChange={(e) => updatePrevStateVariableKey(index, e.target.value)}
           placeholder="Indx"
           maxW={10}
           textAlign="center"
@@ -54,17 +56,12 @@ function StateItem({ index }) {
         borderColor={borderColor}
         _placeholder={{ color: borderColor }}
         _readOnly={{ color: colorAlt }}
-        value={stateVariables[index].value}
-        onChange={(e) => updateStateVariableValue(index, e.target.value)}
+        value={prevStateVariables[index].value}
+        onChange={(e) => updatePrevStateVariableValue(index, e.target.value)}
         placeholder="Enter value here"
       />
 
-      <InputRightAddon
-        bg={bgAlt}
-        borderColor={borderColor}
-        borderLeft={0}
-        px={1}
-      >
+      <InputRightAddon bg={bgAlt} borderColor={borderColor} px={1}>
         <Button
           p={0}
           h="auto"
@@ -72,7 +69,7 @@ function StateItem({ index }) {
           bg="transparent"
           color={colorAlt}
           _hover={{ bg: 'transparent', color: colorError }}
-          onClick={() => removeStateVariable(index)}
+          onClick={() => removePrevStateVariable(index)}
         >
           <LuX size={20} />
         </Button>
@@ -82,14 +79,16 @@ function StateItem({ index }) {
 }
 
 // State component
-function States() {
+function PrevStates() {
   // Define stores
-  const stateVariables = useStateVariableStore((state) => state.stateVariables);
-  const addStateVariable = useStateVariableStore(
-    (state) => state.addStateVariable
+  const prevStateVariables = usePrevStateVariableStore(
+    (state) => state.prevStateVariables
   );
-  const removeAllStateVariables = useStateVariableStore(
-    (state) => state.removeAllStateVariables
+  const addPrevStateVariable = usePrevStateVariableStore(
+    (state) => state.addPrevStateVariable
+  );
+  const removeAllPrevStateVariables = usePrevStateVariableStore(
+    (state) => state.removeAllPrevStateVariables
   );
 
   // Define theme
@@ -107,12 +106,12 @@ function States() {
           color={colorAlt}
           _hover={{
             bg: 'transparent',
-            color: stateVariables.length > 255 ? '' : color,
-            transform: stateVariables.length > 255 ? '' : 'scale(1.2)',
+            color: prevStateVariables.length > 255 ? '' : color,
+            transform: prevStateVariables.length > 255 ? '' : 'scale(1.2)',
           }}
           _active={{ bg: 'transparent', color }}
-          onClick={addStateVariable}
-          disabled={stateVariables.length > 255}
+          onClick={addPrevStateVariable}
+          disabled={prevStateVariables.length > 255}
         >
           <LuPlus size={20} />
         </Button>
@@ -125,27 +124,27 @@ function States() {
           color={colorAlt}
           _hover={{
             bg: 'transparent',
-            color: stateVariables.length < 1 ? '' : color,
-            transform: stateVariables.length < 1 ? '' : 'scale(1.2)',
+            color: prevStateVariables.length < 1 ? '' : color,
+            transform: prevStateVariables.length < 1 ? '' : 'scale(1.2)',
           }}
           _active={{ bg: 'transparent', color }}
-          onClick={removeAllStateVariables}
-          disabled={stateVariables.length < 1}
+          onClick={removeAllPrevStateVariables}
+          disabled={prevStateVariables.length < 1}
         >
           <LuTrash2 size={20} />
         </Button>
       </HStack>
 
       <VStack w="100%">
-        {stateVariables.length > 0 ? (
+        {prevStateVariables.length > 0 ? (
           <>
-            {stateVariables.map((_, index) => (
-              <StateItem key={index} index={index} />
+            {prevStateVariables.map((_, index) => (
+              <PrevStateItem key={index} index={index} />
             ))}
           </>
         ) : (
           <Text w="100%" color={colorAlt}>
-            No state variables
+            No prevstate variables
           </Text>
         )}
       </VStack>
@@ -154,4 +153,4 @@ function States() {
 }
 
 // Export
-export default States;
+export default PrevStates;
