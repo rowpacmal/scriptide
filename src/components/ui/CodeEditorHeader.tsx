@@ -177,7 +177,7 @@ function CodeEditorHeader({ isOverviewCollapsed, handelToggleOverview }) {
           <CodeEditorHeaderButton
             label="Zoom out"
             onClick={editorZoomOut}
-            disabled={disableButton || editorZoom <= -6}
+            // disabled={disableButton || editorZoom <= -6}
           >
             <LuZoomOut />
           </CodeEditorHeaderButton>
@@ -205,11 +205,12 @@ function CodeEditorHeader({ isOverviewCollapsed, handelToggleOverview }) {
             maxW={8}
             textAlign="center"
             borderColor={borderColor}
-            _hover={{ borderColor: disableButton ? '' : color }}
+            // _hover={{ borderColor: disableButton ? '' : color }}
+            _hover={{ borderColor: color }}
             _focusVisible={{
               borderColor: accent,
             }}
-            disabled={disableButton}
+            // disabled={disableButton}
             onBlur={handleEditorZoom}
             onKeyDown={(e) => {
               if (e.key === 'Enter') {
@@ -221,7 +222,7 @@ function CodeEditorHeader({ isOverviewCollapsed, handelToggleOverview }) {
           <CodeEditorHeaderButton
             label="Zoom in"
             onClick={editorZoomIn}
-            disabled={disableButton}
+            // disabled={disableButton}
           >
             <LuZoomIn />
           </CodeEditorHeaderButton>
