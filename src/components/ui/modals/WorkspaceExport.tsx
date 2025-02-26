@@ -19,7 +19,7 @@ function WorkspaceExport({ onClose }) {
   const toast = useToast();
 
   // Define zip file
-  const { addZipFile, addZipImage, generateZip } = useZipFile();
+  const { addZipFile, addZipFolder, addZipImage, generateZip } = useZipFile();
 
   // Define stores
   const currentWorkspace = useWorkspaceStore((state) => state.currentWorkspace);
@@ -27,7 +27,7 @@ function WorkspaceExport({ onClose }) {
 
   // Define state
   const [zipName, setZipName] = useState(
-    `${currentWorkspace?.replaceAll(' ', '_')}.mds.zip`
+    `${currentWorkspace?.replaceAll(' ', '_')}.zip`
   );
   const [isLoading, setIsLoading] = useState(false);
 
@@ -59,17 +59,25 @@ function WorkspaceExport({ onClose }) {
       setIsLoading(true);
 
       for (const file of files) {
+        const location = file.location.split('/').splice(3).join('/');
+        console.log(location);
+
+        if (file.isdir) {
+          addZipFolder(location);
+          continue;
+        }
+
         if (isImageFile(file.name)) {
           const binary = (await minima.file.loadbinary(file.location)).response
             .load.data;
-
           const base64 = minima.util.hexToBase64(binary);
-          addZipImage(file.name, base64);
+
+          addZipImage(location, base64);
         } else {
           const data = (await minima.file.load(file.location)).response.load
             .data;
 
-          addZipFile(file.name, data);
+          addZipFile(location, data);
         }
       }
 
