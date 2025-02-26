@@ -10,7 +10,7 @@ import minima from '@/lib/minima';
 import useConsoleStore from '@/stores/useConsoleStore';
 import useEditorStore from '@/stores/useEditorStore';
 import useRunScriptStore from '@/stores/useRunScriptStore';
-import useExtraScriptStore from '@/stores/useExtraScriptStore';
+// import useExtraScriptStore from '@/stores/useExtraScriptStore';
 import useGlobalVariableStore from '@/stores/useGlobalVariableStore';
 import useSignatureStore from '@/stores/useSignatureStore';
 import useStateVariableStore from '@/stores/useStateVariableStore';
@@ -23,6 +23,7 @@ function useRunScript() {
   const toast = useToast();
 
   // Define store
+  const files = useFileStore((state) => state.files);
   const currentFile = useFileStore((state) => state.currentFile);
   const allCodes = useEditorStore((state) => state.allCodes);
   const globals = useGlobalVariableStore((state) => state.globals);
@@ -31,7 +32,7 @@ function useRunScript() {
   const prevStateVariables = usePrevStateVariableStore(
     (state) => state.prevStateVariables
   );
-  const extraScripts = useExtraScriptStore((state) => state.extraScripts);
+  // const extraScripts = useExtraScriptStore((state) => state.extraScripts);
 
   const extendConsoleOut = useConsoleStore((state) => state.extendConsoleOut);
   const setCleanScript = useRunScriptStore((state) => state.setCleanScript);
@@ -163,6 +164,8 @@ function useRunScript() {
 
     // Get the extra scripts and stringify them
     let extraScriptsStr = {};
+
+    /* // Old way of adding extra scripts
     for (let i = 0; i < extraScripts.length; i++) {
       const { value } = extraScripts[i];
       const extraTxt = value.trim();
@@ -185,6 +188,44 @@ function useRunScript() {
         script = script.replace(`@X${i}`, data);
         // console.log(script);
       }
+    } */
+
+    for (const file of files.filter((f) => f.name.endsWith('.kvm'))) {
+      // Get the file location (exclude the first 3 folders)
+      const location = file.location.split('/').splice(3).join('/');
+      // console.log(location);
+
+      // Check if the script imports the extra script
+      if (
+        script.includes(`@[${location}]`) ||
+        script.includes(`@[/${location}]`)
+      ) {
+        // load imported script data and clean it
+        const value = (await minima.file.load(file.location)).response.load
+          .data;
+        // console.log(value);
+        const extraTxt = value.trim();
+        let extraScript = extraTxt.replace(/\s+/g, ' ').trim();
+        extraScript = parseComments(extraScript).trim();
+
+        // If the extra script is not empty
+        // Get the mmrproof and address and add it to extra scripts
+
+        // Get the mmrproof
+        const {
+          nodes: [{ proof }],
+          root: { data },
+        }: any = (await minima.cmd(`mmrcreate nodes:["${extraScript}"]`))
+          .response;
+        // console.log(proof, data);
+
+        extraScriptsStr[extraScript] = proof;
+
+        // Dynamically add imported extra script address to script before running
+        script = script.replaceAll(`@[${location}]`, data);
+        script = script.replaceAll(`@[/${location}]`, data);
+        // console.log(script);
+      }
     }
     extraScriptsStr = JSON.stringify(extraScriptsStr);
     // console.log(extraScriptsStr);
@@ -193,7 +234,7 @@ function useRunScript() {
     const cmd = `runscript script:"${script}" globals:${globalVariables} state:${stateVars} prevstate:${prevStateVars} signatures:${signers} extrascripts:${extraScriptsStr}`;
 
     (window as any).MDS.cmd(cmd, (msg) => {
-      console.log(msg);
+      // console.log(msg);
 
       if (msg.status) {
         const {
