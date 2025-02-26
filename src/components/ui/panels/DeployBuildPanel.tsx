@@ -27,7 +27,7 @@ function DeployBuildPanel() {
         <Workspace />
       </VStack>
 
-      <AccordionBase defaultIndex={[1]}>
+      <AccordionBase defaultIndex={[1, 2]}>
         <AccordionItemBase title="Build MiniDapp" icon={<LuHammer />} isTop>
           <MiniDappBuild />
         </AccordionItemBase>

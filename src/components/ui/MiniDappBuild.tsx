@@ -6,15 +6,18 @@ import isImageFile from '@/utils/isImageFile';
 import {
   Box,
   Button,
+  HStack,
   Input,
   Progress,
   Text,
+  Tooltip,
   useToast,
   VStack,
 } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
 import useAppTheme from '@/themes/useAppTheme';
 import { DEFAULT_DAPP_CONFIG } from '@/constants';
+import { LuRotateCcw, LuRotateCw } from 'react-icons/lu';
 
 function MiniDappBuild() {
   // Define toast
@@ -38,7 +41,7 @@ function MiniDappBuild() {
   const [hasConfig, setHasConfig]: any = useState(null);
 
   // Define theme
-  const { colorAlt } = useAppTheme();
+  const { accent, bg, borderColor, color, colorAlt } = useAppTheme();
 
   // Define handlers
   async function handleExport() {
@@ -102,14 +105,34 @@ function MiniDappBuild() {
     }
   }
 
+  async function handleDappName() {
+    if (hasConfig) {
+      const data = (
+        await minima.file.load(`workspaces/${currentWorkspace}/dapp.conf`)
+      ).response.load.data;
+      const config = JSON.parse(data);
+
+      setZipName(
+        `${config.name?.replaceAll(' ', '-').toLowerCase()}-${
+          config.version
+        }.mds.zip`
+      );
+      return;
+    }
+
+    setZipName(
+      `${currentWorkspace?.replaceAll(' ', '-').toLowerCase()}-0.0.0.mds.zip`
+    );
+  }
+
   // Define effects
   useEffect(() => {
     if (!currentWorkspace) {
       return;
     }
 
-    setZipName(`${currentWorkspace?.replaceAll(' ', '_')}.mds.zip`);
-  }, [currentWorkspace]);
+    handleDappName();
+  }, [currentWorkspace, hasConfig]);
 
   useEffect(() => {
     if (!currentWorkspace) {
@@ -178,15 +201,31 @@ function MiniDappBuild() {
       </VStack>
 
       <VStack w="100%" gap={1}>
-        <Text
-          as="h3"
-          w="100%"
-          textTransform="uppercase"
-          fontSize="xs"
-          color={colorAlt}
-        >
-          Build Name
-        </Text>
+        <HStack w="100%" justify="space-between">
+          <Text
+            as="h3"
+            w="100%"
+            textTransform="uppercase"
+            fontSize="xs"
+            color={colorAlt}
+          >
+            Build Name
+          </Text>
+
+          <Tooltip label="Refresh name" placement="top" hasArrow>
+            <Button
+              size="xs"
+              variant="unstyled"
+              h="auto"
+              minW="auto"
+              p={0}
+              _hover={{ color }}
+              onClick={handleDappName}
+            >
+              <LuRotateCw size={16} />
+            </Button>
+          </Tooltip>
+        </HStack>
 
         <Box w="100%">
           <Progress
@@ -200,11 +239,11 @@ function MiniDappBuild() {
           <Input
             size="sm"
             variant="outline"
-            color="gray.50"
-            borderColor="gray.700"
-            _placeholder={{ color: 'gray.700' }}
-            _focusVisible={{ borderColor: 'gray.50' }}
-            _readOnly={{ color: 'gray.500' }}
+            color={color}
+            borderColor={borderColor}
+            _hover={{ borderColor: color }}
+            _placeholder={{ color: borderColor }}
+            _focusVisible={{ borderColor: accent }}
             value={zipName}
             onChange={(e) => {
               const { value } = e.target;
