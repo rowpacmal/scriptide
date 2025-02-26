@@ -1,18 +1,31 @@
 const CONSOLE_DEFAULT = [
+  '>> welcome start <<',
+  '',
+  ` $$$$$$\\                      $$\\            $$\\           $$$$$$\\ $$$$$$$\\  $$$$$$$$\\ 
+$$  __$$\\                     \\__|           $$ |          \\_$$  _|$$  __$$\\ $$  _____|
+$$ /  \\__| $$$$$$$\\  $$$$$$\\  $$\\  $$$$$$\\ $$$$$$\\           $$ |  $$ |  $$ |$$ |      
+\\$$$$$$\\  $$  _____|$$  __$$\\ $$ |$$  __$$\\\\_$$  _|          $$ |  $$ |  $$ |$$$$$\\    
+ \\____$$\\ $$ /      $$ |  \\__|$$ |$$ /  $$ | $$ |            $$ |  $$ |  $$ |$$  __|   
+$$\\   $$ |$$ |      $$ |      $$ |$$ |  $$ | $$ |$$\\         $$ |  $$ |  $$ |$$ |      
+\\$$$$$$  |\\$$$$$$$\\ $$ |      $$ |$$$$$$$  | \\$$$$  |      $$$$$$\\ $$$$$$$  |$$$$$$$$\\ 
+ \\______/  \\_______|\\__|      \\__|$$  ____/   \\____/       \\______|\\_______/ \\________|
+                                  $$ |                                                 
+                                  $$ |                                                 
+                                  \\__|                                                 `,
+  '',
   'Welcome to Minima Script IDE!',
+  '-----------------------------',
   'Newlines, tabs and comments using /* .. */ are supported. Removed and cleaned during Run.',
-  '---------------------------------',
+  'Allows Minima commands, such as "balance", "keys" and "coins" in this console.',
+  '>> welcome end <<',
+  '',
 ];
 
-const CONSOLE_DEFAULT_CLEARED = {
-  console: ['Console Cleared', '---------------------------------'],
-  timestamp: [new Date().toLocaleTimeString(), new Date().toLocaleTimeString()],
-};
-
-const CONSOLE_DEFAULT_TIMESTAMP = [
-  new Date().toLocaleTimeString(),
-  new Date().toLocaleTimeString(),
-  new Date().toLocaleTimeString(),
+const CONSOLE_DEFAULT_CLEARED = [
+  '>> clear start <<',
+  'Console Cleared',
+  '>> clear end <<',
+  '',
 ];
 
 const GLOBALS_DEFAULT_OBJECT = {
@@ -47,7 +60,6 @@ const DEFAULT_EDITOR_THEME_LIGHT = 'minima-light';
 export {
   CONSOLE_DEFAULT,
   CONSOLE_DEFAULT_CLEARED,
-  CONSOLE_DEFAULT_TIMESTAMP,
   GLOBALS_DEFAULT_OBJECT,
   NAVIGATION_LABELS,
   KISS_VM_LANGUAGE,

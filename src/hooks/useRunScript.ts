@@ -206,20 +206,16 @@ function useRunScript() {
         } = msg.response;
 
         const consoleOut = trace.split('\n');
-        consoleOut.splice(-1, 1, '---------------------------------');
-
-        const timestamp: string[] = [];
+        consoleOut.splice(-1, 1, '>> run script end <<');
         for (let i = 0; i < consoleOut.length; i++) {
           if (consoleOut[i].includes('Contract instructions')) {
             setTotalScriptInstructions(
               consoleOut[i].split(':')[1].trim().split(' ')[0]
             );
           }
-
-          timestamp.push(new Date().toLocaleTimeString());
         }
 
-        extendConsoleOut(consoleOut, timestamp);
+        extendConsoleOut('>> run script start << \n' + consoleOut.join('\n'));
 
         setScriptParse(parseok);
         setScriptSuccess(success);

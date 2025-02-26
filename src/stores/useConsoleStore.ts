@@ -1,43 +1,29 @@
 // Import dependencies
 import { create } from 'zustand';
 // Import constants
-import {
-  CONSOLE_DEFAULT,
-  CONSOLE_DEFAULT_CLEARED,
-  CONSOLE_DEFAULT_TIMESTAMP,
-} from '@/constants';
+import { CONSOLE_DEFAULT, CONSOLE_DEFAULT_CLEARED } from '@/constants';
 
 // Interface for the store
 interface IConsoleStore {
-  consoleOutput: string[];
-  setConsoleOutput: (consoleOutput: string[]) => void;
+  consoleOutput: string;
+  setConsoleOutput: (consoleOutput: string) => void;
 
-  consoleTimestamp: string[];
-  setConsoleTimestamp: (consoleTimestamp: string[]) => void;
-
-  extendConsoleOut: (newOutputs: string[], newTimestamps: string[]) => void;
+  extendConsoleOut: (newOutput: string) => void;
   clearConsoleOut: () => void;
 }
 
 // Create the store
 export const useConsoleStore = create<IConsoleStore>((set) => ({
-  consoleOutput: CONSOLE_DEFAULT,
+  consoleOutput: CONSOLE_DEFAULT.join('\n'),
   setConsoleOutput: (consoleOutput) => set({ consoleOutput }),
 
-  consoleTimestamp: CONSOLE_DEFAULT_TIMESTAMP,
-  setConsoleTimestamp: (consoleTimestamp) => set({ consoleTimestamp }),
-
-  extendConsoleOut: (newOutputs, newTimestamps) => {
+  extendConsoleOut: (newOutput: string) => {
     set((state) => ({
-      consoleOutput: [...state.consoleOutput, ...newOutputs],
-    }));
-    set((state) => ({
-      consoleTimestamp: [...state.consoleTimestamp, ...newTimestamps],
+      consoleOutput: state.consoleOutput + newOutput + '\n',
     }));
   },
   clearConsoleOut: () => {
-    set({ consoleOutput: CONSOLE_DEFAULT_CLEARED.console });
-    set({ consoleTimestamp: CONSOLE_DEFAULT_CLEARED.timestamp });
+    set({ consoleOutput: CONSOLE_DEFAULT_CLEARED.join('\n') });
   },
 }));
 
