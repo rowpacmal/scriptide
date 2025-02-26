@@ -244,23 +244,13 @@ function KissVMDeploy() {
 
   // Render
   return (
-    <VStack w="100%" h="100%" fontSize="sm" gap={3} color={colorAlt}>
+    <VStack w="100%" fontSize="sm" gap={3} color={colorAlt}>
       <VStack w="100%" gap={1}>
-        <VStack w="100%" gap={1}>
-          <Text as="h3" w="100%" textTransform="uppercase" fontSize="xs">
-            Workspaces
-          </Text>
+        <Text as="h3" w="100%" textTransform="uppercase" fontSize="xs">
+          KissVM Scripts
+        </Text>
 
-          <Workspace />
-        </VStack>
-
-        <VStack w="100%" gap={1}>
-          <Text as="h3" w="100%" textTransform="uppercase" fontSize="xs">
-            KissVM Scripts
-          </Text>
-
-          <KissVMFiles />
-        </VStack>
+        <KissVMFiles />
       </VStack>
 
       <VStack w="100%" gap={1}>

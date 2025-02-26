@@ -4,17 +4,18 @@ import {
   AccordionButton,
   AccordionItem,
   AccordionPanel,
+  Box,
   Text,
 } from '@chakra-ui/react';
 import { LuChevronDown, LuChevronUp } from 'react-icons/lu';
 
-function AccordionBase({ children }) {
+function AccordionBase({ children, defaultIndex = [1] }) {
   // Define theme
   const { borderColor } = useAppTheme();
 
   return (
     <Accordion
-      defaultIndex={[1]}
+      defaultIndex={defaultIndex}
       borderColor={borderColor}
       w="100%"
       allowMultiple
@@ -32,9 +33,10 @@ function AccordionBase({ children }) {
 function AccordionItemBase({
   children,
   title,
+  icon = null,
   isTop = false,
   isBottom = false,
-}) {
+}: any) {
   // Define theme
   const { color, colorAlt } = useAppTheme();
 
@@ -46,6 +48,8 @@ function AccordionItemBase({
       {({ isExpanded }) => (
         <>
           <AccordionButton px={2} py={1} color={colorAlt} _hover={{ color }}>
+            {icon && <Box mr={2}>{icon}</Box>}
+
             <Text
               as="span"
               flex="1"

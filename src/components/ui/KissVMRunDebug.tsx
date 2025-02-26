@@ -14,6 +14,7 @@ import {
 import KissVMFiles from './KissVMFiles';
 import Workspace from './Workspace';
 import WorkspaceMenu from './WorkspaceMenu';
+import KissVMFilesMenu from './KissVMFilesMenu';
 
 function ScriptStatus({ children, label, bool }) {
   // Define theme
@@ -32,7 +33,7 @@ function ScriptStatus({ children, label, bool }) {
   );
 }
 
-function RunDebug() {
+function KissVMRunDebug() {
   // Define stores
   const scriptParse = useRunScriptStore((state) => state.scriptParse);
   const scriptSuccess = useRunScriptStore((state) => state.scriptSuccess);
@@ -77,7 +78,11 @@ function RunDebug() {
             KissVM Scripts
           </Text>
 
-          <KissVMFiles />
+          <HStack w="100%">
+            <KissVMFiles />
+
+            <KissVMFilesMenu />
+          </HStack>
         </VStack>
       </VStack>
 
@@ -111,4 +116,4 @@ function RunDebug() {
   );
 }
 
-export default RunDebug;
+export default KissVMRunDebug;
