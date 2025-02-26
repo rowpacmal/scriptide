@@ -27,6 +27,7 @@ import {
   LuSquareArrowOutUpRight,
   LuX,
 } from 'react-icons/lu';
+// import { useNavigate } from 'react-router-dom';
 
 function LivePreview() {
   const iframeRef = useRef<HTMLIFrameElement | null>(null);
@@ -44,6 +45,23 @@ function LivePreview() {
   const liveURL = useLivePreviewStore((state) => state.liveURL);
   const setLiveURL = useLivePreviewStore((state) => state.setLiveURL);
   const currentWorkspace = useWorkspaceStore((state) => state.currentWorkspace);
+  // const navigate = useNavigate();
+
+  const handleOpenNewTab = () => {
+    // Construct the URL you want to open.
+    const newTabUrl = '#/live-preview'; // Replace with the desired URL
+
+    // Use window.open() to open a new tab.
+    window.open(newTabUrl, '_blank');
+
+    // Optionally, you can also navigate within your current tab.
+    // navigate('/some-other-route');
+  };
+
+  const handleOpenNewWindow = () => {
+    const newWindowUrl = '#/live-preview';
+    window.open(newWindowUrl, '_blank', 'width=600,height=400'); // set options for new window.
+  };
 
   useEffect(() => {
     if (!files) {
@@ -187,7 +205,11 @@ function LivePreview() {
                 _active={{
                   bg: 'transparent',
                 }}
-                onClick={() => {}}
+                onClick={() => {
+                  setShowPreview(false);
+                  setLivePreview('');
+                  handleOpenNewTab();
+                }}
               >
                 <LuSquareArrowOutUpRight />
               </Button>
