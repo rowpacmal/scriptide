@@ -57,6 +57,15 @@ const KISS_VM_LANGUAGE = 'kiss-vm';
 const DEFAULT_EDITOR_THEME_DARK = 'minima-dark';
 const DEFAULT_EDITOR_THEME_LIGHT = 'minima-light';
 
+const DEFAULT_DAPP_CONFIG = {
+  name: 'Name',
+  icon: 'icon.png',
+  version: '0.0.0',
+  description: 'Description',
+  browser: 'internal',
+  category: 'Category',
+};
+
 export {
   CONSOLE_DEFAULT,
   CONSOLE_DEFAULT_CLEARED,
@@ -65,4 +74,5 @@ export {
   KISS_VM_LANGUAGE,
   DEFAULT_EDITOR_THEME_DARK,
   DEFAULT_EDITOR_THEME_LIGHT,
+  DEFAULT_DAPP_CONFIG,
 };

@@ -4,13 +4,23 @@ import KissVMDeploy from '../KissVMDeploy';
 import MiniDappBuild from '../MiniDappBuild';
 import Workspace from '../Workspace';
 import { LuHammer, LuShare2 } from 'react-icons/lu';
+import useAppTheme from '@/themes/useAppTheme';
 
 // Deploy panel component
 function DeployBuildPanel() {
+  // Define theme
+  const { colorAlt } = useAppTheme();
+
   return (
     <VStack w="100%" fontSize="sm" gap={3}>
       <VStack w="100%" gap={1}>
-        <Text as="h3" w="100%" textTransform="uppercase" fontSize="xs">
+        <Text
+          as="h3"
+          w="100%"
+          textTransform="uppercase"
+          fontSize="xs"
+          color={colorAlt}
+        >
           Workspaces
         </Text>
 
