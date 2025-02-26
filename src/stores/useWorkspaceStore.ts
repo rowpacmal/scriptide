@@ -39,15 +39,23 @@ const useWorkspaceStore = create<IWorkspaceStore>((set, get) => ({
 
     if (workspaces.length < 1) {
       set({ currentWorkspace: null });
-      useFileStore.setState({ files: [] });
+      useFileStore.setState({
+        files: [],
+        allFiles: [],
+        currentFile: null,
+        currentFolder: null,
+      });
+      useEditorStore.setState({ code: null, allCodes: [], tabIndex: 0 });
       return;
     }
 
     const workspace = get().currentWorkspace;
-    if (!workspace) {
+    if (!workspace || !workspaces.includes(workspace)) {
       const firstWorkspace = workspaces[0];
       set({ currentWorkspace: firstWorkspace });
       useFileStore.getState().refreshFiles(firstWorkspace);
+      useFileStore.setState({ currentFile: null, currentFolder: null });
+      useEditorStore.setState({ code: null, allCodes: [], tabIndex: 0 });
       return;
     }
 
@@ -131,7 +139,7 @@ const useWorkspaceStore = create<IWorkspaceStore>((set, get) => ({
 
     useFileStore.getState().refreshFiles(workspace);
     useFileStore.setState({ currentFile: null, currentFolder: null });
-    useEditorStore.setState({ code: null });
+    useEditorStore.setState({ code: null, allCodes: [], tabIndex: 0 });
   },
   deleteWorkspace: async () => {
     await minima.file.delete(`workspaces/${get().currentWorkspace}`);

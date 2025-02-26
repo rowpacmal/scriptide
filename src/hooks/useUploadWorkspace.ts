@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 // import minima from '@/lib/minima';
 import minima from '@/lib/minima';
 import useWorkspaceStore from '@/stores/useWorkspaceStore';
@@ -8,9 +10,7 @@ import { useState } from 'react';
 
 function useUploadWorkspace() {
   // Define store
-  const setCurrentWorkspace = useWorkspaceStore(
-    (state) => state.setCurrentWorkspace
-  );
+  const updateWorkspace = useWorkspaceStore((state) => state.updateWorkspace);
   const refreshWorkspaces = useWorkspaceStore(
     (state) => state.refreshWorkspaces
   );
@@ -88,7 +88,7 @@ function useUploadWorkspace() {
           }
         });
 
-        setCurrentWorkspace(workspace);
+        updateWorkspace(workspace);
         refreshWorkspaces();
         setProgress(1);
         setIsUploading(false);
