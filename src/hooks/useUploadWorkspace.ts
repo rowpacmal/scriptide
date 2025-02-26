@@ -31,6 +31,9 @@ function useUploadWorkspace() {
 
         const zip = new JSZip();
         const content = await zip.loadAsync(file);
+        const totalFiles = Object.values(content.files).filter(
+          (f) => !f.dir
+        ).length;
         const newFileContents = {};
 
         for (const filename in content.files) {
@@ -47,15 +50,13 @@ function useUploadWorkspace() {
               } else if (isImageFile(filename)) {
                 fileContent = await zipEntry.async('base64');
               } else {
-                fileContent = await zipEntry.async('arraybuffer');
+                // fileContent = await zipEntry.async('arraybuffer');
+                fileContent = await zipEntry.async('string');
               }
 
               newFileContents[filename] = fileContent;
 
-              setProgress(
-                Object.keys(newFileContents).length /
-                  Object.keys(content.files).length
-              );
+              setProgress(Object.keys(newFileContents).length / totalFiles);
             } catch (error: any) {
               console.error(`Error reading file ${filename}:`, error);
               newFileContents[
@@ -89,6 +90,7 @@ function useUploadWorkspace() {
 
         setCurrentWorkspace(workspace);
         refreshWorkspaces();
+        setProgress(1);
         setIsUploading(false);
       } catch (err: any) {
         console.error('Error loading zip file:', err);
