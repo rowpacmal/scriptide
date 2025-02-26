@@ -17,7 +17,7 @@ import {
 import { useEffect, useState } from 'react';
 import useAppTheme from '@/themes/useAppTheme';
 import { DEFAULT_DAPP_CONFIG } from '@/constants';
-import { LuRotateCcw, LuRotateCw } from 'react-icons/lu';
+import { LuRotateCw } from 'react-icons/lu';
 
 function MiniDappBuild() {
   // Define toast
