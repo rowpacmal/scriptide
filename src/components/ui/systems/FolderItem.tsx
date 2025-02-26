@@ -82,6 +82,7 @@ function FolderItem({ file, isExpanded, setIsExpanded, isActive }) {
         <Box
           cursor="pointer"
           w="100%"
+          color={colorAlt}
           _hover={{ bg: borderColor, color }}
           borderRadius="sm"
         >
@@ -105,7 +106,6 @@ function FolderItem({ file, isExpanded, setIsExpanded, isActive }) {
                 borderColor={isOpen ? accent : 'transparent'}
                 justifyContent="space-between"
                 gap={0}
-                color={colorAlt}
                 bg={isOpen ? borderColor : ''}
               >
                 <Box>

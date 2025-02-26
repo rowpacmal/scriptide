@@ -61,6 +61,7 @@ function FileItem({ file, onClick, isActive = false }) {
         <Box
           cursor="pointer"
           w="100%"
+          color={colorAlt}
           _hover={{ bg: borderColor, color }}
           borderRadius="sm"
         >
@@ -80,7 +81,7 @@ function FileItem({ file, onClick, isActive = false }) {
                 gap={0}
                 pl={2}
                 pr={1}
-                color={isActive ? accent : colorAlt}
+                color={isActive ? accent : ''}
                 bg={isOpen ? borderColor : ''}
               >
                 <Text
