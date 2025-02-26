@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 // Import dependencies
 import { create } from 'zustand';
 // Import libraries
@@ -20,7 +21,7 @@ interface IFileStore {
   setAllFiles: (files: string[]) => void;
 
   refreshFiles: (workspace: string, loader?: boolean) => Promise<void>;
-  addFile: (path: string) => Promise<void>;
+  addFile: (path: string, data?: string) => Promise<void>;
   addFolder: (path: string) => Promise<void>;
   renameFile: (path: string, newPath: string) => Promise<void>;
   saveFile: (path: string, data: string) => Promise<void>;
@@ -102,19 +103,19 @@ const useFileStore = create<IFileStore>((set, get) => ({
       set({ isLoadingFiles: false });
     }
   },
-  addFile: async (path: string) => {
+  addFile: async (path: string, data?: string) => {
     const currentWorkspace = useWorkspaceStore.getState().currentWorkspace;
 
     if (!currentWorkspace) {
       return;
     }
 
-    await minima.file.save(path, '');
+    await minima.file.save(path, data || '');
 
     get().refreshFiles(currentWorkspace, false);
     set({ currentFile: path });
-    useEditorStore.setState({ code: '' });
-    useEditorStore.getState().addCode(path, '', false);
+    useEditorStore.setState({ code: data || '' });
+    useEditorStore.getState().addCode(path, data || '', false);
   },
   addFolder: async (path: string) => {
     const currentWorkspace = useWorkspaceStore.getState().currentWorkspace;
