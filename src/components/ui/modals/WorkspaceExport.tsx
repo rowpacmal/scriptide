@@ -60,24 +60,26 @@ function WorkspaceExport({ onClose }) {
 
       for (const file of files) {
         const location = file.location.split('/').splice(3).join('/');
-        console.log(location);
+        // console.log(location);
 
-        if (file.isdir) {
-          addZipFolder(location);
-          continue;
-        }
+        // if (file.isdir) {
+        //   addZipFolder(location);
+        //   continue;
+        // }
 
-        if (isImageFile(file.name)) {
-          const binary = (await minima.file.loadbinary(file.location)).response
-            .load.data;
-          const base64 = minima.util.hexToBase64(binary);
+        if (file.isfile) {
+          if (isImageFile(file.name)) {
+            const binary = (await minima.file.loadbinary(file.location))
+              .response.load.data;
+            const base64 = minima.util.hexToBase64(binary);
 
-          addZipImage(location, base64);
-        } else {
-          const data = (await minima.file.load(file.location)).response.load
-            .data;
+            addZipImage(location, base64);
+          } else {
+            const data = (await minima.file.load(file.location)).response.load
+              .data;
 
-          addZipFile(location, data);
+            addZipFile(location, data);
+          }
         }
       }
 
