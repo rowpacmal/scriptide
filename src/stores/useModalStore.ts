@@ -14,6 +14,9 @@ export enum MODAL_TYPES {
   // File modals
   UPLOAD_FILE = 'uploadFile',
   DELETE_ALL_FILES = 'deleteAllFiles',
+
+  // Other modals
+  VIEW_SCRIPT = 'viewScript',
 }
 
 // Type for the store
@@ -23,6 +26,9 @@ type TModalType = MODAL_TYPES | null;
 interface IModalStore {
   modalType: TModalType;
   setModalType: (modalType: TModalType) => void;
+
+  modalProps: any;
+  setModalProps: (modalProps: any) => void;
 
   isOpen: boolean;
   onOpen: () => void;
@@ -34,9 +40,12 @@ const useModalStore = create<IModalStore>((set) => ({
   modalType: null,
   setModalType: (modalType: TModalType) => set({ modalType }),
 
+  modalProps: null,
+  setModalProps: (modalProps: any) => set({ modalProps }),
+
   isOpen: false,
   onOpen: () => set({ isOpen: true }),
-  onClose: () => set({ isOpen: false }),
+  onClose: () => set({ isOpen: false, modalType: null, modalProps: null }),
 }));
 
 // Export the store

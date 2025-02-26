@@ -13,6 +13,7 @@ import WorkspaceDeleteAll from '@/components/ui/modals/WorkspaceDeleteAll';
 import WorkspaceExport from '@/components/ui/modals/WorkspaceExport';
 import WorkspaceImport from '@/components/ui/modals/WorkspaceImport';
 import WorkspaceRename from '@/components/ui/modals/WorkspaceRename';
+import DeployedScripts from '../ui/modals/DeployedScripts';
 
 // Modals component
 function Modals() {
@@ -52,6 +53,10 @@ function Modals() {
 
       case MODAL_TYPES.DELETE_ALL_FILES:
         return <FilesDeleteAll onClose={onClose} />;
+
+      // Other modals
+      case MODAL_TYPES.VIEW_SCRIPT:
+        return <DeployedScripts onClose={onClose} />;
 
       default:
         return null;

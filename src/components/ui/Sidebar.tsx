@@ -136,7 +136,6 @@ function Sidebar({ isControlPanelCollapsed, handelToggleControlPanel }) {
           label={NAVIGATION_LABELS.deployBuild}
           active={handleIsActive(NAVIGATION_STATES.DEPLOY_BUILD)}
           onClick={() => handleNavigationChange(NAVIGATION_STATES.DEPLOY_BUILD)}
-          disabled
         >
           <LuRocket size={ICON_SIZE} />
         </SidebarButton>
