@@ -115,14 +115,14 @@ function Sidebar({ isControlPanelCollapsed, handelToggleControlPanel }) {
         </SidebarButton>
 
         {/* TODO - enable search feature */}
-        <SidebarButton
+        {/* <SidebarButton
           label={NAVIGATION_LABELS.search}
           active={handleIsActive(NAVIGATION_STATES.SEARCH)}
           onClick={() => handleNavigationChange(NAVIGATION_STATES.SEARCH)}
           disabled
         >
           <LuSearch size={ICON_SIZE} />
-        </SidebarButton>
+        </SidebarButton> */}
 
         <SidebarButton
           label={NAVIGATION_LABELS.kissVM}
@@ -143,8 +143,8 @@ function Sidebar({ isControlPanelCollapsed, handelToggleControlPanel }) {
       </VStack>
 
       <VStack>
-        {/* TODO - enable plugins features */}
-        <SidebarButton
+        {/* TODO - enable plugins and settings features */}
+        {/* <SidebarButton
           label={NAVIGATION_LABELS.plugins}
           active={handleIsActive('plugins')}
           onClick={() => handleNavigationChange('plugins')}
@@ -160,7 +160,7 @@ function Sidebar({ isControlPanelCollapsed, handelToggleControlPanel }) {
           disabled
         >
           <LuSettings size={ICON_SIZE} />
-        </SidebarButton>
+        </SidebarButton> */}
       </VStack>
     </VStack>
   );
