@@ -178,28 +178,25 @@ function KissVMDeploy() {
 
     // Get the extra scripts and stringify them
     let extraScriptsStr = {};
-    for (const file of files.filter((f) => f.name.endsWith('.kvm'))) {
-      // Get the file location (exclude the first 3 folders)
-      const location = file.location.split('/').splice(3).join('/');
-      // console.log(location);
+    for (const file of files.filter(
+      (f: any) =>
+        f.location.split('/').splice(3)[0] === 'contracts' &&
+        f.name.endsWith('.kvm')
+    )) {
+      // Get the name and location
+      const { location } = file;
+      const name = file.name.split('.')[0];
 
       // Check if the script imports the extra script
-      if (
-        script.includes(`@[${location}]`) ||
-        script.includes(`@[/${location}]`)
-      ) {
+      if (script.includes(`@[${name}]`)) {
         // load imported script data and clean it
-        const value = (await minima.file.load(file.location)).response.load
-          .data;
+        const value = (await minima.file.load(location)).response.load.data;
         // console.log(value);
         const extraTxt = value.trim();
         let extraScript = extraTxt.replace(/\s+/g, ' ').trim();
         extraScript = parseComments(extraScript).trim();
 
-        // If the extra script is not empty
-        // Get the mmrproof and address and add it to extra scripts
-
-        // Get the mmrproof
+        // If the extra script is not empty, get the script mmrproof and address
         const {
           nodes: [{ proof }],
           root: { data },
@@ -207,11 +204,11 @@ function KissVMDeploy() {
           .response;
         // console.log(proof, data);
 
+        // Add the script and proof to the extraScriptsStr
         extraScriptsStr[extraScript] = proof;
 
         // Dynamically add imported extra script address to script before running
-        script = script.replaceAll(`@[${location}]`, data);
-        script = script.replaceAll(`@[/${location}]`, data);
+        script = script.replaceAll(`@[${name}]`, data);
         // console.log(script);
       }
     }
