@@ -210,6 +210,7 @@ function LivePreview() {
                   setLivePreview('');
                   handleOpenNewTab();
                 }}
+                disabled
               >
                 <LuSquareArrowOutUpRight />
               </Button>
