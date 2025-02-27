@@ -8,7 +8,7 @@ import {
 import { Panel, PanelGroup, PanelResizeHandle } from 'react-resizable-panels';
 // Import components
 import Sidebar from '@/components/ui/Sidebar';
-import RightSidePanel from '@/components/ui/RightSidePanel';
+import LeftSidePanel from '@/components/ui/LeftSidePanel';
 import Console from '@/components/ui/systems/Console';
 import CodeEditorHeader from '@/components/ui/CodeEditorHeader';
 import ConsoleHeader from '@/components/ui/ConsoleHeader';
@@ -141,7 +141,7 @@ function Content() {
             onCollapse={() => setIsControlPanelCollapsed(true)}
             onExpand={() => setIsControlPanelCollapsed(false)}
           >
-            <RightSidePanel />
+            <LeftSidePanel />
           </Panel>
 
           <PanelHandle direction="vertical" />

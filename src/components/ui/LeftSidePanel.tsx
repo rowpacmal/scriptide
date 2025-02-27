@@ -1,5 +1,5 @@
 // Import dependencies
-import { Box, Button, HStack, Text, VStack } from '@chakra-ui/react';
+import { Box, Button, HStack, Text, Tooltip, VStack } from '@chakra-ui/react';
 import { useMemo } from 'react';
 import { LuRotateCw } from 'react-icons/lu';
 // Import constants
@@ -18,7 +18,7 @@ import HomePanel from './panels/HomePanel';
 import KissVMPanel from './panels/KissVMPanel';
 
 // Control panel component
-function RightSidePanel() {
+function LeftSidePanel() {
   // Define theme
   const { color, colorAlt, borderColor } = useAppTheme();
 
@@ -74,7 +74,7 @@ function RightSidePanel() {
             {NAVIGATION_LABELS[navigation]}
           </Text>
 
-          {(navigation === 'explorer' || navigation === 'kiss-vm') && (
+          <Tooltip label="Refresh workspaces" placement="bottom" hasArrow>
             <Button
               p={0}
               size="sm"
@@ -85,7 +85,7 @@ function RightSidePanel() {
             >
               <LuRotateCw size={20} />
             </Button>
-          )}
+          </Tooltip>
         </HStack>
 
         {currentNavigation}
@@ -94,4 +94,4 @@ function RightSidePanel() {
   );
 }
 
-export default RightSidePanel;
+export default LeftSidePanel;
