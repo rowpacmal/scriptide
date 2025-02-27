@@ -8,11 +8,11 @@ import {
   MenuList,
   Tooltip,
 } from '@chakra-ui/react';
-import { LuMenu, LuPenLine, LuPlus, LuTrash } from 'react-icons/lu';
+import { LuMenu, LuPenLine, LuPlus, LuTrash, LuTrash2 } from 'react-icons/lu';
 // Import components
 import useAppTheme from '@/themes/useAppTheme';
 import useModalStore, { MODAL_TYPES } from '@/stores/useModalStore';
-import useWorkspaceStore from '@/stores/useWorkspaceStore';
+import useFileStore from '@/stores/useFileStore';
 
 // Workspace menu item component
 function KissVMFilesMenuItem({
@@ -49,7 +49,8 @@ function KissVMFilesMenu() {
   const { bg, borderColor, color, colorAlt } = useAppTheme();
 
   // Define store
-  const workspaces = useWorkspaceStore((state) => state.workspaces);
+  const files = useFileStore((state) => state.files);
+  const currentFile = useFileStore((state) => state.currentFile);
   const setModalType = useModalStore((state) => state.setModalType);
   const onOpen = useModalStore((state) => state.onOpen);
 
@@ -77,13 +78,19 @@ function KissVMFilesMenu() {
         minW="auto"
       >
         <KissVMFilesMenuItem
-          label="Rename Workspace"
+          label="Rename Script"
           icon={<LuPenLine />}
           onClick={() => {
-            setModalType(MODAL_TYPES.RENAME_WORKSPACE);
+            setModalType(MODAL_TYPES.RENAME_SCRIPT);
             onOpen();
           }}
-          disabled={workspaces.length < 1}
+          disabled={
+            !currentFile ||
+            !(
+              currentFile?.endsWith('.kvm') &&
+              currentFile?.includes('contracts')
+            )
+          }
         >
           Rename...
         </KissVMFilesMenuItem>
@@ -91,27 +98,50 @@ function KissVMFilesMenu() {
         <MenuDivider my={1} />
 
         <KissVMFilesMenuItem
-          label="Create Blank Workspace"
+          label="Create Script"
           icon={<LuPlus />}
           onClick={() => {
-            setModalType(MODAL_TYPES.CREATE_BLANK_WORKSPACE);
+            setModalType(MODAL_TYPES.CREATE_SCRIPT);
             onOpen();
           }}
-          disabled={workspaces.length >= 30} // Increased limit from 10 to 30
         >
           Create
         </KissVMFilesMenuItem>
 
         <KissVMFilesMenuItem
-          label="Delete Workspace"
+          label="Delete Script"
           icon={<LuTrash />}
           onClick={() => {
-            setModalType(MODAL_TYPES.DELETE_WORKSPACE);
+            setModalType(MODAL_TYPES.DELETE_SCRIPT);
             onOpen();
           }}
-          disabled={workspaces.length < 1}
+          disabled={
+            !currentFile ||
+            !(
+              currentFile?.endsWith('.kvm') &&
+              currentFile?.includes('contracts')
+            )
+          }
         >
           Delete
+        </KissVMFilesMenuItem>
+
+        <MenuDivider my={1} />
+
+        <KissVMFilesMenuItem
+          label="Delete All Scripts"
+          icon={<LuTrash2 />}
+          onClick={() => {
+            setModalType(MODAL_TYPES.DELETE_ALL_SCRIPT);
+            onOpen();
+          }}
+          disabled={
+            files.filter(
+              (f) => f.location.split('/').splice(3)[0] === 'contracts'
+            ).length < 1
+          }
+        >
+          Delete all
         </KissVMFilesMenuItem>
       </MenuList>
     </Menu>

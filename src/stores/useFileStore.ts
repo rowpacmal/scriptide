@@ -28,6 +28,7 @@ interface IFileStore {
   loadFile: (path: string) => Promise<void>;
   deleteFile: (path: string) => Promise<void>;
   deleteAllFiles: () => Promise<void>;
+  deleteFolder: (path: string) => Promise<void>;
 
   currentFile: TCurrentFile;
   setCurrentFile: (file: TCurrentFile) => void;
@@ -174,7 +175,6 @@ const useFileStore = create<IFileStore>((set, get) => ({
   },
   deleteFile: async (path: string) => {
     const currentWorkspace = useWorkspaceStore.getState().currentWorkspace;
-
     if (!currentWorkspace) {
       return;
     }
@@ -187,6 +187,7 @@ const useFileStore = create<IFileStore>((set, get) => ({
     }
 
     get().refreshFiles(currentWorkspace, false);
+    useEditorStore.getState().removeCode(path);
   },
   deleteAllFiles: async () => {
     const currentWorkspace = useWorkspaceStore.getState().currentWorkspace;
@@ -199,6 +200,25 @@ const useFileStore = create<IFileStore>((set, get) => ({
     await minima.file.makedir(`workspaces/${currentWorkspace}`);
 
     set({ files: [], allFiles: [] });
+  },
+  deleteFolder: async (path: string) => {
+    const currentWorkspace = useWorkspaceStore.getState().currentWorkspace;
+    if (!currentWorkspace) {
+      return;
+    }
+
+    await minima.file.delete(path);
+
+    if (get().currentFile?.includes(path)) {
+      set({ currentFile: null });
+      useEditorStore.setState({ code: null });
+    }
+    if (get().currentFolder?.includes(path)) {
+      set({ currentFolder: null });
+    }
+
+    get().refreshFiles(currentWorkspace, false);
+    useEditorStore.getState().removeFolderCodes(path);
   },
 
   currentFile: null,

@@ -41,7 +41,7 @@ function MiniDappBuild() {
   const [hasConfig, setHasConfig]: any = useState(null);
 
   // Define theme
-  const { accent, bg, borderColor, color, colorAlt } = useAppTheme();
+  const { accent, borderColor, color, colorAlt } = useAppTheme();
 
   // Define handlers
   async function handleExport() {
@@ -131,16 +131,16 @@ function MiniDappBuild() {
       return;
     }
 
-    handleDappName();
-  }, [currentWorkspace, hasConfig]);
+    setHasConfig(!!files.find((file) => file.name === 'dapp.conf'));
+  }, [currentWorkspace, files]);
 
   useEffect(() => {
     if (!currentWorkspace) {
       return;
     }
 
-    setHasConfig(!!files.find((file) => file.name === 'dapp.conf'));
-  }, [currentWorkspace, files]);
+    handleDappName();
+  }, [currentWorkspace, hasConfig]);
 
   // Render
   return (

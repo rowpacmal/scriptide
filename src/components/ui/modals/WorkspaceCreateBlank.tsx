@@ -20,7 +20,7 @@ function WorkspaceCreateBlank({ onClose }) {
 
   // Define state
   const [workspaceName, setWorkspaceName] = useState(
-    `${PRESET_NAME} ${workspaces.length + 1}`
+    `${PRESET_NAME} ${Date.now()}`
   );
 
   // Render

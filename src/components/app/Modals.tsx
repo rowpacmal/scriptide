@@ -4,8 +4,11 @@ import { useMemo } from 'react';
 // Import store
 import useModalStore, { MODAL_TYPES } from '@/stores/useModalStore';
 // Import components
+import DeployedScripts from '../ui/modals/DeployedScripts';
 import FilesDeleteAll from '../ui/modals/FilesDeleteAll';
 import FilesUpload from '../ui/modals/FilesUpload';
+import KissVMFileCreate from '../ui/modals/KissVMFileCreate';
+import KissVMFileRename from '../ui/modals/KissVMFileRename';
 import WorkspaceCreateBlank from '@/components/ui/modals/WorkspaceCreateBlank';
 import WorkspaceCopy from '@/components/ui/modals/WorkspaceCopy';
 import WorkspaceDelete from '@/components/ui/modals/WorkspaceDelete';
@@ -13,7 +16,9 @@ import WorkspaceDeleteAll from '@/components/ui/modals/WorkspaceDeleteAll';
 import WorkspaceExport from '@/components/ui/modals/WorkspaceExport';
 import WorkspaceImport from '@/components/ui/modals/WorkspaceImport';
 import WorkspaceRename from '@/components/ui/modals/WorkspaceRename';
-import DeployedScripts from '../ui/modals/DeployedScripts';
+import ModalNotFound from '../ui/modals/ModalNotFound';
+import KissVMFileDelete from '../ui/modals/KissVMFileDelete';
+import KissVMFileDeleteAll from '../ui/modals/KissVMFileDeleteAll';
 
 // Modals component
 function Modals() {
@@ -58,8 +63,20 @@ function Modals() {
       case MODAL_TYPES.VIEW_SCRIPT:
         return <DeployedScripts onClose={onClose} />;
 
+      case MODAL_TYPES.RENAME_SCRIPT:
+        return <KissVMFileRename onClose={onClose} />;
+
+      case MODAL_TYPES.CREATE_SCRIPT:
+        return <KissVMFileCreate onClose={onClose} />;
+
+      case MODAL_TYPES.DELETE_SCRIPT:
+        return <KissVMFileDelete onClose={onClose} />;
+
+      case MODAL_TYPES.DELETE_ALL_SCRIPT:
+        return <KissVMFileDeleteAll onClose={onClose} />;
+
       default:
-        return null;
+        return <ModalNotFound onClose={onClose} />;
     }
   }, [modalType]);
 

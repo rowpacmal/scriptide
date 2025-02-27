@@ -17,6 +17,10 @@ export enum MODAL_TYPES {
 
   // Other modals
   VIEW_SCRIPT = 'viewScript',
+  RENAME_SCRIPT = 'renameScript',
+  CREATE_SCRIPT = 'createScript',
+  DELETE_SCRIPT = 'deleteScript',
+  DELETE_ALL_SCRIPT = 'deleteAllScripts',
 }
 
 // Type for the store

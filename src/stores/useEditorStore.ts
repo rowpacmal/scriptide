@@ -19,6 +19,7 @@ interface IEditorStore {
   addCode: (file: string, code: TCode, isImg: boolean) => void;
   updateCode: (file: string, code: TCode) => void;
   removeCode: (file: string) => void;
+  removeFolderCodes: (file: string) => void;
 
   editorZoom: number;
   setEditorZoom: (editorZoom: number) => void;
@@ -71,6 +72,29 @@ const useEditorStore = create<IEditorStore>((set) => ({
     set((state) => ({
       allCodes: state.allCodes.filter((code) => code.file !== file),
     }));
+  },
+  removeFolderCodes: (folder: string) => {
+    set((state) => {
+      let allCodes = [...state.allCodes];
+      for (const code of allCodes) {
+        if (code.file.includes(folder)) {
+          allCodes = allCodes.filter((c) => c.file !== code.file);
+        }
+      }
+
+      let tabIndex = state.tabIndex;
+      const currentCode = state.allCodes[tabIndex];
+      if (!currentCode?.file.includes(folder)) {
+        tabIndex = allCodes.indexOf(currentCode);
+      } else if (tabIndex > allCodes.length - 1) {
+        tabIndex = allCodes.length > 0 ? allCodes.length - 1 : 0;
+      }
+
+      return {
+        allCodes,
+        tabIndex,
+      };
+    });
   },
 
   editorZoom: Number(localStorage.getItem('editor-zoom')) || 0,

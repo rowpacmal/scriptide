@@ -34,7 +34,7 @@ function WorkspaceDelete({ onClose }) {
         <Highlight
           query={currentWorkspace ? currentWorkspace : '---'}
           styles={{
-            px: '3',
+            px: '2',
             py: '1',
             rounded: 'sm',
             color: 'gray.50',
