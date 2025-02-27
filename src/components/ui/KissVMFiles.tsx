@@ -25,8 +25,15 @@ function KissVMFiles() {
   // Define states
   const [kvmFiles, setKvmFiles] = useState<any>([]);
 
+  // Define effects
   useEffect(() => {
-    setKvmFiles(files.filter((file) => file.name.endsWith('.kvm')));
+    setKvmFiles(
+      files.filter(
+        (file) =>
+          file.location.split('/').splice(3)[0] === 'contracts' &&
+          file.name.endsWith('.kvm')
+      )
+    );
   }, [files]);
 
   // Render

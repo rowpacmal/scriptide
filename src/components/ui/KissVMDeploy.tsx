@@ -4,6 +4,7 @@ import {
   Box,
   Button,
   Checkbox,
+  Code,
   HStack,
   Text,
   Tooltip,
@@ -22,6 +23,7 @@ import { LuFileCode2 } from 'react-icons/lu';
 import KissVMFiles from './KissVMFiles';
 import useModalStore, { MODAL_TYPES } from '@/stores/useModalStore';
 import useAppTheme from '@/themes/useAppTheme';
+import KissVMFilesHeading from './KissVMFilesHeading';
 
 // Util component
 function CheckboxOption({
@@ -37,10 +39,11 @@ function CheckboxOption({
   return (
     <Tooltip
       label={label}
-      openDelay={500}
+      openDelay={300}
       placement="right"
       hasArrow
       fontWeight="normal"
+      // fontSize="xs"
     >
       <Box>
         <Checkbox
@@ -82,7 +85,7 @@ function KissVMDeploy() {
   const [clean, setClean] = useState(false);
 
   // Define theme
-  const { borderColor, color, colorAlt } = useAppTheme();
+  const { bgAlt, borderColor, color, colorAlt } = useAppTheme();
 
   // Define handlers
   async function handleDeploy() {
@@ -246,9 +249,7 @@ function KissVMDeploy() {
   return (
     <VStack w="100%" fontSize="sm" gap={3} color={colorAlt}>
       <VStack w="100%" gap={1}>
-        <Text as="h3" w="100%" textTransform="uppercase" fontSize="xs">
-          KissVM Scripts
-        </Text>
+        <KissVMFilesHeading />
 
         <KissVMFiles />
       </VStack>
@@ -256,7 +257,20 @@ function KissVMDeploy() {
       <VStack w="100%" gap={1}>
         <HStack rowGap={0} columnGap={4} flexWrap="wrap">
           <CheckboxOption
-            label="ON will track all coins with this script address. OFF will only track coins with this script address that are relevant to you."
+            label={
+              <>
+                <Code fontSize="inherit" bg={bgAlt}>
+                  ON
+                </Code>{' '}
+                will track all coins with this script address.
+                <br />
+                <Code fontSize="inherit" bg={bgAlt}>
+                  OFF
+                </Code>{' '}
+                will only track coins with this script address that are relevant
+                to you.
+              </>
+            }
             onChange={() => setTrackall(!trackall)}
             isChecked={trackall}
           >
@@ -264,7 +278,14 @@ function KissVMDeploy() {
           </CheckboxOption>
 
           <CheckboxOption
-            label="ON will clean the script to its minimal correct representation."
+            label={
+              <>
+                <Code fontSize="inherit" bg={bgAlt}>
+                  ON
+                </Code>{' '}
+                will clean the script to its minimal correct representation.
+              </>
+            }
             onChange={() => setClean(!clean)}
             isChecked={clean}
           >

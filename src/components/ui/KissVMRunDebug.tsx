@@ -15,6 +15,7 @@ import KissVMFiles from './KissVMFiles';
 import Workspace from './Workspace';
 import WorkspaceMenu from './WorkspaceMenu';
 import KissVMFilesMenu from './KissVMFilesMenu';
+import KissVMFilesHeading from './KissVMFilesHeading';
 
 function ScriptStatus({ children, label, bool }) {
   // Define theme
@@ -41,7 +42,7 @@ function KissVMRunDebug() {
   const currentFile = useFileStore((state) => state.currentFile);
 
   // Define theme
-  const { colorAlt, bgAlt } = useAppTheme();
+  const { bgAlt, colorAlt } = useAppTheme();
 
   // Define handlers
   const handleRunScript = useRunScript();
@@ -68,15 +69,7 @@ function KissVMRunDebug() {
         </VStack>
 
         <VStack w="100%" gap={1}>
-          <Text
-            as="h3"
-            w="100%"
-            textTransform="uppercase"
-            fontSize="xs"
-            color={colorAlt}
-          >
-            KissVM Scripts
-          </Text>
+          <KissVMFilesHeading />
 
           <HStack w="100%">
             <KissVMFiles />
