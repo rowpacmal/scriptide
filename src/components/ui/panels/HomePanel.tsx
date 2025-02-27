@@ -8,7 +8,6 @@ import {
   Code,
   Divider,
   HStack,
-  Image,
   List,
   ListIcon,
   ListItem,
@@ -17,13 +16,17 @@ import {
 } from '@chakra-ui/react';
 import { LuBadgeAlert, LuBadgeInfo, LuScrollText } from 'react-icons/lu';
 import AppLogo from '../systems/AppLogo';
+import useAppTheme from '@/themes/useAppTheme';
 
 function FeatureItem({ children, alert = false }) {
+  // Define theme
+  const { colorSuccess, colorWarning } = useAppTheme();
+
   return (
     <ListItem>
       <ListIcon
         as={alert ? LuBadgeAlert : LuBadgeInfo}
-        color={alert ? 'yellow.500' : 'green.500'}
+        color={alert ? colorWarning : colorSuccess}
       />
       {children}
     </ListItem>
@@ -31,11 +34,20 @@ function FeatureItem({ children, alert = false }) {
 }
 
 function ChangelogItem({ children, version, date }) {
+  // Define theme
+  const { color, colorAlt } = useAppTheme();
+
   return (
     <Accordion w="100%" allowToggle>
       <AccordionItem border="none">
         <Text as="h4">
-          <AccordionButton justifyContent="space-between">
+          <AccordionButton
+            px={2}
+            py={1}
+            color={colorAlt}
+            _hover={{ color }}
+            justifyContent="space-between"
+          >
             <HStack>
               <LuScrollText />
 
@@ -59,8 +71,11 @@ function ChangelogItem({ children, version, date }) {
 }
 
 function HomePanel() {
+  // Define theme
+  const { bgReversed, borderColor, colorAlt, colorReversed } = useAppTheme();
+
   return (
-    <VStack w="100%" color="gray.500" textAlign="center">
+    <VStack w="100%" color={colorAlt} textAlign="center">
       <Box maxW="200px" p={4}>
         <AppLogo size="100%" />
       </Box>
@@ -69,7 +84,7 @@ function HomePanel() {
         Welcome to Minima Script IDE!
       </Text>
 
-      <Divider borderColor="gray.700" />
+      <Divider borderColor={borderColor} />
 
       <VStack w="100%" gap={3} py={4}>
         <Text w="100%">
@@ -84,7 +99,7 @@ function HomePanel() {
         </Text>
       </VStack>
 
-      <Divider borderColor="gray.700" />
+      <Divider borderColor={borderColor} />
 
       <Text as="h3" w="100%" fontSize="lg">
         Changelog
@@ -154,7 +169,7 @@ function HomePanel() {
       <ChangelogItem version="3.0.4" date="February 6, 2025">
         <FeatureItem>
           Resolved an issue where the&nbsp;
-          <Code bg="gray.800" color="gray.500">
+          <Code bg={bgReversed} color={colorReversed}>
             @ADDRESS
           </Code>
           &nbsp; global variable was not being set correctly.
