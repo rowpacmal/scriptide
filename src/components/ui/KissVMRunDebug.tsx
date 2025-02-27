@@ -17,7 +17,7 @@ import WorkspaceMenu from './WorkspaceMenu';
 import KissVMFilesMenu from './KissVMFilesMenu';
 import KissVMFilesHeading from './KissVMFilesHeading';
 
-function ScriptStatus({ children, label, bool }) {
+function ScriptStatus({ children, label, bool, colors = ['green', 'red'] }) {
   // Define theme
   const { colorAlt } = useAppTheme();
 
@@ -27,7 +27,11 @@ function ScriptStatus({ children, label, bool }) {
         {label}
       </Text>
 
-      <Code colorScheme={bool === null ? 'gray' : bool ? 'green' : 'red'}>
+      <Code
+        border="1px solid"
+        borderColor="blackAlpha.300"
+        colorScheme={bool === null ? 'gray' : bool ? colors[0] : colors[1]}
+      >
         {children}
       </Code>
     </HStack>
@@ -100,7 +104,11 @@ function KissVMRunDebug() {
             {scriptSuccess === null ? 'N/A' : scriptSuccess ? 'OK' : 'FAIL'}
           </ScriptStatus>
 
-          <ScriptStatus label="Monotonic" bool={scriptMonotonic}>
+          <ScriptStatus
+            label="Monotonic"
+            bool={scriptMonotonic}
+            colors={['blue', 'purple']}
+          >
             {scriptMonotonic === null ? 'N/A' : scriptMonotonic ? 'YES' : 'NO'}
           </ScriptStatus>
         </HStack>
