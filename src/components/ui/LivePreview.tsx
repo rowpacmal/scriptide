@@ -194,7 +194,8 @@ function LivePreview() {
             </Popover>
           </Box>
 
-          <Box borderRight="1px solid" borderColor="gray.700">
+          {/* TODO - Open in new tab */}
+          {/* <Box borderRight="1px solid" borderColor="gray.700">
             <Tooltip label="Open in new tab" placement="bottom" hasArrow>
               <Button
                 size="sm"
@@ -210,12 +211,12 @@ function LivePreview() {
                   setLivePreview('');
                   handleOpenNewTab();
                 }}
-                disabled
+              
               >
                 <LuSquareArrowOutUpRight />
               </Button>
             </Tooltip>
-          </Box>
+          </Box> */}
 
           <Box w="100%" px={2}>
             <Tooltip label="Base source" placement="bottom" hasArrow>
