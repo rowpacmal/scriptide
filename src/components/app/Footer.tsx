@@ -1,6 +1,6 @@
 // Dependencies
 import useAppTheme from '@/themes/useAppTheme';
-import { Box } from '@chakra-ui/react';
+import { HStack, Text } from '@chakra-ui/react';
 
 // App footer component
 function Footer() {
@@ -8,13 +8,22 @@ function Footer() {
 
   // Render
   return (
-    <Box
+    <HStack
       as="footer"
       h="1rem"
-      textAlign="center"
+      px={1}
+      color={borderColor}
       borderTop="1px solid"
       borderColor={borderColor}
-    />
+      fontSize="2xs"
+      textTransform="uppercase"
+      justify="space-between"
+      userSelect="none"
+    >
+      <Text>Minima Script IDE</Text>
+
+      <Text>Version 3.1.0</Text>
+    </HStack>
   );
 }
 

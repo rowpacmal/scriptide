@@ -16,6 +16,7 @@ import {
   VStack,
 } from '@chakra-ui/react';
 import { LuBadgeAlert, LuBadgeInfo, LuScrollText } from 'react-icons/lu';
+import AppLogo from '../systems/AppLogo';
 
 function FeatureItem({ children, alert = false }) {
   return (
@@ -60,8 +61,8 @@ function ChangelogItem({ children, version, date }) {
 function HomePanel() {
   return (
     <VStack w="100%" color="gray.500" textAlign="center">
-      <Box maxW="160px">
-        <Image src="./scriptide.png" alt="Script IDE Logo" w="auto" h="auto" />
+      <Box maxW="200px" p={4}>
+        <AppLogo size="auto" />
       </Box>
 
       <Text as="h3" w="100%" fontSize="lg">

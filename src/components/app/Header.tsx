@@ -6,7 +6,7 @@ import { LuMoon, LuSun } from 'react-icons/lu';
 // App header component
 function Header() {
   const { colorMode, toggleColorMode } = useColorMode();
-  const { borderColor } = useAppTheme();
+  const { borderColor, colorAlt } = useAppTheme();
 
   // Render
   return (
@@ -25,7 +25,13 @@ function Header() {
         alignItems="center"
         justifyContent="center"
       >
-        <Text as="h1" fontSize="lg">
+        <Text
+          as="h1"
+          color={colorAlt}
+          fontWeight="medium"
+          textTransform="uppercase"
+          userSelect="none"
+        >
           Minima Script IDE
         </Text>
       </GridItem>

@@ -15,6 +15,7 @@ import useNavigationStore, {
   NAVIGATION_STATES,
 } from '@/stores/useNavigationStore';
 import useAppTheme from '@/themes/useAppTheme';
+import AppLogo from './systems/AppLogo';
 
 // Constants
 const ICON_SIZE = 24;
@@ -23,16 +24,17 @@ const ICON_SIZE = 24;
 function SidebarButton({
   children,
   label,
+  placement = 'top-start',
   active = false,
   onClick,
   disabled = false,
-}) {
+}: any) {
   // Define theme
   const { accent, color, colorAlt } = useAppTheme();
 
   // Render
   return (
-    <Tooltip label={label} placement="top-start" hasArrow>
+    <Tooltip label={label} placement={placement} hasArrow>
       <HStack gap={1}>
         <Box bg={active ? accent : 'transparent'} w={0.5} h="100%" />
 
@@ -87,7 +89,7 @@ function Sidebar({ isControlPanelCollapsed, handelToggleControlPanel }) {
       py={1.5}
       pr={1.5}
     >
-      <Box>
+      {/* <Box>
         <Tooltip label={NAVIGATION_LABELS.home} placement="right" hasArrow>
           <Button
             variant="unstyled"
@@ -103,7 +105,16 @@ function Sidebar({ isControlPanelCollapsed, handelToggleControlPanel }) {
             />
           </Button>
         </Tooltip>
-      </Box>
+      </Box> */}
+
+      <SidebarButton
+        label={NAVIGATION_LABELS.home}
+        placement="right"
+        active={handleIsActive(NAVIGATION_STATES.HOME)}
+        onClick={() => handleNavigationChange(NAVIGATION_STATES.HOME)}
+      >
+        <AppLogo size={32} />
+      </SidebarButton>
 
       <VStack mb="auto">
         <SidebarButton
