@@ -66,6 +66,12 @@ const DEFAULT_DAPP_CONFIG = {
   category: 'Category',
 };
 
+const DEFAULT_PLACEHOLDER = {
+  zip: 'Enter zip name here',
+  workspace: 'Enter workspace name here',
+  confirm: 'Enter confirm text here',
+};
+
 export {
   CONSOLE_DEFAULT,
   CONSOLE_DEFAULT_CLEARED,
@@ -75,4 +81,5 @@ export {
   DEFAULT_EDITOR_THEME_DARK,
   DEFAULT_EDITOR_THEME_LIGHT,
   DEFAULT_DAPP_CONFIG,
+  DEFAULT_PLACEHOLDER,
 };

@@ -1,7 +1,9 @@
-import { Box, Input, Text, useToast } from '@chakra-ui/react';
+import { Box, Text, useToast } from '@chakra-ui/react';
 import ConfirmModal from './ConfirmModal';
 import { useState } from 'react';
 import useWorkspaceStore from '@/stores/useWorkspaceStore';
+import BasicInput from '../systems/BasicInput';
+import { DEFAULT_PLACEHOLDER } from '@/constants';
 
 // Workspace rename modal component
 function WorkspaceCopy({ onClose }) {
@@ -48,14 +50,8 @@ function WorkspaceCopy({ onClose }) {
       </Text>
 
       <Box px={4}>
-        <Input
-          size="sm"
-          variant="outline"
-          color="gray.50"
-          borderColor="gray.700"
-          _placeholder={{ color: 'gray.700' }}
-          _focusVisible={{ borderColor: 'gray.50' }}
-          _readOnly={{ color: 'gray.500' }}
+        <BasicInput
+          placeholder={DEFAULT_PLACEHOLDER.workspace}
           value={workspaceName}
           onChange={(e) => {
             const { value } = e.target;
@@ -63,7 +59,6 @@ function WorkspaceCopy({ onClose }) {
               setWorkspaceName(value);
             }
           }}
-          placeholder="Enter workspace name here"
         />
       </Box>
     </ConfirmModal>

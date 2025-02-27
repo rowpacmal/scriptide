@@ -1,10 +1,12 @@
 // Import dependencies
-import { Box, Input, Text, useToast } from '@chakra-ui/react';
+import { Box, Text, useToast } from '@chakra-ui/react';
 import { useState } from 'react';
 // Import store
 import useWorkspaceStore from '@/stores/useWorkspaceStore';
 // Import components
 import ConfirmModal from './ConfirmModal';
+import BasicInput from '../systems/BasicInput';
+import { DEFAULT_PLACEHOLDER } from '@/constants';
 
 // Constants
 const PRESET_NAME = 'Workspace';
@@ -52,14 +54,8 @@ function WorkspaceCreateBlank({ onClose }) {
       </Text>
 
       <Box px={4}>
-        <Input
-          size="sm"
-          variant="outline"
-          color="gray.50"
-          borderColor="gray.700"
-          _placeholder={{ color: 'gray.700' }}
-          _focusVisible={{ borderColor: 'gray.50' }}
-          _readOnly={{ color: 'gray.500' }}
+        <BasicInput
+          placeholder={DEFAULT_PLACEHOLDER.workspace}
           value={workspaceName}
           onChange={(e) => {
             const { value } = e.target;
@@ -67,7 +63,6 @@ function WorkspaceCreateBlank({ onClose }) {
               setWorkspaceName(value);
             }
           }}
-          placeholder="Enter workspace name here"
         />
       </Box>
     </ConfirmModal>

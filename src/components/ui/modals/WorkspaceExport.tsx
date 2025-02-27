@@ -1,5 +1,5 @@
 // Import dependencies
-import { Box, Input, Progress, Text, useToast } from '@chakra-ui/react';
+import { Box, Progress, Text, useToast } from '@chakra-ui/react';
 import { useState } from 'react';
 // Import store
 import useWorkspaceStore from '@/stores/useWorkspaceStore';
@@ -12,6 +12,8 @@ import useFileStore from '@/stores/useFileStore';
 // Import libraries
 import minima from '@/lib/minima';
 import isImageFile from '@/utils/isImageFile';
+import BasicInput from '../systems/BasicInput';
+import { DEFAULT_PLACEHOLDER } from '@/constants';
 
 // Workspace rename modal component
 function WorkspaceExport({ onClose }) {
@@ -19,7 +21,7 @@ function WorkspaceExport({ onClose }) {
   const toast = useToast();
 
   // Define zip file
-  const { addZipFile, addZipFolder, addZipImage, generateZip } = useZipFile();
+  const { addZipFile, addZipImage, generateZip } = useZipFile();
 
   // Define stores
   const currentWorkspace = useWorkspaceStore((state) => state.currentWorkspace);
@@ -61,11 +63,6 @@ function WorkspaceExport({ onClose }) {
       for (const file of files) {
         const location = file.location.split('/').splice(3).join('/');
         // console.log(location);
-
-        // if (file.isdir) {
-        //   addZipFolder(location);
-        //   continue;
-        // }
 
         if (file.isfile) {
           if (isImageFile(file.name)) {
@@ -121,14 +118,8 @@ function WorkspaceExport({ onClose }) {
           isIndeterminate={isLoading}
         />
 
-        <Input
-          size="sm"
-          variant="outline"
-          color="gray.50"
-          borderColor="gray.700"
-          _placeholder={{ color: 'gray.700' }}
-          _focusVisible={{ borderColor: 'gray.50' }}
-          _readOnly={{ color: 'gray.500' }}
+        <BasicInput
+          placeholder={DEFAULT_PLACEHOLDER.zip}
           value={zipName}
           onChange={(e) => {
             const { value } = e.target;
@@ -136,7 +127,6 @@ function WorkspaceExport({ onClose }) {
               setZipName(value);
             }
           }}
-          placeholder="Enter zip name here"
           disabled={isLoading}
         />
 

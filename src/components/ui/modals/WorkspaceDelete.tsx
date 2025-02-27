@@ -1,7 +1,10 @@
-import { Box, Highlight, Input, Text } from '@chakra-ui/react';
+import { Box, Text } from '@chakra-ui/react';
 import ConfirmModal from './ConfirmModal';
 import { useState } from 'react';
 import useWorkspaceStore from '@/stores/useWorkspaceStore';
+import BasicInput from '../systems/BasicInput';
+import { DEFAULT_PLACEHOLDER } from '@/constants';
+import BasicHighlight from '../systems/BasicHighlight';
 
 // Workspace rename modal component
 function WorkspaceDelete({ onClose }) {
@@ -30,31 +33,14 @@ function WorkspaceDelete({ onClose }) {
         undone. Please type the workspace name to confirm.
       </Text>
 
-      <Text pb={4} textAlign="center">
-        <Highlight
-          query={currentWorkspace ? currentWorkspace : '---'}
-          styles={{
-            px: '2',
-            py: '1',
-            rounded: 'sm',
-            color: 'gray.50',
-            bg: 'red.700',
-            userSelect: 'none',
-          }}
-        >
-          {currentWorkspace ? currentWorkspace : '---'}
-        </Highlight>
-      </Text>
+      <BasicHighlight
+        pb={4}
+        query={currentWorkspace ? currentWorkspace : '---'}
+      />
 
       <Box px={4}>
-        <Input
-          size="sm"
-          variant="outline"
-          color="gray.50"
-          borderColor="gray.700"
-          _placeholder={{ color: 'gray.700' }}
-          _focusVisible={{ borderColor: 'gray.50' }}
-          _readOnly={{ color: 'gray.500' }}
+        <BasicInput
+          placeholder={DEFAULT_PLACEHOLDER.workspace}
           value={workspaceName}
           onChange={(e) => {
             const { value } = e.target;
@@ -62,7 +48,6 @@ function WorkspaceDelete({ onClose }) {
               setWorkspaceName(value);
             }
           }}
-          placeholder="Enter workspace name here"
         />
       </Box>
     </ConfirmModal>

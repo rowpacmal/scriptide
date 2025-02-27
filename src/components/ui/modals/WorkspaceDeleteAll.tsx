@@ -1,7 +1,10 @@
-import { Box, Highlight, Input, Text } from '@chakra-ui/react';
+import { Box, Text } from '@chakra-ui/react';
 import ConfirmModal from './ConfirmModal';
 import { useState } from 'react';
 import useWorkspaceStore from '@/stores/useWorkspaceStore';
+import BasicInput from '../systems/BasicInput';
+import BasicHighlight from '../systems/BasicHighlight';
+import { DEFAULT_PLACEHOLDER } from '@/constants';
 
 // Constants
 const CONFIRM_TEXT = 'Delete all workspaces';
@@ -35,34 +38,13 @@ function WorkspaceDeleteAll({ onClose }) {
         <span className="uppercase">uppercase</span> to confirm.
       </Text>
 
-      <Text pb={4} textAlign="center">
-        <Highlight
-          query={CONFIRM_TEXT.toUpperCase()}
-          styles={{
-            px: '3',
-            py: '1',
-            rounded: 'sm',
-            color: 'gray.50',
-            bg: 'red.700',
-            userSelect: 'none',
-          }}
-        >
-          {CONFIRM_TEXT.toUpperCase()}
-        </Highlight>
-      </Text>
+      <BasicHighlight pb={4} query={CONFIRM_TEXT.toUpperCase()} />
 
       <Box px={4}>
-        <Input
-          size="sm"
-          variant="outline"
-          color="gray.50"
-          borderColor="gray.700"
-          _placeholder={{ color: 'gray.700' }}
-          _focusVisible={{ borderColor: 'gray.50' }}
-          _readOnly={{ color: 'gray.500' }}
+        <BasicInput
+          placeholder={DEFAULT_PLACEHOLDER.confirm}
           value={confirmText}
           onChange={(e) => setConfirmText(e.target.value)}
-          placeholder="Enter confirm text here"
         />
       </Box>
     </ConfirmModal>

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import {
   Box,
   Button,
@@ -11,6 +12,9 @@ import ConfirmModal from './ConfirmModal';
 import { useEffect, useRef, useState } from 'react';
 import useWorkspaceStore from '@/stores/useWorkspaceStore';
 import useUploadWorkspace from '@/hooks/useUploadWorkspace';
+import BasicInput from '../systems/BasicInput';
+import { DEFAULT_PLACEHOLDER } from '@/constants';
+import useAppTheme from '@/themes/useAppTheme';
 
 // Workspace rename modal component
 function WorkspaceImport({ onClose }) {
@@ -32,6 +36,9 @@ function WorkspaceImport({ onClose }) {
   const [fileName, setFileName] = useState('');
   const [isDragging, setIsDragging] = useState(false);
   const [workspaceName, setWorkspaceName] = useState('');
+
+  // Define theme
+  const { borderColor } = useAppTheme();
 
   // Define handlers
   const handleDragOver = (e) => {
@@ -119,14 +126,8 @@ function WorkspaceImport({ onClose }) {
       </Text>
 
       <Box px={4} pb={4}>
-        <Input
-          size="sm"
-          variant="outline"
-          color="gray.50"
-          borderColor="gray.700"
-          _placeholder={{ color: 'gray.700' }}
-          _focusVisible={{ borderColor: 'gray.50' }}
-          _readOnly={{ color: 'gray.500' }}
+        <BasicInput
+          placeholder={DEFAULT_PLACEHOLDER.workspace}
           value={workspaceName}
           onChange={(e) => {
             const { value } = e.target;
@@ -134,7 +135,6 @@ function WorkspaceImport({ onClose }) {
               setWorkspaceName(value);
             }
           }}
-          placeholder="Enter workspace name here"
         />
       </Box>
 
@@ -165,35 +165,33 @@ function WorkspaceImport({ onClose }) {
             </Button>
           </Box>
 
-          <Input
-            size="sm"
-            variant="outline"
-            color="gray.50"
-            borderColor="gray.700"
+          <BasicInput
             outlineColor={isDragging ? 'blue.500' : ''}
             transition="outline-color 0.2s linear"
-            _placeholder={{ color: 'gray.700' }}
-            _focusVisible={{ borderColor: 'gray.50' }}
-            _readOnly={{ color: 'gray.500' }}
-            value={fileName}
             placeholder="Choose a file or drag and drop"
-            readOnly
+            value={fileName}
             onDragOver={handleDragOver}
             onDragLeave={handleDragLeave}
             onDrop={handleDrop}
+            readOnly
           />
         </HStack>
       </Box>
 
       <Box pt={4}>
-        <Box border="1px solid" borderColor="gray.700" borderRadius="md" p={2}>
+        <Box
+          border="1px solid"
+          borderColor={borderColor}
+          borderRadius="md"
+          p={2}
+        >
           <Progress
             hasStripe
             value={progress ? progress * 100 : 0}
             colorScheme={
               error ? 'red' : progress && progress < 1 ? 'blue' : 'green'
             }
-            bg="gray.700"
+            bg={borderColor}
           />
         </Box>
       </Box>
