@@ -48,7 +48,7 @@ function ChangelogItem({ children, version, date }) {
         </Text>
 
         <AccordionPanel pb={2}>
-          <List spacing={3} fontSize="sm" textAlign="start">
+          <List spacing={2} fontSize="sm" textAlign="start">
             {children}
           </List>
         </AccordionPanel>
@@ -72,7 +72,8 @@ function HomePanel() {
 
       <VStack w="100%" gap={3} py={4}>
         <Text w="100%">
-          This is a simple IDE for writing and testing Minima scripts - KISS VM.
+          This is an IDE for writing and testing Minima scripts (KISS VM) or
+          create simple MiniDapps.
         </Text>
 
         <Text w="100%">
@@ -111,14 +112,14 @@ function HomePanel() {
           insertion).
         </FeatureItem>
 
-        <ListItem>
-          <ListItem pb={2}>
+        <List spacing={2}>
+          <ListItem>
             <Text as="h4" w="100%" fontSize="md">
               Known Issues (3.0.2):
             </Text>
           </ListItem>
 
-          <List spacing={3} pl={2}>
+          <List spacing={2} pl={2}>
             <FeatureItem alert>
               State, prevstate, global variables, and signatures are not
               persisted between sessions.
@@ -146,7 +147,7 @@ function HomePanel() {
               limitations will be removed as the dapp is further optimized.
             </FeatureItem>
           </List>
-        </ListItem>
+        </List>
       </ChangelogItem>
 
       <ChangelogItem version="3.0.4" date="February 6, 2025">
