@@ -62,7 +62,7 @@ function HomePanel() {
   return (
     <VStack w="100%" color="gray.500" textAlign="center">
       <Box maxW="200px" p={4}>
-        <AppLogo size="auto" />
+        <AppLogo size="100%" />
       </Box>
 
       <Text as="h3" w="100%" fontSize="lg">
