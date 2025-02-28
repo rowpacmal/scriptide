@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { create } from 'zustand';
 import useFileStore from './useFileStore';
 import minima from '@/lib/minima';
@@ -70,8 +71,8 @@ export const useLivePreviewStore = create<ILivePreviewStore>((set, get) => ({
       return;
     }
 
-    await minima.file.delete(`livepreview/${currentWorkspace}`);
-    await minima.file.deletefromweb(`livepreview/${currentWorkspace}`);
+    await minima.file.delete(`livepreview`);
+    await minima.file.deletefromweb(`livepreview`);
 
     const timestamp = Date.now();
     await minima.file.copy(
@@ -91,28 +92,32 @@ export const useLivePreviewStore = create<ILivePreviewStore>((set, get) => ({
       // This is to fix an issue where another version of mds.js had priority
       // By changing the name, we ensure that the live preview prioritize the
       // local mds.js file over the server one
-      if (files.includes('mds.js')) {
+      const findMDS = files.some((f) => f.name === 'mds.js');
+      if (findMDS) {
         await minima.file.move(
           `livepreview/${currentWorkspace}/${timestamp}/mds.js`,
           `livepreview/${currentWorkspace}/${timestamp}/mds-lp.js`
         );
 
         for (const file of files) {
-          if (file === 'index.html') {
+          const { name, location } = file;
+          const path = location.split('/').slice(3).join('/');
+
+          if (name === 'index.html') {
             indexHtml = indexHtml.replace('/mds.js', '/mds-lp.js');
             continue;
           }
 
-          if (file.endsWith('.html')) {
+          if (name.endsWith('.html')) {
             let data = (
               await minima.file.load(
-                `livepreview/${currentWorkspace}/${timestamp}/${file}`
+                `livepreview/${currentWorkspace}/${timestamp}/${path}`
               )
             ).response.load.data;
             data = data.replace('/mds.js', '/mds-lp.js');
 
             await minima.file.save(
-              `livepreview/${currentWorkspace}/${timestamp}/${file}`,
+              `livepreview/${currentWorkspace}/${timestamp}/${path}`,
               data
             );
           }
@@ -121,7 +126,8 @@ export const useLivePreviewStore = create<ILivePreviewStore>((set, get) => ({
 
       // If debug.conf exists, inject debug settings
       // inject the debug settings into .html files as a <script> in <head>
-      if (files.includes('debug.conf')) {
+      const findDebug = files.some((f) => f.name === 'debug.conf');
+      if (findDebug) {
         const conf = (
           await minima.file.load(`workspaces/${currentWorkspace}/debug.conf`)
         ).response.load.data;
@@ -138,21 +144,24 @@ export const useLivePreviewStore = create<ILivePreviewStore>((set, get) => ({
       `;
 
         for (const file of files) {
-          if (file === 'index.html') {
+          const { name, location } = file;
+          const path = location.split('/').slice(3).join('/');
+
+          if (name === 'index.html') {
             indexHtml = indexHtml.replace('</head>', debug + '</head>');
             continue;
           }
 
-          if (file.endsWith('.html')) {
+          if (name.endsWith('.html')) {
             let data = (
               await minima.file.load(
-                `livepreview/${currentWorkspace}/${timestamp}/${file}`
+                `livepreview/${currentWorkspace}/${timestamp}/${path}`
               )
             ).response.load.data;
             data = data.replace('</head>', debug + '</head>');
 
             await minima.file.save(
-              `livepreview/${currentWorkspace}/${timestamp}/${file}`,
+              `livepreview/${currentWorkspace}/${timestamp}/${path}`,
               data
             );
           }
