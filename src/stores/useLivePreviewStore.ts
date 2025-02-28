@@ -22,6 +22,9 @@ export interface ILivePreviewStore {
   setBlobObjectURLs: (blobObjectURLs: string[]) => void;
 
   refreshLivePreview: () => Promise<void>;
+
+  isLoadingLivePreview: boolean;
+  setIsLoadingLivePreview: (isLoadingLivePreview: boolean) => void;
 }
 
 // Create the store
@@ -54,13 +57,16 @@ export const useLivePreviewStore = create<ILivePreviewStore>((set, get) => ({
   setBlobObjectURLs: (blobObjectURLs: string[]) => set({ blobObjectURLs }),
 
   refreshLivePreview: async () => {
+    set({ isLoadingLivePreview: true });
+
     if (!get().showPreview) {
+      set({ isLoadingLivePreview: false });
       return;
     }
 
     const currentWorkspace = useWorkspaceStore.getState().currentWorkspace;
     if (!currentWorkspace) {
-      set({ livePreview: '' });
+      set({ livePreview: '', isLoadingLivePreview: false });
       return;
     }
 
@@ -173,8 +179,13 @@ export const useLivePreviewStore = create<ILivePreviewStore>((set, get) => ({
 
     set({
       livePreview,
+      isLoadingLivePreview: false,
     });
   },
+
+  isLoadingLivePreview: false,
+  setIsLoadingLivePreview: (isLoadingLivePreview: boolean) =>
+    set({ isLoadingLivePreview }),
 }));
 
 export default useLivePreviewStore;
