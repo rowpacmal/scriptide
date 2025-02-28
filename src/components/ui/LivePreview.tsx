@@ -1,11 +1,13 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 import useFileStore from '@/stores/useFileStore';
 import useLivePreviewStore from '@/stores/useLivePreviewStore';
 import useWorkspaceStore from '@/stores/useWorkspaceStore';
+import useAppTheme from '@/themes/useAppTheme';
 import {
   Box,
   Button,
   HStack,
-  Input,
   InputGroup,
   InputLeftAddon,
   InputRightAddon,
@@ -24,9 +26,10 @@ import { useState, useEffect, useRef } from 'react';
 import {
   LuRotateCw,
   LuSettings2,
-  LuSquareArrowOutUpRight,
+  // LuSquareArrowOutUpRight,
   LuX,
 } from 'react-icons/lu';
+import BasicInput from './systems/BasicInput';
 // import { useNavigate } from 'react-router-dom';
 
 function LivePreview() {
@@ -36,7 +39,6 @@ function LivePreview() {
   // Define store
   const livePreview = useLivePreviewStore((state) => state.livePreview);
   const setLivePreview = useLivePreviewStore((state) => state.setLivePreview);
-  // const blobObjectURLs = useLivePreviewStore((state) => state.blobObjectURLs);
   const refreshLivePreview = useLivePreviewStore(
     (state) => state.refreshLivePreview
   );
@@ -45,9 +47,10 @@ function LivePreview() {
   const liveURL = useLivePreviewStore((state) => state.liveURL);
   const setLiveURL = useLivePreviewStore((state) => state.setLiveURL);
   const currentWorkspace = useWorkspaceStore((state) => state.currentWorkspace);
-  // const navigate = useNavigate();
 
-  const handleOpenNewTab = () => {
+  // TODO - New tab/window live preview feature
+  // const navigate = useNavigate();
+  /* const handleOpenNewTab = () => {
     // Construct the URL you want to open.
     const newTabUrl = '#/live-preview'; // Replace with the desired URL
 
@@ -57,12 +60,15 @@ function LivePreview() {
     // Optionally, you can also navigate within your current tab.
     // navigate('/some-other-route');
   };
-
   const handleOpenNewWindow = () => {
     const newWindowUrl = '#/live-preview';
     window.open(newWindowUrl, '_blank', 'width=600,height=400'); // set options for new window.
-  };
+  }; */
 
+  // Define theme
+  const { bg, borderColor, color, colorAlt } = useAppTheme();
+
+  // Define effects
   useEffect(() => {
     if (!files) {
       return;
@@ -93,11 +99,11 @@ function LivePreview() {
         w="100%"
         justify="space-between"
         borderBottom="1px solid"
-        borderColor="gray.700"
+        borderColor={borderColor}
         gap={0}
       >
         <HStack w="100%" gap={0}>
-          <Box borderRight="1px solid" borderColor="gray.700">
+          <Box borderRight="1px solid" borderColor={borderColor}>
             <Popover placement="top" isLazy>
               <PopoverTrigger>
                 <Box>
@@ -105,9 +111,9 @@ function LivePreview() {
                     <Button
                       size="sm"
                       bg="transparent"
-                      color="gray.500"
+                      color={colorAlt}
                       p={0}
-                      _hover={{ bg: 'transparent', color: 'gray.50' }}
+                      _hover={{ bg: 'transparent', color }}
                       _active={{
                         bg: 'transparent',
                       }}
@@ -119,15 +125,15 @@ function LivePreview() {
               </PopoverTrigger>
 
               <PopoverContent
-                color="gray.500"
-                bg="gray.800"
-                borderColor="gray.700"
+                color={colorAlt}
+                bg={bg}
+                borderColor={borderColor}
               >
-                <PopoverArrow bg="gray.800" shadowColor="gray.700" />
+                <PopoverArrow bg={bg} shadowColor={borderColor} />
 
                 <PopoverCloseButton />
 
-                <PopoverHeader borderColor="gray.700">
+                <PopoverHeader borderColor={borderColor}>
                   Live Preview
                 </PopoverHeader>
 
@@ -137,18 +143,14 @@ function LivePreview() {
                       <InputGroup size="xs">
                         <InputLeftAddon
                           bg="transparent"
-                          borderColor="gray.700"
+                          borderColor={borderColor}
                           textTransform="uppercase"
                         >
                           Dapp ID
                         </InputLeftAddon>
 
-                        <Input
-                          bg="gray.900"
-                          color="gray.50"
-                          borderColor="gray.700"
+                        <BasicInput
                           placeholder="Enter Dapp ID here"
-                          _placeholder={{ color: 'gray.700' }}
                           value={liveURL}
                           onChange={(e) => setLiveURL(e.target.value)}
                           onBlur={refreshLivePreview}
@@ -156,7 +158,7 @@ function LivePreview() {
 
                         <InputRightAddon
                           bg="transparent"
-                          borderColor="gray.700"
+                          borderColor={borderColor}
                           p={0}
                         >
                           <Tooltip
@@ -168,9 +170,9 @@ function LivePreview() {
                               size="sm"
                               minW="auto"
                               bg="transparent"
-                              color="gray.500"
+                              color={colorAlt}
                               p={1}
-                              _hover={{ bg: 'transparent', color: 'gray.50' }}
+                              _hover={{ bg: 'transparent', color }}
                               _active={{
                                 bg: 'transparent',
                               }}
@@ -195,14 +197,14 @@ function LivePreview() {
           </Box>
 
           {/* TODO - Open in new tab */}
-          {/* <Box borderRight="1px solid" borderColor="gray.700">
+          {/* <Box borderRight="1px solid" borderColor={borderColor}>
             <Tooltip label="Open in new tab" placement="bottom" hasArrow>
               <Button
                 size="sm"
                 bg="transparent"
-                color="gray.500"
+                color={colorAlt}
                 p={0}
-                _hover={{ bg: 'transparent', color: 'gray.50' }}
+                _hover={{ bg: 'transparent', color }}
                 _active={{
                   bg: 'transparent',
                 }}
@@ -220,27 +222,26 @@ function LivePreview() {
 
           <Box w="100%" px={2}>
             <Tooltip label="Base source" placement="bottom" hasArrow>
-              <Input
-                size="xs"
-                bg="gray.800"
-                color="gray.50"
-                borderColor="gray.700"
-                value={previewURL}
-                onChange={(e) => setPreviewURL(e.target.value)}
-              />
+              <Box>
+                <BasicInput
+                  size="xs"
+                  value={previewURL}
+                  onChange={(e) => setPreviewURL(e.target.value)}
+                />
+              </Box>
             </Tooltip>
           </Box>
         </HStack>
 
         <HStack gap={0}>
-          <Box borderLeft="1px solid" borderColor="gray.700">
+          <Box borderLeft="1px solid" borderColor={borderColor}>
             <Tooltip label="Refresh" placement="bottom" hasArrow>
               <Button
                 size="sm"
                 bg="transparent"
-                color="gray.500"
+                color={colorAlt}
                 p={0}
-                _hover={{ bg: 'transparent', color: 'gray.50' }}
+                _hover={{ bg: 'transparent', color }}
                 _active={{
                   bg: 'transparent',
                 }}
@@ -251,14 +252,14 @@ function LivePreview() {
             </Tooltip>
           </Box>
 
-          <Box borderLeft="1px solid" borderColor="gray.700">
+          <Box borderLeft="1px solid" borderColor={borderColor}>
             <Tooltip label="Close" placement="bottom" hasArrow>
               <Button
                 size="sm"
                 bg="transparent"
-                color="gray.500"
+                color={colorAlt}
                 p={0}
-                _hover={{ bg: 'transparent', color: 'gray.50' }}
+                _hover={{ bg: 'transparent', color }}
                 _active={{
                   bg: 'transparent',
                 }}
@@ -289,7 +290,7 @@ function LivePreview() {
           h="100%"
           display="grid"
           placeItems="center"
-          color="gray.500"
+          color={colorAlt}
         >
           <Text>No preview available</Text>
         </Box>
