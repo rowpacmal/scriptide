@@ -3,13 +3,13 @@ import { ChakraProvider, ColorModeScript } from '@chakra-ui/react';
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 // Context
-import AppProvider from './AppContext.tsx';
+import AppProvider from '@/AppContext.tsx';
 // Components
-import App from './App.tsx';
+import App from '@/App.tsx';
 // Styles
-import theme from './themes/theme.ts';
-import './styles/index.css';
-import initMonaco from './settings/monaco/init.ts';
+import '@/styles/index.css';
+import initMonaco from '@/settings/monaco/init.ts';
+import theme from '@/themes/theme.ts';
 
 // Initialize monaco settings
 initMonaco();

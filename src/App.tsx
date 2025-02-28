@@ -1,9 +1,9 @@
 // Import dependencies
 import { Box } from '@chakra-ui/react';
 // Import theme
-import useAppTheme from './themes/useAppTheme';
+import useAppTheme from '@/themes/useAppTheme';
 // Import components
-import Router from './router';
+import Router from '@/router';
 
 // Component
 function App() {
