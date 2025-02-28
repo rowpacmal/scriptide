@@ -16,7 +16,7 @@ import {
 import { useEffect } from 'react';
 // Import utilities
 import getIcon from '@/utils/getIcon';
-import getType from '@/utils/getType';
+import getVariableType from '@/utils/getVariableType';
 // Import store
 import useRunScriptStore from '@/stores/useRunScriptStore';
 import useAppTheme from '@/themes/useAppTheme';
@@ -102,18 +102,22 @@ function VariableItem({ variable, value }) {
 
   return (
     <Tooltip
-      label={`${variable} : ${getType(value)}`}
+      label={`${variable} : ${getVariableType(value)}`}
       placement="left"
       hasArrow
     >
       <ListItem display="grid" gridTemplateColumns="1.5rem 1fr">
-        <ListIcon as={getIcon(getType(value))} color={accent} my={1.5} />
+        <ListIcon
+          as={getIcon(getVariableType(value))}
+          color={accent}
+          my={1.5}
+        />
 
         <VStack w="100%" gap={0.5}>
           <Text w="100%" wordBreak="break-all">
             {variable}&nbsp;
             <Text as="span" color={accent}>
-              : {getType(value)}
+              : {getVariableType(value)}
             </Text>
           </Text>
 
