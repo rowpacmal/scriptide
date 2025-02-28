@@ -24,7 +24,14 @@
 
 ##### [3.1.0] - February 14, 2025
 
-- Added a Live Preview Panel/Window for real-time HTML rendering. To use debug settings for the MDS, create a `debug.conf` file containing `{ "debug": "...", "host": "...", "port": "...", "uid": "..." }` (change the values as needed). This file will be automatically inserted into the HTML for live preview.
-- Added Import/Export Workspaces functionality. Workspaces can now be exported as `.zip` files, including an installable `mds.zip` package.
-- Introduced a Script Deployment Panel for easier script management and deployment.
-- Image files will now open in a preview mode instead of launching the editor.
+- Added a real-time HTML rendering panel. To enable MDS debugging, create a `debug.conf` file with `{ "debug": "...", "host": "...", "port": "...", "uid": "..." }` (customize values as needed). This file is automatically included in the HTML for live preview.
+- Workspaces can now be exported and imported as `.zip` files for easy sharing and backup.
+- Added support for uploading single files directly within the Explorer Panel.
+- Introduced a new panel for streamlined dapp building, script management, and script deployment.
+- Image files now open in a dedicated preview mode instead of the editor, supporting zoom-in, zoom-out, and panning.
+- Implemented a new file tree structure for better navigation in the Explorer Panel.
+- Consolidated all script-related panels into a single **Run and Debug KISS VM** panel.
+- Introduced a light mode, which can be toggled in the new **Settings** panel.
+- Upgraded the Editor Panel with a new tabbed interface for improved multitasking.
+- Added a fresh, single-color icon for the dapp.
+- Improved the console, allowing direct execution of Minima commands.
