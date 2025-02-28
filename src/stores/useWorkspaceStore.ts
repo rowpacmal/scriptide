@@ -78,6 +78,12 @@ const useWorkspaceStore = create<IWorkspaceStore>((set, get) => ({
     set((state) => ({ workspaces: [...state.workspaces, newWorkspace] }));
     set({ currentWorkspace: newWorkspace });
 
+    localStorage.setItem(
+      DEFAULT_LOCAL_STORAGE_KEYS.storedWorkspace,
+      newWorkspace
+    );
+    localStorage.removeItem(DEFAULT_LOCAL_STORAGE_KEYS.fileExplorerExpanded);
+
     useFileStore.setState({ files: [] });
     useFileStore.setState({ currentFile: null });
     useEditorStore.setState({ code: null });
@@ -119,6 +125,11 @@ const useWorkspaceStore = create<IWorkspaceStore>((set, get) => ({
     });
     set({ currentWorkspace: newWorkspace });
 
+    localStorage.setItem(
+      DEFAULT_LOCAL_STORAGE_KEYS.storedWorkspace,
+      newWorkspace
+    );
+
     // useFileStore.getState().refreshFiles(newWorkspace); // Comment out for increased performance
   },
   copyWorkspace: async (newWorkspace: string) => {
@@ -136,6 +147,11 @@ const useWorkspaceStore = create<IWorkspaceStore>((set, get) => ({
     set((state) => ({ workspaces: [...state.workspaces, newWorkspace] }));
     set({ currentWorkspace: newWorkspace });
 
+    localStorage.setItem(
+      DEFAULT_LOCAL_STORAGE_KEYS.storedWorkspace,
+      newWorkspace
+    );
+
     // useFileStore.getState().refreshFiles(newWorkspace); // Comment out for increased performance
     useFileStore.setState({ currentFile: null });
     useEditorStore.setState({ code: null });
@@ -146,6 +162,7 @@ const useWorkspaceStore = create<IWorkspaceStore>((set, get) => ({
     }
 
     set({ currentWorkspace: workspace });
+
     localStorage.setItem(DEFAULT_LOCAL_STORAGE_KEYS.storedWorkspace, workspace);
     localStorage.removeItem(DEFAULT_LOCAL_STORAGE_KEYS.fileExplorerExpanded);
 
@@ -157,6 +174,9 @@ const useWorkspaceStore = create<IWorkspaceStore>((set, get) => ({
     await minima.file.delete(`workspaces/${get().currentWorkspace}`);
     set({ currentWorkspace: null });
 
+    localStorage.removeItem(DEFAULT_LOCAL_STORAGE_KEYS.storedWorkspace);
+    localStorage.removeItem(DEFAULT_LOCAL_STORAGE_KEYS.fileExplorerExpanded);
+
     get().refreshWorkspaces();
 
     useFileStore.setState({ currentFile: null });
@@ -167,6 +187,9 @@ const useWorkspaceStore = create<IWorkspaceStore>((set, get) => ({
 
     set({ workspaces: [] });
     set({ currentWorkspace: null });
+
+    localStorage.removeItem(DEFAULT_LOCAL_STORAGE_KEYS.storedWorkspace);
+    localStorage.removeItem(DEFAULT_LOCAL_STORAGE_KEYS.fileExplorerExpanded);
 
     useFileStore.setState({ files: [] }); // Quick fix to a bug
     useFileStore.setState({ currentFile: null });
