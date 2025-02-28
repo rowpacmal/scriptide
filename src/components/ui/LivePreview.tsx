@@ -18,6 +18,7 @@ import {
   PopoverContent,
   PopoverHeader,
   PopoverTrigger,
+  Spinner,
   Text,
   Tooltip,
   VStack,
@@ -32,7 +33,7 @@ import {
 import BasicInput from './systems/BasicInput';
 // import { useNavigate } from 'react-router-dom';
 
-function LivePreview() {
+function LivePreview({ overviewRef }) {
   const iframeRef = useRef<HTMLIFrameElement | null>(null);
   const [previewURL, setPreviewURL] = useState('');
 
@@ -42,11 +43,14 @@ function LivePreview() {
   const refreshLivePreview = useLivePreviewStore(
     (state) => state.refreshLivePreview
   );
-  const setShowPreview = useLivePreviewStore((state) => state.setShowPreview);
   const files = useFileStore((state) => state.files);
+  const currentWorkspace = useWorkspaceStore((state) => state.currentWorkspace);
+  const setShowPreview = useLivePreviewStore((state) => state.setShowPreview);
   const liveURL = useLivePreviewStore((state) => state.liveURL);
   const setLiveURL = useLivePreviewStore((state) => state.setLiveURL);
-  const currentWorkspace = useWorkspaceStore((state) => state.currentWorkspace);
+  const isLoadingLivePreview = useLivePreviewStore(
+    (state) => state.isLoadingLivePreview
+  );
 
   // TODO - New tab/window live preview feature
   // const navigate = useNavigate();
@@ -117,6 +121,7 @@ function LivePreview() {
                       _active={{
                         bg: 'transparent',
                       }}
+                      disabled={!previewURL}
                     >
                       <LuSettings2 />
                     </Button>
@@ -227,6 +232,7 @@ function LivePreview() {
                   size="xs"
                   value={previewURL}
                   onChange={(e) => setPreviewURL(e.target.value)}
+                  disabled={!previewURL}
                 />
               </Box>
             </Tooltip>
@@ -246,6 +252,7 @@ function LivePreview() {
                   bg: 'transparent',
                 }}
                 onClick={refreshLivePreview}
+                disabled={!previewURL}
               >
                 <LuRotateCw />
               </Button>
@@ -264,9 +271,15 @@ function LivePreview() {
                   bg: 'transparent',
                 }}
                 onClick={() => {
+                  const overview = overviewRef.current;
+                  if (overview) {
+                    overview.collapse();
+                  }
+
                   setShowPreview(false);
                   setLivePreview('');
                 }}
+                disabled={!previewURL}
               >
                 <LuX />
               </Button>
@@ -275,25 +288,33 @@ function LivePreview() {
         </HStack>
       </HStack>
 
-      {previewURL ? (
-        <iframe
-          ref={iframeRef}
-          src={previewURL}
-          width="100%"
-          height="100%"
-          style={{ backgroundColor: 'white' }}
-          sandbox="allow-scripts allow-same-origin"
-        />
-      ) : (
-        <Box
-          w="100%"
-          h="100%"
-          display="grid"
-          placeItems="center"
-          color={colorAlt}
-        >
-          <Text>No preview available</Text>
+      {isLoadingLivePreview ? (
+        <Box w="100%" h="100%" display="grid" placeItems="center">
+          <Spinner size="xl" color={borderColor} />
         </Box>
+      ) : (
+        <>
+          {previewURL ? (
+            <iframe
+              ref={iframeRef}
+              src={previewURL}
+              width="100%"
+              height="100%"
+              style={{ backgroundColor: 'white' }}
+              sandbox="allow-scripts allow-same-origin"
+            />
+          ) : (
+            <Box
+              w="100%"
+              h="100%"
+              display="grid"
+              placeItems="center"
+              color={colorAlt}
+            >
+              <Text>No preview available</Text>
+            </Box>
+          )}
+        </>
       )}
     </VStack>
   );
