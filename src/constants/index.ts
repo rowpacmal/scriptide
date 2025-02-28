@@ -16,7 +16,7 @@ $$\\   $$ |$$ |      $$ |      $$ |$$ |  $$ | $$ |$$\\         $$ |  $$ |  $$ |$
   'Welcome to Minima Script IDE!',
   '-----------------------------',
   'Newlines, tabs and comments using /* .. */ are supported. Removed and cleaned during Run.',
-  'Allows Minima commands, such as "balance", "keys" and "coins" in this console.',
+  'Allows Minima commands, such as "balance", "keys" and "coins" etc. in this console.',
   '>> welcome end <<',
   '',
 ];
@@ -70,6 +70,7 @@ const DEFAULT_PLACEHOLDER = {
   zip: 'Enter zip name here',
   workspace: 'Enter workspace name here',
   confirm: 'Enter confirm text here',
+  value: 'Enter value here',
 };
 
 export {

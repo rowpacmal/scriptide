@@ -13,6 +13,7 @@ import { LuPlus, LuTrash2, LuX } from 'react-icons/lu';
 // Import store
 import useStateVariableStore from '@/stores/useStateVariableStore';
 import useAppTheme from '@/themes/useAppTheme';
+import { DEFAULT_PLACEHOLDER } from '@/constants';
 
 // Utility component
 function StateItem({ index }) {
@@ -44,7 +45,7 @@ function StateItem({ index }) {
           _readOnly={{ color: colorAlt }}
           value={stateVariables[index].index}
           onChange={(e) => updateStateVariableKey(index, e.target.value)}
-          placeholder="Indx"
+          placeholder="---"
           maxW={10}
           textAlign="center"
         />
@@ -56,7 +57,7 @@ function StateItem({ index }) {
         _readOnly={{ color: colorAlt }}
         value={stateVariables[index].value}
         onChange={(e) => updateStateVariableValue(index, e.target.value)}
-        placeholder="Enter value here"
+        placeholder={DEFAULT_PLACEHOLDER.value}
       />
 
       <InputRightAddon

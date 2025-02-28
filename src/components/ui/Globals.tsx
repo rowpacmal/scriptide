@@ -14,6 +14,7 @@ import { LuMinus, LuPlus } from 'react-icons/lu';
 import useRunScriptStore from '@/stores/useRunScriptStore';
 import useGlobalVariableStore from '@/stores/useGlobalVariableStore';
 import useAppTheme from '@/themes/useAppTheme';
+import { DEFAULT_PLACEHOLDER } from '@/constants';
 
 // constants
 const GLOBAL_DETAILS = {
@@ -111,7 +112,7 @@ function Globals() {
                     placeholder={
                       global === '@ADDRESS'
                         ? 'Run script first to see address'
-                        : 'Enter value here'
+                        : DEFAULT_PLACEHOLDER.value
                     }
                     /* If the global is '@ADDRESS', show the script address
                      * from the script0xAddress state, and disable onchange handler
