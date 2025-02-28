@@ -1,7 +1,7 @@
 import useAppTheme from '@/themes/useAppTheme';
 import { ChangelogItem, FeatureItem } from './ChangelogBase';
 import { Highlight } from '@chakra-ui/react';
-import { useState } from 'react';
+import { useMemo } from 'react';
 
 // Constants
 const QUERY = [
@@ -12,14 +12,17 @@ const QUERY = [
 function ChangelogV3_1_0() {
   // Define theme
   const { bgReversed, colorReversed } = useAppTheme();
-  const [queryStyle] = useState({
-    color: colorReversed,
-    bg: bgReversed,
-    px: 1,
-    rounded: 'sm',
-    wordBreak: 'break-all',
-    whiteSpace: 'wrap',
-  });
+  const queryStyle = useMemo(
+    () => ({
+      color: colorReversed,
+      bg: bgReversed,
+      px: 1,
+      rounded: 'sm',
+      wordBreak: 'break-all',
+      whiteSpace: 'wrap',
+    }),
+    [colorReversed, bgReversed]
+  );
 
   return (
     <ChangelogItem version="3.1.0" date="January 20, 2025">
