@@ -1,10 +1,8 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 // Import dependencies
 import { Box, HStack } from '@chakra-ui/react';
-import {
-  // useEffect,
-  useRef,
-  useState,
-} from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Panel, PanelGroup, PanelResizeHandle } from 'react-resizable-panels';
 // Import components
 import Sidebar from '@/components/ui/Sidebar';
@@ -66,13 +64,21 @@ function Content() {
 
   // Define store
   const showPreview = useLivePreviewStore((state) => state.showPreview);
+  const setShowPreview = useLivePreviewStore((state) => state.setShowPreview);
 
   // Define effects
-  // useEffect(() => {}, []);
+  useEffect(() => {
+    const overview: any = overviewRef.current;
+
+    if (overview) {
+      if (overview.isExpanded()) {
+        setShowPreview(true);
+      }
+    }
+  }, []);
 
   // Define functions
   const handelToggleConsole = () => {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const codeConsole: any = consoleRef.current;
 
     if (codeConsole) {
@@ -87,7 +93,6 @@ function Content() {
   };
 
   const handelToggleControlPanel = (isNavSame: boolean) => {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const controlPanel: any = controlPanelRef.current;
 
     if (controlPanel) {
@@ -102,16 +107,17 @@ function Content() {
   };
 
   const handelToggleOverview = () => {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const overview: any = overviewRef.current;
 
     if (overview) {
       if (overview.isCollapsed()) {
         overview.expand();
         setIsOverviewCollapsed(false);
+        setShowPreview(true);
       } else {
         overview.collapse();
         setIsOverviewCollapsed(true);
+        setShowPreview(false);
       }
     }
   };
@@ -207,7 +213,7 @@ function Content() {
             onCollapse={() => setIsOverviewCollapsed(true)}
             onExpand={() => setIsOverviewCollapsed(false)}
           >
-            <LivePreview />
+            {showPreview && <LivePreview overviewRef={overviewRef} />}
           </Panel>
         </PanelGroup>
       </HStack>
