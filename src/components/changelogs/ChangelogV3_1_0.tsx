@@ -82,6 +82,11 @@ function ChangelogV3_1_0() {
       <FeatureItem>
         Improved the console, allowing direct execution of Minima commands.
       </FeatureItem>
+
+      <FeatureItem>
+        The interface now retains its previous session state using local
+        storage, ensuring a seamless user experience.
+      </FeatureItem>
     </ChangelogItem>
   );
 }

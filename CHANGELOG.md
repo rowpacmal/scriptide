@@ -35,3 +35,4 @@
 - Upgraded the Editor Panel with a new tabbed interface for improved multitasking.
 - Added a fresh, single-color icon for the dapp.
 - Improved the console, allowing direct execution of Minima commands.
+- The interface now retains its previous session state using local storage, ensuring a seamless user experience.
