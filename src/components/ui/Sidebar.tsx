@@ -153,7 +153,7 @@ function Sidebar({ isControlPanelCollapsed, handelToggleControlPanel }) {
       </VStack>
 
       <VStack>
-        {/* TODO - enable plugins and settings features */}
+        {/* TODO - enable plugins features */}
         {/* <SidebarButton
           label={NAVIGATION_LABELS.plugins}
           active={handleIsActive('plugins')}
@@ -161,16 +161,15 @@ function Sidebar({ isControlPanelCollapsed, handelToggleControlPanel }) {
           disabled
         >
           <LuPlug size={ICON_SIZE} />
-        </SidebarButton>
+        </SidebarButton> */}
 
         <SidebarButton
           label={NAVIGATION_LABELS.settings}
           active={handleIsActive('settings')}
           onClick={() => handleNavigationChange('settings')}
-          disabled
         >
           <LuSettings size={ICON_SIZE} />
-        </SidebarButton> */}
+        </SidebarButton>
       </VStack>
     </VStack>
   );

@@ -124,7 +124,7 @@ function Content() {
 
   // Render
   return (
-    <Box h="calc(100vh - 3rem)">
+    <Box h="calc(100vh - 2.5rem)">
       <HStack h="100%" gap={0}>
         <Sidebar
           isControlPanelCollapsed={isControlPanelCollapsed}

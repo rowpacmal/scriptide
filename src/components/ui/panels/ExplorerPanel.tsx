@@ -59,77 +59,75 @@ function ExplorerPanel() {
 
   // Render
   return (
-    <>
-      <VStack w="100%" h="100%" fontSize="sm" gap={3}>
-        <VStack w="100%" fontSize="sm" gap={1}>
-          <Text
-            w="100%"
-            as="h3"
-            fontSize="xs"
-            textTransform="uppercase"
-            color={colorAlt}
-          >
-            Workspaces
-          </Text>
+    <VStack w="100%" h="100%" fontSize="sm" gap={3}>
+      <VStack w="100%" fontSize="sm" gap={1}>
+        <Text
+          w="100%"
+          as="h3"
+          fontSize="xs"
+          textTransform="uppercase"
+          color={colorAlt}
+        >
+          Workspaces
+        </Text>
 
-          <HStack w="100%">
-            <Workspace />
+        <HStack w="100%">
+          <Workspace />
 
-            <WorkspaceMenu />
-          </HStack>
-        </VStack>
-
-        {isLoadingFiles ? (
-          <VStack w="100%" flexGrow="1" justifyContent="center">
-            <Spinner size="xl" color={borderColor} />
-          </VStack>
-        ) : (
-          <>
-            {workspaces.length > 0 ? (
-              <VStack w="100%" h="100%" gap={1}>
-                <FilesMenu />
-
-                <VStack
-                  id="FILE_EXPLORER"
-                  w="100%"
-                  flexGrow="1"
-                  maxH="32rem"
-                  border="1px solid"
-                  borderColor={borderColor}
-                  p={1}
-                  gap={0.5}
-                  overflowY="scroll"
-                  className="alt-scrollbar"
-                  onContextMenu={(e) => e.preventDefault()}
-                >
-                  <FileTree
-                    file={file}
-                    isExpanded={isExpanded}
-                    setIsExpanded={setIsExpanded}
-                    isRoot={true}
-                  />
-
-                  <Box
-                    w="100%"
-                    minH="1rem"
-                    flexGrow="1"
-                    onClick={() => {
-                      setCurrentFile(null);
-                      setCurrentFolder(null);
-                      setTabIndex(-1);
-                    }}
-                  />
-                </VStack>
-              </VStack>
-            ) : (
-              <Text w="100%" color={colorAlt}>
-                No workspaces
-              </Text>
-            )}
-          </>
-        )}
+          <WorkspaceMenu />
+        </HStack>
       </VStack>
-    </>
+
+      {isLoadingFiles ? (
+        <VStack w="100%" flexGrow="1" justifyContent="center">
+          <Spinner size="xl" color={borderColor} />
+        </VStack>
+      ) : (
+        <>
+          {workspaces.length > 0 ? (
+            <VStack w="100%" h="100%" gap={1}>
+              <FilesMenu />
+
+              <VStack
+                id="FILE_EXPLORER"
+                w="100%"
+                flexGrow="1"
+                maxH="32rem"
+                border="1px solid"
+                borderColor={borderColor}
+                p={1}
+                gap={0.5}
+                overflowY="scroll"
+                className="alt-scrollbar"
+                onContextMenu={(e) => e.preventDefault()}
+              >
+                <FileTree
+                  file={file}
+                  isExpanded={isExpanded}
+                  setIsExpanded={setIsExpanded}
+                  isRoot={true}
+                />
+
+                <Box
+                  w="100%"
+                  minH="1rem"
+                  flexGrow="1"
+                  onClick={() => {
+                    setCurrentFile(null);
+                    setCurrentFolder(null);
+                    setTabIndex(-1);
+                  }}
+                />
+              </VStack>
+            </VStack>
+          ) : (
+            <Text w="100%" color={colorAlt}>
+              No workspaces
+            </Text>
+          )}
+        </>
+      )}
+    </VStack>
   );
 }
 

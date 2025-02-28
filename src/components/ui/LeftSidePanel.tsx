@@ -16,6 +16,7 @@ import DeployBuildPanel from './panels/DeployBuildPanel';
 import ExplorerPanel from './panels/ExplorerPanel';
 import HomePanel from './panels/HomePanel';
 import KissVMPanel from './panels/KissVMPanel';
+import SettingsPanel from './panels/SettingsPanel';
 
 // Control panel component
 function LeftSidePanel() {
@@ -50,7 +51,7 @@ function LeftSidePanel() {
         return null;
 
       case NAVIGATION_STATES.SETTINGS:
-        return null;
+        return <SettingsPanel />;
 
       default:
         return null;
@@ -74,18 +75,21 @@ function LeftSidePanel() {
             {NAVIGATION_LABELS[navigation]}
           </Text>
 
-          <Tooltip label="Refresh workspaces" placement="bottom" hasArrow>
-            <Button
-              p={0}
-              size="sm"
-              bg="transparent"
-              color={colorAlt}
-              _hover={{ bg: 'transparent', color }}
-              onClick={() => refreshWorkspaces()}
-            >
-              <LuRotateCw size={20} />
-            </Button>
-          </Tooltip>
+          {navigation !== NAVIGATION_STATES.HOME &&
+            navigation !== NAVIGATION_STATES.SETTINGS && (
+              <Tooltip label="Refresh workspaces" placement="bottom" hasArrow>
+                <Button
+                  p={0}
+                  size="sm"
+                  bg="transparent"
+                  color={colorAlt}
+                  _hover={{ bg: 'transparent', color }}
+                  onClick={() => refreshWorkspaces()}
+                >
+                  <LuRotateCw size={20} />
+                </Button>
+              </Tooltip>
+            )}
         </HStack>
 
         {currentNavigation}

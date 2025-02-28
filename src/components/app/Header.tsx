@@ -1,53 +1,31 @@
 // Dependencies
 import useAppTheme from '@/themes/useAppTheme';
-import { Button, Grid, GridItem, Text, useColorMode } from '@chakra-ui/react';
-import { LuMoon, LuSun } from 'react-icons/lu';
+import { HStack, Text } from '@chakra-ui/react';
 
 // App header component
 function Header() {
-  const { colorMode, toggleColorMode } = useColorMode();
   const { borderColor, colorAlt } = useAppTheme();
 
   // Render
   return (
-    <Grid
+    <HStack
       as="header"
-      h="2rem"
+      h="1.5rem"
       borderBottom="1px solid"
       borderColor={borderColor}
       px={2}
-      templateColumns="repeat(3, 1fr)"
+      justify="center"
     >
-      <GridItem
-        colStart={2}
-        colEnd={3}
-        display="flex"
-        alignItems="center"
-        justifyContent="center"
+      <Text
+        as="h1"
+        color={colorAlt}
+        fontWeight="medium"
+        textTransform="uppercase"
+        userSelect="none"
       >
-        <Text
-          as="h1"
-          color={colorAlt}
-          fontWeight="medium"
-          textTransform="uppercase"
-          userSelect="none"
-        >
-          Minima Script IDE
-        </Text>
-      </GridItem>
-
-      <GridItem
-        colStart={3}
-        colEnd={4}
-        display="flex"
-        alignItems="center"
-        justifyContent="flex-end"
-      >
-        <Button size="xs" variant="ghost" onClick={toggleColorMode}>
-          {colorMode === 'light' ? <LuSun /> : <LuMoon />}
-        </Button>
-      </GridItem>
-    </Grid>
+        Minima Script IDE
+      </Text>
+    </HStack>
   );
 }
 
