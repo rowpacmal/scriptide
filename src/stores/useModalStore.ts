@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 
 // Enum for the modal types
-export enum MODAL_TYPES {
+export enum EModalTypes {
   // Workspace modals
   RENAME_WORKSPACE = 'renameWorkspace',
   CREATE_BLANK_WORKSPACE = 'createBlankWorkspace',
@@ -24,7 +24,7 @@ export enum MODAL_TYPES {
 }
 
 // Type for the store
-type TModalType = MODAL_TYPES | null;
+type TModalType = EModalTypes | null;
 
 // Interface for the store
 interface IModalStore {

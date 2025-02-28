@@ -23,7 +23,7 @@ import {
 } from 'react-icons/lu';
 // Import components
 import useAppTheme from '@/themes/useAppTheme';
-import useModalStore, { MODAL_TYPES } from '@/stores/useModalStore';
+import useModalStore, { EModalTypes } from '@/stores/useModalStore';
 import useWorkspaceStore from '@/stores/useWorkspaceStore';
 
 // Workspace menu item component
@@ -92,7 +92,7 @@ function WorkspaceMenu() {
           label="Rename Workspace"
           icon={<LuPenLine />}
           onClick={() => {
-            setModalType(MODAL_TYPES.RENAME_WORKSPACE);
+            setModalType(EModalTypes.RENAME_WORKSPACE);
             onOpen();
           }}
           disabled={workspaces.length < 1}
@@ -106,7 +106,7 @@ function WorkspaceMenu() {
           label="Create Blank Workspace"
           icon={<LuPlus />}
           onClick={() => {
-            setModalType(MODAL_TYPES.CREATE_BLANK_WORKSPACE);
+            setModalType(EModalTypes.CREATE_BLANK_WORKSPACE);
             onOpen();
           }}
           disabled={workspaces.length >= 30} // Increased limit from 10 to 30
@@ -128,7 +128,7 @@ function WorkspaceMenu() {
           label="Copy Workspace"
           icon={<LuCopy />}
           onClick={() => {
-            setModalType(MODAL_TYPES.COPY_WORKSPACE);
+            setModalType(EModalTypes.COPY_WORKSPACE);
             onOpen();
           }}
           disabled={workspaces.length < 1 || workspaces.length >= 30}
@@ -141,7 +141,7 @@ function WorkspaceMenu() {
           label="Export Workspace"
           icon={<LuUpload />}
           onClick={() => {
-            setModalType(MODAL_TYPES.EXPORT_WORKSPACE);
+            setModalType(EModalTypes.EXPORT_WORKSPACE);
             onOpen();
           }}
           disabled={workspaces.length < 1}
@@ -153,7 +153,7 @@ function WorkspaceMenu() {
           label="Import Workspace"
           icon={<LuDownload />}
           onClick={() => {
-            setModalType(MODAL_TYPES.IMPORT_WORKSPACE);
+            setModalType(EModalTypes.IMPORT_WORKSPACE);
             onOpen();
           }}
           disabled={workspaces.length >= 30}
@@ -165,7 +165,7 @@ function WorkspaceMenu() {
           label="Delete Workspace"
           icon={<LuTrash />}
           onClick={() => {
-            setModalType(MODAL_TYPES.DELETE_WORKSPACE);
+            setModalType(EModalTypes.DELETE_WORKSPACE);
             onOpen();
           }}
           disabled={workspaces.length < 1}
@@ -179,7 +179,7 @@ function WorkspaceMenu() {
           label="Delete All Workspaces"
           icon={<LuTrash2 />}
           onClick={() => {
-            setModalType(MODAL_TYPES.DELETE_ALL_WORKSPACES);
+            setModalType(EModalTypes.DELETE_ALL_WORKSPACES);
             onOpen();
           }}
           disabled={workspaces.length < 1}

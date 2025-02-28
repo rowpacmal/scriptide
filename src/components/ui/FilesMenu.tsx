@@ -10,7 +10,7 @@ import {
 import useFileStore from '@/stores/useFileStore';
 import useWorkspaceStore from '@/stores/useWorkspaceStore';
 import useAppTheme from '@/themes/useAppTheme';
-import useModalStore, { MODAL_TYPES } from '@/stores/useModalStore';
+import useModalStore, { EModalTypes } from '@/stores/useModalStore';
 
 // Constants
 const ICON_SIZE = 20;
@@ -108,7 +108,7 @@ function FilesMenu() {
               setCurrentFolder(`/workspaces/${currentWorkspace}`);
             }
 
-            setModalType(MODAL_TYPES.UPLOAD_FILE);
+            setModalType(EModalTypes.UPLOAD_FILE);
             onOpen();
           }}
         >
@@ -119,7 +119,7 @@ function FilesMenu() {
       <FilesMenuItem
         label="Delete all files"
         onClick={() => {
-          setModalType(MODAL_TYPES.DELETE_ALL_FILES);
+          setModalType(EModalTypes.DELETE_ALL_FILES);
           onOpen();
         }}
         disabled={files.length < 1}

@@ -2,7 +2,7 @@
 import { Modal, ModalOverlay } from '@chakra-ui/react';
 import { useMemo } from 'react';
 // Import store
-import useModalStore, { MODAL_TYPES } from '@/stores/useModalStore';
+import useModalStore, { EModalTypes } from '@/stores/useModalStore';
 // Import components
 import DeployedScripts from '../ui/modals/DeployedScripts';
 import FilesDeleteAll from '../ui/modals/FilesDeleteAll';
@@ -31,48 +31,48 @@ function Modals() {
   const currentModal = useMemo(() => {
     switch (modalType) {
       // Workspace modals
-      case MODAL_TYPES.RENAME_WORKSPACE:
+      case EModalTypes.RENAME_WORKSPACE:
         return <WorkspaceRename onClose={onClose} />;
 
-      case MODAL_TYPES.CREATE_BLANK_WORKSPACE:
+      case EModalTypes.CREATE_BLANK_WORKSPACE:
         return <WorkspaceCreateBlank onClose={onClose} />;
 
-      case MODAL_TYPES.COPY_WORKSPACE:
+      case EModalTypes.COPY_WORKSPACE:
         return <WorkspaceCopy onClose={onClose} />;
 
-      case MODAL_TYPES.EXPORT_WORKSPACE:
+      case EModalTypes.EXPORT_WORKSPACE:
         return <WorkspaceExport onClose={onClose} />;
 
-      case MODAL_TYPES.IMPORT_WORKSPACE:
+      case EModalTypes.IMPORT_WORKSPACE:
         return <WorkspaceImport onClose={onClose} />;
 
-      case MODAL_TYPES.DELETE_WORKSPACE:
+      case EModalTypes.DELETE_WORKSPACE:
         return <WorkspaceDelete onClose={onClose} />;
 
-      case MODAL_TYPES.DELETE_ALL_WORKSPACES:
+      case EModalTypes.DELETE_ALL_WORKSPACES:
         return <WorkspaceDeleteAll onClose={onClose} />;
 
       // File modals
-      case MODAL_TYPES.UPLOAD_FILE:
+      case EModalTypes.UPLOAD_FILE:
         return <FilesUpload onClose={onClose} />;
 
-      case MODAL_TYPES.DELETE_ALL_FILES:
+      case EModalTypes.DELETE_ALL_FILES:
         return <FilesDeleteAll onClose={onClose} />;
 
       // Other modals
-      case MODAL_TYPES.VIEW_SCRIPT:
+      case EModalTypes.VIEW_SCRIPT:
         return <DeployedScripts onClose={onClose} />;
 
-      case MODAL_TYPES.RENAME_SCRIPT:
+      case EModalTypes.RENAME_SCRIPT:
         return <KissVMFileRename onClose={onClose} />;
 
-      case MODAL_TYPES.CREATE_SCRIPT:
+      case EModalTypes.CREATE_SCRIPT:
         return <KissVMFileCreate onClose={onClose} />;
 
-      case MODAL_TYPES.DELETE_SCRIPT:
+      case EModalTypes.DELETE_SCRIPT:
         return <KissVMFileDelete onClose={onClose} />;
 
-      case MODAL_TYPES.DELETE_ALL_SCRIPT:
+      case EModalTypes.DELETE_ALL_SCRIPT:
         return <KissVMFileDeleteAll onClose={onClose} />;
 
       default:

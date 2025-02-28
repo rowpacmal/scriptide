@@ -11,7 +11,7 @@ import {
 import { LuMenu, LuPenLine, LuPlus, LuTrash, LuTrash2 } from 'react-icons/lu';
 // Import components
 import useAppTheme from '@/themes/useAppTheme';
-import useModalStore, { MODAL_TYPES } from '@/stores/useModalStore';
+import useModalStore, { EModalTypes } from '@/stores/useModalStore';
 import useFileStore from '@/stores/useFileStore';
 
 // Workspace menu item component
@@ -81,7 +81,7 @@ function KissVMFilesMenu() {
           label="Rename Script"
           icon={<LuPenLine />}
           onClick={() => {
-            setModalType(MODAL_TYPES.RENAME_SCRIPT);
+            setModalType(EModalTypes.RENAME_SCRIPT);
             onOpen();
           }}
           disabled={
@@ -101,7 +101,7 @@ function KissVMFilesMenu() {
           label="Create Script"
           icon={<LuPlus />}
           onClick={() => {
-            setModalType(MODAL_TYPES.CREATE_SCRIPT);
+            setModalType(EModalTypes.CREATE_SCRIPT);
             onOpen();
           }}
         >
@@ -112,7 +112,7 @@ function KissVMFilesMenu() {
           label="Delete Script"
           icon={<LuTrash />}
           onClick={() => {
-            setModalType(MODAL_TYPES.DELETE_SCRIPT);
+            setModalType(EModalTypes.DELETE_SCRIPT);
             onOpen();
           }}
           disabled={
@@ -132,7 +132,7 @@ function KissVMFilesMenu() {
           label="Delete All Scripts"
           icon={<LuTrash2 />}
           onClick={() => {
-            setModalType(MODAL_TYPES.DELETE_ALL_SCRIPT);
+            setModalType(EModalTypes.DELETE_ALL_SCRIPT);
             onOpen();
           }}
           disabled={

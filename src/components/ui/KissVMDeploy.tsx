@@ -20,7 +20,7 @@ import parseComments from '@/utils/parseComments';
 import minima from '@/lib/minima';
 import { LuFileCode2 } from 'react-icons/lu';
 import KissVMFiles from './KissVMFiles';
-import useModalStore, { MODAL_TYPES } from '@/stores/useModalStore';
+import useModalStore, { EModalTypes } from '@/stores/useModalStore';
 import useAppTheme from '@/themes/useAppTheme';
 import KissVMFilesHeading from './KissVMFilesHeading';
 
@@ -323,7 +323,7 @@ function KissVMDeploy() {
                 borderRadius="sm"
                 isTruncated
                 onClick={() => {
-                  setModalType(MODAL_TYPES.VIEW_SCRIPT);
+                  setModalType(EModalTypes.VIEW_SCRIPT);
                   setModalProps(script);
                   onOpen();
                 }}
