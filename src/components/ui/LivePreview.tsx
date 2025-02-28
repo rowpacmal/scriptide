@@ -101,12 +101,13 @@ function LivePreview({ overviewRef }) {
     <VStack w="100%" h="100%" fontSize="sm" gap={0}>
       <HStack
         w="100%"
-        justify="space-between"
+        justify="flex-end"
         borderBottom="1px solid"
         borderColor={borderColor}
         gap={0}
       >
-        <HStack w="100%" gap={0}>
+        {/* Unsure if this is needed */}
+        {/* <HStack w="100%" gap={0}>
           <Box borderRight="1px solid" borderColor={borderColor}>
             <Popover placement="top" isLazy>
               <PopoverTrigger>
@@ -201,8 +202,7 @@ function LivePreview({ overviewRef }) {
             </Popover>
           </Box>
 
-          {/* TODO - Open in new tab */}
-          {/* <Box borderRight="1px solid" borderColor={borderColor}>
+          <Box borderRight="1px solid" borderColor={borderColor}>
             <Tooltip label="Open in new tab" placement="bottom" hasArrow>
               <Button
                 size="sm"
@@ -218,12 +218,11 @@ function LivePreview({ overviewRef }) {
                   setLivePreview('');
                   handleOpenNewTab();
                 }}
-              
               >
                 <LuSquareArrowOutUpRight />
               </Button>
             </Tooltip>
-          </Box> */}
+          </Box>
 
           <Box w="100%" px={2}>
             <Tooltip label="Base source" placement="bottom" hasArrow>
@@ -237,11 +236,11 @@ function LivePreview({ overviewRef }) {
               </Box>
             </Tooltip>
           </Box>
-        </HStack>
+        </HStack> */}
 
         <HStack gap={0}>
           <Box borderLeft="1px solid" borderColor={borderColor}>
-            <Tooltip label="Refresh" placement="bottom" hasArrow>
+            <Tooltip label="Refresh preview" placement="bottom" hasArrow>
               <Button
                 size="sm"
                 bg="transparent"
@@ -252,7 +251,7 @@ function LivePreview({ overviewRef }) {
                   bg: 'transparent',
                 }}
                 onClick={refreshLivePreview}
-                disabled={!previewURL}
+                disabled={!previewURL || isLoadingLivePreview}
               >
                 <LuRotateCw />
               </Button>
@@ -260,7 +259,7 @@ function LivePreview({ overviewRef }) {
           </Box>
 
           <Box borderLeft="1px solid" borderColor={borderColor}>
-            <Tooltip label="Close" placement="bottom" hasArrow>
+            <Tooltip label="Close preview" placement="bottom" hasArrow>
               <Button
                 size="sm"
                 bg="transparent"
