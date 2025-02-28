@@ -8,16 +8,16 @@ import {
   Box,
   Button,
   HStack,
-  InputGroup,
-  InputLeftAddon,
-  InputRightAddon,
-  Popover,
-  PopoverArrow,
-  PopoverBody,
-  PopoverCloseButton,
-  PopoverContent,
-  PopoverHeader,
-  PopoverTrigger,
+  // InputGroup,
+  // InputLeftAddon,
+  // InputRightAddon,
+  // Popover,
+  // PopoverArrow,
+  // PopoverBody,
+  // PopoverCloseButton,
+  // PopoverContent,
+  // PopoverHeader,
+  // PopoverTrigger,
   Spinner,
   Text,
   Tooltip,
@@ -26,11 +26,11 @@ import {
 import { useState, useEffect, useRef } from 'react';
 import {
   LuRotateCw,
-  LuSettings2,
+  // LuSettings2,
   // LuSquareArrowOutUpRight,
   LuX,
 } from 'react-icons/lu';
-import BasicInput from './systems/BasicInput';
+// import BasicInput from './systems/BasicInput';
 // import { useNavigate } from 'react-router-dom';
 
 function LivePreview({ overviewRef }) {
@@ -46,8 +46,8 @@ function LivePreview({ overviewRef }) {
   const files = useFileStore((state) => state.files);
   const currentWorkspace = useWorkspaceStore((state) => state.currentWorkspace);
   const setShowPreview = useLivePreviewStore((state) => state.setShowPreview);
-  const liveURL = useLivePreviewStore((state) => state.liveURL);
-  const setLiveURL = useLivePreviewStore((state) => state.setLiveURL);
+  // const liveURL = useLivePreviewStore((state) => state.liveURL);
+  // const setLiveURL = useLivePreviewStore((state) => state.setLiveURL);
   const isLoadingLivePreview = useLivePreviewStore(
     (state) => state.isLoadingLivePreview
   );
@@ -70,7 +70,7 @@ function LivePreview({ overviewRef }) {
   }; */
 
   // Define theme
-  const { bg, borderColor, color, colorAlt } = useAppTheme();
+  const { borderColor, color, colorAlt } = useAppTheme();
 
   // Define effects
   useEffect(() => {

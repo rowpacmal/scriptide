@@ -11,7 +11,6 @@ import {
   useToast,
   VStack,
 } from '@chakra-ui/react';
-import Workspace from './Workspace';
 import useWorkspaceStore from '@/stores/useWorkspaceStore';
 import useFileStore from '@/stores/useFileStore';
 import { useEffect, useState } from 'react';

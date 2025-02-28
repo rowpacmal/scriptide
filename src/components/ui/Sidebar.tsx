@@ -1,10 +1,11 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 // Import dependencies
-import { Box, Button, HStack, Image, Tooltip, VStack } from '@chakra-ui/react';
+import { Box, Button, HStack, Tooltip, VStack } from '@chakra-ui/react';
 import {
   LuFiles,
   LuRocket,
-  LuPlug,
-  LuSearch,
+  // LuPlug,
+  // LuSearch,
   LuSettings,
   LuZap,
 } from 'react-icons/lu';
@@ -89,24 +90,6 @@ function Sidebar({ isControlPanelCollapsed, handelToggleControlPanel }) {
       py={1.5}
       pr={1.5}
     >
-      {/* <Box>
-        <Tooltip label={NAVIGATION_LABELS.home} placement="right" hasArrow>
-          <Button
-            variant="unstyled"
-            p={0}
-            pl={1.5}
-            onClick={() => handleNavigationChange(NAVIGATION_STATES.HOME)}
-          >
-            <Image
-              src="./scriptide.png"
-              alt="icon"
-              width="40px"
-              height="40px"
-            />
-          </Button>
-        </Tooltip>
-      </Box> */}
-
       <SidebarButton
         label={NAVIGATION_LABELS.home}
         placement="right"
