@@ -129,6 +129,7 @@ const useWorkspaceStore = create<IWorkspaceStore>((set, get) => ({
       DEFAULT_LOCAL_STORAGE_KEYS.storedWorkspace,
       newWorkspace
     );
+    localStorage.removeItem(DEFAULT_LOCAL_STORAGE_KEYS.fileExplorerExpanded);
 
     // useFileStore.getState().refreshFiles(newWorkspace); // Comment out for increased performance
   },
@@ -151,6 +152,7 @@ const useWorkspaceStore = create<IWorkspaceStore>((set, get) => ({
       DEFAULT_LOCAL_STORAGE_KEYS.storedWorkspace,
       newWorkspace
     );
+    localStorage.removeItem(DEFAULT_LOCAL_STORAGE_KEYS.fileExplorerExpanded);
 
     // useFileStore.getState().refreshFiles(newWorkspace); // Comment out for increased performance
     useFileStore.setState({ currentFile: null });
