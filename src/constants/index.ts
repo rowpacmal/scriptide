@@ -78,6 +78,8 @@ const DEFAULT_LOCAL_STORAGE_KEYS = {
   settingsPanelAccordionIndex: 'settings-panel-accordion-index',
   deployBuildPanelAccordionIndex: 'deploy-build-panel-accordion-index',
   kissVMPanelAccordionIndex: 'kiss-vm-panel-accordion-index',
+  fileExplorerExpanded: 'file-explorer-expanded',
+  storedWorkspace: 'stored-workspace',
 };
 
 export {

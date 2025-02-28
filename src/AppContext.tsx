@@ -39,9 +39,6 @@ const AppProvider = ({ children }: IProps) => {
   useEffect(() => {
     tryCatch(async () => {
       await useWorkspaceStore.getState().refreshWorkspaces();
-      useWorkspaceStore.setState((state) => ({
-        currentWorkspace: state.workspaces[0],
-      }));
     });
   }, []);
 

@@ -7,6 +7,7 @@ import getFiles from '@/utils/getFiles';
 // Import stores
 import useEditorStore from './useEditorStore';
 import useFileStore from './useFileStore';
+import { DEFAULT_LOCAL_STORAGE_KEYS } from '@/constants';
 
 // Types for the store
 type TCurrentWorkspace = string | null;
@@ -46,6 +47,15 @@ const useWorkspaceStore = create<IWorkspaceStore>((set, get) => ({
         currentFolder: null,
       });
       useEditorStore.setState({ code: null, allCodes: [], tabIndex: 0 });
+      return;
+    }
+
+    const storedWorkspace = localStorage.getItem(
+      DEFAULT_LOCAL_STORAGE_KEYS.storedWorkspace
+    );
+    if (storedWorkspace) {
+      set({ currentWorkspace: storedWorkspace });
+      useFileStore.getState().refreshFiles(storedWorkspace);
       return;
     }
 
@@ -136,6 +146,8 @@ const useWorkspaceStore = create<IWorkspaceStore>((set, get) => ({
     }
 
     set({ currentWorkspace: workspace });
+    localStorage.setItem(DEFAULT_LOCAL_STORAGE_KEYS.storedWorkspace, workspace);
+    localStorage.removeItem(DEFAULT_LOCAL_STORAGE_KEYS.fileExplorerExpanded);
 
     useFileStore.getState().refreshFiles(workspace);
     useFileStore.setState({ currentFile: null, currentFolder: null });

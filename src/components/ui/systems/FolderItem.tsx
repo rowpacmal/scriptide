@@ -1,4 +1,3 @@
-import useWorkspaceStore from '@/stores/useWorkspaceStore';
 import { FileTree } from './FileTree';
 import useFileStore from '@/stores/useFileStore';
 import {
@@ -15,10 +14,10 @@ import FileItemRename from './FileItemRename';
 import { LuChevronDown, LuChevronRight, LuFolder } from 'react-icons/lu';
 import { FolderItemContextMenu } from '../ContextMenu';
 import useAppTheme from '@/themes/useAppTheme';
+import { DEFAULT_LOCAL_STORAGE_KEYS } from '@/constants';
 
 function FolderItem({ file, isExpanded, setIsExpanded, isActive }) {
   // Define stores
-  const currentWorkspace = useWorkspaceStore((state) => state.currentWorkspace);
   const currentFolder = useFileStore((state) => state.currentFolder);
   const setCurrentFolder = useFileStore((state) => state.setCurrentFolder);
   const isAddingFile = useFileStore((state) => state.isAddingFile);
@@ -50,7 +49,7 @@ function FolderItem({ file, isExpanded, setIsExpanded, isActive }) {
       };
 
       localStorage.setItem(
-        `${currentWorkspace}-explorer-expanded`,
+        DEFAULT_LOCAL_STORAGE_KEYS.fileExplorerExpanded,
         JSON.stringify(expand)
       );
 

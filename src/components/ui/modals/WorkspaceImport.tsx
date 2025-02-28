@@ -117,6 +117,7 @@ function WorkspaceImport({ onClose }) {
         }
 
         handleUploadWorkspace(fileToUpload, workspaceName);
+        onClose();
       }}
       disabled={!fileToUpload || !workspaceName || isUploading}
     >
