@@ -7,6 +7,7 @@ import Router from './router';
 
 // Component
 function App() {
+  // Define theme
   const { bg, color } = useAppTheme();
 
   // Render

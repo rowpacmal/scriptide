@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-
 // Import dependencies
 import { createContext, useRef, useEffect } from 'react';
 // Import store
@@ -7,37 +5,50 @@ import useWorkspaceStore from './stores/useWorkspaceStore';
 // Import hooks
 import useTryCatch from './hooks/useTryCatch';
 
-// Interfaces
+// Interface for the component
 interface IProps {
-  children: any;
+  children: React.ReactNode;
+}
+
+interface IAppContext {}
+
+interface IWindow extends Window {
+  MDS: {
+    init: (callback: (msg: { event: string }) => void) => void;
+  };
 }
 
 // App context
-export const appContext = createContext({} as any);
+export const appContext = createContext<IAppContext>({});
 
-// App provider
+// App provider component
 const AppProvider = ({ children }: IProps) => {
   // Define trycatch
+  // This custom hook is not working as intended and needs to be fixed
   const tryCatch = useTryCatch();
 
   // Define refs
   const loaded = useRef(false);
 
-  // Initialize MDS
+  // Define effects
   useEffect(() => {
     if (!loaded.current) {
       loaded.current = true;
-      (window as any).MDS.init((msg: any) => {
-        if (msg.event === 'inited') {
-          // do something Minim-y
+      // Initialize MDS
+      (window as IWindow & typeof globalThis).MDS.init(
+        (msg: { event: string }) => {
+          if (msg.event === 'inited') {
+            // For now we do nothing when MDS is inited.
+            // Ideally we would initialize MDS in the service.js file.
+          }
         }
-      });
+      );
     }
   }, [loaded]);
 
-  // Get workspaces on load
   useEffect(() => {
     tryCatch(async () => {
+      // Refresh workspaces on load
       await useWorkspaceStore.getState().refreshWorkspaces();
     });
   }, []);

@@ -1,9 +1,18 @@
+// Import dependencies
 import { HashRouter, Route, Routes } from 'react-router-dom';
+// Import components
 import Layout from '@/components/Layout';
 // import LivePreview from '@/components/ui/LivePreview';
 
+/**
+ * This router was added to support the live preview feature
+ * in a new tab or new window.
+ *
+ * For now its on hold as it needs some more work.
+ */
+
 const Router = () => {
-  // Render the component.
+  // Render
   return (
     <HashRouter>
       <Routes>
@@ -23,5 +32,5 @@ const Router = () => {
   );
 };
 
-// Export the component.
+// Export
 export default Router;
