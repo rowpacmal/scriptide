@@ -15,7 +15,7 @@ import {
 } from '@chakra-ui/react';
 import { useEffect } from 'react';
 // Import utilities
-import getIcon from '@/utils/getIcon';
+import getVariableIcon from '@/utils/getVariableIcon';
 import getVariableType from '@/utils/getVariableType';
 // Import store
 import useRunScriptStore from '@/stores/useRunScriptStore';
@@ -108,7 +108,7 @@ function VariableItem({ variable, value }) {
     >
       <ListItem display="grid" gridTemplateColumns="1.5rem 1fr">
         <ListIcon
-          as={getIcon(getVariableType(value))}
+          as={getVariableIcon(getVariableType(value))}
           color={accent}
           my={1.5}
         />
