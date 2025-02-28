@@ -75,7 +75,7 @@ function HomePanel() {
   const { bgReversed, borderColor, colorAlt, colorReversed } = useAppTheme();
 
   return (
-    <VStack w="100%" color={colorAlt} textAlign="center">
+    <VStack w="100%" pb={4} color={colorAlt} textAlign="center">
       <Box maxW="200px" p={4}>
         <AppLogo size="100%" />
       </Box>
