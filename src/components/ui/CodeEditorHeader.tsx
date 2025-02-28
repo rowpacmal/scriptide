@@ -16,6 +16,7 @@ import {
   LuZoomIn,
   LuZoomOut,
 } from 'react-icons/lu';
+import { TbPlayerPlayFilled } from 'react-icons/tb';
 // Import store
 import useEditorStore from '@/stores/useEditorStore';
 import useFileStore from '@/stores/useFileStore';
@@ -24,6 +25,7 @@ import useLivePreviewStore from '@/stores/useLivePreviewStore';
 import isImageFile from '@/utils/isImageFile';
 import { useEffect, useMemo, useState } from 'react';
 import useAppTheme from '@/themes/useAppTheme';
+import useRunScript from '@/hooks/useRunScript';
 
 // Code editor header button component
 function CodeEditorHeaderButton({
@@ -66,7 +68,7 @@ function CodeEditorHeader({ isOverviewCollapsed, handelToggleOverview }) {
   const toast = useToast();
 
   // Define theme
-  const { accent, borderColor, color } = useAppTheme();
+  const { accent, borderColor, color, colorSuccess } = useAppTheme();
 
   // Define store
   const allCodes = useEditorStore((state) => state.allCodes);
@@ -95,6 +97,7 @@ function CodeEditorHeader({ isOverviewCollapsed, handelToggleOverview }) {
   );
 
   // Define handlers
+  const handleRunScript = useRunScript();
   function handleEditorZoom() {
     if (zoom === '-') {
       setZoom(editorZoom);
@@ -123,16 +126,18 @@ function CodeEditorHeader({ isOverviewCollapsed, handelToggleOverview }) {
   return (
     <HStack gap={0} justify="space-between">
       <HStack gap={0}>
-        {/* <Box borderRight="1px solid" borderColor={borderColor}>
-          <CodeEditorHeaderButton
-            label="Run script"
-            hoverColor={colorSuccess}
-            onClick={handleRunScript}
-            disabled={disableButton}
-          >
-            <TbPlayerPlayFilled />
-          </CodeEditorHeaderButton>
-        </Box> */}
+        {currentFile?.endsWith('.kvm') && (
+          <Box borderRight="1px solid" borderColor={borderColor}>
+            <CodeEditorHeaderButton
+              label="Run script"
+              hoverColor={colorSuccess}
+              onClick={handleRunScript}
+              disabled={disableButton}
+            >
+              <TbPlayerPlayFilled />
+            </CodeEditorHeaderButton>
+          </Box>
+        )}
 
         <HStack gap={0} borderRight="1px solid" borderColor={borderColor}>
           <CodeEditorHeaderButton
