@@ -1,4 +1,12 @@
-function base64ToImage(base64: string) {
+/**
+ * Converts a base64 string to a Data URI string.
+ * The Image Type is automatically determined from the base64 string.
+ *
+ * @param base64 - The base64 string to be converted to Data URI string.
+ * @returns The Data URI string or null if no match is found.
+ */
+
+function base64ToImage(base64: string): string | null {
   // Determine Image Type (Best Guess):
   let imageType: string;
 
