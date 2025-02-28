@@ -66,11 +66,18 @@ const DEFAULT_DAPP_CONFIG = {
   category: 'Category',
 };
 
-const DEFAULT_PLACEHOLDER = {
+const DEFAULT_PLACEHOLDERS = {
   zip: 'Enter zip name here',
   workspace: 'Enter workspace name here',
   confirm: 'Enter confirm text here',
   value: 'Enter value here',
+};
+
+const DEFAULT_LOCAL_STORAGE_KEYS = {
+  globalsAccordionIndex: 'globals-accordion-index',
+  settingsPanelAccordionIndex: 'settings-panel-accordion-index',
+  deployBuildPanelAccordionIndex: 'deploy-build-panel-accordion-index',
+  kissVMPanelAccordionIndex: 'kiss-vm-panel-accordion-index',
 };
 
 export {
@@ -82,5 +89,6 @@ export {
   DEFAULT_EDITOR_THEME_DARK,
   DEFAULT_EDITOR_THEME_LIGHT,
   DEFAULT_DAPP_CONFIG,
-  DEFAULT_PLACEHOLDER,
+  DEFAULT_PLACEHOLDERS,
+  DEFAULT_LOCAL_STORAGE_KEYS,
 };

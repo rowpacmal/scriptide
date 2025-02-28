@@ -6,7 +6,7 @@ import useWorkspaceStore from '@/stores/useWorkspaceStore';
 // Import components
 import ConfirmModal from './ConfirmModal';
 import BasicInput from '../systems/BasicInput';
-import { DEFAULT_PLACEHOLDER } from '@/constants';
+import { DEFAULT_PLACEHOLDERS } from '@/constants';
 
 // Constants
 const PRESET_NAME = 'Workspace';
@@ -55,7 +55,7 @@ function WorkspaceCreateBlank({ onClose }) {
 
       <Box px={4}>
         <BasicInput
-          placeholder={DEFAULT_PLACEHOLDER.workspace}
+          placeholder={DEFAULT_PLACEHOLDERS.workspace}
           value={workspaceName}
           onChange={(e) => {
             const { value } = e.target;

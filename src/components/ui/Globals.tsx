@@ -14,7 +14,7 @@ import { LuMinus, LuPlus } from 'react-icons/lu';
 import useRunScriptStore from '@/stores/useRunScriptStore';
 import useGlobalVariableStore from '@/stores/useGlobalVariableStore';
 import useAppTheme from '@/themes/useAppTheme';
-import { DEFAULT_PLACEHOLDER } from '@/constants';
+import { DEFAULT_LOCAL_STORAGE_KEYS, DEFAULT_PLACEHOLDERS } from '@/constants';
 
 // constants
 const GLOBAL_DETAILS = {
@@ -41,13 +41,19 @@ function Globals() {
 
   // Define states
   const [accordionIndex, setAccordionIndex] = useState(
-    JSON.parse(localStorage.getItem('accordion-index') || '[1]')
+    JSON.parse(
+      localStorage.getItem(DEFAULT_LOCAL_STORAGE_KEYS.globalsAccordionIndex) ||
+        '[1]'
+    )
   );
 
   // Define functions
   function handleOnChange(index: number[]) {
     setAccordionIndex(index);
-    localStorage.setItem('accordion-index', JSON.stringify(index));
+    localStorage.setItem(
+      DEFAULT_LOCAL_STORAGE_KEYS.globalsAccordionIndex,
+      JSON.stringify(index)
+    );
   }
 
   // Define theme
@@ -112,7 +118,7 @@ function Globals() {
                     placeholder={
                       global === '@ADDRESS'
                         ? 'Run script first to see address'
-                        : DEFAULT_PLACEHOLDER.value
+                        : DEFAULT_PLACEHOLDERS.value
                     }
                     /* If the global is '@ADDRESS', show the script address
                      * from the script0xAddress state, and disable onchange handler

@@ -13,7 +13,7 @@ import { LuPlus, LuTrash2, LuX } from 'react-icons/lu';
 // Import store
 import usePrevStateVariableStore from '@/stores/usePrevStateVariableStore';
 import useAppTheme from '@/themes/useAppTheme';
-import { DEFAULT_PLACEHOLDER } from '@/constants';
+import { DEFAULT_PLACEHOLDERS } from '@/constants';
 
 // Utility component
 function PrevStateItem({ index }) {
@@ -59,7 +59,7 @@ function PrevStateItem({ index }) {
         _readOnly={{ color: colorAlt }}
         value={prevStateVariables[index].value}
         onChange={(e) => updatePrevStateVariableValue(index, e.target.value)}
-        placeholder={DEFAULT_PLACEHOLDER.value}
+        placeholder={DEFAULT_PLACEHOLDERS.value}
       />
 
       <InputRightAddon bg={bgAlt} borderColor={borderColor} px={1}>

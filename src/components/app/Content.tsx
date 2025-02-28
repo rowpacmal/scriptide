@@ -208,8 +208,8 @@ function Content() {
             ref={overviewRef}
             collapsible={true}
             collapsedSize={0}
-            defaultSize={20}
-            minSize={15}
+            defaultSize={0}
+            minSize={20}
             onCollapse={() => setIsOverviewCollapsed(true)}
             onExpand={() => setIsOverviewCollapsed(false)}
           >

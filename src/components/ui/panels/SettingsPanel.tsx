@@ -10,14 +10,35 @@ import {
 } from '@chakra-ui/react';
 import { AccordionBase, AccordionItemBase } from '../systems/AccordionBase';
 import { LuPalette } from 'react-icons/lu';
+import { useState } from 'react';
+import { DEFAULT_LOCAL_STORAGE_KEYS } from '@/constants';
 
 function SettingsPanel() {
+  // Define theme
   const { colorMode, toggleColorMode } = useColorMode();
   const { accent, borderColor, color, colorAlt } = useAppTheme();
 
+  // Define states
+  const [accordionIndex, setAccordionIndex] = useState(
+    JSON.parse(
+      localStorage.getItem(
+        DEFAULT_LOCAL_STORAGE_KEYS.settingsPanelAccordionIndex
+      ) || '[1]'
+    )
+  );
+
+  // Define functions
+  function handleOnChange(index: number[]) {
+    setAccordionIndex(index);
+    localStorage.setItem(
+      DEFAULT_LOCAL_STORAGE_KEYS.settingsPanelAccordionIndex,
+      JSON.stringify(index)
+    );
+  }
+
   return (
     <VStack w="100%" h="100%" fontSize="sm" gap={3}>
-      <AccordionBase>
+      <AccordionBase index={accordionIndex} onChange={handleOnChange}>
         <AccordionItemBase
           title="Appearance"
           icon={<LuPalette />}

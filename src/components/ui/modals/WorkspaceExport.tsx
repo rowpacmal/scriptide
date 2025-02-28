@@ -13,7 +13,7 @@ import useFileStore from '@/stores/useFileStore';
 import minima from '@/lib/minima';
 import isImageFile from '@/utils/isImageFile';
 import BasicInput from '../systems/BasicInput';
-import { DEFAULT_PLACEHOLDER } from '@/constants';
+import { DEFAULT_PLACEHOLDERS } from '@/constants';
 
 // Workspace rename modal component
 function WorkspaceExport({ onClose }) {
@@ -119,7 +119,7 @@ function WorkspaceExport({ onClose }) {
         />
 
         <BasicInput
-          placeholder={DEFAULT_PLACEHOLDER.zip}
+          placeholder={DEFAULT_PLACEHOLDERS.zip}
           value={zipName}
           onChange={(e) => {
             const { value } = e.target;

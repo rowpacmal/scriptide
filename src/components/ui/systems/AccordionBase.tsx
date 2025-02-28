@@ -9,17 +9,12 @@ import {
 } from '@chakra-ui/react';
 import { LuChevronDown, LuChevronUp } from 'react-icons/lu';
 
-function AccordionBase({ children, defaultIndex = [1] }) {
+function AccordionBase({ children, ...props }) {
   // Define theme
   const { borderColor } = useAppTheme();
 
   return (
-    <Accordion
-      defaultIndex={defaultIndex}
-      borderColor={borderColor}
-      w="100%"
-      allowMultiple
-    >
+    <Accordion w="100%" borderColor={borderColor} allowMultiple {...props}>
       {/* Empty AccordionItem to prevent a index bug on mount/unmount */}
       <AccordionItem display="none">
         <AccordionButton />

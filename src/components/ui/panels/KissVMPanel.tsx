@@ -13,13 +13,33 @@ import {
   LuGlobe,
   LuLock,
 } from 'react-icons/lu';
+import { useState } from 'react';
+import { DEFAULT_LOCAL_STORAGE_KEYS } from '@/constants';
 
 function KissVMPanel() {
+  // Define states
+  const [accordionIndex, setAccordionIndex] = useState(
+    JSON.parse(
+      localStorage.getItem(
+        DEFAULT_LOCAL_STORAGE_KEYS.kissVMPanelAccordionIndex
+      ) || '[1]'
+    )
+  );
+
+  // Define functions
+  function handleOnChange(index: number[]) {
+    setAccordionIndex(index);
+    localStorage.setItem(
+      DEFAULT_LOCAL_STORAGE_KEYS.kissVMPanelAccordionIndex,
+      JSON.stringify(index)
+    );
+  }
+
   return (
     <VStack w="100%" fontSize="sm" gap={3}>
       <KissVMRunDebug />
 
-      <AccordionBase>
+      <AccordionBase index={accordionIndex} onChange={handleOnChange}>
         <AccordionItemBase title="Overview" icon={<LuChartNoAxesGantt />} isTop>
           <Overview />
         </AccordionItemBase>
