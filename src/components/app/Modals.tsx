@@ -10,7 +10,10 @@ import DeployedScripts from '../ui/modals/DeployedScripts';
 import FilesDeleteAll from '../ui/modals/FilesDeleteAll';
 import FilesUpload from '../ui/modals/FilesUpload';
 import KissVMFileCreate from '../ui/modals/KissVMFileCreate';
+import KissVMFileDelete from '../ui/modals/KissVMFileDelete';
+import KissVMFileDeleteAll from '../ui/modals/KissVMFileDeleteAll';
 import KissVMFileRename from '../ui/modals/KissVMFileRename';
+import ModalNotFound from '../ui/modals/ModalNotFound';
 import WorkspaceCreateBlank from '@/components/ui/modals/WorkspaceCreateBlank';
 import WorkspaceCopy from '@/components/ui/modals/WorkspaceCopy';
 import WorkspaceDelete from '@/components/ui/modals/WorkspaceDelete';
@@ -18,9 +21,6 @@ import WorkspaceDeleteAll from '@/components/ui/modals/WorkspaceDeleteAll';
 import WorkspaceExport from '@/components/ui/modals/WorkspaceExport';
 import WorkspaceImport from '@/components/ui/modals/WorkspaceImport';
 import WorkspaceRename from '@/components/ui/modals/WorkspaceRename';
-import ModalNotFound from '../ui/modals/ModalNotFound';
-import KissVMFileDelete from '../ui/modals/KissVMFileDelete';
-import KissVMFileDeleteAll from '../ui/modals/KissVMFileDeleteAll';
 
 // Modals component
 function Modals() {

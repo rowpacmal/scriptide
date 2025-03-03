@@ -1,3 +1,4 @@
+// Import dependencies
 import {
   Alert,
   AlertDescription,
@@ -5,10 +6,17 @@ import {
   AlertTitle,
   VStack,
 } from '@chakra-ui/react';
+// Import themes
+import useAppTheme from '@/themes/useAppTheme';
 
+// No mobile support component
 function NoMobile() {
+  // Define theme
+  const { bgAlt, borderColor, colorAlt, colorError } = useAppTheme();
+
+  // Render
   return (
-    <VStack h="calc(100vh - 3rem)" justify="center" p={4}>
+    <VStack h="calc(100vh - 2.5rem)" justify="center" p={4}>
       <Alert
         status="warning"
         variant="subtle"
@@ -16,20 +24,21 @@ function NoMobile() {
         alignItems="center"
         justifyContent="center"
         textAlign="center"
-        height="200px"
-        bg="gray.800"
-        color="gray.500"
+        height="content"
+        bg={bgAlt}
+        color={colorAlt}
         borderRadius="lg"
         border="1px solid"
-        borderColor="gray.700"
+        borderColor={borderColor}
+        maxWidth="sm"
       >
-        <AlertIcon boxSize="40px" mr={0} color="gray.500" />
+        <AlertIcon boxSize="40px" mr={0} color={colorError} />
 
-        <AlertTitle mt={4} mb={1} fontSize="lg">
+        <AlertTitle mt={4} mb={1} fontSize="lg" color={colorError}>
           Mobile not supported!
         </AlertTitle>
 
-        <AlertDescription maxWidth="sm">
+        <AlertDescription maxWidth="xs" fontSize="sm">
           MiniDapp is not compatible with mobile devices yet. Please be patient
           and use the desktop version for now.
         </AlertDescription>

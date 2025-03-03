@@ -1,9 +1,11 @@
-// Dependencies
-import useAppTheme from '@/themes/useAppTheme';
+// Import dependencies
 import { HStack, Text } from '@chakra-ui/react';
+// Import themes
+import useAppTheme from '@/themes/useAppTheme';
 
 // App header component
 function Header() {
+  // Define theme
   const { borderColor, colorAlt } = useAppTheme();
 
   // Render
