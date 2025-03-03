@@ -2,7 +2,7 @@ import { TMessage } from './response';
 
 interface IWindow extends Window {
   MDS: {
-    cmd<T>(command: string, callback: (msg: T) => void): void;
+    cmd: (command: string, callback: (msg: TMessage) => void) => void;
     file: {
       list: (path: string, callback: (msg: TMessage) => void) => void;
       save: (
