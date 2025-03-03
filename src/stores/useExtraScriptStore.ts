@@ -1,27 +1,7 @@
 // Import dependencies
 import { create } from 'zustand';
-
-// Types for the store
-type TExtraScript = { name: string; value: string }[];
-
-// Interface for the store
-interface IExtraScriptStore {
-  extraScripts: TExtraScript;
-  setExtraScripts: (extraScripts: TExtraScript) => void;
-
-  addExtraScript: () => void;
-  renameExtraScript: (newName: string) => void;
-  updateExtraScript: (value: string) => void;
-  clearExtraScripts: () => void;
-  deleteExtraScript: () => void;
-  deleteAllExtraScripts: () => void;
-
-  currentExtraScript: number;
-  setCurrentExtraScript: (currentExtraScript: number) => void;
-}
-interface ILocalStorage {
-  getItem: (key: string) => string;
-}
+// Import types
+import { IExtraScriptStore, ILocalStorage, TExtraScript } from '@/types';
 
 // Create the store
 const useExtraScriptStore = create<IExtraScriptStore>((set) => ({

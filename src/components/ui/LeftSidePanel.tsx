@@ -5,10 +5,10 @@ import { LuRotateCw } from 'react-icons/lu';
 // Import constants
 import { NAVIGATION_LABELS } from '@/constants';
 // Import store
-import useNavigationStore, {
-  NAVIGATION_STATES,
-} from '@/stores/useNavigationStore';
+import useNavigationStore from '@/stores/useNavigationStore';
 import useWorkspaceStore from '@/stores/useWorkspaceStore';
+// Import types
+import { ENavigationStates } from '@/types';
 // Import themes
 import useAppTheme from '@/themes/useAppTheme';
 // Import components
@@ -32,25 +32,25 @@ function LeftSidePanel() {
   // Define state
   const currentNavigation = useMemo(() => {
     switch (navigation) {
-      case NAVIGATION_STATES.HOME:
+      case ENavigationStates.HOME:
         return <HomePanel />;
 
-      case NAVIGATION_STATES.EXPLORER:
+      case ENavigationStates.EXPLORER:
         return <ExplorerPanel />;
 
-      case NAVIGATION_STATES.SEARCH:
+      case ENavigationStates.SEARCH:
         return null;
 
-      case NAVIGATION_STATES.KISS_VM:
+      case ENavigationStates.KISS_VM:
         return <KissVMPanel />;
 
-      case NAVIGATION_STATES.DEPLOY_BUILD:
+      case ENavigationStates.DEPLOY_BUILD:
         return <DeployBuildPanel />;
 
-      case NAVIGATION_STATES.PLUGINS:
+      case ENavigationStates.PLUGINS:
         return null;
 
-      case NAVIGATION_STATES.SETTINGS:
+      case ENavigationStates.SETTINGS:
         return <SettingsPanel />;
 
       default:
@@ -75,8 +75,8 @@ function LeftSidePanel() {
             {NAVIGATION_LABELS[navigation]}
           </Text>
 
-          {navigation !== NAVIGATION_STATES.HOME &&
-            navigation !== NAVIGATION_STATES.SETTINGS && (
+          {navigation !== ENavigationStates.HOME &&
+            navigation !== ENavigationStates.SETTINGS && (
               <Tooltip label="Refresh workspaces" placement="bottom" hasArrow>
                 <Button
                   p={0}

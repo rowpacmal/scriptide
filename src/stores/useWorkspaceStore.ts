@@ -7,27 +7,10 @@ import getFiles from '@/utils/getFiles';
 // Import stores
 import useEditorStore from './useEditorStore';
 import useFileStore from './useFileStore';
+// Import constants
 import { DEFAULT_LOCAL_STORAGE_KEYS } from '@/constants';
-
-// Types for the store
-type TCurrentWorkspace = string | null;
-
-// Interface for the store
-interface IWorkspaceStore {
-  workspaces: string[];
-  setWorkspaces: (workspace: string[]) => void;
-
-  refreshWorkspaces: () => Promise<void>;
-  addWorkspace: (newWorkspace: string) => Promise<void>;
-  renameWorkspace: (newWorkspace: string) => Promise<void>;
-  copyWorkspace: (newWorkspace: string) => Promise<void>;
-  updateWorkspace: (workspace: string) => Promise<void>;
-  deleteWorkspace: () => Promise<void>;
-  deleteAllWorkspaces: () => Promise<void>;
-
-  currentWorkspace: TCurrentWorkspace;
-  setCurrentWorkspace: (workspace: TCurrentWorkspace) => void;
-}
+// Import types
+import { IWorkspaceStore } from '@/types';
 
 // Create the store
 const useWorkspaceStore = create<IWorkspaceStore>((set, get) => ({
@@ -199,7 +182,7 @@ const useWorkspaceStore = create<IWorkspaceStore>((set, get) => ({
   },
 
   currentWorkspace: null,
-  setCurrentWorkspace: (currentWorkspace: TCurrentWorkspace) => {
+  setCurrentWorkspace: (currentWorkspace) => {
     set({ currentWorkspace });
   },
 }));

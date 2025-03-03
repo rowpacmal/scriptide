@@ -2,15 +2,8 @@
 import { create } from 'zustand';
 // Import constants
 import { CONSOLE_DEFAULT, CONSOLE_DEFAULT_CLEARED } from '@/constants';
-
-// Interface for the store
-interface IConsoleStore {
-  consoleOutput: string;
-  setConsoleOutput: (consoleOutput: string) => void;
-
-  extendConsoleOut: (newOutput: string) => void;
-  clearConsoleOut: () => void;
-}
+// Import types
+import { IConsoleStore } from '@/types';
 
 // Create the store
 export const useConsoleStore = create<IConsoleStore>((set) => ({

@@ -1,38 +1,7 @@
 // Import dependencies
 import { create } from 'zustand';
-
-// Types for the store
-type TCode = string | null;
-type TAllCodes = { file: string; code: TCode; isImg: boolean };
-
-// Interface for the store
-interface IEditorStore {
-  code: TCode;
-  setCode: (code: TCode) => void;
-
-  allCodes: TAllCodes[];
-  setAllCodes: (allCodes: TAllCodes[]) => void;
-
-  tabIndex: number;
-  setTabIndex: (tabIndex: number) => void;
-
-  addCode: (file: string, code: TCode, isImg: boolean) => void;
-  updateCode: (file: string, code: TCode) => void;
-  removeCode: (file: string) => void;
-  removeFolderCodes: (file: string) => void;
-
-  editorZoom: number;
-  setEditorZoom: (editorZoom: number) => void;
-  editorZoomIn: () => void;
-  editorZoomOut: () => void;
-
-  editorAutoSave: boolean;
-  setEditorAutoSave: (editorAutoSave: boolean) => void;
-  toggleEditorAutoSave: () => void;
-}
-interface ILocalStorage {
-  getItem: (key: string) => string;
-}
+// Import types
+import { IEditorStore, ILocalStorage, TAllCodes, TCode } from '@/types';
 
 // Create the store
 const useEditorStore = create<IEditorStore>((set) => ({

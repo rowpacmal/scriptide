@@ -2,21 +2,8 @@
 import { create } from 'zustand';
 // Import constants
 import { GLOBALS_DEFAULT_OBJECT } from '@/constants';
-
-// Types for the store
-type TGlobals = {
-  '@ADDRESS': string | null;
-  '@BLOCK': string;
-  '@BLOCKMILLI': string;
-  '@CREATED': string;
-  '@COINAGE': string;
-  '@COINID': string;
-  '@TOKENID': string;
-  '@AMOUNT': string;
-  '@INPUT': string;
-  '@TOTIN': string;
-  '@TOTOUT': string;
-};
+// Import types
+import { TGlobals } from '@/types';
 
 // Interface for the store
 interface IGlobalVariableStore {

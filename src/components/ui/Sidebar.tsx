@@ -12,11 +12,11 @@ import {
 // Import constants
 import { NAVIGATION_LABELS } from '@/constants';
 // Import store
-import useNavigationStore, {
-  NAVIGATION_STATES,
-} from '@/stores/useNavigationStore';
+import useNavigationStore from '@/stores/useNavigationStore';
 import useAppTheme from '@/themes/useAppTheme';
 import AppLogo from './systems/AppLogo';
+// Import types
+import { ENavigationStates } from '@/types';
 
 // Constants
 const ICON_SIZE = 24;
@@ -93,8 +93,8 @@ function Sidebar({ isControlPanelCollapsed, handelToggleControlPanel }) {
       <SidebarButton
         label={NAVIGATION_LABELS.home}
         placement="right"
-        active={handleIsActive(NAVIGATION_STATES.HOME)}
-        onClick={() => handleNavigationChange(NAVIGATION_STATES.HOME)}
+        active={handleIsActive(ENavigationStates.HOME)}
+        onClick={() => handleNavigationChange(ENavigationStates.HOME)}
       >
         <AppLogo size={32} />
       </SidebarButton>
@@ -102,8 +102,8 @@ function Sidebar({ isControlPanelCollapsed, handelToggleControlPanel }) {
       <VStack mb="auto">
         <SidebarButton
           label={NAVIGATION_LABELS.explorer}
-          active={handleIsActive(NAVIGATION_STATES.EXPLORER)}
-          onClick={() => handleNavigationChange(NAVIGATION_STATES.EXPLORER)}
+          active={handleIsActive(ENavigationStates.EXPLORER)}
+          onClick={() => handleNavigationChange(ENavigationStates.EXPLORER)}
         >
           <LuFiles size={ICON_SIZE} />
         </SidebarButton>
@@ -111,8 +111,8 @@ function Sidebar({ isControlPanelCollapsed, handelToggleControlPanel }) {
         {/* TODO - enable search feature */}
         {/* <SidebarButton
           label={NAVIGATION_LABELS.search}
-          active={handleIsActive(NAVIGATION_STATES.SEARCH)}
-          onClick={() => handleNavigationChange(NAVIGATION_STATES.SEARCH)}
+          active={handleIsActive(ENavigationStates.SEARCH)}
+          onClick={() => handleNavigationChange(ENavigationStates.SEARCH)}
           disabled
         >
           <LuSearch size={ICON_SIZE} />
@@ -120,16 +120,16 @@ function Sidebar({ isControlPanelCollapsed, handelToggleControlPanel }) {
 
         <SidebarButton
           label={NAVIGATION_LABELS.kissVM}
-          active={handleIsActive(NAVIGATION_STATES.KISS_VM)}
-          onClick={() => handleNavigationChange(NAVIGATION_STATES.KISS_VM)}
+          active={handleIsActive(ENavigationStates.KISS_VM)}
+          onClick={() => handleNavigationChange(ENavigationStates.KISS_VM)}
         >
           <LuZap size={ICON_SIZE} />
         </SidebarButton>
 
         <SidebarButton
           label={NAVIGATION_LABELS.deployBuild}
-          active={handleIsActive(NAVIGATION_STATES.DEPLOY_BUILD)}
-          onClick={() => handleNavigationChange(NAVIGATION_STATES.DEPLOY_BUILD)}
+          active={handleIsActive(ENavigationStates.DEPLOY_BUILD)}
+          onClick={() => handleNavigationChange(ENavigationStates.DEPLOY_BUILD)}
         >
           <LuRocket size={ICON_SIZE} />
         </SidebarButton>

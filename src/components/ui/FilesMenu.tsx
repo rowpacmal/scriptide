@@ -10,7 +10,9 @@ import {
 import useFileStore from '@/stores/useFileStore';
 import useWorkspaceStore from '@/stores/useWorkspaceStore';
 import useAppTheme from '@/themes/useAppTheme';
-import useModalStore, { EModalTypes } from '@/stores/useModalStore';
+import useModalStore from '@/stores/useModalStore';
+// Import types
+import { EModalTypes } from '@/types';
 
 // Constants
 const ICON_SIZE = 20;

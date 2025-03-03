@@ -20,9 +20,11 @@ import parseComments from '@/utils/parseComments';
 import minima from '@/lib/minima';
 import { LuFileCode2 } from 'react-icons/lu';
 import KissVMFiles from './KissVMFiles';
-import useModalStore, { EModalTypes } from '@/stores/useModalStore';
+import useModalStore from '@/stores/useModalStore';
 import useAppTheme from '@/themes/useAppTheme';
 import KissVMFilesHeading from './KissVMFilesHeading';
+// Import types
+import { EModalTypes } from '@/types';
 
 // Util component
 function CheckboxOption({

@@ -1,31 +1,9 @@
-import minima from '@/lib/minima';
+// Import dependencies
 import { create } from 'zustand';
-
-// Types for the store
-type TScript = {
-  address: string;
-  default: boolean;
-  miniaddress: string;
-  publickey: string;
-  script: string;
-  simple: boolean;
-  track: boolean;
-};
-
-// Interface for the store
-interface IDeploymentStore {
-  deployedScripts: string[];
-  setDeployedScripts: (scripts: string[]) => void;
-
-  getAllScripts: () => Promise<void>;
-  getScript: (address: string) => Promise<void>;
-  deployScript: (
-    script: string,
-    trackall: boolean,
-    clean: boolean
-  ) => Promise<void>;
-  removeScript: (address: string) => Promise<void>;
-}
+// Import libraries
+import minima from '@/lib/minima';
+// Import types
+import { IDeploymentStore, TScript } from '@/types';
 
 // Create the store
 const useDeploymentStore = create<IDeploymentStore>((set, get) => ({

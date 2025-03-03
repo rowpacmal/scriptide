@@ -1,32 +1,17 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+
+// Import dependencies
 import { create } from 'zustand';
+// Import stores
 import useFileStore from './useFileStore';
-import minima from '@/lib/minima';
 import useWorkspaceStore from './useWorkspaceStore';
+// Import libraries
+import minima from '@/lib/minima';
+// Import types
+import { ILivePreviewStore } from '@/types';
+// Import utilities
 // import isImageFile from '@/utils/isImageFile';
 // import base64ToImage from '@/utils/base64ToImage';
-
-// Interface of the store
-export interface ILivePreviewStore {
-  livePreview: string;
-  setLivePreview: (livePreview: string) => void;
-
-  liveURL: string;
-  setLiveURL: (liveURL: string) => void;
-
-  showPreview: boolean;
-  setShowPreview: (showPreview: boolean) => void;
-
-  togglePreview: () => void;
-
-  blobObjectURLs: string[];
-  setBlobObjectURLs: (blobObjectURLs: string[]) => void;
-
-  refreshLivePreview: () => Promise<void>;
-
-  isLoadingLivePreview: boolean;
-  setIsLoadingLivePreview: (isLoadingLivePreview: boolean) => void;
-}
 
 // Create the store
 export const useLivePreviewStore = create<ILivePreviewStore>((set, get) => ({

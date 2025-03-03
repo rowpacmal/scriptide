@@ -1,26 +1,12 @@
 // Import dependencies
 import { create } from 'zustand';
-
-// Types for the store
-type TVariables = { index: number; value: string }[];
-
-// Interface for the store
-interface IPrevStateVariableStore {
-  prevStateVariables: TVariables;
-  setPrevStateVariables: (prevStateVariables: TVariables) => void;
-
-  addPrevStateVariable: () => void;
-  updatePrevStateVariableKey: (index: number, value: string) => void;
-  updatePrevStateVariableValue: (index: number, value: string) => void;
-  removePrevStateVariable: (index?: number) => void;
-  removeAllPrevStateVariables: () => void;
-}
+// Import types
+import { IPrevStateVariableStore } from '@/types';
 
 // Create the store
 const usePrevStateVariableStore = create<IPrevStateVariableStore>((set) => ({
   prevStateVariables: [],
-  setPrevStateVariables: (prevStateVariables: TVariables) =>
-    set({ prevStateVariables }),
+  setPrevStateVariables: (prevStateVariables) => set({ prevStateVariables }),
 
   addPrevStateVariable: () => {
     set((state) => {

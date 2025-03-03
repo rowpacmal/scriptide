@@ -1,15 +1,7 @@
 // Import dependencies
 import { create } from 'zustand';
-
-// Interface for the store
-interface ISignatureStore {
-  signatures: string[];
-  setSignatures: (signatures: string[]) => void;
-
-  addSignature: () => void;
-  updateSignature: (index: number, value: string) => void;
-  removeSignature: (index?: number) => void;
-}
+// Import types
+import { ISignatureStore } from '@/types';
 
 // Create the store
 const useSignatureStore = create<ISignatureStore>((set) => ({
@@ -26,7 +18,7 @@ const useSignatureStore = create<ISignatureStore>((set) => ({
       return { signatures };
     });
   },
-  removeSignature: (index?: number) => {
+  removeSignature: (index) => {
     if (index) {
       set((state) => ({
         signatures: state.signatures.filter((_, i) => i !== index),

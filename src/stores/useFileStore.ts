@@ -9,39 +9,8 @@ import isImageFile from '@/utils/isImageFile';
 import useEditorStore from './useEditorStore';
 import useWorkspaceStore from './useWorkspaceStore';
 import listAllFiles from '@/utils/listAllFiles';
-
-// Types for the store
-type TCurrentFile = string | null;
-
-// Interface for the store
-interface IFileStore {
-  files: any;
-  setFiles: (files: any) => void;
-  allFiles: string[];
-  setAllFiles: (files: string[]) => void;
-
-  refreshFiles: (workspace: string, loader?: boolean) => Promise<void>;
-  addFile: (path: string, data?: string) => Promise<void>;
-  addFolder: (path: string) => Promise<void>;
-  renameFile: (path: string, newPath: string) => Promise<void>;
-  saveFile: (path: string, data: string) => Promise<void>;
-  loadFile: (path: string) => Promise<void>;
-  deleteFile: (path: string) => Promise<void>;
-  deleteAllFiles: () => Promise<void>;
-  deleteFolder: (path: string) => Promise<void>;
-
-  currentFile: TCurrentFile;
-  setCurrentFile: (file: TCurrentFile) => void;
-  currentFolder: TCurrentFile;
-  setCurrentFolder: (folder: TCurrentFile) => void;
-
-  isLoadingFiles: boolean;
-  setIsLoadingFiles: (isLoadingFiles: boolean) => void;
-  isAddingFile: boolean;
-  setIsAddingFile: (isAddingFile: boolean) => void;
-  isFolder: boolean | null;
-  setIsFolder: (isFolder: boolean | null) => void;
-}
+// Import types
+import { IFileStore } from '@/types';
 
 // Create the store
 const useFileStore = create<IFileStore>((set, get) => ({

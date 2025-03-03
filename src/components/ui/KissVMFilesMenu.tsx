@@ -11,8 +11,10 @@ import {
 import { LuMenu, LuPenLine, LuPlus, LuTrash, LuTrash2 } from 'react-icons/lu';
 // Import components
 import useAppTheme from '@/themes/useAppTheme';
-import useModalStore, { EModalTypes } from '@/stores/useModalStore';
+import useModalStore from '@/stores/useModalStore';
 import useFileStore from '@/stores/useFileStore';
+// Import types
+import { EModalTypes } from '@/types';
 
 // Workspace menu item component
 function KissVMFilesMenuItem({

@@ -2,7 +2,9 @@
 import { Modal, ModalOverlay } from '@chakra-ui/react';
 import { useMemo } from 'react';
 // Import store
-import useModalStore, { EModalTypes } from '@/stores/useModalStore';
+import useModalStore from '@/stores/useModalStore';
+// Import types
+import { EModalTypes } from '@/types';
 // Import components
 import DeployedScripts from '../ui/modals/DeployedScripts';
 import FilesDeleteAll from '../ui/modals/FilesDeleteAll';

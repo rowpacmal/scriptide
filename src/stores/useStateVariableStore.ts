@@ -1,25 +1,12 @@
 // Import dependencies
 import { create } from 'zustand';
-
-// Types for the store
-type TVariables = { index: number; value: string }[];
-
-// Interface for the store
-interface IStateVariableStore {
-  stateVariables: TVariables;
-  setStateVariables: (stateVariables: TVariables) => void;
-
-  addStateVariable: () => void;
-  updateStateVariableKey: (index: number, value: string) => void;
-  updateStateVariableValue: (index: number, value: string) => void;
-  removeStateVariable: (index?: number) => void;
-  removeAllStateVariables: () => void;
-}
+// Import types
+import { IStateVariableStore } from '@/types';
 
 // Create the store
 const useStateVariableStore = create<IStateVariableStore>((set) => ({
   stateVariables: [],
-  setStateVariables: (stateVariables: TVariables) => set({ stateVariables }),
+  setStateVariables: (stateVariables) => set({ stateVariables }),
 
   addStateVariable: () => {
     set((state) => {
