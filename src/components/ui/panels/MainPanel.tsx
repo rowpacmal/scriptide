@@ -36,7 +36,7 @@ function NoOpenFile() {
   );
 }
 
-function CodeEditorPanel() {
+function MainPanel() {
   // Define refs
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const scrollContainerRef: any = useRef(null);
@@ -216,4 +216,4 @@ function CodeEditorPanel() {
   );
 }
 
-export default CodeEditorPanel;
+export default MainPanel;

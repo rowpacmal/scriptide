@@ -4,16 +4,18 @@
 import { Box, HStack } from '@chakra-ui/react';
 import { useEffect, useRef, useState } from 'react';
 import { Panel, PanelGroup, PanelResizeHandle } from 'react-resizable-panels';
-// Import components
-import Sidebar from '@/components/ui/Sidebar';
-import LeftSidePanel from '@/components/ui/LeftSidePanel';
-import Console from '@/components/ui/systems/Console';
-import CodeEditorHeader from '@/components/ui/CodeEditorHeader';
-import ConsoleHeader from '@/components/ui/ConsoleHeader';
-import LivePreview from '@/components/ui/LivePreview';
+// Import store
 import useLivePreviewStore from '@/stores/useLivePreviewStore';
-import CodeEditorPanel from '@/components/ui/panels/CodeEditorPanel';
+// Import themes
 import useAppTheme from '@/themes/useAppTheme';
+// Import components
+import Console from '@/components/ui/systems/Console';
+import ConsoleHeader from '@/components/ui/ConsoleHeader';
+import LeftSidePanel from '@/components/ui/LeftSidePanel';
+import LivePreview from '@/components/ui/LivePreview';
+import MainPanel from '@/components/ui/panels/MainPanel';
+import MainPanelHeader from '@/components/ui/MainPanelHeader';
+import Sidebar from '@/components/ui/Sidebar';
 
 // Utility component
 function PanelHandle({ direction }) {
@@ -158,13 +160,13 @@ function Content() {
               autoSaveId="panel-group-2"
               storage={localStorage}
             >
-              <CodeEditorHeader
+              <MainPanelHeader
                 isOverviewCollapsed={isOverviewCollapsed}
                 handelToggleOverview={handelToggleOverview}
               />
 
               <Panel collapsible={true} collapsedSize={0} minSize={15}>
-                <CodeEditorPanel />
+                <MainPanel />
               </Panel>
 
               <PanelHandle direction="horizontal" />
