@@ -8,7 +8,7 @@ import {
   RunScriptButton,
   SaveFileButtons,
   ZoomEditorButtons,
-} from './CodeEditorHeaderButtons';
+} from './MainPanelHeaderButtons';
 
 // Code editor header component
 function MainPanelHeader({ isOverviewCollapsed, handelToggleOverview }) {
