@@ -22,7 +22,7 @@ interface IWindow extends Window {
 export const appContext = createContext<IAppContext>({});
 
 // App provider component
-const AppProvider = ({ children }: IProps) => {
+function AppProvider({ children }: IProps) {
   // Define trycatch
   // This custom hook is not working as intended and needs to be fixed
   const tryCatch = useTryCatch();
@@ -55,7 +55,7 @@ const AppProvider = ({ children }: IProps) => {
 
   // Render
   return <appContext.Provider value={{}}>{children}</appContext.Provider>;
-};
+}
 
 // Export
 export default AppProvider;

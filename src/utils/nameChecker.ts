@@ -1,3 +1,5 @@
+// Unused utility function
+
 function nameChecker(list: string[], name: string) {
   let count = 0;
 

@@ -1,5 +1,5 @@
 // Parse comments utility function
-function parseComments(code) {
+function parseComments(code: string) {
   // Define states
   const terminator = null; // to hold the string terminator
   let escape = false; // last char was an escape
