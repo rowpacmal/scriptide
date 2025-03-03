@@ -17,8 +17,8 @@ class Response {
 }
 
 // Response handler utility function
-function responseHandler<T extends TMessage>(
-  msg: T | T[],
+function responseHandler(
+  msg: TMessage | TMessage[],
   resolve: TResolve,
   reject: TReject,
   genericError: string

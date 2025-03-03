@@ -1,5 +1,5 @@
 // Import types
-import { IWindow, TMessage } from '@/types';
+import { IWindow } from '@/types';
 // Import utilities
 import responseHandler from '../utils/responseHandler';
 
@@ -10,10 +10,10 @@ export const mds = (window as IWindow & typeof globalThis).MDS;
 const minima = {
   version: '0.0.1',
 
-  cmd: function <T extends TMessage>(command: string) {
+  cmd: function (command: string) {
     return new Promise((resolve, reject) => {
-      mds.cmd(command, (msg: T) => {
-        responseHandler<T>(
+      mds.cmd(command, (msg) => {
+        responseHandler(
           msg,
           resolve,
           reject,
