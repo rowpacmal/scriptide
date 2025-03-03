@@ -1,9 +1,9 @@
-// Import constants
-import { KISS_VM_LANGUAGE } from '@/constants';
+// Import types
+import { ELanguageTypes } from '@/types';
 
 // Language register config
 function hoverProvider(monaco) {
-  monaco.languages.registerHoverProvider(KISS_VM_LANGUAGE, {
+  monaco.languages.registerHoverProvider(ELanguageTypes.KISS_VM, {
     provideHover: (model, position) => {
       const word = model.getWordAtPosition(position);
       // console.log(word);

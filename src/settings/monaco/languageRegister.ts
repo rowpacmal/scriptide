@@ -1,10 +1,10 @@
-// Import constants
-import { KISS_VM_LANGUAGE } from '@/constants';
+// Import types
+import { ELanguageTypes } from '@/types';
 
 // Language register config
 function languageRegister(monaco) {
   monaco.languages.register({
-    id: KISS_VM_LANGUAGE,
+    id: ELanguageTypes.KISS_VM,
     extensions: ['.kvm', '.extra.kvm'],
   });
 }

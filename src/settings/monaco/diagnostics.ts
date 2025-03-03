@@ -1,5 +1,7 @@
-// Import constants
-import { KISS_VM_LANGUAGE } from '@/constants';
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
+// Import types
+import { ELanguageTypes } from '@/types';
 
 // Constants
 const LANGUAGE_CHECKER_ID = 'kvm';
@@ -7,7 +9,7 @@ const LANGUAGE_CHECKER_ID = 'kvm';
 // Language register config
 function diagnostics(monaco) {
   function validateCustomLangModel(model) {
-    if (!model || model.getLanguageId() !== KISS_VM_LANGUAGE) return;
+    if (!model || model.getLanguageId() !== ELanguageTypes.KISS_VM) return;
 
     const code = model.getValue();
     const markers: any = [];
@@ -66,7 +68,7 @@ function diagnostics(monaco) {
   }
 
   monaco.editor.onDidCreateModel((model) => {
-    if (model.getLanguageId() === KISS_VM_LANGUAGE) {
+    if (model.getLanguageId() === ELanguageTypes.KISS_VM) {
       validateCustomLangModel(model);
 
       model.onDidChangeContent(() => {

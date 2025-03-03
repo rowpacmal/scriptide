@@ -1,9 +1,9 @@
-// Import constants
-import { KISS_VM_LANGUAGE } from '@/constants';
+// Import types
+import { ELanguageTypes } from '@/types';
 
 // Language configuration config
 function languageConfiguration(monaco) {
-  monaco.languages.setLanguageConfiguration(KISS_VM_LANGUAGE, {
+  monaco.languages.setLanguageConfiguration(ELanguageTypes.KISS_VM, {
     brackets: [
       ['{', '}'],
       ['[', ']'],

@@ -34,9 +34,10 @@ import {
 } from 'react-icons/lu';
 // Import store
 import useExtraScriptStore from '@/stores/useExtraScriptStore';
-// Import constants
-import { KISS_VM_LANGUAGE } from '@/constants';
+// Import theme
 import useAppTheme from '@/themes/useAppTheme';
+// Import types
+import { ELanguageTypes } from '@/types';
 
 // Extra scripts component
 function ExtraScripts() {
@@ -261,7 +262,7 @@ function ExtraScripts() {
             <Editor
               height="100%"
               theme={editorTheme}
-              language={KISS_VM_LANGUAGE}
+              language={ELanguageTypes.KISS_VM}
               value={extraScripts[currentExtraScript].value}
               onChange={(value) => updateExtraScript(value || '')}
               options={{

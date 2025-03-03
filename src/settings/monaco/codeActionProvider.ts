@@ -1,11 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-// Import constants
-import { KISS_VM_LANGUAGE } from '@/constants';
+// Import types
+import { ELanguageTypes } from '@/types';
 
 // Language register config
 function codeActionProvider(monaco) {
-  monaco.languages.registerCodeActionProvider(KISS_VM_LANGUAGE, {
+  monaco.languages.registerCodeActionProvider(ELanguageTypes.KISS_VM, {
     provideCodeActions: (
       model,
       range

@@ -7,7 +7,7 @@ import useEditorStore from '@/stores/useEditorStore';
 import useFileStore from '@/stores/useFileStore';
 import useLivePreviewStore from '@/stores/useLivePreviewStore';
 // Import utilities
-import getExtension from '@/utils/getExtension';
+import getLanguageType from '@/utils/getLanguageType';
 import useAppTheme from '@/themes/useAppTheme';
 
 function CodeEditor({ file, code }) {
@@ -65,7 +65,7 @@ function CodeEditor({ file, code }) {
       <Editor
         height="100%"
         theme={editorTheme}
-        language={getExtension(file)}
+        language={getLanguageType(file)}
         onMount={handleOnMount}
         value={code}
         onChange={(value) => updateCode(file, value || '')}

@@ -1,9 +1,9 @@
-// Import constants
-import { KISS_VM_LANGUAGE } from '@/constants';
+// Import types
+import { ELanguageTypes } from '@/types';
 
 // Monarch token provider config
 function monarchTokensProvider(monaco) {
-  monaco.languages.setMonarchTokensProvider(KISS_VM_LANGUAGE, {
+  monaco.languages.setMonarchTokensProvider(ELanguageTypes.KISS_VM, {
     tokenizer: {
       root: [
         [/\/\*/, 'comment', '@comment'],

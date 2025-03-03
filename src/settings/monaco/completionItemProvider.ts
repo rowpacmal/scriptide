@@ -1,9 +1,9 @@
-// Import constants
-import { KISS_VM_LANGUAGE } from '@/constants';
+// Import types
+import { ELanguageTypes } from '@/types';
 
 // Completion item provider config
 function completionItemProvider(monaco) {
-  monaco.languages.registerCompletionItemProvider(KISS_VM_LANGUAGE, {
+  monaco.languages.registerCompletionItemProvider(ELanguageTypes.KISS_VM, {
     provideCompletionItems: (model, position) => {
       // Get word under cursor
       const word = model.getWordAtPosition(position);
@@ -354,7 +354,7 @@ function completionItemProvider(monaco) {
               documentation: {
                 value:
                   '```' +
-                  KISS_VM_LANGUAGE +
+                  ELanguageTypes.KISS_VM +
                   '\nFUNC ( value: any )\n\t=> returnvalue: any\n```',
               },
             },
@@ -371,7 +371,7 @@ function completionItemProvider(monaco) {
               documentation: {
                 value:
                   '```' +
-                  KISS_VM_LANGUAGE +
+                  ELanguageTypes.KISS_VM +
                   '\nADDRESS ( script: script )\n\t=> returnvalue: hex\n```',
               },
             },
@@ -387,7 +387,7 @@ function completionItemProvider(monaco) {
               documentation: {
                 value:
                   '```' +
-                  KISS_VM_LANGUAGE +
+                  ELanguageTypes.KISS_VM +
                   '\nSETLEN (\n\tlength: number\n\thex: hex\n)\n\t=> returnvalue: hex\n```',
               },
             },
@@ -404,7 +404,7 @@ function completionItemProvider(monaco) {
               documentation: {
                 value:
                   '```' +
-                  KISS_VM_LANGUAGE +
+                  ELanguageTypes.KISS_VM +
                   '\nSHA2 ( value: hex | string )\n\t=> returnvalue: hex\n```',
               },
             },
@@ -419,7 +419,7 @@ function completionItemProvider(monaco) {
               documentation: {
                 value:
                   '```' +
-                  KISS_VM_LANGUAGE +
+                  ELanguageTypes.KISS_VM +
                   '\nSHA3 ( value: hex | string )\n\t=> returnvalue: hex\n```',
               },
             },
@@ -436,7 +436,7 @@ function completionItemProvider(monaco) {
               documentation: {
                 value:
                   '```' +
-                  KISS_VM_LANGUAGE +
+                  ELanguageTypes.KISS_VM +
                   '\nCONCAT (\n\thexone: hex\n\thextwo: hex\n\t...\n\thexnumber?: hex\n)\n\t=> returnvalue: hex\n```',
               },
             },
@@ -453,7 +453,7 @@ function completionItemProvider(monaco) {
               documentation: {
                 value:
                   '```' +
-                  KISS_VM_LANGUAGE +
+                  ELanguageTypes.KISS_VM +
                   '\nOVERWRITE (\n\thexone: hex\n\tposone: number\n\thextwo: hex\n\tpostwo: number\n\tlength: number\n)\n\t=> returnvalue: hex\n```',
               },
             },
@@ -468,7 +468,7 @@ function completionItemProvider(monaco) {
               documentation: {
                 value:
                   '```' +
-                  KISS_VM_LANGUAGE +
+                  ELanguageTypes.KISS_VM +
                   '\nLEN ( value: hex | string )\n\t=> returnvalue: number\n```',
               },
             },
@@ -483,7 +483,7 @@ function completionItemProvider(monaco) {
               documentation: {
                 value:
                   '```' +
-                  KISS_VM_LANGUAGE +
+                  ELanguageTypes.KISS_VM +
                   '\nREV ( hex: hex )\n\t=> returnvalue: hex\n```',
               },
             },
@@ -499,7 +499,7 @@ function completionItemProvider(monaco) {
               documentation: {
                 value:
                   '```' +
-                  KISS_VM_LANGUAGE +
+                  ELanguageTypes.KISS_VM +
                   '\nSUBSET (\n\tstart: number\n\tlength: number\n\thex: hex\n)\n\t=> returnvalue: hex\n```',
               },
             },
@@ -515,7 +515,7 @@ function completionItemProvider(monaco) {
               documentation: {
                 value:
                   '```' +
-                  KISS_VM_LANGUAGE +
+                  ELanguageTypes.KISS_VM +
                   '\nREPLACE (\n\tstring: string\n\treplace: string\n\twith: string\n)\n\t=> returnvalue: string\n```',
               },
             },
@@ -531,7 +531,7 @@ function completionItemProvider(monaco) {
               documentation: {
                 value:
                   '```' +
-                  KISS_VM_LANGUAGE +
+                  ELanguageTypes.KISS_VM +
                   '\nSUBSTR (\n\tstart: number\n\tlength: number\n\tstring: string\n)\n\t=> returnvalue: string\n```',
               },
             },
@@ -548,7 +548,7 @@ function completionItemProvider(monaco) {
               documentation: {
                 value:
                   '```' +
-                  KISS_VM_LANGUAGE +
+                  ELanguageTypes.KISS_VM +
                   '\nGET (\n\tindex: number\n\t...\n\tindexnumber?: number\n)\n\t=> returnvalue: any\n```',
               },
             },
@@ -564,7 +564,7 @@ function completionItemProvider(monaco) {
               documentation: {
                 value:
                   '```' +
-                  KISS_VM_LANGUAGE +
+                  ELanguageTypes.KISS_VM +
                   '\nEXISTS (\n\tindex: number\n\t...\n\tindexnumber?: number\n)\n\t=> returnvalue: boolean\n```',
               },
             },
@@ -581,7 +581,7 @@ function completionItemProvider(monaco) {
               documentation: {
                 value:
                   '```' +
-                  KISS_VM_LANGUAGE +
+                  ELanguageTypes.KISS_VM +
                   '\nBOOL ( value: any )\n\t=> returnvalue: boolean\n```',
               },
             },
@@ -596,7 +596,7 @@ function completionItemProvider(monaco) {
               documentation: {
                 value:
                   '```' +
-                  KISS_VM_LANGUAGE +
+                  ELanguageTypes.KISS_VM +
                   '\nHEX ( value: any )\n\t=> returnvalue: hex\n```',
               },
             },
@@ -611,7 +611,7 @@ function completionItemProvider(monaco) {
               documentation: {
                 value:
                   '```' +
-                  KISS_VM_LANGUAGE +
+                  ELanguageTypes.KISS_VM +
                   '\nNUMBER ( hex: hex )\n\t=> returnvalue: number\n```',
               },
             },
@@ -626,7 +626,7 @@ function completionItemProvider(monaco) {
               documentation: {
                 value:
                   '```' +
-                  KISS_VM_LANGUAGE +
+                  ELanguageTypes.KISS_VM +
                   '\nSTRING ( value: any )\n\t=> returnvalue: string\n```',
               },
             },
@@ -642,7 +642,7 @@ function completionItemProvider(monaco) {
               documentation: {
                 value:
                   '```' +
-                  KISS_VM_LANGUAGE +
+                  ELanguageTypes.KISS_VM +
                   '\nUTF8 ( hex: hex )\n\t=> returnvalue: string\n```',
               },
             },
@@ -658,7 +658,7 @@ function completionItemProvider(monaco) {
               documentation: {
                 value:
                   '```' +
-                  KISS_VM_LANGUAGE +
+                  ELanguageTypes.KISS_VM +
                   '\nASCII ( hex: hex )\n\t=> returnvalue: string\n```',
               },
             },
@@ -675,7 +675,7 @@ function completionItemProvider(monaco) {
               documentation: {
                 value:
                   '```' +
-                  KISS_VM_LANGUAGE +
+                  ELanguageTypes.KISS_VM +
                   '\nABS ( number: number )\n\t=> returnvalue: number\n```',
               },
             },
@@ -690,7 +690,7 @@ function completionItemProvider(monaco) {
               documentation: {
                 value:
                   '```' +
-                  KISS_VM_LANGUAGE +
+                  ELanguageTypes.KISS_VM +
                   '\nCEIL ( number: number )\n\t=> returnvalue: number\n```',
               },
             },
@@ -705,7 +705,7 @@ function completionItemProvider(monaco) {
               documentation: {
                 value:
                   '```' +
-                  KISS_VM_LANGUAGE +
+                  ELanguageTypes.KISS_VM +
                   '\nFLOOR ( number: number )\n\t=> returnvalue: number\n```',
               },
             },
@@ -720,7 +720,7 @@ function completionItemProvider(monaco) {
               documentation: {
                 value:
                   '```' +
-                  KISS_VM_LANGUAGE +
+                  ELanguageTypes.KISS_VM +
                   '\nMIN (\n\tnumberone: number\n\tnumbertwo: number\n)\n\t=> returnvalue: number\n```',
               },
             },
@@ -735,7 +735,7 @@ function completionItemProvider(monaco) {
               documentation: {
                 value:
                   '```' +
-                  KISS_VM_LANGUAGE +
+                  ELanguageTypes.KISS_VM +
                   '\nMAX (\n\tnumberone: number\n\tnumbertwo: number\n)\n\t=> returnvalue: number\n```',
               },
             },
@@ -750,7 +750,7 @@ function completionItemProvider(monaco) {
               documentation: {
                 value:
                   '```' +
-                  KISS_VM_LANGUAGE +
+                  ELanguageTypes.KISS_VM +
                   '\nINC ( number: number )\n\t=> returnvalue: number\n```',
               },
             },
@@ -765,7 +765,7 @@ function completionItemProvider(monaco) {
               documentation: {
                 value:
                   '```' +
-                  KISS_VM_LANGUAGE +
+                  ELanguageTypes.KISS_VM +
                   '\nDEC ( number: number )\n\t=> returnvalue: number\n```',
               },
             },
@@ -781,7 +781,7 @@ function completionItemProvider(monaco) {
               documentation: {
                 value:
                   '```' +
-                  KISS_VM_LANGUAGE +
+                  ELanguageTypes.KISS_VM +
                   '\nPOW (\n\tpower: number\n\tnumber: number\n)\n\t=> returnvalue: number\n```',
               },
             },
@@ -796,7 +796,7 @@ function completionItemProvider(monaco) {
               documentation: {
                 value:
                   '```' +
-                  KISS_VM_LANGUAGE +
+                  ELanguageTypes.KISS_VM +
                   '\nSQRT ( number: number )\n\t=> returnvalue: number\n```',
               },
             },
@@ -811,7 +811,7 @@ function completionItemProvider(monaco) {
               documentation: {
                 value:
                   '```' +
-                  KISS_VM_LANGUAGE +
+                  ELanguageTypes.KISS_VM +
                   '\nSIGDIG (\n\tdigits: number\n\tnumber: number\n)\n\t=> returnvalue: number\n```',
               },
             },
@@ -829,7 +829,7 @@ function completionItemProvider(monaco) {
               documentation: {
                 value:
                   '```' +
-                  KISS_VM_LANGUAGE +
+                  ELanguageTypes.KISS_VM +
                   '\nBITSET (\n\thex: hex\n\tpos: number\n\tonoff: boolean\n)\n\t=> returnvalue: hex\n```',
               },
             },
@@ -845,7 +845,7 @@ function completionItemProvider(monaco) {
               documentation: {
                 value:
                   '```' +
-                  KISS_VM_LANGUAGE +
+                  ELanguageTypes.KISS_VM +
                   '\nBITGET (\n\thex: hex\n\tpos: number\n)\n\t=> returnvalue: boolean\n```',
               },
             },
@@ -860,7 +860,7 @@ function completionItemProvider(monaco) {
               documentation: {
                 value:
                   '```' +
-                  KISS_VM_LANGUAGE +
+                  ELanguageTypes.KISS_VM +
                   '\nBITCOUNT ( hex: hex )\n\t=> returnvalue: number\n```',
               },
             },
@@ -878,7 +878,7 @@ function completionItemProvider(monaco) {
               documentation: {
                 value:
                   '```' +
-                  KISS_VM_LANGUAGE +
+                  ELanguageTypes.KISS_VM +
                   '\nSIGNEDBY ( publickey: hex )\n\t=> returnvalue: boolean\n```',
               },
             },
@@ -895,7 +895,7 @@ function completionItemProvider(monaco) {
               documentation: {
                 value:
                   '```' +
-                  KISS_VM_LANGUAGE +
+                  ELanguageTypes.KISS_VM +
                   '\nMULTISIG (\n\trequired: number\n\tpublickeyone: hex\n\tpublickeytwo: hex\n\t...\n\tpublickeynumber?: hex\n)\n\t=> returnvalue: boolean\n```',
               },
             },
@@ -910,7 +910,7 @@ function completionItemProvider(monaco) {
               documentation: {
                 value:
                   '```' +
-                  KISS_VM_LANGUAGE +
+                  ELanguageTypes.KISS_VM +
                   '\nCHECKSIG (\n\tpublickey: hex\n\tdata: hex\n\tsignature: hex\n)\n\t=> returnvalue: boolean\n```',
               },
             },
@@ -929,7 +929,7 @@ function completionItemProvider(monaco) {
               documentation: {
                 value:
                   '```' +
-                  KISS_VM_LANGUAGE +
+                  ELanguageTypes.KISS_VM +
                   '\nPROOF (\n\tdata: hex | string\n\tproofval: number\n\tproof: hex\n\trootval: number\n\troot: hex\n)\n\t=> returnvalue: boolean\n```',
               },
             },
@@ -948,7 +948,7 @@ function completionItemProvider(monaco) {
               documentation: {
                 value:
                   '```' +
-                  KISS_VM_LANGUAGE +
+                  ELanguageTypes.KISS_VM +
                   '\nVERIFYIN (\n\tindex: number\n\taddress: hex\n\tamount: number\n\ttokenid: hex\n)\n\t=> returnvalue: boolean\n```',
               },
             },
@@ -964,7 +964,7 @@ function completionItemProvider(monaco) {
               documentation: {
                 value:
                   '```' +
-                  KISS_VM_LANGUAGE +
+                  ELanguageTypes.KISS_VM +
                   '\nSUMINPUTS ( tokenid: hex )\n\t=> returnvalue: number\n```',
               },
             },
@@ -979,7 +979,7 @@ function completionItemProvider(monaco) {
               documentation: {
                 value:
                   '```' +
-                  KISS_VM_LANGUAGE +
+                  ELanguageTypes.KISS_VM +
                   '\nGETINADDR ( index: number )\n\t=> returnvalue: hex\n```',
               },
             },
@@ -994,7 +994,7 @@ function completionItemProvider(monaco) {
               documentation: {
                 value:
                   '```' +
-                  KISS_VM_LANGUAGE +
+                  ELanguageTypes.KISS_VM +
                   '\nGETINAMT ( index: number )\n\t=> returnvalue: number\n```',
               },
             },
@@ -1009,7 +1009,7 @@ function completionItemProvider(monaco) {
               documentation: {
                 value:
                   '```' +
-                  KISS_VM_LANGUAGE +
+                  ELanguageTypes.KISS_VM +
                   '\nGETINTOK ( index: number )\n\t=> returnvalue: hex\n```',
               },
             },
@@ -1024,7 +1024,7 @@ function completionItemProvider(monaco) {
               documentation: {
                 value:
                   '```' +
-                  KISS_VM_LANGUAGE +
+                  ELanguageTypes.KISS_VM +
                   '\nGETINID ( value: unknown )\n\t=> returnvalue: unknown\n```',
               },
             },
@@ -1043,7 +1043,7 @@ function completionItemProvider(monaco) {
               documentation: {
                 value:
                   '```' +
-                  KISS_VM_LANGUAGE +
+                  ELanguageTypes.KISS_VM +
                   '\nVERIFYOUT (\n\tindex: number\n\taddress: hex\n\tamount: number\n\ttokenid: hex\n\tkeepstate: boolean\n)\n\t=> returnvalue: boolean\n```',
               },
             },
@@ -1059,7 +1059,7 @@ function completionItemProvider(monaco) {
               documentation: {
                 value:
                   '```' +
-                  KISS_VM_LANGUAGE +
+                  ELanguageTypes.KISS_VM +
                   '\nSUMOUTPUTS ( tokenid: hex )\n\t=> returnvalue: number\n```',
               },
             },
@@ -1074,7 +1074,7 @@ function completionItemProvider(monaco) {
               documentation: {
                 value:
                   '```' +
-                  KISS_VM_LANGUAGE +
+                  ELanguageTypes.KISS_VM +
                   '\nGETOUTADDR ( index: number )\n\t=> returnvalue: hex\n```',
               },
             },
@@ -1089,7 +1089,7 @@ function completionItemProvider(monaco) {
               documentation: {
                 value:
                   '```' +
-                  KISS_VM_LANGUAGE +
+                  ELanguageTypes.KISS_VM +
                   '\nGETOUTAMT ( index: number )\n\t=> returnvalue: number\n```',
               },
             },
@@ -1105,7 +1105,7 @@ function completionItemProvider(monaco) {
               documentation: {
                 value:
                   '```' +
-                  KISS_VM_LANGUAGE +
+                  ELanguageTypes.KISS_VM +
                   '\nGETOUTTOK ( index: number )\n\t=> returnvalue: hex\n```',
               },
             },
@@ -1121,7 +1121,7 @@ function completionItemProvider(monaco) {
               documentation: {
                 value:
                   '```' +
-                  KISS_VM_LANGUAGE +
+                  ELanguageTypes.KISS_VM +
                   '\nGETOUTKEEPSTATE ( index: number )\n\t=> returnvalue: boolean\n```',
               },
             },
@@ -1138,7 +1138,7 @@ function completionItemProvider(monaco) {
               documentation: {
                 value:
                   '```' +
-                  KISS_VM_LANGUAGE +
+                  ELanguageTypes.KISS_VM +
                   '\nSTATE ( index: number )\n\t=> returnvalue: any\n```',
               },
             },
@@ -1154,7 +1154,7 @@ function completionItemProvider(monaco) {
               documentation: {
                 value:
                   '```' +
-                  KISS_VM_LANGUAGE +
+                  ELanguageTypes.KISS_VM +
                   '\nPREVSTATE ( index: number )\n\t=> returnvalue: any\n```',
               },
             },
@@ -1170,7 +1170,7 @@ function completionItemProvider(monaco) {
               documentation: {
                 value:
                   '```' +
-                  KISS_VM_LANGUAGE +
+                  ELanguageTypes.KISS_VM +
                   '\nSAMESTATE (\n\tstartindex: number\n\tendindex: number\n)\n\t=> returnvalue: boolean\n```',
               },
             },
@@ -1188,9 +1188,9 @@ function completionItemProvider(monaco) {
               documentation: {
                 value:
                   '```' +
-                  KISS_VM_LANGUAGE +
+                  ELanguageTypes.KISS_VM +
                   '\nFUNCTION (\n\tscript: script\n\tparamone: any\n\tparamtwo: any\n\t...\n\tparamnumber: any\n)\n\t=> returnvalue: any\n\n\n```\n---\n```' +
-                  KISS_VM_LANGUAGE +
+                  ELanguageTypes.KISS_VM +
                   '\n\nLET result = FUNCTION ( $[\n\tLET x = $1 /* 5 */\n\tLET y = $2 /* 3 */\n\tLET returnvalue = x + y /* 5 + 3 */\n] 5 3 )\n\t=> { result: 8 }\n```',
                 isTrusted: true,
               },
@@ -1206,7 +1206,7 @@ function completionItemProvider(monaco) {
               range: range,
               detail: 'Add a comment to the script',
               documentation: {
-                value: '```' + KISS_VM_LANGUAGE + '\n/* comment */\n```',
+                value: '```' + ELanguageTypes.KISS_VM + '\n/* comment */\n```',
               },
             },
             {
@@ -1219,7 +1219,9 @@ function completionItemProvider(monaco) {
               detail: 'Create a variable',
               documentation: {
                 value:
-                  '```' + KISS_VM_LANGUAGE + '\nLET name = value: any\n```',
+                  '```' +
+                  ELanguageTypes.KISS_VM +
+                  '\nLET name = value: any\n```',
               },
             },
             {
@@ -1232,7 +1234,9 @@ function completionItemProvider(monaco) {
               detail: 'Create a hex variable',
               documentation: {
                 value:
-                  '```' + KISS_VM_LANGUAGE + '\nLET name = value: hex\n```',
+                  '```' +
+                  ELanguageTypes.KISS_VM +
+                  '\nLET name = value: hex\n```',
               },
             },
             {
@@ -1245,7 +1249,9 @@ function completionItemProvider(monaco) {
               detail: 'Create a number variable',
               documentation: {
                 value:
-                  '```' + KISS_VM_LANGUAGE + '\nLET name = value: number\n```',
+                  '```' +
+                  ELanguageTypes.KISS_VM +
+                  '\nLET name = value: number\n```',
               },
             },
             {
@@ -1258,7 +1264,9 @@ function completionItemProvider(monaco) {
               detail: 'Create a string variable',
               documentation: {
                 value:
-                  '```' + KISS_VM_LANGUAGE + '\nLET name = value: string\n```',
+                  '```' +
+                  ELanguageTypes.KISS_VM +
+                  '\nLET name = value: string\n```',
               },
             },
             {
@@ -1271,7 +1279,9 @@ function completionItemProvider(monaco) {
               detail: 'Create a script variable',
               documentation: {
                 value:
-                  '```' + KISS_VM_LANGUAGE + '\nLET name = value: script\n```',
+                  '```' +
+                  ELanguageTypes.KISS_VM +
+                  '\nLET name = value: script\n```',
               },
             },
             {
@@ -1284,7 +1294,9 @@ function completionItemProvider(monaco) {
               detail: 'Create a boolean variable',
               documentation: {
                 value:
-                  '```' + KISS_VM_LANGUAGE + '\nLET name = value: boolean\n```',
+                  '```' +
+                  ELanguageTypes.KISS_VM +
+                  '\nLET name = value: boolean\n```',
               },
             },
             {
@@ -1297,7 +1309,9 @@ function completionItemProvider(monaco) {
               detail: 'Create a function variable',
               documentation: {
                 value:
-                  '```' + KISS_VM_LANGUAGE + '\nLET name = value: any\n```',
+                  '```' +
+                  ELanguageTypes.KISS_VM +
+                  '\nLET name = value: any\n```',
               },
             },
             {
@@ -1311,7 +1325,7 @@ function completionItemProvider(monaco) {
               documentation: {
                 value:
                   '```' +
-                  KISS_VM_LANGUAGE +
+                  ELanguageTypes.KISS_VM +
                   '\nLET (\n\tindex: number\n\t...\n\tindexnumber?: number\n) = value: any\n```',
               },
             },
@@ -1326,7 +1340,7 @@ function completionItemProvider(monaco) {
               documentation: {
                 value:
                   '```' +
-                  KISS_VM_LANGUAGE +
+                  ELanguageTypes.KISS_VM +
                   '\nIF condition: boolean THEN\n\tblock: script\nENDIF\n```',
               },
             },
@@ -1342,7 +1356,7 @@ function completionItemProvider(monaco) {
               documentation: {
                 value:
                   '```' +
-                  KISS_VM_LANGUAGE +
+                  ELanguageTypes.KISS_VM +
                   '\nIF condition: boolean THEN\n\tblock: script\nELSE\n\tblock: script\nENDIF\n```',
               },
             },
@@ -1358,7 +1372,7 @@ function completionItemProvider(monaco) {
               documentation: {
                 value:
                   '```' +
-                  KISS_VM_LANGUAGE +
+                  ELanguageTypes.KISS_VM +
                   '\nIF condition: boolean THEN\n\tblock: script\nELSEIF condition: boolean THEN\n\tblock: script\nELSE\n\tblock: script\nENDIF\n```',
               },
             },
@@ -1373,7 +1387,7 @@ function completionItemProvider(monaco) {
               documentation: {
                 value:
                   '```' +
-                  KISS_VM_LANGUAGE +
+                  ELanguageTypes.KISS_VM +
                   '\nWHILE condition: boolean DO\n\tblock: script\nENDWHILE\n```',
               },
             },
@@ -1388,7 +1402,7 @@ function completionItemProvider(monaco) {
               documentation: {
                 value:
                   '```' +
-                  KISS_VM_LANGUAGE +
+                  ELanguageTypes.KISS_VM +
                   '\nWHILE condition: boolean DO\n\tblock: script\nENDWHILE\n```',
               },
             },
