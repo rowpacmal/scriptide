@@ -49,20 +49,6 @@ interface IEditorStore {
   setEditorAutoSave: (editorAutoSave: boolean) => void;
   toggleEditorAutoSave: () => void;
 }
-interface IExtraScriptStore {
-  extraScripts: TExtraScript;
-  setExtraScripts: (extraScripts: TExtraScript) => void;
-
-  addExtraScript: () => void;
-  renameExtraScript: (newName: string) => void;
-  updateExtraScript: (value: string) => void;
-  clearExtraScripts: () => void;
-  deleteExtraScript: () => void;
-  deleteAllExtraScripts: () => void;
-
-  currentExtraScript: number;
-  setCurrentExtraScript: (currentExtraScript: number) => void;
-}
 interface IFileStore {
   files: TFile[];
   setFiles: (files: TFile[]) => void;
@@ -207,7 +193,6 @@ type TAllCodes = { file: string; code: TCode; isImg: boolean };
 type TCode = string | null;
 type TCurrentFile = string | null;
 type TCurrentWorkspace = string | null;
-type TExtraScript = { name: string; value: string }[];
 type TGlobals = {
   '@ADDRESS': string | null;
   '@BLOCK': string;
@@ -241,7 +226,6 @@ export type {
   IConsoleStore,
   IDeploymentStore,
   IEditorStore,
-  IExtraScriptStore,
   IFileStore,
   IGlobalVariableStore,
   ILivePreviewStore,
@@ -258,7 +242,6 @@ export type {
   TCode,
   TCurrentFile,
   TCurrentWorkspace,
-  TExtraScript,
   TGlobals,
   TModalType,
   TModalProps,
