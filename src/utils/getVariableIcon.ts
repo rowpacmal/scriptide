@@ -9,7 +9,7 @@ import {
 } from 'react-icons/lu';
 // Import types
 import { IconType } from 'react-icons/lib';
-import { EVariableTypes } from './getVariableType';
+import { EVariableTypes } from '@/types';
 
 // Define function
 function getVariableIcon(type: EVariableTypes): IconType {

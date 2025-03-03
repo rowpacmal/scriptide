@@ -8,15 +8,8 @@
  * @returns
  */
 
-// Enum for the types
-export enum EVariableTypes {
-  HEX = 'hex',
-  NUMBER = 'number',
-  SCRIPT = 'script',
-  BOOLEAN = 'boolean',
-  STRING = 'string',
-  UNKNOWN = 'unknown',
-}
+// Import types
+import { EVariableTypes } from '@/types';
 
 function getVariableType(value: string): EVariableTypes {
   switch (true) {
