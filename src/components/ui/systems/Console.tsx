@@ -4,6 +4,7 @@ import { Editor } from '@monaco-editor/react';
 import useEditorStore from '@/stores/useEditorStore';
 import useConsoleStore from '@/stores/useConsoleStore';
 import useAppTheme from '@/themes/useAppTheme';
+import { mds } from '@/lib/minima';
 
 // Console component
 function Console() {
@@ -50,7 +51,7 @@ function Console() {
       onKeyDown={async (e) => {
         if (userInput && e.key === 'Enter') {
           const result = await new Promise((resolve) => {
-            (window as any).MDS.cmd(userInput.trim(), (msg: any) => {
+            mds.cmd(userInput.trim(), (msg: any) => {
               resolve(msg);
             });
           });

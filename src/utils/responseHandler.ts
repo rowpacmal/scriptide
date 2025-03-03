@@ -17,8 +17,8 @@ class Response {
 }
 
 // Response handler utility function
-function responseHandler(
-  msg: TMessage | TMessage[],
+function responseHandler<T extends TMessage>(
+  msg: T | T[],
   resolve: TResolve,
   reject: TReject,
   genericError: string
@@ -29,7 +29,7 @@ function responseHandler(
       let success = true;
       let error = '';
 
-      msg.forEach((r: TMessage) => {
+      msg.forEach((r) => {
         if (!r.status) {
           success = false;
           error = r.error;

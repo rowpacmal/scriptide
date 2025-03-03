@@ -8,7 +8,7 @@ import { IDeploymentStore, TScript } from '@/types';
 // Create the store
 const useDeploymentStore = create<IDeploymentStore>((set, get) => ({
   deployedScripts: [],
-  setDeployedScripts: (scripts: string[]) => set({ deployedScripts: scripts }),
+  setDeployedScripts: (scripts) => set({ deployedScripts: scripts }),
 
   getAllScripts: async () => {
     const deployedScripts = (await minima.cmd('scripts')).response
@@ -23,20 +23,20 @@ const useDeploymentStore = create<IDeploymentStore>((set, get) => ({
         }
       })
       .reverse();
-
     // console.log(deployedScripts);
 
     set({ deployedScripts });
   },
+  // Get single script - not yet implemented.
   getScript: async () => {},
-  deployScript: async (script: string, trackall: boolean, clean: boolean) => {
+  deployScript: async (script, trackall, clean) => {
     await minima.cmd(
       `newscript trackall:${trackall} clean:${clean} script:"${script}"`
     );
 
     get().getAllScripts();
   },
-  removeScript: async (address: string) => {
+  removeScript: async (address) => {
     await minima.cmd(`removescript address:${address}`);
 
     get().getAllScripts();

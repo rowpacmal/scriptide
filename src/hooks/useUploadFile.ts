@@ -1,6 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-
-import minima from '@/lib/minima';
+import minima, { mds } from '@/lib/minima';
 import useFileStore from '@/stores/useFileStore';
 import useWorkspaceStore from '@/stores/useWorkspaceStore';
 import { useToast } from '@chakra-ui/react';
@@ -66,7 +64,7 @@ function useUploadFile(fileInput: any) {
 
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
-        (window as any).MDS.file.upload(file, async function (resp) {
+        mds.file.upload(file, async function (resp) {
           if (resp.allchunks >= 10) {
             setProgress(resp.chunk / resp.allchunks);
           }

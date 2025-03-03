@@ -28,6 +28,34 @@ const CONSOLE_DEFAULT_CLEARED = [
   '',
 ];
 
+const DEFAULT_DAPP_CONFIG = {
+  name: 'Name',
+  icon: 'icon.png',
+  version: '0.0.0',
+  description: 'Description',
+  browser: 'internal',
+  category: 'Category',
+};
+
+const DEFAULT_EDITOR_THEME_DARK = 'minima-dark';
+const DEFAULT_EDITOR_THEME_LIGHT = 'minima-light';
+
+const DEFAULT_LOCAL_STORAGE_KEYS = {
+  globalsAccordionIndex: 'globals-accordion-index',
+  settingsPanelAccordionIndex: 'settings-panel-accordion-index',
+  deployBuildPanelAccordionIndex: 'deploy-build-panel-accordion-index',
+  kissVMPanelAccordionIndex: 'kiss-vm-panel-accordion-index',
+  fileExplorerExpanded: 'file-explorer-expanded',
+  storedWorkspace: 'stored-workspace',
+};
+
+const DEFAULT_PLACEHOLDERS = {
+  zip: 'Enter zip name here',
+  workspace: 'Enter workspace name here',
+  confirm: 'Enter confirm text here',
+  value: 'Enter value here',
+};
+
 const GLOBALS_DEFAULT_OBJECT = {
   '@ADDRESS': null, // This is read only field
   '@BLOCK': '',
@@ -52,42 +80,14 @@ const NAVIGATION_LABELS = {
   settings: 'Settings',
 };
 
-const DEFAULT_EDITOR_THEME_DARK = 'minima-dark';
-const DEFAULT_EDITOR_THEME_LIGHT = 'minima-light';
-
-const DEFAULT_DAPP_CONFIG = {
-  name: 'Name',
-  icon: 'icon.png',
-  version: '0.0.0',
-  description: 'Description',
-  browser: 'internal',
-  category: 'Category',
-};
-
-const DEFAULT_PLACEHOLDERS = {
-  zip: 'Enter zip name here',
-  workspace: 'Enter workspace name here',
-  confirm: 'Enter confirm text here',
-  value: 'Enter value here',
-};
-
-const DEFAULT_LOCAL_STORAGE_KEYS = {
-  globalsAccordionIndex: 'globals-accordion-index',
-  settingsPanelAccordionIndex: 'settings-panel-accordion-index',
-  deployBuildPanelAccordionIndex: 'deploy-build-panel-accordion-index',
-  kissVMPanelAccordionIndex: 'kiss-vm-panel-accordion-index',
-  fileExplorerExpanded: 'file-explorer-expanded',
-  storedWorkspace: 'stored-workspace',
-};
-
 export {
   CONSOLE_DEFAULT,
   CONSOLE_DEFAULT_CLEARED,
-  GLOBALS_DEFAULT_OBJECT,
-  NAVIGATION_LABELS,
+  DEFAULT_DAPP_CONFIG,
   DEFAULT_EDITOR_THEME_DARK,
   DEFAULT_EDITOR_THEME_LIGHT,
-  DEFAULT_DAPP_CONFIG,
-  DEFAULT_PLACEHOLDERS,
   DEFAULT_LOCAL_STORAGE_KEYS,
+  DEFAULT_PLACEHOLDERS,
+  GLOBALS_DEFAULT_OBJECT,
+  NAVIGATION_LABELS,
 };

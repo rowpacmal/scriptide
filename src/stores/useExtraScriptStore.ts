@@ -1,13 +1,18 @@
+/**
+ * This store is not used and was replaced by a new system, and may be removed
+ * in the future if it persists to be unused.
+ */
+
 // Import dependencies
 import { create } from 'zustand';
 // Import types
-import { IExtraScriptStore, ILocalStorage, TExtraScript } from '@/types';
+import { IExtraScriptStore, ILocalStorage } from '@/types';
 
 // Create the store
 const useExtraScriptStore = create<IExtraScriptStore>((set) => ({
   extraScripts:
     JSON.parse((localStorage as ILocalStorage).getItem('extra-scripts')) || [],
-  setExtraScripts: (extraScripts: TExtraScript) => set({ extraScripts }),
+  setExtraScripts: (extraScripts) => set({ extraScripts }),
 
   addExtraScript: () =>
     set((state) => {
@@ -21,14 +26,14 @@ const useExtraScriptStore = create<IExtraScriptStore>((set) => ({
 
       return { extraScripts: [...extraScripts, newScript] };
     }),
-  renameExtraScript: (newName: string) =>
+  renameExtraScript: (newName) =>
     set((state) => {
       const extraScripts = [...state.extraScripts];
       extraScripts[state.currentExtraScript].name = newName;
 
       return { extraScripts };
     }),
-  updateExtraScript: (value: string) =>
+  updateExtraScript: (value) =>
     set((state) => {
       const extraScripts = [...state.extraScripts];
       extraScripts[state.currentExtraScript].value = value;
@@ -62,8 +67,7 @@ const useExtraScriptStore = create<IExtraScriptStore>((set) => ({
   },
 
   currentExtraScript: Number(localStorage.getItem('active-extra-script')) || 0,
-  setCurrentExtraScript: (currentExtraScript: number) =>
-    set({ currentExtraScript }),
+  setCurrentExtraScript: (currentExtraScript) => set({ currentExtraScript }),
 }));
 
 // Export the store

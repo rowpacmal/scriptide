@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 // Import dependencies
 import { create } from 'zustand';
 // Import libraries
@@ -10,7 +9,7 @@ import useEditorStore from './useEditorStore';
 import useWorkspaceStore from './useWorkspaceStore';
 import listAllFiles from '@/utils/listAllFiles';
 // Import types
-import { IFileStore } from '@/types';
+import { IFileStore, TFile } from '@/types';
 
 // Create the store
 const useFileStore = create<IFileStore>((set, get) => ({
@@ -19,14 +18,14 @@ const useFileStore = create<IFileStore>((set, get) => ({
   allFiles: [],
   setAllFiles: (files) => set({ allFiles: files }),
 
-  refreshFiles: async (workspace: string, loader: boolean = true) => {
+  refreshFiles: async (workspace, loader: boolean = true) => {
     if (loader) {
       set({ isLoadingFiles: true });
     }
 
     const files = await listAllFiles(workspace);
     // console.log(files);
-    const allFiles: any = [];
+    const allFiles: TFile[] = [];
 
     for (const file of files) {
       const parent = file.location.split('/').splice(3);
@@ -39,15 +38,19 @@ const useFileStore = create<IFileStore>((set, get) => ({
           continue;
         }
 
-        let indexOf = currentLevel.findIndex((f: any) => f.name === key);
+        let indexOf = currentLevel.findIndex((f: TFile) => f.name === key);
 
         if (indexOf === -1) {
-          const find = files.find((f: any) => {
+          const find = files.find((f: TFile) => {
             const location = f.location.split('/').pop();
 
             return location === key;
           });
           // console.log(find);
+
+          if (!find) {
+            continue;
+          }
 
           currentLevel.push({
             ...find,
@@ -58,7 +61,7 @@ const useFileStore = create<IFileStore>((set, get) => ({
           indexOf = currentLevel.length - 1;
         }
 
-        currentLevel = currentLevel[indexOf]._children;
+        currentLevel = currentLevel[indexOf]._children || [];
       }
 
       if (file.isfile) {
@@ -73,7 +76,7 @@ const useFileStore = create<IFileStore>((set, get) => ({
       set({ isLoadingFiles: false });
     }
   },
-  addFile: async (path: string, data?: string) => {
+  addFile: async (path, data) => {
     const currentWorkspace = useWorkspaceStore.getState().currentWorkspace;
 
     if (!currentWorkspace) {
@@ -87,7 +90,7 @@ const useFileStore = create<IFileStore>((set, get) => ({
     useEditorStore.setState({ code: data || '' });
     useEditorStore.getState().addCode(path, data || '', false);
   },
-  addFolder: async (path: string) => {
+  addFolder: async (path) => {
     const currentWorkspace = useWorkspaceStore.getState().currentWorkspace;
 
     if (!currentWorkspace) {
@@ -99,7 +102,7 @@ const useFileStore = create<IFileStore>((set, get) => ({
     get().refreshFiles(currentWorkspace, false);
     set({ currentFolder: path });
   },
-  renameFile: async (path: string, newPath: string) => {
+  renameFile: async (path, newPath) => {
     const currentWorkspace = useWorkspaceStore.getState().currentWorkspace;
 
     if (!currentWorkspace) {
@@ -115,7 +118,7 @@ const useFileStore = create<IFileStore>((set, get) => ({
       set({ currentFile: newPath });
     }
   },
-  saveFile: async (path: string, data: string) => {
+  saveFile: async (path, data) => {
     if (!path) {
       return;
     }
@@ -125,7 +128,7 @@ const useFileStore = create<IFileStore>((set, get) => ({
 
     await minima.file.save(path, data);
   },
-  loadFile: async (path: string) => {
+  loadFile: async (path) => {
     if (!path) {
       return;
     }
@@ -142,7 +145,7 @@ const useFileStore = create<IFileStore>((set, get) => ({
     // useEditorStore.setState({ code });
     useEditorStore.getState().addCode(path, code, false);
   },
-  deleteFile: async (path: string) => {
+  deleteFile: async (path) => {
     const currentWorkspace = useWorkspaceStore.getState().currentWorkspace;
     if (!currentWorkspace) {
       return;
@@ -170,7 +173,7 @@ const useFileStore = create<IFileStore>((set, get) => ({
 
     set({ files: [], allFiles: [] });
   },
-  deleteFolder: async (path: string) => {
+  deleteFolder: async (path) => {
     const currentWorkspace = useWorkspaceStore.getState().currentWorkspace;
     if (!currentWorkspace) {
       return;
@@ -200,7 +203,7 @@ const useFileStore = create<IFileStore>((set, get) => ({
   isAddingFile: false,
   setIsAddingFile: (isAddingFile) => set({ isAddingFile }),
   isFolder: null,
-  setIsFolder: (isFolder: boolean | null) => set({ isFolder }),
+  setIsFolder: (isFolder) => set({ isFolder }),
 }));
 
 // Export the store

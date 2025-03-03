@@ -4,19 +4,8 @@ import { createContext, useRef, useEffect } from 'react';
 import useWorkspaceStore from '@/stores/useWorkspaceStore';
 // Import hooks
 import useTryCatch from '@/hooks/useTryCatch';
-
-// Interface for the component
-interface IProps {
-  children: React.ReactNode;
-}
-
-interface IAppContext {}
-
-interface IWindow extends Window {
-  MDS: {
-    init: (callback: (msg: { event: string }) => void) => void;
-  };
-}
+// Import types
+import { IAppContext, IProps, IWindow } from './types';
 
 // App context
 export const appContext = createContext<IAppContext>({});

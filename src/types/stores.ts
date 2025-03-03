@@ -66,8 +66,8 @@ interface IExtraScriptStore {
 interface IFileStore {
   files: TFile[];
   setFiles: (files: TFile[]) => void;
-  allFiles: string[];
-  setAllFiles: (files: string[]) => void;
+  allFiles: TFile[];
+  setAllFiles: (files: TFile[]) => void;
 
   refreshFiles: (workspace: string, loader?: boolean) => Promise<void>;
   addFile: (path: string, data?: string) => Promise<void>;
@@ -91,6 +91,12 @@ interface IFileStore {
   isFolder: boolean | null;
   setIsFolder: (isFolder: boolean | null) => void;
 }
+interface IGlobalVariableStore {
+  globals: TGlobals;
+  setGlobals: (globals: TGlobals) => void;
+
+  globalUpdate: (key: string, value: string) => void;
+}
 interface ILivePreviewStore {
   livePreview: string;
   setLivePreview: (livePreview: string) => void;
@@ -102,16 +108,12 @@ interface ILivePreviewStore {
   setShowPreview: (showPreview: boolean) => void;
 
   togglePreview: () => void;
-
-  blobObjectURLs: string[];
-  setBlobObjectURLs: (blobObjectURLs: string[]) => void;
-
   refreshLivePreview: () => Promise<void>;
 
   isLoadingLivePreview: boolean;
   setIsLoadingLivePreview: (isLoadingLivePreview: boolean) => void;
 }
-interface ILocalStorage {
+interface ILocalStorage extends Storage {
   getItem: (key: string) => string;
 }
 interface IModalStore {
@@ -241,6 +243,7 @@ export type {
   IEditorStore,
   IExtraScriptStore,
   IFileStore,
+  IGlobalVariableStore,
   ILivePreviewStore,
   ILocalStorage,
   IModalStore,

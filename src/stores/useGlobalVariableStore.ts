@@ -3,22 +3,14 @@ import { create } from 'zustand';
 // Import constants
 import { GLOBALS_DEFAULT_OBJECT } from '@/constants';
 // Import types
-import { TGlobals } from '@/types';
-
-// Interface for the store
-interface IGlobalVariableStore {
-  globals: TGlobals;
-  setGlobals: (globals: TGlobals) => void;
-
-  globalUpdate: (key: string, value: string) => void;
-}
+import { IGlobalVariableStore } from '@/types';
 
 // Create the store
 const useGlobalVariableStore = create<IGlobalVariableStore>((set) => ({
   globals: GLOBALS_DEFAULT_OBJECT,
-  setGlobals: (globals: TGlobals) => set({ globals }),
+  setGlobals: (globals) => set({ globals }),
 
-  globalUpdate: (key: string, value: string) =>
+  globalUpdate: (key, value) =>
     set((state) => ({ globals: { ...state.globals, [key]: value } })),
 }));
 

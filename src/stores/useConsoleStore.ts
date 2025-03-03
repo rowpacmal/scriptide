@@ -10,7 +10,7 @@ export const useConsoleStore = create<IConsoleStore>((set) => ({
   consoleOutput: CONSOLE_DEFAULT.join('\n'),
   setConsoleOutput: (consoleOutput) => set({ consoleOutput }),
 
-  extendConsoleOut: (newOutput: string) => {
+  extendConsoleOut: (newOutput) => {
     set((state) => ({
       consoleOutput: state.consoleOutput + newOutput + '\n',
     }));

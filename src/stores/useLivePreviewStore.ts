@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-
 // Import dependencies
 import { create } from 'zustand';
 // Import stores
@@ -8,24 +6,21 @@ import useWorkspaceStore from './useWorkspaceStore';
 // Import libraries
 import minima from '@/lib/minima';
 // Import types
-import { ILivePreviewStore } from '@/types';
-// Import utilities
-// import isImageFile from '@/utils/isImageFile';
-// import base64ToImage from '@/utils/base64ToImage';
+import { ILivePreviewStore, IWindow } from '@/types';
 
 // Create the store
 export const useLivePreviewStore = create<ILivePreviewStore>((set, get) => ({
   livePreview: '',
-  setLivePreview: (livePreview: string) => set({ livePreview }),
+  setLivePreview: (livePreview) => set({ livePreview }),
 
   liveURL:
-    (window as any).DEBUG_MINIDAPPID ||
+    (window as IWindow & typeof globalThis).DEBUG_MINIDAPPID ||
     window.location.href.split('/')[3] ||
     '0x00',
-  setLiveURL: (liveURL: string) => set({ liveURL }),
+  setLiveURL: (liveURL) => set({ liveURL }),
 
   showPreview: false,
-  setShowPreview: (showPreview: boolean) => set({ showPreview }),
+  setShowPreview: (showPreview) => set({ showPreview }),
 
   togglePreview: () => {
     set((state) => {
@@ -38,10 +33,6 @@ export const useLivePreviewStore = create<ILivePreviewStore>((set, get) => ({
       return { showPreview };
     });
   },
-
-  blobObjectURLs: [],
-  setBlobObjectURLs: (blobObjectURLs: string[]) => set({ blobObjectURLs }),
-
   refreshLivePreview: async () => {
     set({ isLoadingLivePreview: true });
 
@@ -167,7 +158,7 @@ export const useLivePreviewStore = create<ILivePreviewStore>((set, get) => ({
     );
 
     // Update the live preview URL
-    const host = (window as any).MDS.filehost || '';
+    const host = (window as IWindow & typeof globalThis).MDS.filehost || '';
     const apid = get().liveURL || '';
     const livePreview = `${host}${apid}/livepreview/${currentWorkspace}/${timestamp}/index.html`;
 
@@ -178,7 +169,7 @@ export const useLivePreviewStore = create<ILivePreviewStore>((set, get) => ({
   },
 
   isLoadingLivePreview: false,
-  setIsLoadingLivePreview: (isLoadingLivePreview: boolean) =>
+  setIsLoadingLivePreview: (isLoadingLivePreview) =>
     set({ isLoadingLivePreview }),
 }));
 

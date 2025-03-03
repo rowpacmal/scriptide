@@ -1,11 +1,9 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-
 // Import dependencies
 import { useToast } from '@chakra-ui/react';
 // Import utils
 import parseComments from '../utils/parseComments';
 // Import libraries
-import minima from '@/lib/minima';
+import minima, { mds } from '@/lib/minima';
 // Import store
 import useConsoleStore from '@/stores/useConsoleStore';
 import useEditorStore from '@/stores/useEditorStore';
@@ -15,6 +13,7 @@ import useSignatureStore from '@/stores/useSignatureStore';
 import useStateVariableStore from '@/stores/useStateVariableStore';
 import usePrevStateVariableStore from '@/stores/usePrevStateVariableStore';
 import useFileStore from '@/stores/useFileStore';
+import { TRunScriptMessage } from '@/types';
 
 // Run script hook
 function useRunScript() {
@@ -143,7 +142,9 @@ function useRunScript() {
      */
     const {
       root: { data: atAddress },
-    }: any = (await minima.cmd(`mmrcreate nodes:["${script}"]`)).response;
+    }: { root: { data: string } } = (
+      await minima.cmd<any>(`mmrcreate nodes:["${script}"]`)
+    ).response;
     // console.log(atAddress);
 
     globalVariables['@ADDRESS'] = atAddress;
@@ -202,7 +203,7 @@ function useRunScript() {
     // Run the script
     const cmd = `runscript script:"${script}" globals:${globalVariables} state:${stateVars} prevstate:${prevStateVars} signatures:${signers} extrascripts:${extraScriptsStr}`;
 
-    (window as any).MDS.cmd(cmd, (msg) => {
+    mds.cmd<TRunScriptMessage>(cmd, (msg) => {
       // console.log(msg);
 
       if (msg.status) {

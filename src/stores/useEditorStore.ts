@@ -1,20 +1,20 @@
 // Import dependencies
 import { create } from 'zustand';
 // Import types
-import { IEditorStore, ILocalStorage, TAllCodes, TCode } from '@/types';
+import { IEditorStore, ILocalStorage } from '@/types';
 
 // Create the store
 const useEditorStore = create<IEditorStore>((set) => ({
   code: null,
-  setCode: (code: TCode) => set({ code }),
+  setCode: (code) => set({ code }),
 
   allCodes: [],
-  setAllCodes: (allCodes: TAllCodes[]) => set({ allCodes }),
+  setAllCodes: (allCodes) => set({ allCodes }),
 
   tabIndex: 0,
-  setTabIndex: (tabIndex: number) => set({ tabIndex }),
+  setTabIndex: (tabIndex) => set({ tabIndex }),
 
-  addCode: (file: string, code: TCode, isImg: boolean) => {
+  addCode: (file, code, isImg) => {
     set((state) => {
       const allCodes = [...state.allCodes];
 
@@ -30,19 +30,19 @@ const useEditorStore = create<IEditorStore>((set) => ({
       };
     });
   },
-  updateCode: (file: string, code: TCode) => {
+  updateCode: (file, code) => {
     set((state) => ({
       allCodes: state.allCodes.map((c) =>
         c.file === file ? { ...c, code } : c
       ),
     }));
   },
-  removeCode: (file: string) => {
+  removeCode: (file) => {
     set((state) => ({
       allCodes: state.allCodes.filter((code) => code.file !== file),
     }));
   },
-  removeFolderCodes: (folder: string) => {
+  removeFolderCodes: (folder) => {
     set((state) => {
       let allCodes = [...state.allCodes];
       for (const code of allCodes) {
@@ -67,7 +67,7 @@ const useEditorStore = create<IEditorStore>((set) => ({
   },
 
   editorZoom: Number(localStorage.getItem('editor-zoom')) || 0,
-  setEditorZoom: (editorZoom: number) => {
+  setEditorZoom: (editorZoom) => {
     set({ editorZoom });
     localStorage.setItem('editor-zoom', editorZoom.toString());
   },
@@ -89,7 +89,7 @@ const useEditorStore = create<IEditorStore>((set) => ({
   editorAutoSave:
     JSON.parse((localStorage as ILocalStorage).getItem('editor-auto-save')) ||
     false,
-  setEditorAutoSave: (editorAutoSave: boolean) => {
+  setEditorAutoSave: (editorAutoSave) => {
     set({ editorAutoSave });
     localStorage.setItem('editor-auto-save', JSON.stringify(editorAutoSave));
   },
