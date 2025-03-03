@@ -70,6 +70,13 @@ const GLOBALS_DEFAULT_OBJECT = {
   '@TOTOUT': '',
 };
 
+const ICON_SIZES = {
+  xs: '16px',
+  sm: '20px',
+  md: '24px',
+  lg: '32px',
+};
+
 const NAVIGATION_LABELS = {
   home: 'Home',
   explorer: 'File explorer',
@@ -89,5 +96,6 @@ export {
   DEFAULT_LOCAL_STORAGE_KEYS,
   DEFAULT_PLACEHOLDERS,
   GLOBALS_DEFAULT_OBJECT,
+  ICON_SIZES,
   NAVIGATION_LABELS,
 };

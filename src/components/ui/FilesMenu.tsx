@@ -1,5 +1,6 @@
 // Import dependencies
-import { Button, HStack, Tooltip } from '@chakra-ui/react';
+import { HStack } from '@chakra-ui/react';
+// Import icons
 import {
   LuFilePlus,
   LuTrash2,
@@ -9,49 +10,13 @@ import {
 // Import store
 import useFileStore from '@/stores/useFileStore';
 import useWorkspaceStore from '@/stores/useWorkspaceStore';
-import useAppTheme from '@/themes/useAppTheme';
 import useModalStore from '@/stores/useModalStore';
 // Import types
 import { EModalTypes } from '@/types';
-
-// Constants
-const ICON_SIZE = 20;
-
-// Files menu item component
-function FilesMenuItem({
-  children,
-  label,
-  onClick,
-  isLoading = false,
-  disabled = false,
-}) {
-  // Define theme
-  const { color, colorAlt } = useAppTheme();
-
-  // Render
-  return (
-    <Tooltip label={label} placement="top" hasArrow>
-      <Button
-        p={0}
-        h="auto"
-        minW="auto"
-        bg="transparent"
-        color={colorAlt}
-        _hover={{
-          bg: 'transparent',
-          color: disabled ? '' : color,
-          transform: disabled ? '' : 'scale(1.2)',
-        }}
-        _active={{ bg: 'transparent', color: color }}
-        onClick={onClick}
-        isLoading={isLoading}
-        disabled={disabled}
-      >
-        {children}
-      </Button>
-    </Tooltip>
-  );
-}
+// Import constants
+import { ICON_SIZES } from '@/constants';
+// Import components
+import HoverButton from './systems/HoverButton';
 
 // Files menu component
 function FilesMenu() {
@@ -70,7 +35,7 @@ function FilesMenu() {
   return (
     <HStack w="100%" px={1} justify="space-between" gap={1}>
       <HStack gap={1}>
-        <FilesMenuItem
+        <HoverButton
           label="Create new file"
           onClick={() => {
             if (!isAddingFile) {
@@ -83,11 +48,10 @@ function FilesMenu() {
             }
           }}
         >
-          <LuFilePlus size={ICON_SIZE} />
-        </FilesMenuItem>
+          <LuFilePlus size={ICON_SIZES.sm} />
+        </HoverButton>
 
-        {/* TODO - Add folder support */}
-        <FilesMenuItem
+        <HoverButton
           label="Create new folder"
           onClick={() => {
             if (!isAddingFile) {
@@ -100,10 +64,10 @@ function FilesMenu() {
             }
           }}
         >
-          <LuFolderPlus size={ICON_SIZE} />
-        </FilesMenuItem>
+          <LuFolderPlus size={ICON_SIZES.sm} />
+        </HoverButton>
 
-        <FilesMenuItem
+        <HoverButton
           label="Upload file"
           onClick={() => {
             if (!currentFolder) {
@@ -114,11 +78,11 @@ function FilesMenu() {
             onOpen();
           }}
         >
-          <LuHardDriveUpload size={ICON_SIZE} />
-        </FilesMenuItem>
+          <LuHardDriveUpload size={ICON_SIZES.sm} />
+        </HoverButton>
       </HStack>
 
-      <FilesMenuItem
+      <HoverButton
         label="Delete all files"
         onClick={() => {
           setModalType(EModalTypes.DELETE_ALL_FILES);
@@ -126,8 +90,8 @@ function FilesMenu() {
         }}
         disabled={files.length < 1}
       >
-        <LuTrash2 size={ICON_SIZE} />
-      </FilesMenuItem>
+        <LuTrash2 size={ICON_SIZES.sm} />
+      </HoverButton>
     </HStack>
   );
 }
