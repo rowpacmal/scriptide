@@ -1,18 +1,11 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-
-// Interface
-interface IResponse {
-  status: boolean;
-  pending: boolean;
-  response: any;
-  error: string;
-}
+// Import types
+import { IResponse, TMessage, TReject, TResolve } from '@/types';
 
 // Response Object
 class Response {
   status: boolean;
   pending: boolean;
-  response: any;
+  response: unknown;
   error: string;
 
   constructor({ status, pending, response, error }: IResponse) {
@@ -25,76 +18,82 @@ class Response {
 
 // Response handler utility function
 function responseHandler(
-  msg: any,
-  resolve: any,
-  reject: any,
+  msg: TMessage | TMessage[],
+  resolve: TResolve,
+  reject: TReject,
   genericError: string
 ) {
-  // If the response is an array
-  if (msg.length > 0) {
-    let success = true;
-    let error = '';
+  if (Array.isArray(msg)) {
+    // If the response is an array
+    if (msg.length > 0) {
+      let success = true;
+      let error = '';
 
-    msg.forEach((r: any) => {
-      if (!r.status) {
-        success = false;
-        error = r.error;
-        return;
+      msg.forEach((r: TMessage) => {
+        if (!r.status) {
+          success = false;
+          error = r.error;
+          return;
+        }
+      });
+
+      if (success) {
+        // On success
+        resolve(
+          new Response({
+            status: true,
+            pending: false,
+            response: msg[msg.length - 1].response,
+            error: '',
+          })
+        );
+      } else {
+        // On error
+        reject(
+          new Response({ status: false, pending: false, response: null, error })
+        );
       }
-    });
-
-    if (success) {
-      // On success
+    }
+  } else {
+    // On success
+    if (msg.status && !msg.pending) {
       resolve(
         new Response({
           status: true,
           pending: false,
-          response: msg[msg.length - 1].response,
+          response: msg.response,
           error: '',
         })
       );
-    } else {
-      // On error
+    }
+
+    // On pending
+    if (!msg.status && msg.pending) {
       reject(
-        new Response({ status: false, pending: false, response: null, error })
+        new Response({
+          status: false,
+          pending: true,
+          response: msg.response,
+          error: 'pending',
+        })
       );
     }
-  }
 
-  // On success
-  if (msg.status && !msg.pending) {
-    resolve(
-      new Response({
-        status: true,
-        pending: false,
-        response: msg.response,
-        error: '',
-      })
-    );
-  }
-
-  // On pending
-  if (!msg.status && msg.pending) {
-    reject(
-      new Response({
-        status: false,
-        pending: true,
-        response: msg.response,
-        error: 'pending',
-      })
-    );
-  }
-
-  // On error
-  if (!msg.status && !msg.pending) {
-    reject(
-      new Response({
-        status: false,
-        pending: false,
-        response: null,
-        error: msg.message ? msg.message : msg.error ? msg.error : genericError,
-      })
-    );
+    // On error
+    if (!msg.status && !msg.pending) {
+      reject(
+        new Response({
+          status: false,
+          pending: false,
+          response: null,
+          error: msg.message
+            ? msg.message
+            : msg.error
+            ? msg.error
+            : genericError,
+        })
+      );
+    }
   }
 }
 
