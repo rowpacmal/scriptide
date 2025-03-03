@@ -1,6 +1,9 @@
+// Import dependencies
 import { Highlight, Text } from '@chakra-ui/react';
 
+// Basic highlight component
 function BasicHighlight({ query, ...props }) {
+  // Render
   return (
     <Text textAlign="center" {...props}>
       <Highlight
@@ -20,4 +23,5 @@ function BasicHighlight({ query, ...props }) {
   );
 }
 
+// Export
 export default BasicHighlight;

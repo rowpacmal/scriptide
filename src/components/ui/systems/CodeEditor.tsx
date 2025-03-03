@@ -8,6 +8,7 @@ import useFileStore from '@/stores/useFileStore';
 import useLivePreviewStore from '@/stores/useLivePreviewStore';
 // Import utilities
 import getLanguageType from '@/utils/getLanguageType';
+// Import themes
 import useAppTheme from '@/themes/useAppTheme';
 
 function CodeEditor({ file, code }) {
@@ -49,6 +50,7 @@ function CodeEditor({ file, code }) {
         }
       }}
       onKeyDown={(e) => {
+        // Save on ctrl+s
         if (e.key === 's' && e.ctrlKey) {
           e.preventDefault();
           handleOnSave();

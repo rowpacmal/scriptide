@@ -1,10 +1,6 @@
-function AppLogo({
-  size = 24,
-  color = 'currentColor',
-}: {
-  size?: number | string;
-  color?: string;
-}) {
+// App logo component
+function AppLogo({ size = 24, color = 'currentColor' }) {
+  // Render
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -24,4 +20,5 @@ function AppLogo({
   );
 }
 
+// Export
 export default AppLogo;

@@ -1,11 +1,14 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import useAppTheme from '@/themes/useAppTheme';
+// Import dependencies
 import { Input } from '@chakra-ui/react';
+// Import themes
+import useAppTheme from '@/themes/useAppTheme';
 
+// Basic input component
 function BasicInput({ ...props }) {
   // Define theme
   const { accent, borderColor, color, colorAlt } = useAppTheme();
 
+  // Render
   return (
     <Input
       size="sm"
@@ -21,4 +24,5 @@ function BasicInput({ ...props }) {
   );
 }
 
+// Export
 export default BasicInput;

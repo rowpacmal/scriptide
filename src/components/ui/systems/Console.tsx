@@ -1,10 +1,14 @@
+// Import dependencies
 import { Box } from '@chakra-ui/react';
-import { useEffect, useRef, useState } from 'react';
 import { Editor } from '@monaco-editor/react';
+import { useEffect, useRef, useState } from 'react';
+// Import stores
 import useEditorStore from '@/stores/useEditorStore';
 import useConsoleStore from '@/stores/useConsoleStore';
-import useAppTheme from '@/themes/useAppTheme';
+// Import libraries
 import { mds } from '@/lib/minima';
+// Import themes
+import useAppTheme from '@/themes/useAppTheme';
 
 // Console component
 function Console() {
@@ -28,10 +32,10 @@ function Console() {
     consoleOutputRef.current = editor;
   }
 
-  // Scroll to the bottom whenever the value updates
+  // Define effects
   useEffect(() => {
     if (consoleOutputRef.current) {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      // Scroll to the bottom whenever the value updates
       const consoleOutput: any = consoleOutputRef.current;
       const model = consoleOutput.getModel();
 
@@ -51,7 +55,7 @@ function Console() {
       onKeyDown={async (e) => {
         if (userInput && e.key === 'Enter') {
           const result = await new Promise((resolve) => {
-            mds.cmd(userInput.trim(), (msg: any) => {
+            mds.cmd(userInput.trim(), (msg) => {
               resolve(msg);
             });
           });
@@ -84,14 +88,8 @@ function Console() {
           fontSize: 12 + editorZoom,
           minimap: { enabled: false },
           wordWrap: 'on',
-          // readOnly: true,
-          // lineNumbers: (lineNumber) =>
-          //   consoleTimestamp[lineNumber - 1]
-          //     ? `> [${consoleTimestamp[lineNumber - 1]}] -`
-          //     : '',
           lineNumbers: () => '>',
           lineNumbersMinChars: 3,
-          // lineNumbersMinChars: 20,
         }}
       />
     </Box>

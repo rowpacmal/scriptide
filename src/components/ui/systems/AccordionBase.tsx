@@ -1,4 +1,4 @@
-import useAppTheme from '@/themes/useAppTheme';
+// Import dependencies
 import {
   Accordion,
   AccordionButton,
@@ -7,15 +7,20 @@ import {
   Box,
   Text,
 } from '@chakra-ui/react';
+// Import icons
 import { LuChevronDown, LuChevronUp } from 'react-icons/lu';
+// Import themes
+import useAppTheme from '@/themes/useAppTheme';
 
+// Accordion base component
 function AccordionBase({ children, ...props }) {
   // Define theme
   const { borderColor } = useAppTheme();
 
+  // Render
   return (
     <Accordion w="100%" borderColor={borderColor} allowMultiple {...props}>
-      {/* Empty AccordionItem to prevent a index bug on mount/unmount */}
+      {/* Empty AccordionItem to prevent an index bug on mount/unmount */}
       <AccordionItem display="none">
         <AccordionButton />
       </AccordionItem>
@@ -25,16 +30,18 @@ function AccordionBase({ children, ...props }) {
   );
 }
 
+// Accordion item base component
 function AccordionItemBase({
   children,
   title,
   icon = null,
   isTop = false,
   isBottom = false,
-}: any) {
+}) {
   // Define theme
   const { color, colorAlt } = useAppTheme();
 
+  // Render
   return (
     <AccordionItem
       borderTop={isTop ? 'none' : ''}
@@ -45,13 +52,7 @@ function AccordionItemBase({
           <AccordionButton px={2} py={1} color={colorAlt} _hover={{ color }}>
             {icon && <Box mr={2}>{icon}</Box>}
 
-            <Text
-              as="span"
-              flex="1"
-              textAlign="left"
-              // fontSize="sm"
-              textTransform="uppercase"
-            >
+            <Text as="span" flex="1" textAlign="left" textTransform="uppercase">
               {title}
             </Text>
 
@@ -67,4 +68,5 @@ function AccordionItemBase({
   );
 }
 
+// Export
 export { AccordionBase, AccordionItemBase };
