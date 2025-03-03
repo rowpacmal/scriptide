@@ -1,4 +1,3 @@
-// Types
 type TMessage = {
   status: boolean;
   pending: boolean;
@@ -9,7 +8,6 @@ type TMessage = {
 type TResolve = (value: IResponse) => void;
 type TReject = (reason: IResponse) => void;
 
-// Interface
 interface IResponse {
   status: boolean;
   pending: boolean;
@@ -17,4 +15,4 @@ interface IResponse {
   error: string;
 }
 
-export { TMessage, TResolve, TReject, IResponse };
+export type { TMessage, TResolve, TReject, IResponse };
