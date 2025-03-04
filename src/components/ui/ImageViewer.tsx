@@ -1,10 +1,15 @@
-import base64ToImage from '@/utils/base64ToImage';
+// Import dependencies
 import { Box, Image } from '@chakra-ui/react';
 import { useEffect, useRef, useState } from 'react';
+// Import utilities
+import base64ToImage from '@/utils/base64ToImage';
 
+// Image viewer component
 function ImageViewer({ src }) {
-  const viewerRef: any = useRef<HTMLDivElement>(null);
+  // Define ref
+  const viewerRef: any = useRef(null);
 
+  // Define state
   const [zoom, setZoom] = useState(100);
   const [isDragging, setIsDragging] = useState(false);
   const [startX, setStartX] = useState(0);
@@ -12,13 +17,14 @@ function ImageViewer({ src }) {
   const [scrollLeft, setScrollLeft] = useState(0);
   const [scrollTop, setScrollTop] = useState(0);
 
-  const handleMouseDown = (e) => {
+  // Define handlers
+  function handleMouseDown(e) {
     e.preventDefault();
     setIsDragging(true);
     setStartX(e.pageX);
     setStartY(e.pageY);
-  };
-  const handleMouseMove = (e) => {
+  }
+  function handleMouseMove(e) {
     e.preventDefault();
     if (!isDragging) return;
 
@@ -31,14 +37,13 @@ function ImageViewer({ src }) {
     setScrollTop(newScrollTop);
     setStartX(e.pageX); // Important: Update startX for smooth dragging
     setStartY(e.pageY);
-  };
-  const handleMouseUp = () => {
+  }
+  function handleMouseUp() {
     setIsDragging(false);
-  };
-  const handleMouseLeave = () => {
+  }
+  function handleMouseLeave() {
     setIsDragging(false);
-  };
-
+  }
   function handleWheel(e) {
     if (viewerRef.current) {
       if (e.ctrlKey) {
@@ -57,6 +62,7 @@ function ImageViewer({ src }) {
     }
   }
 
+  // Define effects
   useEffect(() => {
     if (viewerRef.current) {
       viewerRef.current.scrollLeft = scrollLeft;
@@ -64,11 +70,11 @@ function ImageViewer({ src }) {
     }
   }, [scrollLeft, scrollTop]);
   useEffect(() => {
-    const handleWheel = (e) => {
+    function handleWheel(e) {
       if (e.ctrlKey) {
         e.preventDefault(); // Prevent default scrolling behavior
       }
-    };
+    }
 
     const container = viewerRef.current;
     if (container) {
@@ -82,6 +88,7 @@ function ImageViewer({ src }) {
     };
   }, []);
 
+  // Render
   return (
     <Box
       ref={viewerRef}
@@ -104,4 +111,5 @@ function ImageViewer({ src }) {
   );
 }
 
+// Export
 export default ImageViewer;
