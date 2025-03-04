@@ -1,3 +1,5 @@
+export * from './changelogs';
+
 const CONSOLE_DEFAULT = [
   '>> welcome start <<',
   '',

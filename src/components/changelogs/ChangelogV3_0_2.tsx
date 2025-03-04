@@ -1,22 +1,18 @@
+// Import dependencies
 import { List, ListItem, Text } from '@chakra-ui/react';
-import { ChangelogItem, FeatureItem } from './ChangelogBase';
+// Import constants
+import { APPLICATION_CHANGELOGS } from '@/constants';
+// Import components
+import { Changelog, FeatureItem } from './ChangelogBase';
 
+// Changelog 3.0.2 component
 function ChangelogV3_0_2() {
+  // Render
   return (
-    <ChangelogItem version="3.0.2" date="February 5, 2025">
-      <FeatureItem>
-        Updated the write, run, and debug features with a refreshed UI.
-      </FeatureItem>
-
-      <FeatureItem>
-        Enhanced script output inspection - clean script, 0xaddress, mxaddress,
-        total instructions, and script variables.
-      </FeatureItem>
-
-      <FeatureItem>
-        Improved UX for managing and testing state, prevstate, global variables,
-        signatures, and extra scripts (with experimental script insertion).
-      </FeatureItem>
+    <Changelog version="3.0.2" date="February 5, 2025">
+      {APPLICATION_CHANGELOGS['3.0.2'].slice(0, 3).map((item) => (
+        <FeatureItem key={item}>{item}</FeatureItem>
+      ))}
 
       <List spacing={2}>
         <ListItem>
@@ -26,36 +22,16 @@ function ChangelogV3_0_2() {
         </ListItem>
 
         <List spacing={2} pl={2}>
-          <FeatureItem alert>
-            State, prevstate, global variables, and signatures are not persisted
-            between sessions.
-          </FeatureItem>
-
-          <FeatureItem alert>
-            Extra scripts are stored in the browser's local storage and will be
-            lost if the cache is cleared.
-          </FeatureItem>
-
-          <FeatureItem alert>
-            Functions relying on txn input and output are currently
-            non-functional.
-          </FeatureItem>
-
-          <FeatureItem alert>
-            The dapp lacks loading states, potentially leading to a suboptimal
-            user experience during certain operations.
-          </FeatureItem>
-
-          <FeatureItem alert>
-            Performance optimizations are still in progress. Some features have
-            been temporarily limited for performance reasons (maximum 10
-            workspaces, 8 script files, and 10 extra script slots). These
-            limitations will be removed as the dapp is further optimized.
-          </FeatureItem>
+          {APPLICATION_CHANGELOGS['3.0.2'].slice(3).map((item) => (
+            <FeatureItem key={item} alert>
+              {item}
+            </FeatureItem>
+          ))}
         </List>
       </List>
-    </ChangelogItem>
+    </Changelog>
   );
 }
 
+// Export
 export default ChangelogV3_0_2;

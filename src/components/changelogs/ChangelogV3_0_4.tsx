@@ -1,31 +1,21 @@
-import useAppTheme from '@/themes/useAppTheme';
-import { ChangelogItem, FeatureItem } from './ChangelogBase';
-import { Highlight } from '@chakra-ui/react';
+// Import constants
+import { APPLICATION_CHANGELOGS } from '@/constants';
+// Import components
+import { Changelog, FeatureHighlight, FeatureItem } from './ChangelogBase';
 
+// Changelog 3.0.4 component
 function ChangelogV3_0_4() {
-  // Define theme
-  const { bgReversed, colorReversed } = useAppTheme();
-
+  // Render
   return (
-    <ChangelogItem version="3.0.4" date="February 6, 2025">
+    <Changelog version="3.0.4" date="February 6, 2025">
       <FeatureItem>
-        <Highlight
-          query="@ADDRESS"
-          styles={{
-            color: colorReversed,
-            bg: bgReversed,
-            px: 1,
-            rounded: 'sm',
-            wordBreak: 'break-all',
-            whiteSpace: 'wrap',
-          }}
-        >
-          Resolved an issue where the @ADDRESS global variable was not being set
-          correctly.
-        </Highlight>
+        <FeatureHighlight query="@ADDRESS">
+          {APPLICATION_CHANGELOGS['3.0.4'][0]}
+        </FeatureHighlight>
       </FeatureItem>
-    </ChangelogItem>
+    </Changelog>
   );
 }
 
+// Export
 export default ChangelogV3_0_4;

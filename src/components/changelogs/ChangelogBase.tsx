@@ -1,22 +1,28 @@
+// Import dependencies
 import {
   Accordion,
   AccordionButton,
   AccordionIcon,
   AccordionItem,
   AccordionPanel,
+  Highlight,
   HStack,
   List,
   ListIcon,
   ListItem,
   Text,
 } from '@chakra-ui/react';
+// Import icons
 import { LuBadgeAlert, LuBadgeInfo, LuScrollText } from 'react-icons/lu';
+// Import themes
 import useAppTheme from '@/themes/useAppTheme';
 
-function ChangelogItem({ children, version, date }) {
+// Changelog component
+function Changelog({ children, version, date }) {
   // Define theme
   const { color, colorAlt } = useAppTheme();
 
+  // Render
   return (
     <Accordion w="100%" allowToggle>
       <AccordionItem border="none">
@@ -50,10 +56,34 @@ function ChangelogItem({ children, version, date }) {
   );
 }
 
+function FeatureHighlight({ children, query }) {
+  // Define theme
+  const { bgReversed, colorReversed } = useAppTheme();
+
+  // Render
+  return (
+    <Highlight
+      query={query}
+      styles={{
+        color: colorReversed,
+        bg: bgReversed,
+        px: 1,
+        rounded: 'sm',
+        wordBreak: 'break-all',
+        whiteSpace: 'wrap',
+      }}
+    >
+      {children}
+    </Highlight>
+  );
+}
+
+// Feature item component
 function FeatureItem({ children, alert = false }) {
   // Define theme
   const { colorSuccess, colorWarning } = useAppTheme();
 
+  // Render
   return (
     <ListItem>
       <ListIcon
@@ -65,4 +95,5 @@ function FeatureItem({ children, alert = false }) {
   );
 }
 
-export { ChangelogItem, FeatureItem };
+// Export
+export { Changelog, FeatureHighlight, FeatureItem };
