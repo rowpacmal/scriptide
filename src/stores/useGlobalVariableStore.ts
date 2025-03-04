@@ -1,13 +1,13 @@
 // Import dependencies
 import { create } from 'zustand';
 // Import constants
-import { GLOBALS_DEFAULT_OBJECT } from '@/constants';
+import { GLOBAL_VARIABLES_OBJECT } from '@/constants';
 // Import types
 import { IGlobalVariableStore } from '@/types';
 
 // Create the store
 const useGlobalVariableStore = create<IGlobalVariableStore>((set) => ({
-  globals: GLOBALS_DEFAULT_OBJECT,
+  globals: GLOBAL_VARIABLES_OBJECT,
   setGlobals: (globals) => set({ globals }),
 
   globalUpdate: (key, value) =>

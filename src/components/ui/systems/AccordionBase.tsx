@@ -8,11 +8,11 @@ import {
   Text,
 } from '@chakra-ui/react';
 // Import icons
-import { LuChevronDown, LuChevronUp } from 'react-icons/lu';
+import { LuChevronDown, LuChevronUp, LuMinus, LuPlus } from 'react-icons/lu';
 // Import themes
 import useAppTheme from '@/themes/useAppTheme';
 // Import types
-import { IAccordionItemBaseProps } from '@/types';
+import { IAccordionItemBaseAltProps, IAccordionItemBaseProps } from '@/types';
 
 // Accordion base component
 function AccordionBase({ children, ...props }) {
@@ -22,6 +22,32 @@ function AccordionBase({ children, ...props }) {
   // Render
   return (
     <Accordion w="100%" borderColor={borderColor} allowMultiple {...props}>
+      {/* Empty AccordionItem to prevent an index bug on mount/unmount */}
+      <AccordionItem display="none">
+        <AccordionButton />
+      </AccordionItem>
+
+      {children}
+    </Accordion>
+  );
+}
+
+// Accordion base alt component
+function AccordionBaseAlt({ children, ...props }) {
+  // Define theme
+  const { bgAlt, borderColor } = useAppTheme();
+
+  // Render
+  return (
+    <Accordion
+      borderRadius="md"
+      bg={bgAlt}
+      border="1px solid"
+      borderColor={borderColor}
+      w="100%"
+      allowMultiple
+      {...props}
+    >
       {/* Empty AccordionItem to prevent an index bug on mount/unmount */}
       <AccordionItem display="none">
         <AccordionButton />
@@ -70,5 +96,51 @@ function AccordionItemBase({
   );
 }
 
+// Accordion item base component
+function AccordionItemBaseAlt({
+  children,
+  title,
+  isTop,
+  isBottom,
+}: IAccordionItemBaseAltProps) {
+  // Define theme
+  const { color, colorAlt } = useAppTheme();
+
+  // Render
+  return (
+    <AccordionItem
+      borderTop={isTop ? 'none' : ''}
+      borderBottom={isBottom ? 'none' : ''}
+    >
+      {({ isExpanded }) => (
+        <>
+          <AccordionButton px={2} py={1} color={colorAlt} _hover={{ color }}>
+            <Text
+              as="span"
+              flex="1"
+              textAlign="left"
+              textTransform="uppercase"
+              fontSize="sm"
+            >
+              {title}
+            </Text>
+
+            {isExpanded ? <LuMinus /> : <LuPlus />}
+          </AccordionButton>
+
+          <AccordionPanel pb={4} color={colorAlt}>
+            {children}
+          </AccordionPanel>
+        </>
+      )}
+    </AccordionItem>
+  );
+}
+
 // Export
-export { AccordionBase, AccordionItemBase };
+export {
+  AccordionBase,
+  AccordionBaseAlt,
+  AccordionItemBase,
+  AccordionItemBaseAlt,
+};

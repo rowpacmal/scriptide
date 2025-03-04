@@ -1,4 +1,5 @@
 export * from './changelogs';
+export * from './globals';
 
 const CONSOLE_DEFAULT = [
   '>> welcome start <<',
@@ -58,20 +59,6 @@ const DEFAULT_PLACEHOLDERS = {
   value: 'Enter value here',
 };
 
-const GLOBALS_DEFAULT_OBJECT = {
-  '@ADDRESS': null, // This is read only field
-  '@BLOCK': '',
-  '@BLOCKMILLI': '',
-  '@CREATED': '',
-  '@COINAGE': '',
-  '@COINID': '',
-  '@TOKENID': '',
-  '@AMOUNT': '',
-  '@INPUT': '',
-  '@TOTIN': '',
-  '@TOTOUT': '',
-};
-
 const ICON_SIZES = {
   xs: '16px',
   sm: '20px',
@@ -97,7 +84,6 @@ export {
   DEFAULT_EDITOR_THEME_LIGHT,
   DEFAULT_LOCAL_STORAGE_KEYS,
   DEFAULT_PLACEHOLDERS,
-  GLOBALS_DEFAULT_OBJECT,
   ICON_SIZES,
   NAVIGATION_LABELS,
 };
