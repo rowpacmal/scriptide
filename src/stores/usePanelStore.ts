@@ -6,7 +6,7 @@ import useLivePreviewStore from './useLivePreviewStore';
 import { IPanelStore } from '@/types';
 
 // Create the store
-const usePanelStore = create<IPanelStore>((set) => ({
+const usePanelStore = create<IPanelStore>((set, get) => ({
   bottomBarPanelRef: null,
   setBottomBarPanelRef: (ref) => set({ bottomBarPanelRef: ref }),
   isBottomBarPanelOpen: false,
@@ -31,6 +31,21 @@ const usePanelStore = create<IPanelStore>((set) => ({
 
       return state;
     }),
+  openBottomBarPanel: () => {
+    const panel = get().bottomBarPanelRef?.current;
+    if (panel) {
+      panel.expand();
+      set({ isBottomBarPanelOpen: true });
+    }
+  },
+  closeBottomBarPanel: () => {
+    const panel = get().bottomBarPanelRef?.current;
+    if (panel) {
+      panel.collapse();
+      set({ isBottomBarPanelOpen: false });
+    }
+  },
+
   leftSidePanelRef: null,
   setLeftSidePanelRef: (ref) => set({ leftSidePanelRef: ref }),
   isLeftSidePanelOpen: false,
@@ -55,6 +70,20 @@ const usePanelStore = create<IPanelStore>((set) => ({
 
       return state;
     }),
+  openLeftSidePanel: () => {
+    const panel = get().leftSidePanelRef?.current;
+    if (panel) {
+      panel.expand();
+      set({ isLeftSidePanelOpen: true });
+    }
+  },
+  closeLeftSidePanel: () => {
+    const panel = get().leftSidePanelRef?.current;
+    if (panel) {
+      panel.collapse();
+      set({ isLeftSidePanelOpen: false });
+    }
+  },
 
   rightSidePanelRef: null,
   setRightSidePanelRef: (ref) => set({ rightSidePanelRef: ref }),
@@ -82,6 +111,22 @@ const usePanelStore = create<IPanelStore>((set) => ({
 
       return state;
     }),
+  openRightSidePanel: () => {
+    const panel = get().rightSidePanelRef?.current;
+    if (panel) {
+      panel.expand();
+      useLivePreviewStore.getState().setShowPreview(true);
+      set({ isRightSidePanelOpen: true });
+    }
+  },
+  closeRightSidePanel: () => {
+    const panel = get().rightSidePanelRef?.current;
+    if (panel) {
+      panel.collapse();
+      useLivePreviewStore.getState().setShowPreview(false);
+      set({ isRightSidePanelOpen: false });
+    }
+  },
 }));
 
 // Export the store

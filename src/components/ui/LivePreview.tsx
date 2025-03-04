@@ -1,9 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-
-import useFileStore from '@/stores/useFileStore';
-import useLivePreviewStore from '@/stores/useLivePreviewStore';
-import useWorkspaceStore from '@/stores/useWorkspaceStore';
-import useAppTheme from '@/themes/useAppTheme';
+// Import dependencies
 import {
   Box,
   Button,
@@ -24,20 +19,33 @@ import {
   VStack,
 } from '@chakra-ui/react';
 import { useState, useEffect, useRef } from 'react';
+// import { useNavigate } from 'react-router-dom';
+// Import icons
 import {
   LuRotateCw,
   // LuSettings2,
   // LuSquareArrowOutUpRight,
   LuX,
 } from 'react-icons/lu';
+// Import stores
+import useFileStore from '@/stores/useFileStore';
+import useLivePreviewStore from '@/stores/useLivePreviewStore';
+import usePanelStore from '@/stores/usePanelStore';
+import useWorkspaceStore from '@/stores/useWorkspaceStore';
+// Import themes
+import useAppTheme from '@/themes/useAppTheme';
+// Import components
 // import BasicInput from './systems/BasicInput';
-// import { useNavigate } from 'react-router-dom';
 
-function LivePreview({ overviewRef }) {
-  const iframeRef = useRef<HTMLIFrameElement | null>(null);
+// Live preview component
+function LivePreview() {
+  // Define ref
+  const iframeRef = useRef(null);
+
+  // Define state
   const [previewURL, setPreviewURL] = useState('');
 
-  // Define store
+  // Define stores
   const livePreview = useLivePreviewStore((state) => state.livePreview);
   const setLivePreview = useLivePreviewStore((state) => state.setLivePreview);
   const refreshLivePreview = useLivePreviewStore(
@@ -45,11 +53,13 @@ function LivePreview({ overviewRef }) {
   );
   const files = useFileStore((state) => state.files);
   const currentWorkspace = useWorkspaceStore((state) => state.currentWorkspace);
-  const setShowPreview = useLivePreviewStore((state) => state.setShowPreview);
   // const liveURL = useLivePreviewStore((state) => state.liveURL);
   // const setLiveURL = useLivePreviewStore((state) => state.setLiveURL);
   const isLoadingLivePreview = useLivePreviewStore(
     (state) => state.isLoadingLivePreview
+  );
+  const closeRightSidePanel = usePanelStore(
+    (state) => state.closeRightSidePanel
   );
 
   // TODO - New tab/window live preview feature
@@ -86,8 +96,7 @@ function LivePreview({ overviewRef }) {
     }
 
     setPreviewURL('');
-  }, [files]);
-
+  }, [currentWorkspace, files, refreshLivePreview]);
   useEffect(() => {
     if (!livePreview) {
       setPreviewURL(''); // Clear the preview URL if HTML is empty
@@ -270,12 +279,7 @@ function LivePreview({ overviewRef }) {
                   bg: 'transparent',
                 }}
                 onClick={() => {
-                  const overview = overviewRef.current;
-                  if (overview) {
-                    overview.collapse();
-                  }
-
-                  setShowPreview(false);
+                  closeRightSidePanel();
                   setLivePreview('');
                 }}
                 disabled={!previewURL}

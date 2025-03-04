@@ -124,18 +124,24 @@ interface IPanelStore {
   isBottomBarPanelOpen: boolean;
   setIsBottomBarPanelOpen: (isOpen: boolean) => void;
   toggleBottomBarPanel: () => void;
+  openBottomBarPanel: () => void;
+  closeBottomBarPanel: () => void;
 
   leftSidePanelRef: TPanelRef;
   setLeftSidePanelRef: (ref: TPanelRef) => void;
   isLeftSidePanelOpen: boolean;
   setIsLeftSidePanelOpen: (isOpen: boolean) => void;
   toggleLeftSidePanel: (isSameNav: boolean) => void;
+  openLeftSidePanel: () => void;
+  closeLeftSidePanel: () => void;
 
   rightSidePanelRef: TPanelRef;
   setRightSidePanelRef: (ref: TPanelRef) => void;
   isRightSidePanelOpen: boolean;
   setIsRightSidePanelOpen: (isOpen: boolean) => void;
   toggleRightSidePanel: () => void;
+  openRightSidePanel: () => void;
+  closeRightSidePanel: () => void;
 }
 interface IPrevStateVariableStore {
   prevStateVariables: TStateVariable[];

@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from 'react';
 import { Panel, PanelGroup, PanelResizeHandle } from 'react-resizable-panels';
 // Import store
 import useLivePreviewStore from '@/stores/useLivePreviewStore';
+import usePanelStore from '@/stores/usePanelStore';
 // Import themes
 import useAppTheme from '@/themes/useAppTheme';
 // Import components
@@ -14,13 +15,16 @@ import LivePreview from '@/components/ui/LivePreview';
 import MainPanel from '@/components/ui/panels/MainPanel';
 import MainPanelHeader from '@/components/ui/MainPanelHeader';
 import Sidebar from '@/components/ui/Sidebar';
-import usePanelStore from '@/stores/usePanelStore';
 
-// Utility component
+// Panel handle component
 function PanelHandle({ direction }) {
+  // Define theme
   const { accent, borderColor } = useAppTheme();
+
+  // Define state
   const [isDragging, setIsDragging] = useState(false);
 
+  // Render
   return (
     <PanelResizeHandle
       className="relative"
@@ -53,12 +57,12 @@ function PanelHandle({ direction }) {
 
 // App content component
 function Content() {
-  // Define ref
-  const consoleRef = useRef(null);
-  const controlPanelRef = useRef(null);
-  const overviewRef = useRef(null);
+  // Define refs
+  const bottomPanelRef = useRef(null);
+  const leftPanelRef = useRef(null);
+  const rightPanelRef = useRef(null);
 
-  // Define store
+  // Define stores
   const showPreview = useLivePreviewStore((state) => state.showPreview);
   const setShowPreview = useLivePreviewStore((state) => state.setShowPreview);
   const setBottomBarPanelRef = usePanelStore(
@@ -73,7 +77,7 @@ function Content() {
   const setIsLeftSidePanelOpen = usePanelStore(
     (state) => state.setIsLeftSidePanelOpen
   );
-  const rightSidePanel = usePanelStore((state) => state.rightSidePanelRef);
+  const rightSidePanelRef = usePanelStore((state) => state.rightSidePanelRef);
   const setRightSidePanelRef = usePanelStore(
     (state) => state.setRightSidePanelRef
   );
@@ -83,9 +87,9 @@ function Content() {
 
   // Define effects
   useEffect(() => {
-    setBottomBarPanelRef(consoleRef);
-    setLeftSidePanelRef(controlPanelRef);
-    setRightSidePanelRef(overviewRef);
+    setBottomBarPanelRef(bottomPanelRef);
+    setLeftSidePanelRef(leftPanelRef);
+    setRightSidePanelRef(rightPanelRef);
 
     return () => {
       setBottomBarPanelRef(null);
@@ -93,25 +97,25 @@ function Content() {
       setRightSidePanelRef(null);
     };
   }, [
-    consoleRef,
-    controlPanelRef,
-    overviewRef,
+    bottomPanelRef,
+    leftPanelRef,
+    rightPanelRef,
     setBottomBarPanelRef,
     setLeftSidePanelRef,
     setRightSidePanelRef,
   ]);
   useEffect(() => {
-    if (!rightSidePanel) {
+    if (!rightSidePanelRef) {
       return;
     }
 
-    const panel = rightSidePanel.current;
+    const panel = rightSidePanelRef.current;
     if (panel) {
       if (panel.isExpanded()) {
         setShowPreview(true);
       }
     }
-  }, [rightSidePanel, setShowPreview]);
+  }, [rightSidePanelRef, setShowPreview]);
 
   // Render
   return (
@@ -124,10 +128,10 @@ function Content() {
           autoSaveId="panel-group-1"
           storage={localStorage}
         >
+          {/* Left Panel */}
           <Panel
-            id="panel-control"
             order={0}
-            ref={controlPanelRef}
+            ref={leftPanelRef}
             collapsible={true}
             collapsedSize={0}
             defaultSize={20}
@@ -137,27 +141,26 @@ function Content() {
           >
             <LeftSidePanel />
           </Panel>
-
           <PanelHandle direction="vertical" />
 
-          <Panel id="panel-code-editor" order={1} minSize={40}>
+          {/* Middle Panel */}
+          <Panel order={1} minSize={40}>
             <PanelGroup
               direction="vertical"
               autoSaveId="panel-group-2"
               storage={localStorage}
             >
+              {/* Main Panel */}
               <MainPanelHeader />
-
               <Panel collapsible={true} collapsedSize={0} minSize={15}>
                 <MainPanel />
               </Panel>
 
+              {/* Bottom Bar Panel */}
               <PanelHandle direction="horizontal" />
-
               <ConsoleHeader />
-
               <Panel
-                ref={consoleRef}
+                ref={bottomPanelRef}
                 collapsible={true}
                 collapsedSize={0}
                 defaultSize={20}
@@ -170,12 +173,11 @@ function Content() {
             </PanelGroup>
           </Panel>
 
+          {/* Right Side Panel */}
           <PanelHandle direction="vertical" />
-
           <Panel
-            id="panel-overview"
             order={3}
-            ref={overviewRef}
+            ref={rightPanelRef}
             collapsible={true}
             collapsedSize={0}
             defaultSize={0}
@@ -183,7 +185,7 @@ function Content() {
             onCollapse={() => setIsRightSidePanelOpen(false)}
             onExpand={() => setIsRightSidePanelOpen(true)}
           >
-            {showPreview && <LivePreview overviewRef={overviewRef} />}
+            {showPreview && <LivePreview />}
           </Panel>
         </PanelGroup>
       </HStack>
