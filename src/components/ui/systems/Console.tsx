@@ -27,9 +27,33 @@ function Console() {
   // Define states
   const [userInput, setUserInput] = useState('');
 
-  // Define functions
+  // Define handlers
   function handleOnMount(editor) {
     consoleOutputRef.current = editor;
+  }
+  function handleOnChange(value: string | undefined) {
+    setConsoleOutput(value || '');
+    setUserInput(value?.split('\n').pop() || '');
+  }
+  async function handleConsoleCommand(e) {
+    if (userInput && e.key === 'Enter') {
+      const result = await new Promise((resolve) => {
+        mds.cmd(userInput.trim(), (msg) => {
+          resolve(msg);
+        });
+      });
+
+      if (!userInput.endsWith('\n')) {
+        setConsoleOutput(consoleOutput + '\n');
+      }
+
+      extendConsoleOut(
+        '>> response start << \n' +
+          JSON.stringify(result, null, 2) +
+          '\n>> response end <<'
+      );
+      setUserInput('');
+    }
   }
 
   // Define effects
@@ -52,38 +76,15 @@ function Console() {
       h="100%"
       borderTop="1px solid"
       borderColor={borderColor}
-      onKeyDown={async (e) => {
-        if (userInput && e.key === 'Enter') {
-          const result = await new Promise((resolve) => {
-            mds.cmd(userInput.trim(), (msg) => {
-              resolve(msg);
-            });
-          });
-
-          if (!userInput.endsWith('\n')) {
-            setConsoleOutput(consoleOutput + '\n');
-          }
-
-          extendConsoleOut(
-            '>> response start << \n' +
-              JSON.stringify(result, null, 2) +
-              '\n>> response end <<'
-          );
-          setUserInput('');
-        }
-      }}
+      onKeyDown={handleConsoleCommand}
     >
       <Editor
-        onValidate={(e) => console.log(e)}
         height="100%"
         theme={editorTheme}
         language="shell"
         onMount={handleOnMount}
         value={consoleOutput}
-        onChange={async (value) => {
-          setConsoleOutput(value || '');
-          setUserInput(value?.split('\n').pop() || '');
-        }}
+        onChange={handleOnChange}
         options={{
           fontSize: 12 + editorZoom,
           minimap: { enabled: false },

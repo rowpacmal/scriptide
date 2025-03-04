@@ -8,17 +8,18 @@ import {
   useDisclosure,
 } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
-import {
-  // LuBug,
-  // LuCopy,
-  LuFile,
-} from 'react-icons/lu';
-// Import components
-import FileItemRename from './FileItemRename';
-import { FileItemContextMenu } from '../ContextMenu';
+// Import icons
+import { LuFile } from 'react-icons/lu';
+// Import themes
 import useAppTheme from '@/themes/useAppTheme';
+// Import types
+import { IWindow } from '@/types';
+// Import components
+import FileFolderRename from './FileFolderRename';
+import { FileItemContextMenu } from '../ContextMenu';
 
-// File item context menu component
+// Define constants
+const windowDocument = (window as IWindow & typeof globalThis).document;
 
 // File item component
 function FileItem({ file, onClick, isActive = false }) {
@@ -37,17 +38,16 @@ function FileItem({ file, onClick, isActive = false }) {
     onOpen();
   };
 
-  /* Quick fix for a glitch where the context menu
-   * would not close when scrolling.
-   */
+  // Define effects
   useEffect(() => {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    (window as any).document
+    /* Quick fix for a glitch where the context menu
+     * would not close when scrolling.
+     */
+    windowDocument
       .querySelector('#FILE_EXPLORER')
       ?.addEventListener('scroll', onClose);
     return () =>
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      (window as any).document
+      windowDocument
         .querySelector('#FILE_EXPLORER')
         ?.addEventListener('scroll', onClose);
   }, []);
@@ -56,7 +56,7 @@ function FileItem({ file, onClick, isActive = false }) {
   return (
     <>
       {renamingFile ? (
-        <FileItemRename file={file} setRenamingFile={setRenamingFile} />
+        <FileFolderRename file={file} setRenamingFile={setRenamingFile} />
       ) : (
         <Box
           cursor="pointer"

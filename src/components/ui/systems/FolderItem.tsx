@@ -1,5 +1,4 @@
-import { FileTree } from './FileTree';
-import useFileStore from '@/stores/useFileStore';
+// Import dependencies
 import {
   Box,
   HStack,
@@ -10,13 +9,28 @@ import {
   VStack,
 } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
-import FileItemRename from './FileItemRename';
+// Import icons
 import { LuChevronDown, LuChevronRight, LuFolder } from 'react-icons/lu';
-import { FolderItemContextMenu } from '../ContextMenu';
+// Import store
+import useFileStore from '@/stores/useFileStore';
+// Import themes
 import useAppTheme from '@/themes/useAppTheme';
+// Import constants
 import { DEFAULT_LOCAL_STORAGE_KEYS } from '@/constants';
+// Import types
+import { IWindow } from '@/types';
+// Import components
+import { FileTree } from './FileTree';
+import { FolderItemContextMenu } from '../ContextMenu';
+import FileFolderRename from './FileFolderRename';
+
+// Define constants
+const windowDocument = (window as IWindow & typeof globalThis).document;
 
 function FolderItem({ file, isExpanded, setIsExpanded, isActive }) {
+  // Define disclosure
+  const { isOpen, onOpen, onClose } = useDisclosure();
+
   // Define stores
   const currentFolder = useFileStore((state) => state.currentFolder);
   const setCurrentFolder = useFileStore((state) => state.setCurrentFolder);
@@ -25,19 +39,17 @@ function FolderItem({ file, isExpanded, setIsExpanded, isActive }) {
   // Define theme
   const { accent, color, colorAlt, bgAlt, borderColor } = useAppTheme();
 
-  // Define disclosure
-  const { isOpen, onOpen, onClose } = useDisclosure();
-
   // Define state
   const [renamingFile, setRenamingFile] = useState(false);
 
   // Define handlers
   const handleContextMenu = (e) => {
     e.preventDefault(); // Disable default menu
+    setCurrentFolder(file.location);
     onOpen();
   };
-
   function handleExpand() {
+    setCurrentFolder(file.location);
     setIsExpanded((prevState) => {
       if (currentFolder !== file.location && isExpanded[file.location]) {
         return prevState;
@@ -57,18 +69,17 @@ function FolderItem({ file, isExpanded, setIsExpanded, isActive }) {
     });
   }
 
-  /* Quick fix for a glitch where the context menu
-   * would not close when scrolling.
-   */
+  // Define effects
   useEffect(() => {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    (window as any).document
+    /* Quick fix for a glitch where the context menu
+     * would not close when scrolling.
+     */
+    windowDocument
       .querySelector('#FILE_EXPLORER')
       ?.addEventListener('scroll', onClose);
 
     return () =>
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      (window as any).document
+      windowDocument
         .querySelector('#FILE_EXPLORER')
         ?.addEventListener('scroll', onClose);
   }, []);
@@ -76,7 +87,7 @@ function FolderItem({ file, isExpanded, setIsExpanded, isActive }) {
   return (
     <VStack w="100%" gap={0.5} borderRadius="sm" bg={isActive ? bgAlt : ''}>
       {renamingFile ? (
-        <FileItemRename file={file} setRenamingFile={setRenamingFile} />
+        <FileFolderRename file={file} setRenamingFile={setRenamingFile} />
       ) : (
         <Box
           cursor="pointer"
@@ -89,14 +100,8 @@ function FolderItem({ file, isExpanded, setIsExpanded, isActive }) {
             <MenuButton
               as="div"
               w="100%"
-              onClick={() => {
-                setCurrentFolder(file.location);
-                handleExpand();
-              }}
-              onContextMenu={(e) => {
-                setCurrentFolder(file.location);
-                handleContextMenu(e);
-              }}
+              onClick={handleExpand}
+              onContextMenu={handleContextMenu}
             >
               <HStack
                 w="100%"

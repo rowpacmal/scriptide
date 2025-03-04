@@ -1,12 +1,15 @@
-import useFileStore from '@/stores/useFileStore';
-import useAppTheme from '@/themes/useAppTheme';
+// Import dependencies
 import { Input } from '@chakra-ui/react';
 import { useEffect, useRef } from 'react';
+// Import store
+import useFileStore from '@/stores/useFileStore';
+// Import themes
+import useAppTheme from '@/themes/useAppTheme';
 
-function FileInput({ value, onBlur, onChange, onKeyDown }) {
+// File input component
+function FileInput({ ...props }) {
   // Define ref
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const inputRef: any = useRef(null);
+  const inputRef = useRef<HTMLInputElement>(null);
 
   // Define theme
   const { bgAlt, borderColor } = useAppTheme();
@@ -19,9 +22,9 @@ function FileInput({ value, onBlur, onChange, onKeyDown }) {
     if (inputRef.current) {
       inputRef.current.focus();
 
+      const { value } = props;
       if (value || value.length > 0) {
         let selection = value;
-
         if (selection.includes('.')) {
           selection = selection.split('.');
           selection.pop();
@@ -31,7 +34,7 @@ function FileInput({ value, onBlur, onChange, onKeyDown }) {
         inputRef.current.setSelectionRange(0, selection.length);
       }
     }
-  }, []);
+  }, [props]);
 
   // Render
   return (
@@ -44,10 +47,7 @@ function FileInput({ value, onBlur, onChange, onKeyDown }) {
       borderColor={borderColor}
       borderRadius="none"
       _placeholder={{ color: borderColor }}
-      value={value}
-      onBlur={onBlur}
-      onChange={onChange}
-      onKeyDown={onKeyDown}
+      {...props}
     />
   );
 }
