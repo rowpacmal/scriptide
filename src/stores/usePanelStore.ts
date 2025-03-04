@@ -1,29 +1,14 @@
+// Import dependencies
 import { create } from 'zustand';
+// Import stores
 import useLivePreviewStore from './useLivePreviewStore';
+// Import types
+import { IPanelStore } from '@/types';
 
-interface IPanelStore {
-  bottomBarPanelRef: any;
-  setBottomBarPanelRef: (ref: any) => void;
-  isBottomBarPanelOpen: boolean;
-  setIsBottomBarPanelOpen: (isOpen: boolean) => void;
-  toggleBottomBarPanel: () => void;
-
-  leftSidePanelRef: any;
-  setLeftSidePanelRef: (ref: any) => void;
-  isLeftSidePanelOpen: boolean;
-  setIsLeftSidePanelOpen: (isOpen: boolean) => void;
-  toggleLeftSidePanel: (isSameNav: boolean) => void;
-
-  rightSidePanelRef: any;
-  setRightSidePanelRef: (ref: any) => void;
-  isRightSidePanelOpen: boolean;
-  setIsRightSidePanelOpen: (isOpen: boolean) => void;
-  toggleRightSidePanel: () => void;
-}
-
+// Create the store
 const usePanelStore = create<IPanelStore>((set) => ({
   bottomBarPanelRef: null,
-  setBottomBarPanelRef: (ref: any) => set({ bottomBarPanelRef: ref }),
+  setBottomBarPanelRef: (ref) => set({ bottomBarPanelRef: ref }),
   isBottomBarPanelOpen: false,
   setIsBottomBarPanelOpen: (isOpen: boolean) =>
     set({ isBottomBarPanelOpen: isOpen }),
@@ -47,7 +32,7 @@ const usePanelStore = create<IPanelStore>((set) => ({
       return state;
     }),
   leftSidePanelRef: null,
-  setLeftSidePanelRef: (ref: any) => set({ leftSidePanelRef: ref }),
+  setLeftSidePanelRef: (ref) => set({ leftSidePanelRef: ref }),
   isLeftSidePanelOpen: false,
   setIsLeftSidePanelOpen: (isOpen: boolean) =>
     set({ isLeftSidePanelOpen: isOpen }),
@@ -72,7 +57,7 @@ const usePanelStore = create<IPanelStore>((set) => ({
     }),
 
   rightSidePanelRef: null,
-  setRightSidePanelRef: (ref: any) => set({ rightSidePanelRef: ref }),
+  setRightSidePanelRef: (ref) => set({ rightSidePanelRef: ref }),
   isRightSidePanelOpen: false,
   setIsRightSidePanelOpen: (isOpen: boolean) =>
     set({ isRightSidePanelOpen: isOpen }),
@@ -99,4 +84,5 @@ const usePanelStore = create<IPanelStore>((set) => ({
     }),
 }));
 
+// Export the store
 export default usePanelStore;

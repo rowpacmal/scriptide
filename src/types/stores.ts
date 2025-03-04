@@ -1,4 +1,5 @@
 // Import types
+import { PanelProps } from 'node_modules/react-resizable-panels/dist/declarations/src/Panel';
 import { TFile } from './file';
 import { EModalTypes } from './modal-types';
 
@@ -117,6 +118,25 @@ interface INavigationStore {
   navigation: string;
   setNavigation: (navigation: string) => void;
 }
+interface IPanelStore {
+  bottomBarPanelRef: TPanelRef;
+  setBottomBarPanelRef: (ref: TPanelRef) => void;
+  isBottomBarPanelOpen: boolean;
+  setIsBottomBarPanelOpen: (isOpen: boolean) => void;
+  toggleBottomBarPanel: () => void;
+
+  leftSidePanelRef: TPanelRef;
+  setLeftSidePanelRef: (ref: TPanelRef) => void;
+  isLeftSidePanelOpen: boolean;
+  setIsLeftSidePanelOpen: (isOpen: boolean) => void;
+  toggleLeftSidePanel: (isSameNav: boolean) => void;
+
+  rightSidePanelRef: TPanelRef;
+  setRightSidePanelRef: (ref: TPanelRef) => void;
+  isRightSidePanelOpen: boolean;
+  setIsRightSidePanelOpen: (isOpen: boolean) => void;
+  toggleRightSidePanel: () => void;
+}
 interface IPrevStateVariableStore {
   prevStateVariables: TStateVariable[];
   setPrevStateVariables: (prevStateVariables: TStateVariable[]) => void;
@@ -208,6 +228,13 @@ type TGlobals = {
 };
 type TModalType = EModalTypes | null;
 type TModalProps = unknown | null;
+type TPanelProps = {
+  collapse: () => void;
+  expand: () => void;
+  isCollapsed: () => boolean;
+  isExpanded: () => boolean;
+};
+type TPanelRef = React.RefObject<HTMLDivElement & TPanelProps> | null;
 type TScript = {
   address: string;
   default: boolean;
@@ -232,6 +259,7 @@ export type {
   ILocalStorage,
   IModalStore,
   INavigationStore,
+  IPanelStore,
   IPrevStateVariableStore,
   IRunScriptStore,
   ISignatureStore,
@@ -245,6 +273,7 @@ export type {
   TGlobals,
   TModalType,
   TModalProps,
+  TPanelRef,
   TScript,
   TScriptVariables,
   TStateVariable,
