@@ -1,5 +1,5 @@
 // Import types
-import { IWindow } from '@/types';
+import { IResponse, IWindow } from '@/types';
 // Import utilities
 import responseHandler from '../utils/responseHandler';
 
@@ -10,10 +10,10 @@ export const mds = (window as IWindow & typeof globalThis).MDS;
 const minima = {
   version: '0.0.1',
 
-  cmd: function (command: string) {
+  cmd: function <T>(command: string): Promise<IResponse<T>> {
     return new Promise((resolve, reject) => {
-      mds.cmd(command, (msg) => {
-        responseHandler(
+      mds.cmd<T>(command, (msg) => {
+        responseHandler<T>(
           msg,
           resolve,
           reject,
@@ -50,10 +50,15 @@ const minima = {
         });
       });
     },
-    load: function (path: string) {
+    load: function <T>(path: string): Promise<IResponse<T>> {
       return new Promise((resolve, reject) => {
-        mds.file.load(path, (msg) => {
-          responseHandler(msg, resolve, reject, 'Failed to load file: ' + path);
+        mds.file.load<T>(path, (msg) => {
+          responseHandler<T>(
+            msg,
+            resolve,
+            reject,
+            'Failed to load file: ' + path
+          );
         });
       });
     },

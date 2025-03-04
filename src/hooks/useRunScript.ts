@@ -13,7 +13,12 @@ import useSignatureStore from '@/stores/useSignatureStore';
 import useStateVariableStore from '@/stores/useStateVariableStore';
 import usePrevStateVariableStore from '@/stores/usePrevStateVariableStore';
 import useFileStore from '@/stores/useFileStore';
-import { TRunScriptMessage } from '@/types';
+import {
+  TFile,
+  TMDSFileLoad,
+  TMDSCommandMMRCreate,
+  TMDSCommandRunScript,
+} from '@/types';
 
 // Run script hook
 function useRunScript() {
@@ -143,7 +148,7 @@ function useRunScript() {
     const {
       root: { data: atAddress },
     }: { root: { data: string } } = (
-      await minima.cmd<any>(`mmrcreate nodes:["${script}"]`)
+      await minima.cmd<TMDSCommandMMRCreate>(`mmrcreate nodes:["${script}"]`)
     ).response;
     // console.log(atAddress);
 
@@ -164,7 +169,7 @@ function useRunScript() {
     // Get the extra scripts and stringify them
     let extraScriptsStr = {};
     for (const file of files.filter(
-      (f: any) =>
+      (f: TFile) =>
         f.location.split('/').splice(3)[0] === 'contracts' &&
         f.name.endsWith('.kvm')
     )) {
@@ -175,7 +180,8 @@ function useRunScript() {
       // Check if the script imports the extra script
       if (script.includes(`@[${name}]`)) {
         // load imported script data and clean it
-        const value = (await minima.file.load(location)).response.load.data;
+        const value = (await minima.file.load<TMDSFileLoad>(location)).response
+          .load.data;
         // console.log(value);
         const extraTxt = value.trim();
         let extraScript = extraTxt.replace(/\s+/g, ' ').trim();
@@ -185,8 +191,11 @@ function useRunScript() {
         const {
           nodes: [{ proof }],
           root: { data },
-        }: any = (await minima.cmd(`mmrcreate nodes:["${extraScript}"]`))
-          .response;
+        } = (
+          await minima.cmd<TMDSCommandMMRCreate>(
+            `mmrcreate nodes:["${extraScript}"]`
+          )
+        ).response;
         // console.log(proof, data);
 
         // Add the script and proof to the extraScriptsStr
@@ -203,7 +212,7 @@ function useRunScript() {
     // Run the script
     const cmd = `runscript script:"${script}" globals:${globalVariables} state:${stateVars} prevstate:${prevStateVars} signatures:${signers} extrascripts:${extraScriptsStr}`;
 
-    mds.cmd<TRunScriptMessage>(cmd, (msg) => {
+    mds.cmd<TMDSCommandRunScript>(cmd, (msg) => {
       // console.log(msg);
 
       if (msg.status) {

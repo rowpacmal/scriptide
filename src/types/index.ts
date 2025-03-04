@@ -2,6 +2,7 @@ export * from './components';
 export * from './context';
 export * from './file';
 export * from './language-types';
+export * from './minima';
 export * from './modal-types';
 export * from './navigation-states';
 export * from './response';

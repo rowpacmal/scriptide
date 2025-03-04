@@ -1,34 +1,26 @@
-// Import types
-import { TScriptVariables } from './stores';
-
-// Interface
-interface IResponse {
+// ============================================================== //
+// Response interfaces ------------------------------------------ //
+// ============================================================== //
+interface IResponse<T> {
   status: boolean;
   pending: boolean;
-  response: unknown;
+  response: T | null;
   error: string;
 }
 
-// Types
-type TMessage = {
+// ============================================================== //
+// Response types ----------------------------------------------- //
+// ============================================================== //
+type TMessage<T> = {
   status: boolean;
   pending: boolean;
-  response: unknown;
+  response: T;
   error: string;
   message?: string;
   event?: string;
 };
-type TResolve = (value: IResponse) => void;
-type TReject = (reason: IResponse) => void;
-type TRunScriptMessage = TMessage & {
-  response: {
-    clean: { address: string; mxaddress: string; script: string };
-    monotonic: boolean;
-    parseok: boolean;
-    success: boolean;
-    trace: string;
-    variables: TScriptVariables;
-  };
-};
+type TResolve<T> = (value: IResponse<T> | PromiseLike<IResponse<T>>) => void;
+type TReject<T> = (reason: IResponse<T> | PromiseLike<IResponse<T>>) => void;
 
-export type { IResponse, TMessage, TResolve, TReject, TRunScriptMessage };
+// ============================================================= //
+export type { IResponse, TMessage, TResolve, TReject };

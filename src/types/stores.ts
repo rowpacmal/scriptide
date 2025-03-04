@@ -254,6 +254,7 @@ type TScriptVariables = { [key: string]: string };
 type TStateVariable = { index: number; value: string };
 type TStatus = boolean | null;
 
+// ============================================================= //
 export type {
   // Interfaces
   IConsoleStore,
@@ -271,6 +272,7 @@ export type {
   ISignatureStore,
   IStateVariableStore,
   IWorkspaceStore,
+
   // Types
   TAllCodes,
   TCode,

@@ -2,13 +2,13 @@
 import { IResponse, TMessage, TReject, TResolve } from '@/types';
 
 // Response Object
-class Response {
+class Response<T> {
   status: boolean;
   pending: boolean;
-  response: unknown;
+  response: T | null;
   error: string;
 
-  constructor({ status, pending, response, error }: IResponse) {
+  constructor({ status, pending, response, error }: IResponse<T>) {
     this.status = status;
     this.pending = pending;
     this.response = response;
@@ -17,10 +17,10 @@ class Response {
 }
 
 // Response handler utility function
-function responseHandler(
-  msg: TMessage | TMessage[],
-  resolve: TResolve,
-  reject: TReject,
+function responseHandler<T>(
+  msg: TMessage<T> | TMessage<T>[],
+  resolve: TResolve<T>,
+  reject: TReject<T>,
   genericError: string
 ) {
   if (Array.isArray(msg)) {
@@ -40,7 +40,7 @@ function responseHandler(
       if (success) {
         // On success
         resolve(
-          new Response({
+          new Response<T>({
             status: true,
             pending: false,
             response: msg[msg.length - 1].response,
@@ -50,7 +50,12 @@ function responseHandler(
       } else {
         // On error
         reject(
-          new Response({ status: false, pending: false, response: null, error })
+          new Response<T>({
+            status: false,
+            pending: false,
+            response: null,
+            error,
+          })
         );
       }
     }
@@ -58,7 +63,7 @@ function responseHandler(
     // On success
     if (msg.status && !msg.pending) {
       resolve(
-        new Response({
+        new Response<T>({
           status: true,
           pending: false,
           response: msg.response,
@@ -70,7 +75,7 @@ function responseHandler(
     // On pending
     if (!msg.status && msg.pending) {
       reject(
-        new Response({
+        new Response<T>({
           status: false,
           pending: true,
           response: msg.response,
@@ -82,7 +87,7 @@ function responseHandler(
     // On error
     if (!msg.status && !msg.pending) {
       reject(
-        new Response({
+        new Response<T>({
           status: false,
           pending: false,
           response: null,
