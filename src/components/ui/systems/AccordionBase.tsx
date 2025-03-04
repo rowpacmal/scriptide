@@ -11,6 +11,8 @@ import {
 import { LuChevronDown, LuChevronUp } from 'react-icons/lu';
 // Import themes
 import useAppTheme from '@/themes/useAppTheme';
+// Import types
+import { IAccordionItemBaseProps } from '@/types';
 
 // Accordion base component
 function AccordionBase({ children, ...props }) {
@@ -34,10 +36,10 @@ function AccordionBase({ children, ...props }) {
 function AccordionItemBase({
   children,
   title,
-  icon = null,
-  isTop = false,
-  isBottom = false,
-}) {
+  icon,
+  isTop,
+  isBottom,
+}: IAccordionItemBaseProps) {
   // Define theme
   const { color, colorAlt } = useAppTheme();
 

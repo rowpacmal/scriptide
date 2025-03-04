@@ -7,6 +7,7 @@ import {
   // Tooltip
 } from '@chakra-ui/react';
 
+// Menu divider base component
 function MenuDividerBase() {
   return <MenuDivider my={1} />;
 }
@@ -22,6 +23,7 @@ function MenuItemBase({
   // Define theme
   const { borderColor, color } = useAppTheme();
 
+  // Render
   return (
     <>
       {/* Disabled the tooltip - was distractive */}

@@ -3,7 +3,7 @@ import { Button, Tooltip } from '@chakra-ui/react';
 // Import themes
 import useAppTheme from '@/themes/useAppTheme';
 
-// Code editor header button component
+// Header button component
 function HeaderButton({
   children,
   label,

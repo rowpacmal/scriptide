@@ -3,6 +3,7 @@ import { Button, Tooltip } from '@chakra-ui/react';
 // Import themes
 import useAppTheme from '@/themes/useAppTheme';
 
+// Hover button component
 function HoverButton({
   children,
   label,
@@ -38,4 +39,5 @@ function HoverButton({
   );
 }
 
+// Export
 export default HoverButton;

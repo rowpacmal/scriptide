@@ -1,3 +1,4 @@
+export * from './components';
 export * from './context';
 export * from './file';
 export * from './language-types';
