@@ -17,6 +17,7 @@ import useAppTheme from '@/themes/useAppTheme';
 import AppLogo from './systems/AppLogo';
 // Import types
 import { ENavigationStates } from '@/types';
+import usePanelStore from '@/stores/usePanelStore';
 
 // Constants
 const ICON_SIZE = 24;
@@ -61,14 +62,20 @@ function SidebarButton({
 }
 
 // Sidebar component
-function Sidebar({ isControlPanelCollapsed, handelToggleControlPanel }) {
+function Sidebar() {
   // Define store
   const navigation = useNavigationStore((state) => state.navigation);
   const setNavigation = useNavigationStore((state) => state.setNavigation);
+  const isLeftSidePanelOpen = usePanelStore(
+    (state) => state.isLeftSidePanelOpen
+  );
+  const toggleLeftSidePanel = usePanelStore(
+    (state) => state.toggleLeftSidePanel
+  );
 
   // Define functions
   function handleNavigationChange(nav: string) {
-    handelToggleControlPanel(nav === navigation);
+    toggleLeftSidePanel(nav === navigation);
 
     if (nav !== navigation) {
       setNavigation(nav);
@@ -76,7 +83,7 @@ function Sidebar({ isControlPanelCollapsed, handelToggleControlPanel }) {
   }
 
   function handleIsActive(nav: string) {
-    return navigation === nav && !isControlPanelCollapsed;
+    return navigation === nav && isLeftSidePanelOpen;
   }
 
   // Render

@@ -11,7 +11,7 @@ import {
 } from './MainPanelHeaderButtons';
 
 // Code editor header component
-function MainPanelHeader({ isOverviewCollapsed, handelToggleOverview }) {
+function MainPanelHeader() {
   // Define store
   const currentFile = useFileStore((state) => state.currentFile);
 
@@ -26,10 +26,7 @@ function MainPanelHeader({ isOverviewCollapsed, handelToggleOverview }) {
         <ZoomEditorButtons />
       </HStack>
 
-      <RightSidebarButton
-        isOverviewCollapsed={isOverviewCollapsed}
-        handelToggleOverview={handelToggleOverview}
-      />
+      <RightSidebarButton />
     </HStack>
   );
 }

@@ -3,18 +3,25 @@ import { Box, Button, HStack, Tooltip } from '@chakra-ui/react';
 import { LuBan, LuChevronsDown, LuChevronsUp } from 'react-icons/lu';
 // Import store
 import useConsoleStore from '@/stores/useConsoleStore';
+import usePanelStore from '@/stores/usePanelStore';
 
 // Console header component
-function ConsoleHeader({ isConsoleCollapsed, handelToggleConsole }) {
+function ConsoleHeader() {
   // Define store
   const clearConsoleOut = useConsoleStore((state) => state.clearConsoleOut);
+  const isBottomBarPanelOpen = usePanelStore(
+    (state) => state.isBottomBarPanelOpen
+  );
+  const toggleBottomBarPanel = usePanelStore(
+    (state) => state.toggleBottomBarPanel
+  );
 
   // Render
   return (
     <HStack gap={0} justify="space-between">
       <Box>
         <Tooltip
-          label={isConsoleCollapsed ? 'Show console' : 'Hide console'}
+          label={isBottomBarPanelOpen ? 'Hide console' : 'Show console'}
           placement="top"
           hasArrow
         >
@@ -27,9 +34,9 @@ function ConsoleHeader({ isConsoleCollapsed, handelToggleConsole }) {
             _active={{
               bg: 'transparent',
             }}
-            onClick={handelToggleConsole}
+            onClick={toggleBottomBarPanel}
           >
-            {isConsoleCollapsed ? <LuChevronsUp /> : <LuChevronsDown />}
+            {isBottomBarPanelOpen ? <LuChevronsDown /> : <LuChevronsUp />}
           </Button>
         </Tooltip>
       </Box>

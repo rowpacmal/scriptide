@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-
 // Import dependencies
 import { Box, HStack } from '@chakra-ui/react';
 import { useEffect, useRef, useState } from 'react';
@@ -16,6 +14,7 @@ import LivePreview from '@/components/ui/LivePreview';
 import MainPanel from '@/components/ui/panels/MainPanel';
 import MainPanelHeader from '@/components/ui/MainPanelHeader';
 import Sidebar from '@/components/ui/Sidebar';
+import usePanelStore from '@/stores/usePanelStore';
 
 // Utility component
 function PanelHandle({ direction }) {
@@ -59,79 +58,66 @@ function Content() {
   const controlPanelRef = useRef(null);
   const overviewRef = useRef(null);
 
-  // Define states
-  const [isConsoleCollapsed, setIsConsoleCollapsed] = useState(false);
-  const [isControlPanelCollapsed, setIsControlPanelCollapsed] = useState(false);
-  const [isOverviewCollapsed, setIsOverviewCollapsed] = useState(false);
-
   // Define store
   const showPreview = useLivePreviewStore((state) => state.showPreview);
   const setShowPreview = useLivePreviewStore((state) => state.setShowPreview);
+  const setBottomBarPanelRef = usePanelStore(
+    (state) => state.setBottomBarPanelRef
+  );
+  const setIsBottomBarPanelOpen = usePanelStore(
+    (state) => state.setIsBottomBarPanelOpen
+  );
+  const setLeftSidePanelRef = usePanelStore(
+    (state) => state.setLeftSidePanelRef
+  );
+  const setIsLeftSidePanelOpen = usePanelStore(
+    (state) => state.setIsLeftSidePanelOpen
+  );
+  const rightSidePanel = usePanelStore((state) => state.rightSidePanelRef);
+  const setRightSidePanelRef = usePanelStore(
+    (state) => state.setRightSidePanelRef
+  );
+  const setIsRightSidePanelOpen = usePanelStore(
+    (state) => state.setIsRightSidePanelOpen
+  );
 
   // Define effects
   useEffect(() => {
-    const overview: any = overviewRef.current;
+    setBottomBarPanelRef(consoleRef);
+    setLeftSidePanelRef(controlPanelRef);
+    setRightSidePanelRef(overviewRef);
 
-    if (overview) {
-      if (overview.isExpanded()) {
+    return () => {
+      setBottomBarPanelRef(null);
+      setLeftSidePanelRef(null);
+      setRightSidePanelRef(null);
+    };
+  }, [
+    consoleRef,
+    controlPanelRef,
+    overviewRef,
+    setBottomBarPanelRef,
+    setLeftSidePanelRef,
+    setRightSidePanelRef,
+  ]);
+  useEffect(() => {
+    if (!rightSidePanel) {
+      return;
+    }
+
+    const panel = rightSidePanel.current;
+    if (panel) {
+      if (panel.isExpanded()) {
         setShowPreview(true);
       }
     }
-  }, []);
-
-  // Define functions
-  const handelToggleConsole = () => {
-    const codeConsole: any = consoleRef.current;
-
-    if (codeConsole) {
-      if (codeConsole.isCollapsed()) {
-        codeConsole.expand();
-        setIsConsoleCollapsed(false);
-      } else {
-        codeConsole.collapse();
-        setIsConsoleCollapsed(true);
-      }
-    }
-  };
-
-  const handelToggleControlPanel = (isNavSame: boolean) => {
-    const controlPanel: any = controlPanelRef.current;
-
-    if (controlPanel) {
-      if (controlPanel.isCollapsed()) {
-        controlPanel.expand();
-        setIsControlPanelCollapsed(false);
-      } else if (controlPanel.isExpanded() && isNavSame) {
-        controlPanel.collapse();
-        setIsControlPanelCollapsed(true);
-      }
-    }
-  };
-
-  const handelToggleOverview = () => {
-    const overview: any = overviewRef.current;
-
-    if (overview) {
-      if (overview.isCollapsed()) {
-        overview.expand();
-        setIsOverviewCollapsed(false);
-        setShowPreview(true);
-      } else {
-        overview.collapse();
-        setIsOverviewCollapsed(true);
-        setShowPreview(false);
-      }
-    }
-  };
+  }, [rightSidePanel, setShowPreview]);
 
   // Render
   return (
     <Box h="calc(100vh - 2.5rem)">
       <HStack h="100%" gap={0}>
-        <Sidebar
-          isControlPanelCollapsed={isControlPanelCollapsed}
-          handelToggleControlPanel={handelToggleControlPanel}
-        />
+        <Sidebar />
 
         <PanelGroup
           direction="horizontal"
@@ -146,8 +132,8 @@ function Content() {
             collapsedSize={0}
             defaultSize={20}
             minSize={15}
-            onCollapse={() => setIsControlPanelCollapsed(true)}
-            onExpand={() => setIsControlPanelCollapsed(false)}
+            onCollapse={() => setIsLeftSidePanelOpen(false)}
+            onExpand={() => setIsLeftSidePanelOpen(true)}
           >
             <LeftSidePanel />
           </Panel>
@@ -160,10 +146,7 @@ function Content() {
               autoSaveId="panel-group-2"
               storage={localStorage}
             >
-              <MainPanelHeader
-                isOverviewCollapsed={isOverviewCollapsed}
-                handelToggleOverview={handelToggleOverview}
-              />
+              <MainPanelHeader />
 
               <Panel collapsible={true} collapsedSize={0} minSize={15}>
                 <MainPanel />
@@ -171,10 +154,7 @@ function Content() {
 
               <PanelHandle direction="horizontal" />
 
-              <ConsoleHeader
-                isConsoleCollapsed={isConsoleCollapsed}
-                handelToggleConsole={handelToggleConsole}
-              />
+              <ConsoleHeader />
 
               <Panel
                 ref={consoleRef}
@@ -182,25 +162,13 @@ function Content() {
                 collapsedSize={0}
                 defaultSize={20}
                 minSize={15}
-                onCollapse={() => setIsConsoleCollapsed(true)}
-                onExpand={() => setIsConsoleCollapsed(false)}
+                onCollapse={() => setIsBottomBarPanelOpen(false)}
+                onExpand={() => setIsBottomBarPanelOpen(true)}
               >
                 <Console />
               </Panel>
             </PanelGroup>
           </Panel>
-
-          {/*
-          {showPreview && (
-            <>
-              <PanelHandle direction="vertical" />
-
-              <Panel id="panel-live-preview" order={2} minSize={20}>
-                <LivePreview />
-              </Panel>
-            </>
-          )}
-          */}
 
           <PanelHandle direction="vertical" />
 
@@ -212,8 +180,8 @@ function Content() {
             collapsedSize={0}
             defaultSize={0}
             minSize={20}
-            onCollapse={() => setIsOverviewCollapsed(true)}
-            onExpand={() => setIsOverviewCollapsed(false)}
+            onCollapse={() => setIsRightSidePanelOpen(false)}
+            onExpand={() => setIsRightSidePanelOpen(true)}
           >
             {showPreview && <LivePreview overviewRef={overviewRef} />}
           </Panel>

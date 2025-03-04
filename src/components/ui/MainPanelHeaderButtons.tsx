@@ -24,23 +24,30 @@ import isImageFile from '@/utils/isImageFile';
 import useAppTheme from '@/themes/useAppTheme';
 // Import components
 import HeaderButton from './systems/HeaderButton';
+import usePanelStore from '@/stores/usePanelStore';
 
 // Right sidebar button component
-function RightSidebarButton({ isOverviewCollapsed, handelToggleOverview }) {
+function RightSidebarButton() {
   // Define store
   const togglePreview = useLivePreviewStore((state) => state.togglePreview);
+  const isRightSidePanelOpen = usePanelStore(
+    (state) => state.isRightSidePanelOpen
+  );
+  const toggleRightSidePanel = usePanelStore(
+    (state) => state.toggleRightSidePanel
+  );
 
   // Render
   return (
     <Box>
       <HeaderButton
-        label={`${isOverviewCollapsed ? 'Show' : 'Hide'} live preview`}
+        label={`${isRightSidePanelOpen ? 'Hide' : 'Show'} live preview`}
         onClick={() => {
           togglePreview();
-          handelToggleOverview();
+          toggleRightSidePanel();
         }}
       >
-        {isOverviewCollapsed ? <LuChevronsLeft /> : <LuChevronsRight />}
+        {isRightSidePanelOpen ? <LuChevronsRight /> : <LuChevronsLeft />}
       </HeaderButton>
     </Box>
   );
