@@ -12,11 +12,11 @@ import { ENavigationStates } from '@/types';
 // Import themes
 import useAppTheme from '@/themes/useAppTheme';
 // Import components
-import DeployBuildPanel from './panels/DeployBuildPanel';
-import ExplorerPanel from './panels/ExplorerPanel';
-import HomePanel from './panels/HomePanel';
-import KissVMPanel from './panels/KissVMPanel';
-import SettingsPanel from './panels/SettingsPanel';
+import DeployBuildPanel from './DeployBuildPanel';
+import ExplorerPanel from './ExplorerPanel';
+import HomePanel from './HomePanel';
+import KissVMPanel from './KissVMPanel';
+import SettingsPanel from './SettingsPanel';
 
 // Control panel component
 function LeftSidePanel() {

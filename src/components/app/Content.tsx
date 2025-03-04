@@ -8,9 +8,9 @@ import usePanelStore from '@/stores/usePanelStore';
 // Import themes
 import useAppTheme from '@/themes/useAppTheme';
 // Import components
-import Console from '@/components/ui/systems/Console';
+import Console from '@/components/ui/Console';
 import ConsoleHeader from '@/components/ui/ConsoleHeader';
-import LeftSidePanel from '@/components/ui/LeftSidePanel';
+import LeftSidePanel from '@/components/ui/panels/LeftSidePanel';
 import LivePreview from '@/components/ui/LivePreview';
 import MainPanel from '@/components/ui/panels/MainPanel';
 import MainPanelHeader from '@/components/ui/MainPanelHeader';

@@ -15,7 +15,7 @@ import {
 } from '@chakra-ui/react';
 import { useRef } from 'react';
 import { LuChevronRight, LuX } from 'react-icons/lu';
-import CodeEditor from '../systems/CodeEditor';
+import CodeEditor from '../CodeEditor';
 import useAppTheme from '@/themes/useAppTheme';
 import ImageViewer from '../ImageViewer';
 
