@@ -1,5 +1,43 @@
+// Import types
+import { TFile } from './file';
+import { IResponse } from './response';
 import { TScriptVariables } from './stores';
 
+// ============================================================== //
+// Minima wrapper interface ------------------------------------- //
+// ============================================================== //
+interface IMDS {
+  version: string;
+
+  cmd: <T>(command: string) => Promise<IResponse<T>>;
+
+  file: {
+    list: (path: string) => Promise<IResponse<TMDSFileList>>;
+    save: (path: string, data: string) => Promise<IResponse<unknown>>;
+    savebinary: (path: string, data: string) => Promise<IResponse<unknown>>;
+    load: (path: string) => Promise<IResponse<TMDSFileLoad>>;
+    loadbinary: (path: string) => Promise<IResponse<TMDSFileLoad>>;
+    delete: (path: string) => Promise<IResponse<unknown>>;
+    getpath: (path: string) => Promise<IResponse<unknown>>;
+    makedir: (path: string) => Promise<IResponse<unknown>>;
+    copy: (path: string, newPath: string) => Promise<IResponse<unknown>>;
+    move: (path: string, newPath: string) => Promise<IResponse<unknown>>;
+    copytoweb: (path: string, newPath: string) => Promise<IResponse<unknown>>;
+    deletefromweb: (path: string) => Promise<IResponse<unknown>>;
+  };
+
+  util: {
+    base64ToHex: (base64: string) => string;
+    hexToBase64: (hex: string) => string;
+  };
+}
+
+// ============================================================== //
+// Minima wrapper types ----------------------------------------- //
+// ============================================================== //
+type TMDSFileList = {
+  list: TFile[];
+};
 type TMDSFileLoad = {
   load: {
     data: string;
@@ -20,4 +58,10 @@ type TMDSCommandRunScript = {
   variables: TScriptVariables;
 };
 
-export type { TMDSFileLoad, TMDSCommandMMRCreate, TMDSCommandRunScript };
+export type {
+  IMDS,
+  TMDSFileList,
+  TMDSFileLoad,
+  TMDSCommandMMRCreate,
+  TMDSCommandRunScript,
+};

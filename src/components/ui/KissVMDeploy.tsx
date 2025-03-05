@@ -191,8 +191,9 @@ function KissVMDeploy() {
       // Check if the script imports the extra script
       if (script.includes(`@[${name}]`)) {
         // load imported script data and clean it
-        const value = (await minima.file.load<TMDSFileLoad>(location)).response
-          .load.data;
+        const value =
+          (await minima.file.load(location)).response?.load.data || '';
+
         // console.log(value);
         const extraTxt = value.trim();
         let extraScript = extraTxt.replace(/\s+/g, ' ').trim();
@@ -223,7 +224,7 @@ function KissVMDeploy() {
       await minima.cmd<TMDSCommandRunScript>(
         `runscript script:"${script}" extrascripts:${extraScriptsStr}`
       )
-    ).response;
+    ).response || { clean: { script: '' }, parseok: false };
 
     if (!parseok) {
       toast({

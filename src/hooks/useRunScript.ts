@@ -13,12 +13,7 @@ import useSignatureStore from '@/stores/useSignatureStore';
 import useStateVariableStore from '@/stores/useStateVariableStore';
 import usePrevStateVariableStore from '@/stores/usePrevStateVariableStore';
 import useFileStore from '@/stores/useFileStore';
-import {
-  TFile,
-  TMDSFileLoad,
-  TMDSCommandMMRCreate,
-  TMDSCommandRunScript,
-} from '@/types';
+import { TFile, TMDSCommandMMRCreate, TMDSCommandRunScript } from '@/types';
 
 // Run script hook
 function useRunScript() {
@@ -147,9 +142,9 @@ function useRunScript() {
      */
     const {
       root: { data: atAddress },
-    }: { root: { data: string } } = (
+    } = (
       await minima.cmd<TMDSCommandMMRCreate>(`mmrcreate nodes:["${script}"]`)
-    ).response;
+    ).response || { root: { data: '' } };
     // console.log(atAddress);
 
     globalVariables['@ADDRESS'] = atAddress;
@@ -180,8 +175,8 @@ function useRunScript() {
       // Check if the script imports the extra script
       if (script.includes(`@[${name}]`)) {
         // load imported script data and clean it
-        const value = (await minima.file.load<TMDSFileLoad>(location)).response
-          .load.data;
+        const value =
+          (await minima.file.load(location)).response?.load.data || '';
         // console.log(value);
         const extraTxt = value.trim();
         let extraScript = extraTxt.replace(/\s+/g, ' ').trim();
@@ -195,7 +190,7 @@ function useRunScript() {
           await minima.cmd<TMDSCommandMMRCreate>(
             `mmrcreate nodes:["${extraScript}"]`
           )
-        ).response;
+        ).response || { nodes: [{ proof: '' }], root: { data: '' } };
         // console.log(proof, data);
 
         // Add the script and proof to the extraScriptsStr

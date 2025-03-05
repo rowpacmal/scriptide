@@ -26,7 +26,6 @@ const useFileStore = create<IFileStore>((set, get) => ({
     const files = await listAllFiles(workspace);
     // console.log(files);
     const allFiles: TFile[] = [];
-
     for (const file of files) {
       const parent = file.location.split('/').splice(3);
       let currentLevel = allFiles;
@@ -78,7 +77,6 @@ const useFileStore = create<IFileStore>((set, get) => ({
   },
   addFile: async (path, data) => {
     const currentWorkspace = useWorkspaceStore.getState().currentWorkspace;
-
     if (!currentWorkspace) {
       return;
     }
@@ -134,14 +132,15 @@ const useFileStore = create<IFileStore>((set, get) => ({
     }
 
     if (isImageFile(path)) {
-      const binary = (await minima.file.loadbinary(path)).response.load.data;
+      const binary =
+        (await minima.file.loadbinary(path)).response?.load.data || '';
       const base64 = minima.util.hexToBase64(binary);
       // useEditorStore.setState({ code: base64 });
       useEditorStore.getState().addCode(path, base64, true);
       return;
     }
 
-    const code = (await minima.file.load(path)).response.load.data;
+    const code = (await minima.file.load(path)).response?.load.data || '';
     // useEditorStore.setState({ code });
     useEditorStore.getState().addCode(path, code, false);
   },

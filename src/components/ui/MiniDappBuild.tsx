@@ -14,7 +14,7 @@ import {
   useToast,
   VStack,
 } from '@chakra-ui/react';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import useAppTheme from '@/themes/useAppTheme';
 import { DEFAULT_DAPP_CONFIG } from '@/constants';
 import { LuRotateCw } from 'react-icons/lu';
@@ -38,7 +38,7 @@ function MiniDappBuild() {
   // Define state
   const [zipName, setZipName] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const [hasConfig, setHasConfig]: any = useState(null);
+  const [hasConfig, setHasConfig] = useState<boolean | null>(null);
 
   // Define theme
   const { accent, borderColor, color, colorAlt } = useAppTheme();
@@ -76,14 +76,15 @@ function MiniDappBuild() {
 
         if (file.isfile) {
           if (isImageFile(file.name)) {
-            const binary = (await minima.file.loadbinary(file.location))
-              .response.load.data;
+            const binary =
+              (await minima.file.loadbinary(file.location)).response?.load
+                .data || '';
             const base64 = minima.util.hexToBase64(binary);
 
             addZipImage(location, base64);
           } else {
-            const data = (await minima.file.load(file.location)).response.load
-              .data;
+            const data =
+              (await minima.file.load(file.location)).response?.load.data || '';
 
             addZipFile(location, data);
           }
@@ -105,11 +106,12 @@ function MiniDappBuild() {
     }
   }
 
-  async function handleDappName() {
+  // Define callback handlers
+  const handleDappName = useCallback(async () => {
     if (hasConfig) {
-      const data = (
-        await minima.file.load(`workspaces/${currentWorkspace}/dapp.conf`)
-      ).response.load.data;
+      const data =
+        (await minima.file.load(`workspaces/${currentWorkspace}/dapp.conf`))
+          .response?.load.data || '';
       const config = JSON.parse(data);
 
       setZipName(
@@ -123,7 +125,7 @@ function MiniDappBuild() {
     setZipName(
       `${currentWorkspace?.replaceAll(' ', '-').toLowerCase()}-0.0.0.mds.zip`
     );
-  }
+  }, [currentWorkspace, hasConfig]);
 
   // Define effects
   useEffect(() => {
@@ -140,7 +142,7 @@ function MiniDappBuild() {
     }
 
     handleDappName();
-  }, [currentWorkspace, hasConfig]);
+  }, [currentWorkspace, handleDappName, hasConfig]);
 
   // Render
   return (

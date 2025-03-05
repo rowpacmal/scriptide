@@ -68,7 +68,7 @@ function useUploadWorkspace() {
 
         setFileContents(newFileContents);
 
-        const entryFiles = Object.entries(newFileContents);
+        const entryFiles: [string, string][] = Object.entries(newFileContents);
         entryFiles.forEach(async (entry) => {
           const [fileName, fileContent] = entry;
           // console.log(fileName, fileContent);

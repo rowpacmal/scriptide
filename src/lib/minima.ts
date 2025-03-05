@@ -1,5 +1,5 @@
 // Import types
-import { IResponse, IWindow } from '@/types';
+import { IMDS, IResponse, IWindow } from '@/types';
 // Import utilities
 import responseHandler from '../utils/responseHandler';
 
@@ -7,13 +7,13 @@ import responseHandler from '../utils/responseHandler';
 export const mds = (window as IWindow & typeof globalThis).MDS;
 
 // Define MDS wrapper
-const minima = {
+const minima: IMDS = {
   version: '0.0.1',
 
   cmd: function <T>(command: string): Promise<IResponse<T>> {
     return new Promise((resolve, reject) => {
       mds.cmd<T>(command, (msg) => {
-        responseHandler<T>(
+        responseHandler(
           msg,
           resolve,
           reject,
@@ -24,7 +24,7 @@ const minima = {
   },
 
   file: {
-    list: function (path: string) {
+    list: function (path) {
       return new Promise((resolve, reject) => {
         mds.file.list(path, (msg) => {
           responseHandler(
@@ -36,40 +36,35 @@ const minima = {
         });
       });
     },
-    save: function (path: string, data: string) {
+    save: function (path, data) {
       return new Promise((resolve, reject) => {
         mds.file.save(path, data, (msg) => {
           responseHandler(msg, resolve, reject, 'Failed to save file: ' + path);
         });
       });
     },
-    savebinary: function (path: string, hexdata: string) {
+    savebinary: function (path, hexdata) {
       return new Promise((resolve, reject) => {
         mds.file.savebinary(path, hexdata, (msg) => {
           responseHandler(msg, resolve, reject, 'Failed to save file: ' + path);
         });
       });
     },
-    load: function <T>(path: string): Promise<IResponse<T>> {
+    load: function (path) {
       return new Promise((resolve, reject) => {
-        mds.file.load<T>(path, (msg) => {
-          responseHandler<T>(
-            msg,
-            resolve,
-            reject,
-            'Failed to load file: ' + path
-          );
+        mds.file.load(path, (msg) => {
+          responseHandler(msg, resolve, reject, 'Failed to load file: ' + path);
         });
       });
     },
-    loadbinary: function (path: string) {
+    loadbinary: function (path) {
       return new Promise((resolve, reject) => {
         mds.file.loadbinary(path, (msg) => {
           responseHandler(msg, resolve, reject, 'Failed to load file: ' + path);
         });
       });
     },
-    delete: function (path: string) {
+    delete: function (path) {
       return new Promise((resolve, reject) => {
         mds.file.delete(path, (msg) => {
           responseHandler(
@@ -81,7 +76,7 @@ const minima = {
         });
       });
     },
-    getpath: function (path: string) {
+    getpath: function (path) {
       return new Promise((resolve, reject) => {
         mds.file.getpath(path, (msg) => {
           responseHandler(
@@ -93,7 +88,7 @@ const minima = {
         });
       });
     },
-    makedir: function (path: string) {
+    makedir: function (path) {
       return new Promise((resolve, reject) => {
         mds.file.makedir(path, (msg) => {
           responseHandler(
@@ -105,7 +100,7 @@ const minima = {
         });
       });
     },
-    copy: function (path: string, newPath: string) {
+    copy: function (path, newPath) {
       return new Promise((resolve, reject) => {
         mds.file.copy(path, newPath, (msg) => {
           responseHandler(
@@ -117,7 +112,7 @@ const minima = {
         });
       });
     },
-    move: function (path: string, newPath: string) {
+    move: function (path, newPath) {
       return new Promise((resolve, reject) => {
         mds.file.move(path, newPath, (msg) => {
           responseHandler(
@@ -129,7 +124,7 @@ const minima = {
         });
       });
     },
-    copytoweb: function (path: string, newPath: string) {
+    copytoweb: function (path, newPath) {
       return new Promise((resolve, reject) => {
         mds.file.copytoweb(path, newPath, (msg) => {
           responseHandler(
@@ -141,7 +136,7 @@ const minima = {
         });
       });
     },
-    deletefromweb: function (path: string) {
+    deletefromweb: function (path) {
       return new Promise((resolve, reject) => {
         mds.file.deletefromweb(path, (msg) => {
           responseHandler(
@@ -156,10 +151,10 @@ const minima = {
   },
 
   util: {
-    hexToBase64: function (hex: string) {
+    hexToBase64: function (hex) {
       return mds.util.hexToBase64(hex);
     },
-    base64ToHex: function (str: string) {
+    base64ToHex: function (str) {
       return mds.util.base64ToHex(str);
     },
   },

@@ -56,11 +56,12 @@ export const useLivePreviewStore = create<ILivePreviewStore>((set, get) => ({
       `livepreview/${currentWorkspace}/${timestamp}`
     );
 
-    let indexHtml = (
-      await minima.file.load(
-        `livepreview/${currentWorkspace}/${timestamp}/index.html`
-      )
-    ).response.load.data;
+    let indexHtml =
+      (
+        await minima.file.load(
+          `livepreview/${currentWorkspace}/${timestamp}/index.html`
+        )
+      ).response?.load.data || '';
 
     const files = useFileStore.getState().files;
     if (files) {
@@ -85,11 +86,12 @@ export const useLivePreviewStore = create<ILivePreviewStore>((set, get) => ({
           }
 
           if (name.endsWith('.html')) {
-            let data = (
-              await minima.file.load(
-                `livepreview/${currentWorkspace}/${timestamp}/${path}`
-              )
-            ).response.load.data;
+            let data =
+              (
+                await minima.file.load(
+                  `livepreview/${currentWorkspace}/${timestamp}/${path}`
+                )
+              ).response?.load.data || '';
             data = data.replace('/mds.js', '/mds-lp.js');
 
             await minima.file.save(
@@ -104,9 +106,9 @@ export const useLivePreviewStore = create<ILivePreviewStore>((set, get) => ({
       // inject the debug settings into .html files as a <script> in <head>
       const findDebug = files.some((f) => f.name === 'debug.conf');
       if (findDebug) {
-        const conf = (
-          await minima.file.load(`workspaces/${currentWorkspace}/debug.conf`)
-        ).response.load.data;
+        const conf =
+          (await minima.file.load(`workspaces/${currentWorkspace}/debug.conf`))
+            .response?.load.data || '{}';
         const json = JSON.parse(conf);
         // console.log(json);
 
@@ -129,11 +131,12 @@ export const useLivePreviewStore = create<ILivePreviewStore>((set, get) => ({
           }
 
           if (name.endsWith('.html')) {
-            let data = (
-              await minima.file.load(
-                `livepreview/${currentWorkspace}/${timestamp}/${path}`
-              )
-            ).response.load.data;
+            let data =
+              (
+                await minima.file.load(
+                  `livepreview/${currentWorkspace}/${timestamp}/${path}`
+                )
+              ).response?.load.data || '';
             data = data.replace('</head>', debug + '</head>');
 
             await minima.file.save(

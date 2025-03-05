@@ -66,14 +66,15 @@ function WorkspaceExport({ onClose }) {
 
         if (file.isfile) {
           if (isImageFile(file.name)) {
-            const binary = (await minima.file.loadbinary(file.location))
-              .response.load.data;
+            const binary =
+              (await minima.file.loadbinary(file.location)).response?.load
+                .data || '';
             const base64 = minima.util.hexToBase64(binary);
 
             addZipImage(location, base64);
           } else {
-            const data = (await minima.file.load(file.location)).response.load
-              .data;
+            const data =
+              (await minima.file.load(file.location)).response?.load.data || '';
 
             addZipFile(location, data);
           }

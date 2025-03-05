@@ -1,3 +1,4 @@
+import { TMDSFileList, TMDSFileLoad } from './minima';
 import { TMessage } from './response';
 
 interface IWindow extends Window {
@@ -10,21 +11,27 @@ interface IWindow extends Window {
   MDS: {
     cmd: <T>(command: string, callback: (msg: TMessage<T>) => void) => void;
     file: {
-      list: <T>(path: string, callback: (msg: TMessage<T>) => void) => void;
-      save: <T>(
+      list: (
+        path: string,
+        callback: (msg: TMessage<TMDSFileList>) => void
+      ) => void;
+      save: (
         path: string,
         data: string,
-        callback: (msg: TMessage<T>) => void
+        callback: (msg: TMessage<unknown>) => void
       ) => void;
-      savebinary: <T>(
+      savebinary: (
         path: string,
         data: string,
-        callback: (msg: TMessage<T>) => void
+        callback: (msg: TMessage<unknown>) => void
       ) => void;
-      load: <T>(path: string, callback: (msg: TMessage<T>) => void) => void;
-      loadbinary: <T>(
+      load: (
         path: string,
-        callback: (msg: TMessage<T>) => void
+        callback: (msg: TMessage<TMDSFileLoad>) => void
+      ) => void;
+      loadbinary: (
+        path: string,
+        callback: (msg: TMessage<TMDSFileLoad>) => void
       ) => void;
       delete: <T>(path: string, callback: (msg: TMessage<T>) => void) => void;
       getpath: <T>(path: string, callback: (msg: TMessage<T>) => void) => void;
