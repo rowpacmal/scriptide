@@ -6,8 +6,8 @@ import useRunScriptStore from '@/stores/useRunScriptStore';
 import useGlobalVariableStore from '@/stores/useGlobalVariableStore';
 // Import constants
 import {
-  DEFAULT_LOCAL_STORAGE_KEYS,
-  DEFAULT_PLACEHOLDERS,
+  LOCAL_STORAGE_KEYS,
+  INPUT_PLACEHOLDERS,
   GLOBAL_VARIABLE_DETAILS,
 } from '@/constants';
 // Import components
@@ -27,8 +27,7 @@ function Globals() {
   // Define states
   const [accordionIndex, setAccordionIndex] = useState(
     JSON.parse(
-      localStorage.getItem(DEFAULT_LOCAL_STORAGE_KEYS.globalsAccordionIndex) ||
-        '[1]'
+      localStorage.getItem(LOCAL_STORAGE_KEYS.globalsAccordionIndex) || '[1]'
     )
   );
 
@@ -36,7 +35,7 @@ function Globals() {
   function handleOnChange(index: number[]) {
     setAccordionIndex(index);
     localStorage.setItem(
-      DEFAULT_LOCAL_STORAGE_KEYS.globalsAccordionIndex,
+      LOCAL_STORAGE_KEYS.globalsAccordionIndex,
       JSON.stringify(index)
     );
   }
@@ -58,7 +57,7 @@ function Globals() {
               placeholder={
                 global === '@ADDRESS'
                   ? 'Run script first to see address'
-                  : DEFAULT_PLACEHOLDERS.value
+                  : INPUT_PLACEHOLDERS.value
               }
               /* If the global is '@ADDRESS', show the script address
                * from the script0xAddress state, and disable onchange handler

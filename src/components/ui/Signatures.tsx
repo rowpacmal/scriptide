@@ -13,7 +13,7 @@ import { LuPlus, LuTrash2, LuX } from 'react-icons/lu';
 // Import store
 import useSignatureStore from '@/stores/useSignatureStore';
 import useAppTheme from '@/themes/useAppTheme';
-import { DEFAULT_PLACEHOLDERS } from '@/constants';
+import { INPUT_PLACEHOLDERS } from '@/constants';
 
 // Signatures component
 function Signatures() {
@@ -86,7 +86,7 @@ function Signatures() {
                   _readOnly={{ color: colorAlt }}
                   value={signatures[index]}
                   onChange={(e) => updateSignature(index, e.target.value)}
-                  placeholder={DEFAULT_PLACEHOLDERS.value}
+                  placeholder={INPUT_PLACEHOLDERS.value}
                 />
 
                 <InputRightAddon

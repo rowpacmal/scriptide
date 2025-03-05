@@ -11,7 +11,7 @@ import {
 import { AccordionBase, AccordionItemBase } from '../systems/AccordionBase';
 import { LuPalette } from 'react-icons/lu';
 import { useState } from 'react';
-import { DEFAULT_LOCAL_STORAGE_KEYS } from '@/constants';
+import { LOCAL_STORAGE_KEYS } from '@/constants';
 
 function SettingsPanel() {
   // Define theme
@@ -21,9 +21,8 @@ function SettingsPanel() {
   // Define states
   const [accordionIndex, setAccordionIndex] = useState(
     JSON.parse(
-      localStorage.getItem(
-        DEFAULT_LOCAL_STORAGE_KEYS.settingsPanelAccordionIndex
-      ) || '[1]'
+      localStorage.getItem(LOCAL_STORAGE_KEYS.settingsPanelAccordionIndex) ||
+        '[1]'
     )
   );
 
@@ -31,7 +30,7 @@ function SettingsPanel() {
   function handleOnChange(index: number[]) {
     setAccordionIndex(index);
     localStorage.setItem(
-      DEFAULT_LOCAL_STORAGE_KEYS.settingsPanelAccordionIndex,
+      LOCAL_STORAGE_KEYS.settingsPanelAccordionIndex,
       JSON.stringify(index)
     );
   }

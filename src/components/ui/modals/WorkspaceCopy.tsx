@@ -3,7 +3,7 @@ import ConfirmModal from './ConfirmModal';
 import { useState } from 'react';
 import useWorkspaceStore from '@/stores/useWorkspaceStore';
 import BasicInput from '../systems/BasicInput';
-import { DEFAULT_PLACEHOLDERS } from '@/constants';
+import { INPUT_PLACEHOLDERS } from '@/constants';
 
 // Workspace rename modal component
 function WorkspaceCopy({ onClose }) {
@@ -51,7 +51,7 @@ function WorkspaceCopy({ onClose }) {
 
       <Box px={4}>
         <BasicInput
-          placeholder={DEFAULT_PLACEHOLDERS.workspace}
+          placeholder={INPUT_PLACEHOLDERS.workspace}
           value={workspaceName}
           onChange={(e) => {
             const { value } = e.target;

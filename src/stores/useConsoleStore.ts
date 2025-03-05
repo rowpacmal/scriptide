@@ -1,13 +1,13 @@
 // Import dependencies
 import { create } from 'zustand';
 // Import constants
-import { CONSOLE_DEFAULT, CONSOLE_DEFAULT_CLEARED } from '@/constants';
+import { CONSOLE_WELCOME, CONSOLE_CLEARED } from '@/constants';
 // Import types
 import { IConsoleStore } from '@/types';
 
 // Create the store
 export const useConsoleStore = create<IConsoleStore>((set) => ({
-  consoleOutput: CONSOLE_DEFAULT.join('\n'),
+  consoleOutput: CONSOLE_WELCOME.join('\n'),
   setConsoleOutput: (consoleOutput) => set({ consoleOutput }),
 
   extendConsoleOut: (newOutput) => {
@@ -16,7 +16,7 @@ export const useConsoleStore = create<IConsoleStore>((set) => ({
     }));
   },
   clearConsoleOut: () => {
-    set({ consoleOutput: CONSOLE_DEFAULT_CLEARED.join('\n') });
+    set({ consoleOutput: CONSOLE_CLEARED.join('\n') });
   },
 }));
 

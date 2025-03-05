@@ -13,7 +13,7 @@ import WorkspaceMenu from '../WorkspaceMenu';
 import { FileTree } from '../systems/FileTree';
 import useAppTheme from '@/themes/useAppTheme';
 import useEditorStore from '@/stores/useEditorStore';
-import { DEFAULT_LOCAL_STORAGE_KEYS } from '@/constants';
+import { LOCAL_STORAGE_KEYS } from '@/constants';
 
 // File explorer component
 function ExplorerPanel() {
@@ -53,8 +53,7 @@ function ExplorerPanel() {
 
     setIsExpanded(
       JSON.parse(
-        localStorage.getItem(DEFAULT_LOCAL_STORAGE_KEYS.fileExplorerExpanded) ||
-          '{}'
+        localStorage.getItem(LOCAL_STORAGE_KEYS.fileExplorerExpanded) || '{}'
       )
     );
   }, [currentWorkspace]);

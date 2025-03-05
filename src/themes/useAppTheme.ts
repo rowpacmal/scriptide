@@ -1,8 +1,5 @@
 // Import dependencies
-import {
-  DEFAULT_EDITOR_THEME_DARK,
-  DEFAULT_EDITOR_THEME_LIGHT,
-} from '@/constants';
+import { EDITOR_THEMES } from '@/constants';
 import { useColorModeValue } from '@chakra-ui/react';
 
 // Constant
@@ -25,10 +22,7 @@ function useAppTheme() {
     colorScheme: COLOR_SCHEME,
     colorSuccess: useColorModeValue('green.500', 'green.400'),
     colorWarning: useColorModeValue('yellow.500', 'yellow.400'),
-    editorTheme: useColorModeValue(
-      DEFAULT_EDITOR_THEME_LIGHT,
-      DEFAULT_EDITOR_THEME_DARK
-    ),
+    editorTheme: useColorModeValue(EDITOR_THEMES.light, EDITOR_THEMES.dark),
   };
 
   // Return theme

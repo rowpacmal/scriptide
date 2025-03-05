@@ -4,7 +4,7 @@ import { useState } from 'react';
 import useWorkspaceStore from '@/stores/useWorkspaceStore';
 import BasicInput from '../systems/BasicInput';
 import BasicHighlight from '../systems/BasicHighlight';
-import { DEFAULT_PLACEHOLDERS } from '@/constants';
+import { INPUT_PLACEHOLDERS } from '@/constants';
 
 // Constants
 const CONFIRM_TEXT = 'Delete all workspaces';
@@ -42,7 +42,7 @@ function WorkspaceDeleteAll({ onClose }) {
 
       <Box px={4}>
         <BasicInput
-          placeholder={DEFAULT_PLACEHOLDERS.confirm}
+          placeholder={INPUT_PLACEHOLDERS.confirm}
           value={confirmText}
           onChange={(e) => setConfirmText(e.target.value)}
         />

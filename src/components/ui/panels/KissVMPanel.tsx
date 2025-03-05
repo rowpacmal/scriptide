@@ -14,15 +14,14 @@ import {
   LuLock,
 } from 'react-icons/lu';
 import { useState } from 'react';
-import { DEFAULT_LOCAL_STORAGE_KEYS } from '@/constants';
+import { LOCAL_STORAGE_KEYS } from '@/constants';
 
 function KissVMPanel() {
   // Define states
   const [accordionIndex, setAccordionIndex] = useState(
     JSON.parse(
-      localStorage.getItem(
-        DEFAULT_LOCAL_STORAGE_KEYS.kissVMPanelAccordionIndex
-      ) || '[1]'
+      localStorage.getItem(LOCAL_STORAGE_KEYS.kissVMPanelAccordionIndex) ||
+        '[1]'
     )
   );
 
@@ -30,7 +29,7 @@ function KissVMPanel() {
   function handleOnChange(index: number[]) {
     setAccordionIndex(index);
     localStorage.setItem(
-      DEFAULT_LOCAL_STORAGE_KEYS.kissVMPanelAccordionIndex,
+      LOCAL_STORAGE_KEYS.kissVMPanelAccordionIndex,
       JSON.stringify(index)
     );
   }

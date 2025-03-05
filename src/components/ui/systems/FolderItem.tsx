@@ -16,7 +16,7 @@ import useFileStore from '@/stores/useFileStore';
 // Import themes
 import useAppTheme from '@/themes/useAppTheme';
 // Import constants
-import { DEFAULT_LOCAL_STORAGE_KEYS } from '@/constants';
+import { LOCAL_STORAGE_KEYS } from '@/constants';
 // Import types
 import { IWindow } from '@/types';
 // Import components
@@ -61,7 +61,7 @@ function FolderItem({ file, isExpanded, setIsExpanded, isActive }) {
       };
 
       localStorage.setItem(
-        DEFAULT_LOCAL_STORAGE_KEYS.fileExplorerExpanded,
+        LOCAL_STORAGE_KEYS.fileExplorerExpanded,
         JSON.stringify(expand)
       );
 

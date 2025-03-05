@@ -6,16 +6,15 @@ import Workspace from '../Workspace';
 import { LuHammer, LuShare2 } from 'react-icons/lu';
 import useAppTheme from '@/themes/useAppTheme';
 import { useState } from 'react';
-import { DEFAULT_LOCAL_STORAGE_KEYS } from '@/constants';
+import { LOCAL_STORAGE_KEYS } from '@/constants';
 
 // Deploy panel component
 function DeployBuildPanel() {
   // Define states
   const [accordionIndex, setAccordionIndex] = useState(
     JSON.parse(
-      localStorage.getItem(
-        DEFAULT_LOCAL_STORAGE_KEYS.deployBuildPanelAccordionIndex
-      ) || '[1]'
+      localStorage.getItem(LOCAL_STORAGE_KEYS.deployBuildPanelAccordionIndex) ||
+        '[1]'
     )
   );
 
@@ -23,7 +22,7 @@ function DeployBuildPanel() {
   function handleOnChange(index: number[]) {
     setAccordionIndex(index);
     localStorage.setItem(
-      DEFAULT_LOCAL_STORAGE_KEYS.deployBuildPanelAccordionIndex,
+      LOCAL_STORAGE_KEYS.deployBuildPanelAccordionIndex,
       JSON.stringify(index)
     );
   }

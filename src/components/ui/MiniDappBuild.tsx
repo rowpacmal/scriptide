@@ -16,7 +16,7 @@ import {
 } from '@chakra-ui/react';
 import { useCallback, useEffect, useState } from 'react';
 import useAppTheme from '@/themes/useAppTheme';
-import { DEFAULT_DAPP_CONFIG } from '@/constants';
+import { DAPP_CONFIG } from '@/constants';
 import { LuRotateCw } from 'react-icons/lu';
 
 function MiniDappBuild() {
@@ -188,7 +188,7 @@ function MiniDappBuild() {
 
               addFile(
                 `/workspaces/${currentWorkspace}/dapp.conf`,
-                JSON.stringify(DEFAULT_DAPP_CONFIG, null, 2)
+                JSON.stringify(DAPP_CONFIG, null, 2)
               );
             }}
             disabled={hasConfig === null || isLoading}

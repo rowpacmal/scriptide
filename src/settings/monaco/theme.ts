@@ -1,8 +1,5 @@
 // Import constants
-import {
-  DEFAULT_EDITOR_THEME_DARK,
-  DEFAULT_EDITOR_THEME_LIGHT,
-} from '@/constants';
+import { EDITOR_THEMES } from '@/constants';
 // import darkTheme from '@/themes/editor/dark';
 // import lightTheme from '@/themes/editor/light';
 
@@ -56,7 +53,7 @@ const DEFAULT_THEME_COLORS_LIGHT = {
 function minimaTheme(monaco) {
   // Define editor theme
   // Dark theme
-  monaco.editor.defineTheme(DEFAULT_EDITOR_THEME_DARK, {
+  monaco.editor.defineTheme(EDITOR_THEMES.dark, {
     base: 'vs-dark',
     inherit: true,
     rules: [
@@ -112,7 +109,7 @@ function minimaTheme(monaco) {
   });
 
   // Light theme
-  monaco.editor.defineTheme(DEFAULT_EDITOR_THEME_LIGHT, {
+  monaco.editor.defineTheme(EDITOR_THEMES.light, {
     base: 'vs',
     inherit: true,
     rules: [

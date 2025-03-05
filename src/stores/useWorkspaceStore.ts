@@ -8,7 +8,7 @@ import getFiles from '@/utils/getFiles';
 import useEditorStore from './useEditorStore';
 import useFileStore from './useFileStore';
 // Import constants
-import { DEFAULT_LOCAL_STORAGE_KEYS } from '@/constants';
+import { LOCAL_STORAGE_KEYS } from '@/constants';
 // Import types
 import { IWorkspaceStore } from '@/types';
 
@@ -34,7 +34,7 @@ const useWorkspaceStore = create<IWorkspaceStore>((set, get) => ({
     }
 
     const storedWorkspace = localStorage.getItem(
-      DEFAULT_LOCAL_STORAGE_KEYS.storedWorkspace
+      LOCAL_STORAGE_KEYS.storedWorkspace
     );
     if (storedWorkspace) {
       set({ currentWorkspace: storedWorkspace });
@@ -61,11 +61,8 @@ const useWorkspaceStore = create<IWorkspaceStore>((set, get) => ({
     set((state) => ({ workspaces: [...state.workspaces, newWorkspace] }));
     set({ currentWorkspace: newWorkspace });
 
-    localStorage.setItem(
-      DEFAULT_LOCAL_STORAGE_KEYS.storedWorkspace,
-      newWorkspace
-    );
-    localStorage.removeItem(DEFAULT_LOCAL_STORAGE_KEYS.fileExplorerExpanded);
+    localStorage.setItem(LOCAL_STORAGE_KEYS.storedWorkspace, newWorkspace);
+    localStorage.removeItem(LOCAL_STORAGE_KEYS.fileExplorerExpanded);
 
     useFileStore.setState({ files: [] });
     useFileStore.setState({ currentFile: null });
@@ -108,11 +105,8 @@ const useWorkspaceStore = create<IWorkspaceStore>((set, get) => ({
     });
     set({ currentWorkspace: newWorkspace });
 
-    localStorage.setItem(
-      DEFAULT_LOCAL_STORAGE_KEYS.storedWorkspace,
-      newWorkspace
-    );
-    localStorage.removeItem(DEFAULT_LOCAL_STORAGE_KEYS.fileExplorerExpanded);
+    localStorage.setItem(LOCAL_STORAGE_KEYS.storedWorkspace, newWorkspace);
+    localStorage.removeItem(LOCAL_STORAGE_KEYS.fileExplorerExpanded);
 
     // useFileStore.getState().refreshFiles(newWorkspace); // Comment out for increased performance
   },
@@ -131,11 +125,8 @@ const useWorkspaceStore = create<IWorkspaceStore>((set, get) => ({
     set((state) => ({ workspaces: [...state.workspaces, newWorkspace] }));
     set({ currentWorkspace: newWorkspace });
 
-    localStorage.setItem(
-      DEFAULT_LOCAL_STORAGE_KEYS.storedWorkspace,
-      newWorkspace
-    );
-    localStorage.removeItem(DEFAULT_LOCAL_STORAGE_KEYS.fileExplorerExpanded);
+    localStorage.setItem(LOCAL_STORAGE_KEYS.storedWorkspace, newWorkspace);
+    localStorage.removeItem(LOCAL_STORAGE_KEYS.fileExplorerExpanded);
 
     // useFileStore.getState().refreshFiles(newWorkspace); // Comment out for increased performance
     useFileStore.setState({ currentFile: null });
@@ -148,8 +139,8 @@ const useWorkspaceStore = create<IWorkspaceStore>((set, get) => ({
 
     set({ currentWorkspace: workspace });
 
-    localStorage.setItem(DEFAULT_LOCAL_STORAGE_KEYS.storedWorkspace, workspace);
-    localStorage.removeItem(DEFAULT_LOCAL_STORAGE_KEYS.fileExplorerExpanded);
+    localStorage.setItem(LOCAL_STORAGE_KEYS.storedWorkspace, workspace);
+    localStorage.removeItem(LOCAL_STORAGE_KEYS.fileExplorerExpanded);
 
     useFileStore.getState().refreshFiles(workspace);
     useFileStore.setState({ currentFile: null, currentFolder: null });
@@ -159,8 +150,8 @@ const useWorkspaceStore = create<IWorkspaceStore>((set, get) => ({
     await minima.file.delete(`workspaces/${get().currentWorkspace}`);
     set({ currentWorkspace: null });
 
-    localStorage.removeItem(DEFAULT_LOCAL_STORAGE_KEYS.storedWorkspace);
-    localStorage.removeItem(DEFAULT_LOCAL_STORAGE_KEYS.fileExplorerExpanded);
+    localStorage.removeItem(LOCAL_STORAGE_KEYS.storedWorkspace);
+    localStorage.removeItem(LOCAL_STORAGE_KEYS.fileExplorerExpanded);
 
     get().refreshWorkspaces();
 
@@ -173,8 +164,8 @@ const useWorkspaceStore = create<IWorkspaceStore>((set, get) => ({
     set({ workspaces: [] });
     set({ currentWorkspace: null });
 
-    localStorage.removeItem(DEFAULT_LOCAL_STORAGE_KEYS.storedWorkspace);
-    localStorage.removeItem(DEFAULT_LOCAL_STORAGE_KEYS.fileExplorerExpanded);
+    localStorage.removeItem(LOCAL_STORAGE_KEYS.storedWorkspace);
+    localStorage.removeItem(LOCAL_STORAGE_KEYS.fileExplorerExpanded);
 
     useFileStore.setState({ files: [] }); // Quick fix to a bug
     useFileStore.setState({ currentFile: null });
