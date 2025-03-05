@@ -3,7 +3,7 @@ import { Button, ModalBody, ModalFooter } from '@chakra-ui/react';
 // Import components
 import ModalBase from './ModalBase';
 
-// Confirm modal component
+// Info modal component
 function InfoModal({ children, title, onClose }) {
   // Render
   return (

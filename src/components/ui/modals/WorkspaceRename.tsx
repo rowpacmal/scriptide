@@ -1,12 +1,17 @@
+// Import dependencies
 import { Box, Text, useToast } from '@chakra-ui/react';
-import ConfirmModal from './ConfirmModal';
 import { useState } from 'react';
+// Import stores
+import useModalStore from '@/stores/useModalStore';
 import useWorkspaceStore from '@/stores/useWorkspaceStore';
-import BasicInput from '../systems/BasicInput';
+// Import constants
 import { INPUT_PLACEHOLDERS } from '@/constants';
+// Import components
+import BasicInput from '../systems/BasicInput';
+import ConfirmModal from './ConfirmModal';
 
-// Workspace rename modal component
-function WorkspaceRename({ onClose }) {
+// Rename workspace modal component
+function WorkspaceRename() {
   // Define toast
   const toast = useToast();
 
@@ -14,9 +19,34 @@ function WorkspaceRename({ onClose }) {
   const workspaces = useWorkspaceStore((state) => state.workspaces);
   const currentWorkspace = useWorkspaceStore((state) => state.currentWorkspace);
   const renameWorkspace = useWorkspaceStore((state) => state.renameWorkspace);
+  const onClose = useModalStore((state) => state.onClose);
 
   // Define state
   const [workspaceName, setWorkspaceName] = useState(currentWorkspace || '');
+
+  // Define handlers
+  function handleOnClick() {
+    if (workspaces.includes(workspaceName)) {
+      toast({
+        title: 'Workspace name already exists',
+        status: 'warning',
+        duration: 3000,
+        isClosable: true,
+      });
+
+      return;
+    }
+
+    renameWorkspace(workspaceName);
+    setWorkspaceName('');
+    onClose();
+  }
+  function handleOnChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const { value } = e.target;
+    if (value.length <= 30) {
+      setWorkspaceName(value);
+    }
+  }
 
   // Render
   return (
@@ -24,22 +54,7 @@ function WorkspaceRename({ onClose }) {
       title="Rename workspace"
       buttonLabel="Save"
       onClose={onClose}
-      onClick={() => {
-        if (workspaces.includes(workspaceName)) {
-          toast({
-            title: 'Workspace name already exists',
-            status: 'warning',
-            duration: 3000,
-            isClosable: true,
-          });
-
-          return;
-        }
-
-        renameWorkspace(workspaceName);
-        setWorkspaceName('');
-        onClose();
-      }}
+      onClick={handleOnClick}
       disabled={workspaceName === currentWorkspace}
     >
       <Text fontSize="sm" pb={4} textAlign="center">
@@ -50,12 +65,7 @@ function WorkspaceRename({ onClose }) {
         <BasicInput
           placeholder={INPUT_PLACEHOLDERS.workspace}
           value={workspaceName}
-          onChange={(e) => {
-            const { value } = e.target;
-            if (value.length <= 30) {
-              setWorkspaceName(value);
-            }
-          }}
+          onChange={handleOnChange}
         />
       </Box>
     </ConfirmModal>

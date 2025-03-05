@@ -17,6 +17,7 @@ import ExplorerPanel from './ExplorerPanel';
 import HomePanel from './HomePanel';
 import KissVMPanel from './KissVMPanel';
 import SettingsPanel from './SettingsPanel';
+import { BasicHeading2 } from '../systems/BasicHeadings';
 
 // Control panel component
 function LeftSidePanel() {
@@ -63,17 +64,9 @@ function LeftSidePanel() {
     <Box h="100%" p={2} borderLeft="1px solid" borderColor={borderColor}>
       <VStack as="section" h="100%" pr={2} overflow="auto">
         <HStack as="header" w="100%" justifyContent="space-between">
-          <Text
-            as="h2"
-            textTransform="uppercase"
-            fontSize="lg"
-            color={colorAlt}
-            minH="2rem"
-            display="flex"
-            alignItems="center"
-          >
+          <BasicHeading2 color={colorAlt}>
             {NAVIGATION_LABELS[navigation]}
-          </Text>
+          </BasicHeading2>
 
           {navigation !== ENavigationStates.HOME &&
             navigation !== ENavigationStates.SETTINGS && (

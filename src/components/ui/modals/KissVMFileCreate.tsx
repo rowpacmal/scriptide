@@ -1,20 +1,18 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-
 // Import dependencies
 import { Box, Text, useToast } from '@chakra-ui/react';
 import { useState } from 'react';
 // Import store
+import useFileStore from '@/stores/useFileStore';
+import useModalStore from '@/stores/useModalStore';
 import useWorkspaceStore from '@/stores/useWorkspaceStore';
+// Import constants
+import { INPUT_PLACEHOLDERS } from '@/constants';
 // Import components
 import ConfirmModal from './ConfirmModal';
 import BasicInput from '../systems/BasicInput';
-import useFileStore from '@/stores/useFileStore';
 
-// Constants
-const PRESET_NAME = 'New_Script';
-
-// Workspace rename modal component
-function KissVMFileCreate({ onClose }) {
+// Create script modal component
+function KissVMFileCreate() {
   // Define toast
   const toast = useToast();
 
@@ -22,9 +20,49 @@ function KissVMFileCreate({ onClose }) {
   const files = useFileStore((state) => state.files);
   const addFile = useFileStore((state) => state.addFile);
   const currentWorkspace = useWorkspaceStore((state) => state.currentWorkspace);
+  const onClose = useModalStore((state) => state.onClose);
 
   // Define state
-  const [fileName, setFileName] = useState(PRESET_NAME + '_' + Date.now());
+  const [fileName, setFileName] = useState('New_Script_' + Date.now());
+
+  // Define handlers
+  function handleOnClick() {
+    const find = files.find(
+      (f) =>
+        f.location.split('/').splice(3)[0] === 'contracts' &&
+        f.name === `${fileName.replaceAll(' ', '_')}.kvm`
+    );
+
+    if (find) {
+      toast({
+        title: 'Script name already exists',
+        status: 'warning',
+        duration: 3000,
+        isClosable: true,
+      });
+
+      return;
+    }
+
+    if (!currentWorkspace) {
+      return;
+    }
+
+    addFile(
+      `/workspaces/${currentWorkspace}/contracts/${fileName.replaceAll(
+        ' ',
+        '_'
+      )}.kvm`
+    );
+    setFileName('');
+    onClose();
+  }
+  function handleOnChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const { value } = e.target;
+    if (value.length <= 30) {
+      setFileName(value);
+    }
+  }
 
   // Render
   return (
@@ -32,37 +70,7 @@ function KissVMFileCreate({ onClose }) {
       title="Create new script"
       buttonLabel="Create"
       onClose={onClose}
-      onClick={() => {
-        const find = files.find(
-          (f: any) =>
-            f.location.split('/').splice(3)[0] === 'contracts' &&
-            f.name === `${fileName.replaceAll(' ', '_')}.kvm`
-        );
-
-        if (find) {
-          toast({
-            title: 'Script name already exists',
-            status: 'warning',
-            duration: 3000,
-            isClosable: true,
-          });
-
-          return;
-        }
-
-        if (!currentWorkspace) {
-          return;
-        }
-
-        addFile(
-          `/workspaces/${currentWorkspace}/contracts/${fileName.replaceAll(
-            ' ',
-            '_'
-          )}.kvm`
-        );
-        setFileName('');
-        onClose();
-      }}
+      onClick={handleOnClick}
       disabled={!fileName}
     >
       <Text fontSize="sm" pb={4} textAlign="center">
@@ -71,14 +79,9 @@ function KissVMFileCreate({ onClose }) {
 
       <Box px={4}>
         <BasicInput
-          placeholder="Enter script name here"
+          placeholder={INPUT_PLACEHOLDERS.script}
           value={fileName}
-          onChange={(e) => {
-            const { value } = e.target;
-            if (value.length <= 30) {
-              setFileName(value);
-            }
-          }}
+          onChange={handleOnChange}
         />
       </Box>
     </ConfirmModal>

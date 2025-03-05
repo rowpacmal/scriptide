@@ -1,19 +1,38 @@
+// Import dependencies
 import { Box, Text } from '@chakra-ui/react';
-import ConfirmModal from './ConfirmModal';
 import { useState } from 'react';
+// Import stores
+import useModalStore from '@/stores/useModalStore';
 import useWorkspaceStore from '@/stores/useWorkspaceStore';
-import BasicInput from '../systems/BasicInput';
+// Import constants
 import { INPUT_PLACEHOLDERS } from '@/constants';
+// Import components
 import BasicHighlight from '../systems/BasicHighlight';
+import BasicInput from '../systems/BasicInput';
+import ConfirmModal from './ConfirmModal';
 
-// Workspace rename modal component
-function WorkspaceDelete({ onClose }) {
+// Delete workspace modal component
+function WorkspaceDelete() {
   // Define stores
   const currentWorkspace = useWorkspaceStore((state) => state.currentWorkspace);
   const deleteWorkspace = useWorkspaceStore((state) => state.deleteWorkspace);
+  const onClose = useModalStore((state) => state.onClose);
 
   // Define state
   const [workspaceName, setWorkspaceName] = useState('');
+
+  // Define handlers
+  function handleOnClick() {
+    deleteWorkspace();
+    setWorkspaceName('');
+    onClose();
+  }
+  function handleOnChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const { value } = e.target;
+    if (value.length <= 30) {
+      setWorkspaceName(value);
+    }
+  }
 
   // Render
   return (
@@ -21,11 +40,7 @@ function WorkspaceDelete({ onClose }) {
       title="Delete workspace"
       buttonLabel="Confirm"
       onClose={onClose}
-      onClick={() => {
-        deleteWorkspace();
-        setWorkspaceName('');
-        onClose();
-      }}
+      onClick={handleOnClick}
       disabled={workspaceName !== currentWorkspace}
     >
       <Text fontSize="sm" pb={4} textAlign="center">
@@ -33,21 +48,13 @@ function WorkspaceDelete({ onClose }) {
         undone. Please type the workspace name to confirm.
       </Text>
 
-      <BasicHighlight
-        pb={4}
-        query={currentWorkspace ? currentWorkspace : '---'}
-      />
+      <BasicHighlight pb={4} query={currentWorkspace || '---'} />
 
       <Box px={4}>
         <BasicInput
           placeholder={INPUT_PLACEHOLDERS.workspace}
           value={workspaceName}
-          onChange={(e) => {
-            const { value } = e.target;
-            if (value.length <= 30) {
-              setWorkspaceName(value);
-            }
-          }}
+          onChange={handleOnChange}
         />
       </Box>
     </ConfirmModal>

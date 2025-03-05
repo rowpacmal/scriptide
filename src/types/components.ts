@@ -11,5 +11,15 @@ interface IAccordionItemBaseAltProps {
   isTop?: boolean;
   isBottom?: boolean;
 }
+interface IOverviewItemProps {
+  children: React.ReactNode;
+  title: string;
+  h?: string | number;
+  className?: string;
+}
 
-export type { IAccordionItemBaseProps, IAccordionItemBaseAltProps };
+export type {
+  IAccordionItemBaseProps,
+  IAccordionItemBaseAltProps,
+  IOverviewItemProps,
+};

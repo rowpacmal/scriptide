@@ -34,51 +34,52 @@ function Modals() {
     switch (modalType) {
       // Workspace modals
       case EModalTypes.RENAME_WORKSPACE:
-        return <WorkspaceRename onClose={onClose} />;
+        return <WorkspaceRename />;
 
       case EModalTypes.CREATE_BLANK_WORKSPACE:
-        return <WorkspaceCreateBlank onClose={onClose} />;
+        return <WorkspaceCreateBlank />;
 
       case EModalTypes.COPY_WORKSPACE:
-        return <WorkspaceCopy onClose={onClose} />;
+        return <WorkspaceCopy />;
 
       case EModalTypes.EXPORT_WORKSPACE:
-        return <WorkspaceExport onClose={onClose} />;
+        return <WorkspaceExport />;
 
       case EModalTypes.IMPORT_WORKSPACE:
-        return <WorkspaceImport onClose={onClose} />;
+        return <WorkspaceImport />;
 
       case EModalTypes.DELETE_WORKSPACE:
-        return <WorkspaceDelete onClose={onClose} />;
+        return <WorkspaceDelete />;
 
       case EModalTypes.DELETE_ALL_WORKSPACES:
-        return <WorkspaceDeleteAll onClose={onClose} />;
+        return <WorkspaceDeleteAll />;
 
       // File modals
       case EModalTypes.UPLOAD_FILE:
-        return <FilesUpload onClose={onClose} />;
+        return <FilesUpload />;
 
       case EModalTypes.DELETE_ALL_FILES:
-        return <FilesDeleteAll onClose={onClose} />;
+        return <FilesDeleteAll />;
 
-      // Other modals
+      // Script modals
       case EModalTypes.VIEW_SCRIPT:
-        return <DeployedScripts onClose={onClose} />;
+        return <DeployedScripts />;
 
       case EModalTypes.RENAME_SCRIPT:
-        return <KissVMFileRename onClose={onClose} />;
+        return <KissVMFileRename />;
 
       case EModalTypes.CREATE_SCRIPT:
-        return <KissVMFileCreate onClose={onClose} />;
+        return <KissVMFileCreate />;
 
       case EModalTypes.DELETE_SCRIPT:
-        return <KissVMFileDelete onClose={onClose} />;
+        return <KissVMFileDelete />;
 
       case EModalTypes.DELETE_ALL_SCRIPT:
-        return <KissVMFileDeleteAll onClose={onClose} />;
+        return <KissVMFileDeleteAll />;
 
+      // Other modals
       default:
-        return <ModalNotFound onClose={onClose} />;
+        return <ModalNotFound />;
     }
   }, [modalType]);
 

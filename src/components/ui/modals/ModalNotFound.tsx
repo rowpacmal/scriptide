@@ -2,10 +2,11 @@ import { Highlight, Text } from '@chakra-ui/react';
 import InfoModal from './InfoModal';
 import useModalStore from '@/stores/useModalStore';
 
-// Workspace rename modal component
-function ModalNotFound({ onClose }) {
+// Not found modal component
+function ModalNotFound() {
   // Define stores
   const modalType = useModalStore((state) => state.modalType);
+  const onClose = useModalStore((state) => state.onClose);
 
   // Render
   return (

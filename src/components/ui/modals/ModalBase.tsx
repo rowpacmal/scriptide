@@ -1,6 +1,7 @@
 // Import dependencies
-import useAppTheme from '@/themes/useAppTheme';
 import { ModalCloseButton, ModalContent, ModalHeader } from '@chakra-ui/react';
+// Import themes
+import useAppTheme from '@/themes/useAppTheme';
 
 // Modal base component
 function ModalBase({ children, title }) {

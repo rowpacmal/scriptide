@@ -1,24 +1,22 @@
-import {
-  Box,
-  Button,
-  HStack,
-  Input,
-  Progress,
-  Text,
-  useToast,
-} from '@chakra-ui/react';
-import ConfirmModal from './ConfirmModal';
+// Import dependencies
+import { Box, Button, HStack, Input, Text, useToast } from '@chakra-ui/react';
 import { useEffect, useRef, useState } from 'react';
+// Import hooks
 import useUploadFile from '@/hooks/useUploadFile';
-import useAppTheme from '@/themes/useAppTheme';
+// Import stores
+import useModalStore from '@/stores/useModalStore';
+// Import constants
+import { ACCEPTED_FILE_FORMATS, INPUT_PLACEHOLDERS } from '@/constants';
+// Import components
+import BasicInput from '../systems/BasicInput';
+import BasicProgressBar from '../systems/BasicProgressBar';
+import ConfirmModal from './ConfirmModal';
+import DragDropInput from '../systems/DragDropInput';
 
-// Workspace rename modal component
-function FilesUpload({ onClose }) {
+// Upload file modal component
+function FilesUpload() {
   // Define toast
   const toast = useToast();
-
-  // Define theme
-  const { accent, color, colorAlt, borderColor } = useAppTheme();
 
   // Define ref
   const fileInputRef = useRef<HTMLInputElement | null>(null);
@@ -27,37 +25,44 @@ function FilesUpload({ onClose }) {
   const { isError, isUploading, progress, handleUploadFile } =
     useUploadFile(fileInputRef);
 
+  // Define store
+  const onClose = useModalStore((state) => state.onClose);
+
   // Define state
   const [fileToUpload, setFileToUpload] = useState<File | null>(null);
   const [fileName, setFileName] = useState('');
   const [uploadFileName, setUploadFileName] = useState('');
-  const [isDragging, setIsDragging] = useState(false);
 
   // Define handlers
-  const handleDragOver = (e) => {
-    e.preventDefault(); // Prevent default behavior to allow drop
-    e.stopPropagation(); // Stop event from bubbling up
-    setIsDragging(true);
-  };
-  const handleDragLeave = (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-    setIsDragging(false); // Set dragging state to false when leaving
-  };
-  const handleDrop = (e) => {
-    e.preventDefault(); // Prevent default behavior
-    e.stopPropagation(); // Stop event from bubbling up
-    setIsDragging(false);
-
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const droppedFiles: any = Array.from(e.dataTransfer.files);
-    setFileToUpload(droppedFiles[0]);
-  };
-  const handleOpenFileSelector = () => {
+  function handleOpenFileSelector() {
     if (fileInputRef.current) {
       fileInputRef.current.click();
     }
-  };
+  }
+  function handleFileUpload(e: React.ChangeEvent<HTMLInputElement>) {
+    const files = e.target.files;
+    if (files) {
+      setFileToUpload(files[0]);
+    }
+  }
+  function handleFileNameChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const { value } = e.target;
+    if (value.length <= 30) {
+      setFileName(value);
+    }
+  }
+  function handleOnClick() {
+    if (!fileToUpload) {
+      return;
+    }
+    handleUploadFile(fileToUpload, fileName);
+  }
+  function handleOnDrop(e: React.DragEvent<HTMLInputElement>) {
+    const droppedFiles = Array.from(e.dataTransfer.files);
+    if (droppedFiles) {
+      setFileToUpload(droppedFiles[0]);
+    }
+  }
 
   // Define effects
   useEffect(() => {
@@ -76,7 +81,7 @@ function FilesUpload({ onClose }) {
         isClosable: true,
       });
     }
-  }, [progress]);
+  }, [isError, progress, toast, uploadFileName]);
 
   // Render
   return (
@@ -84,7 +89,7 @@ function FilesUpload({ onClose }) {
       title="Upload file"
       buttonLabel="Upload"
       onClose={onClose}
-      onClick={() => handleUploadFile(fileToUpload, fileName)}
+      onClick={handleOnClick}
       disabled={!fileToUpload || isUploading}
     >
       <Text fontSize="sm" pb={4} textAlign="center">
@@ -93,25 +98,10 @@ function FilesUpload({ onClose }) {
       </Text>
 
       <Box px={4} pb={4}>
-        <Input
-          size="sm"
-          variant="outline"
-          color={color}
-          borderColor={borderColor}
-          _placeholder={{ color: borderColor }}
-          _hover={{ borderColor: color }}
-          _focusVisible={{
-            borderColor: accent,
-          }}
-          _readOnly={{ color: colorAlt }}
+        <BasicInput
+          placeholder={INPUT_PLACEHOLDERS.file}
           value={fileName}
-          onChange={(e) => {
-            const { value } = e.target;
-            if (value.length <= 30) {
-              setFileName(value);
-            }
-          }}
-          placeholder="Enter file name here"
+          onChange={handleFileNameChange}
         />
       </Box>
 
@@ -119,15 +109,9 @@ function FilesUpload({ onClose }) {
         <Input
           ref={fileInputRef}
           type="file"
-          accept=".kvm, application/javascript, text/plain, text/html, text/css image/jpeg, image/png, image/gif"
+          accept={ACCEPTED_FILE_FORMATS.file}
           display="none"
-          onChange={(e) => {
-            const files = e.target.files;
-
-            if (files) {
-              setFileToUpload(files[0]);
-            }
-          }}
+          onChange={handleFileUpload}
         />
 
         <HStack>
@@ -142,45 +126,12 @@ function FilesUpload({ onClose }) {
             </Button>
           </Box>
 
-          <Input
-            size="sm"
-            variant="outline"
-            color={color}
-            borderColor={borderColor}
-            outlineColor={isDragging ? accent : ''}
-            transition="outline-color 0.2s linear"
-            _placeholder={{ color: borderColor }}
-            _hover={{ borderColor: color }}
-            _focusVisible={{
-              borderColor: accent,
-            }}
-            _readOnly={{ color: colorAlt }}
-            value={uploadFileName}
-            placeholder="Choose a file or drag and drop"
-            readOnly
-            onDragOver={handleDragOver}
-            onDragLeave={handleDragLeave}
-            onDrop={handleDrop}
-          />
+          <DragDropInput value={uploadFileName} onDrop={handleOnDrop} />
         </HStack>
       </Box>
 
       <Box pt={4}>
-        <Box
-          border="1px solid"
-          borderColor={borderColor}
-          borderRadius="md"
-          p={2}
-        >
-          <Progress
-            hasStripe
-            value={progress ? progress * 100 : 0}
-            colorScheme={
-              isError ? 'red' : progress && progress < 1 ? 'blue' : 'green'
-            }
-            bg={borderColor}
-          />
-        </Box>
+        <BasicProgressBar progress={progress} isError={isError} />
       </Box>
     </ConfirmModal>
   );

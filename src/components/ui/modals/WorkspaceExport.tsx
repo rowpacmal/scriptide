@@ -1,22 +1,24 @@
 // Import dependencies
 import { Box, Progress, Text, useToast } from '@chakra-ui/react';
 import { useState } from 'react';
-// Import store
-import useWorkspaceStore from '@/stores/useWorkspaceStore';
-// Import components
-import ConfirmModal from './ConfirmModal';
 // Import hooks
 import useZipFile from '@/hooks/useZipFile';
 // Import stores
 import useFileStore from '@/stores/useFileStore';
+import useModalStore from '@/stores/useModalStore';
+import useWorkspaceStore from '@/stores/useWorkspaceStore';
+// Import constants
+import { INPUT_PLACEHOLDERS } from '@/constants';
 // Import libraries
 import minima from '@/lib/minima';
+// Import utilities
 import isImageFile from '@/utils/isImageFile';
+// Import components
 import BasicInput from '../systems/BasicInput';
-import { INPUT_PLACEHOLDERS } from '@/constants';
+import ConfirmModal from './ConfirmModal';
 
-// Workspace rename modal component
-function WorkspaceExport({ onClose }) {
+// Export workspace modal component
+function WorkspaceExport() {
   // Define toast
   const toast = useToast();
 
@@ -26,6 +28,7 @@ function WorkspaceExport({ onClose }) {
   // Define stores
   const currentWorkspace = useWorkspaceStore((state) => state.currentWorkspace);
   const files = useFileStore((state) => state.files);
+  const onClose = useModalStore((state) => state.onClose);
 
   // Define state
   const [zipName, setZipName] = useState(
@@ -34,7 +37,7 @@ function WorkspaceExport({ onClose }) {
   const [isLoading, setIsLoading] = useState(false);
 
   // Define handlers
-  async function handleExport() {
+  async function handleOnClick() {
     if (!zipName.endsWith('.zip')) {
       toast({
         title: 'Invalid zip name',
@@ -95,6 +98,12 @@ function WorkspaceExport({ onClose }) {
       setIsLoading(false);
     }
   }
+  function handleOnChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const { value } = e.target;
+    if (value.length <= 30) {
+      setZipName(value);
+    }
+  }
 
   // Render
   return (
@@ -102,7 +111,7 @@ function WorkspaceExport({ onClose }) {
       title="Export workspace"
       buttonLabel="Export"
       onClose={onClose}
-      onClick={handleExport}
+      onClick={handleOnClick}
       disabled={!zipName || isLoading}
     >
       <Text fontSize="sm" pb={4} textAlign="center">
@@ -122,12 +131,7 @@ function WorkspaceExport({ onClose }) {
         <BasicInput
           placeholder={INPUT_PLACEHOLDERS.zip}
           value={zipName}
-          onChange={(e) => {
-            const { value } = e.target;
-            if (value.length <= 30) {
-              setZipName(value);
-            }
-          }}
+          onChange={handleOnChange}
           disabled={isLoading}
         />
 

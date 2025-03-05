@@ -1,23 +1,20 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import {
-  Box,
-  Button,
-  HStack,
-  Input,
-  Progress,
-  Text,
-  useToast,
-} from '@chakra-ui/react';
-import ConfirmModal from './ConfirmModal';
+// Import dependencies
+import { Box, Button, HStack, Input, Text, useToast } from '@chakra-ui/react';
 import { useEffect, useRef, useState } from 'react';
-import useWorkspaceStore from '@/stores/useWorkspaceStore';
+// Import stores
+import useModalStore from '@/stores/useModalStore';
 import useUploadWorkspace from '@/hooks/useUploadWorkspace';
+import useWorkspaceStore from '@/stores/useWorkspaceStore';
+// Import constants
+import { ACCEPTED_FILE_FORMATS, INPUT_PLACEHOLDERS } from '@/constants';
+// Import components
 import BasicInput from '../systems/BasicInput';
-import { INPUT_PLACEHOLDERS } from '@/constants';
-import useAppTheme from '@/themes/useAppTheme';
+import BasicProgressBar from '../systems/BasicProgressBar';
+import ConfirmModal from './ConfirmModal';
+import DragDropInput from '../systems/DragDropInput';
 
-// Workspace rename modal component
-function WorkspaceImport({ onClose }) {
+// Import workspace modal component
+function WorkspaceImport() {
   // Define toast
   const toast = useToast();
 
@@ -26,6 +23,7 @@ function WorkspaceImport({ onClose }) {
 
   // Define Store
   const workspaces = useWorkspaceStore((state) => state.workspaces);
+  const onClose = useModalStore((state) => state.onClose);
 
   // Define upload
   const { error, isUploading, progress, handleUploadWorkspace } =
@@ -34,40 +32,58 @@ function WorkspaceImport({ onClose }) {
   // Define state
   const [fileToUpload, setFileToUpload] = useState<File | null>(null);
   const [fileName, setFileName] = useState('');
-  const [isDragging, setIsDragging] = useState(false);
   const [workspaceName, setWorkspaceName] = useState('');
 
-  // Define theme
-  const { borderColor } = useAppTheme();
-
   // Define handlers
-  const handleDragOver = (e) => {
-    e.preventDefault(); // Prevent default behavior to allow drop
-    e.stopPropagation(); // Stop event from bubbling up
-    setIsDragging(true);
-  };
-
-  const handleDragLeave = (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-    setIsDragging(false); // Set dragging state to false when leaving
-  };
-
-  const handleDrop = (e) => {
-    e.preventDefault(); // Prevent default behavior
-    e.stopPropagation(); // Stop event from bubbling up
-    setIsDragging(false);
-
-    const droppedFiles: any = Array.from(e.dataTransfer.files);
-    setFileToUpload(droppedFiles[0]);
-  };
-  const handleOpenFileSelector = () => {
+  function handleOpenFileSelector() {
     if (fileInputRef.current) {
       fileInputRef.current.click();
     }
-  };
+  }
+  function handleFileUpload(e: React.ChangeEvent<HTMLInputElement>) {
+    const files = e.target.files;
+    if (files) {
+      setFileToUpload(files[0]);
+    }
+  }
+  function handleWorkspaceNameChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const { value } = e.target;
+    if (value.length <= 30) {
+      setWorkspaceName(value);
+    }
+  }
+  function handleOnClick() {
+    if (workspaces.includes(workspaceName)) {
+      toast({
+        title: 'Workspace name already exists',
+        status: 'warning',
+        duration: 3000,
+        isClosable: true,
+      });
+      return;
+    }
 
-  // Define effect
+    if (!fileToUpload) {
+      toast({
+        title: 'No file selected',
+        status: 'warning',
+        duration: 3000,
+        isClosable: true,
+      });
+      return;
+    }
+
+    handleUploadWorkspace(fileToUpload, workspaceName);
+    onClose();
+  }
+  function handleOnDrop(e: React.DragEvent<HTMLInputElement>) {
+    const droppedFiles = Array.from(e.dataTransfer.files);
+    if (droppedFiles) {
+      setFileToUpload(droppedFiles[0]);
+    }
+  }
+
+  // Define effects
   useEffect(() => {
     if (error) {
       toast({
@@ -78,15 +94,13 @@ function WorkspaceImport({ onClose }) {
         isClosable: true,
       });
     }
-  }, [error]);
-
+  }, [error, toast]);
   useEffect(() => {
     if (fileToUpload) {
       setFileName(fileToUpload.name);
       setWorkspaceName(fileToUpload.name.split('.')[0]);
     }
   }, [fileToUpload]);
-
   useEffect(() => {
     if (progress === 1 && !error) {
       toast({
@@ -97,7 +111,7 @@ function WorkspaceImport({ onClose }) {
         isClosable: true,
       });
     }
-  }, [progress]);
+  }, [error, fileName, progress, toast]);
 
   // Render
   return (
@@ -105,20 +119,7 @@ function WorkspaceImport({ onClose }) {
       title="Import Workspace"
       buttonLabel="Import"
       onClose={onClose}
-      onClick={() => {
-        if (workspaces.includes(workspaceName)) {
-          toast({
-            title: 'Workspace name already exists',
-            status: 'warning',
-            duration: 3000,
-            isClosable: true,
-          });
-          return;
-        }
-
-        handleUploadWorkspace(fileToUpload, workspaceName);
-        onClose();
-      }}
+      onClick={handleOnClick}
       disabled={!fileToUpload || !workspaceName || isUploading}
     >
       <Text fontSize="sm" pb={4} textAlign="center">
@@ -130,12 +131,7 @@ function WorkspaceImport({ onClose }) {
         <BasicInput
           placeholder={INPUT_PLACEHOLDERS.workspace}
           value={workspaceName}
-          onChange={(e) => {
-            const { value } = e.target;
-            if (value.length <= 30) {
-              setWorkspaceName(value);
-            }
-          }}
+          onChange={handleWorkspaceNameChange}
         />
       </Box>
 
@@ -143,15 +139,9 @@ function WorkspaceImport({ onClose }) {
         <Input
           ref={fileInputRef}
           type="file"
-          accept="application/zip, application/x-zip-compressed"
+          accept={ACCEPTED_FILE_FORMATS.zip}
           display="none"
-          onChange={(e) => {
-            const files = e.target.files;
-
-            if (files) {
-              setFileToUpload(files[0]);
-            }
-          }}
+          onChange={handleFileUpload}
         />
 
         <HStack>
@@ -166,35 +156,12 @@ function WorkspaceImport({ onClose }) {
             </Button>
           </Box>
 
-          <BasicInput
-            outlineColor={isDragging ? 'blue.500' : ''}
-            transition="outline-color 0.2s linear"
-            placeholder="Choose a file or drag and drop"
-            value={fileName}
-            onDragOver={handleDragOver}
-            onDragLeave={handleDragLeave}
-            onDrop={handleDrop}
-            readOnly
-          />
+          <DragDropInput value={fileName} onDrop={handleOnDrop} />
         </HStack>
       </Box>
 
       <Box pt={4}>
-        <Box
-          border="1px solid"
-          borderColor={borderColor}
-          borderRadius="md"
-          p={2}
-        >
-          <Progress
-            hasStripe
-            value={progress ? progress * 100 : 0}
-            colorScheme={
-              error ? 'red' : progress && progress < 1 ? 'blue' : 'green'
-            }
-            bg={borderColor}
-          />
-        </Box>
+        <BasicProgressBar progress={progress} isError={!!error} />
       </Box>
     </ConfirmModal>
   );

@@ -1,21 +1,36 @@
-import { Box, Highlight, Text } from '@chakra-ui/react';
-import ConfirmModal from './ConfirmModal';
+// Import dependencies
+import { Box, Text } from '@chakra-ui/react';
 import { useState } from 'react';
-import useWorkspaceStore from '@/stores/useWorkspaceStore';
-import BasicInput from '../systems/BasicInput';
+// Import stores
 import useFileStore from '@/stores/useFileStore';
+import useModalStore from '@/stores/useModalStore';
+import useWorkspaceStore from '@/stores/useWorkspaceStore';
+// Import constants
+import { CONFIRM_TEXTS, INPUT_PLACEHOLDERS } from '@/constants';
+// Import components
+import BasicHighlight from '../systems/BasicHighlight';
+import BasicInput from '../systems/BasicInput';
+import ConfirmModal from './ConfirmModal';
 
-// Constants
-const CONFIRM_TEXT = 'Delete all scripts';
-
-// Workspace rename modal component
-function KissVMFileDeleteAll({ onClose }) {
+// Delete all scripts modal component
+function KissVMFileDeleteAll() {
   // Define store
   const deleteFolder = useFileStore((state) => state.deleteFolder);
   const currentWorkspace = useWorkspaceStore((state) => state.currentWorkspace);
+  const onClose = useModalStore((state) => state.onClose);
 
   // Define state
   const [confirmText, setConfirmText] = useState('');
+
+  // Define handlers
+  function handleOnClick() {
+    deleteFolder(`/workspaces/${currentWorkspace}/contracts`);
+    setConfirmText('');
+    onClose();
+  }
+  function handleOnChange(e: React.ChangeEvent<HTMLInputElement>) {
+    setConfirmText(e.target.value);
+  }
 
   // Render
   return (
@@ -23,40 +38,22 @@ function KissVMFileDeleteAll({ onClose }) {
       title="Delete all scripts"
       buttonLabel="Confirm"
       onClose={onClose}
-      onClick={() => {
-        deleteFolder(`/workspaces/${currentWorkspace}/contracts`);
-        setConfirmText('');
-        onClose();
-      }}
-      disabled={confirmText !== CONFIRM_TEXT.toUpperCase()}
+      onClick={handleOnClick}
+      disabled={confirmText !== CONFIRM_TEXTS.deleteAllScripts}
     >
       <Text fontSize="sm" pb={4} textAlign="center">
         Are you sure you want to delete all scripts? This action cannot be
-        undone. Please type the confirm text in{' '}
+        undone. Please type the confirm text in&nbsp;
         <span className="uppercase">uppercase</span> to confirm.
       </Text>
 
-      <Text pb={4} textAlign="center">
-        <Highlight
-          query={CONFIRM_TEXT.toUpperCase()}
-          styles={{
-            px: '3',
-            py: '1',
-            rounded: 'sm',
-            color: 'gray.50',
-            bg: 'red.700',
-            userSelect: 'none',
-          }}
-        >
-          {CONFIRM_TEXT.toUpperCase()}
-        </Highlight>
-      </Text>
+      <BasicHighlight pb={4} query={CONFIRM_TEXTS.deleteAllScripts || '---'} />
 
       <Box px={4}>
         <BasicInput
-          placeholder="Enter confirm text here"
+          placeholder={INPUT_PLACEHOLDERS.confirm}
           value={confirmText}
-          onChange={(e) => setConfirmText(e.target.value)}
+          onChange={handleOnChange}
         />
       </Box>
     </ConfirmModal>

@@ -1,26 +1,37 @@
+// Import dependencies
 import {
   Box,
   Checkbox,
   Code,
   HStack,
-  Text,
   useToast,
   VStack,
 } from '@chakra-ui/react';
-import ConfirmModal from './ConfirmModal';
+// Import stores
 import useDeploymentStore from '@/stores/useDeploymentStore';
 import useModalStore from '@/stores/useModalStore';
+// Import themes
 import useAppTheme from '@/themes/useAppTheme';
+// Import types
+import { IOverviewItemProps, TScript } from '@/types';
+// Import components
+import { BasicHeading3 } from '../systems/BasicHeadings';
+import ConfirmModal from './ConfirmModal';
 
-function OverviewItem({ children, title, h = 'auto', className = '' }: any) {
+// Overview item component
+function OverviewItem({
+  children,
+  title,
+  h = 'auto',
+  className = '',
+}: IOverviewItemProps) {
   // Define theme
   const { bgAlt } = useAppTheme();
 
+  // Render
   return (
     <VStack w="100%" gap={0.5}>
-      <Text w="100%" as="h3" pl={1} fontSize="xs" textTransform="uppercase">
-        {title}
-      </Text>
+      <BasicHeading3 w="100%">{title}</BasicHeading3>
 
       <Box bg={bgAlt} w="100%" p={2} pb={0.5} borderRadius="md">
         <Code
@@ -40,17 +51,31 @@ function OverviewItem({ children, title, h = 'auto', className = '' }: any) {
   );
 }
 
-// Workspace rename modal component
-function DeployedScripts({ onClose }) {
+// Show deployed script details modal component
+function DeployedScripts() {
   // Define toast
   const toast = useToast();
 
   // Define stores
   const removeScript = useDeploymentStore((state) => state.removeScript);
-  const modalProps = useModalStore((state) => state.modalProps);
+  const modalProps = useModalStore((state) => state.modalProps) as TScript;
+  const onClose = useModalStore((state) => state.onClose);
 
   // Define theme
   const { bgAlt, colorAlt } = useAppTheme();
+
+  // Define handlers
+  function handleOnClick() {
+    removeScript(modalProps?.address);
+    toast({
+      title: 'Script deletion pending',
+      description:
+        'A script deletion request is pending. Please go to the "Pending" dapp to view the request.',
+      status: 'warning',
+      duration: 9000,
+      isClosable: true,
+    });
+  }
 
   // Render
   return (
@@ -59,17 +84,7 @@ function DeployedScripts({ onClose }) {
       buttonLabel="Delete"
       colorScheme="red"
       onClose={onClose}
-      onClick={() => {
-        removeScript(modalProps?.address);
-        toast({
-          title: 'Script deletion pending',
-          description:
-            'A script deletion request is pending. Please go to the "Pending" dapp to view the request.',
-          status: 'warning',
-          duration: 9000,
-          isClosable: true,
-        });
-      }}
+      onClick={handleOnClick}
       disabled={modalProps?.default}
     >
       <VStack w="100%">

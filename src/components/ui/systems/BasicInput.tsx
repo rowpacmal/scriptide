@@ -3,7 +3,7 @@ import { Input } from '@chakra-ui/react';
 // Import themes
 import useAppTheme from '@/themes/useAppTheme';
 
-// Basic input component
+// Input component
 function BasicInput({ ...props }) {
   // Define theme
   const { accent, borderColor, color, colorAlt } = useAppTheme();

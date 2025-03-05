@@ -1,17 +1,27 @@
-import { Box, Highlight, Text } from '@chakra-ui/react';
-import ConfirmModal from './ConfirmModal';
+// Import dependencies
+import { Box, Text } from '@chakra-ui/react';
 import { useMemo, useState } from 'react';
-import BasicInput from '../systems/BasicInput';
+// Import stores
 import useFileStore from '@/stores/useFileStore';
+import useModalStore from '@/stores/useModalStore';
+// Import constants
+import { INPUT_PLACEHOLDERS } from '@/constants';
+// Import components
+import BasicHighlight from '../systems/BasicHighlight';
+import BasicInput from '../systems/BasicInput';
+import ConfirmModal from './ConfirmModal';
 
-// Workspace rename modal component
-function KissVMFileDelete({ onClose }) {
+// Delete script modal component
+function KissVMFileDelete() {
   // Define stores
   const currentFile = useFileStore((state) => state.currentFile);
   const deleteFile = useFileStore((state) => state.deleteFile);
+  const onClose = useModalStore((state) => state.onClose);
 
   // Define state
   const [fileName, setFileName] = useState('');
+
+  // Define memo
   const fileToDelete = useMemo(() => {
     if (currentFile) {
       return currentFile.split('/').pop()?.replace('.kvm', '');
@@ -20,21 +30,30 @@ function KissVMFileDelete({ onClose }) {
     return null;
   }, [currentFile]);
 
+  // Define handlers
+  function handleOnClick() {
+    if (!currentFile) {
+      return;
+    }
+
+    deleteFile(currentFile);
+    setFileName('');
+    onClose();
+  }
+  function handleOnChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const { value } = e.target;
+    if (value.length <= 30) {
+      setFileName(value);
+    }
+  }
+
   // Render
   return (
     <ConfirmModal
       title="Delete script"
       buttonLabel="Confirm"
       onClose={onClose}
-      onClick={() => {
-        if (!currentFile) {
-          return;
-        }
-
-        deleteFile(currentFile);
-        setFileName('');
-        onClose();
-      }}
+      onClick={handleOnClick}
       disabled={fileName !== fileToDelete}
     >
       <Text fontSize="sm" pb={4} textAlign="center">
@@ -42,32 +61,13 @@ function KissVMFileDelete({ onClose }) {
         undone. Please type the script name to confirm.
       </Text>
 
-      <Text pb={4} textAlign="center">
-        <Highlight
-          query={fileToDelete || '---'}
-          styles={{
-            px: '2',
-            py: '1',
-            rounded: 'sm',
-            color: 'gray.50',
-            bg: 'red.700',
-            userSelect: 'none',
-          }}
-        >
-          {fileToDelete || '---'}
-        </Highlight>
-      </Text>
+      <BasicHighlight pb={4} query={fileToDelete || '---'} />
 
       <Box px={4}>
         <BasicInput
-          placeholder="Enter script name here"
+          placeholder={INPUT_PLACEHOLDERS.script}
           value={fileName}
-          onChange={(e) => {
-            const { value } = e.target;
-            if (value.length <= 30) {
-              setFileName(value);
-            }
-          }}
+          onChange={handleOnChange}
         />
       </Box>
     </ConfirmModal>

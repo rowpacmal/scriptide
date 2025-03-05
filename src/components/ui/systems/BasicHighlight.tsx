@@ -1,7 +1,7 @@
 // Import dependencies
 import { Highlight, Text } from '@chakra-ui/react';
 
-// Basic highlight component
+// Highlight component
 function BasicHighlight({ query, ...props }) {
   // Render
   return (

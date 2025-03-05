@@ -2,28 +2,50 @@
 import { Box, Text, useToast } from '@chakra-ui/react';
 import { useState } from 'react';
 // Import store
+import useModalStore from '@/stores/useModalStore';
 import useWorkspaceStore from '@/stores/useWorkspaceStore';
-// Import components
-import ConfirmModal from './ConfirmModal';
-import BasicInput from '../systems/BasicInput';
+// Import constants
 import { INPUT_PLACEHOLDERS } from '@/constants';
+// Import components
+import BasicInput from '../systems/BasicInput';
+import ConfirmModal from './ConfirmModal';
 
-// Constants
-const PRESET_NAME = 'Workspace';
-
-// Workspace rename modal component
-function WorkspaceCreateBlank({ onClose }) {
+// Create blank workspace modal component
+function WorkspaceCreateBlank() {
   // Define toast
   const toast = useToast();
 
   // Define stores
   const workspaces = useWorkspaceStore((state) => state.workspaces);
   const addWorkspace = useWorkspaceStore((state) => state.addWorkspace);
+  const onClose = useModalStore((state) => state.onClose);
 
   // Define state
-  const [workspaceName, setWorkspaceName] = useState(
-    `${PRESET_NAME} ${Date.now()}`
-  );
+  const [workspaceName, setWorkspaceName] = useState(`Workspace ${Date.now()}`);
+
+  // Define handlers
+  function handleOnClick() {
+    if (workspaces.includes(workspaceName)) {
+      toast({
+        title: 'Workspace name already exists',
+        status: 'warning',
+        duration: 3000,
+        isClosable: true,
+      });
+
+      return;
+    }
+
+    addWorkspace(workspaceName);
+    setWorkspaceName('');
+    onClose();
+  }
+  function handleOnChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const { value } = e.target;
+    if (value.length <= 30) {
+      setWorkspaceName(value);
+    }
+  }
 
   // Render
   return (
@@ -31,22 +53,7 @@ function WorkspaceCreateBlank({ onClose }) {
       title="Create new workspace"
       buttonLabel="Create"
       onClose={onClose}
-      onClick={() => {
-        if (workspaces.includes(workspaceName)) {
-          toast({
-            title: 'Workspace name already exists',
-            status: 'warning',
-            duration: 3000,
-            isClosable: true,
-          });
-
-          return;
-        }
-
-        addWorkspace(workspaceName);
-        setWorkspaceName('');
-        onClose();
-      }}
+      onClick={handleOnClick}
       disabled={!workspaceName}
     >
       <Text fontSize="sm" pb={4} textAlign="center">
@@ -57,12 +64,7 @@ function WorkspaceCreateBlank({ onClose }) {
         <BasicInput
           placeholder={INPUT_PLACEHOLDERS.workspace}
           value={workspaceName}
-          onChange={(e) => {
-            const { value } = e.target;
-            if (value.length <= 30) {
-              setWorkspaceName(value);
-            }
-          }}
+          onChange={handleOnChange}
         />
       </Box>
     </ConfirmModal>
