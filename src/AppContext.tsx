@@ -2,8 +2,6 @@
 import { createContext, useRef, useEffect } from 'react';
 // Import store
 import useWorkspaceStore from '@/stores/useWorkspaceStore';
-// Import hooks
-import useTryCatch from '@/hooks/useTryCatch';
 // Import libraries
 import { mds } from './lib/minima';
 // Import types
@@ -14,11 +12,7 @@ export const appContext = createContext<IAppContext>({});
 
 // App provider component
 function AppProvider({ children }: IProps) {
-  // Define trycatch
-  // This custom hook is not working as intended and needs to be fixed
-  const tryCatch = useTryCatch();
-
-  // Define refs
+  // Define ref
   const loaded = useRef(false);
 
   // Define effects
@@ -34,12 +28,10 @@ function AppProvider({ children }: IProps) {
       });
     }
   }, [loaded]);
-
   useEffect(() => {
-    tryCatch(async () => {
-      // Refresh workspaces on load
+    (async () => {
       await useWorkspaceStore.getState().refreshWorkspaces();
-    });
+    })();
   }, []);
 
   // Render
