@@ -1,10 +1,14 @@
-import minima, { mds } from '@/lib/minima';
-import useFileStore from '@/stores/useFileStore';
-import useWorkspaceStore from '@/stores/useWorkspaceStore';
+// Import dependencies
 import { useToast } from '@chakra-ui/react';
 import { useState } from 'react';
+// Import libraries
+import minima, { mds } from '@/lib/minima';
+// Import stores
+import useFileStore from '@/stores/useFileStore';
+import useWorkspaceStore from '@/stores/useWorkspaceStore';
 
-function useUploadFile(fileInput: any) {
+// Upload file hook
+function useUploadFile(fileInput: React.RefObject<HTMLInputElement>) {
   // Define toast
   const toast = useToast();
 
@@ -15,13 +19,13 @@ function useUploadFile(fileInput: any) {
   const currentWorkspace = useWorkspaceStore((state) => state.currentWorkspace);
 
   // Define states
-  const [, setFile] = useState(undefined);
+  const [, setFile] = useState<File | undefined>(undefined);
   const [progress, setProgress] = useState<number | null>(null);
   const [isUploading, setIsUploading] = useState(false);
   const [isError, setIsError] = useState(false);
 
   // Define functions
-  function onError(err: any) {
+  function onError(err: string) {
     console.error(err);
     toast({
       title: 'Error uploading file',
@@ -33,11 +37,15 @@ function useUploadFile(fileInput: any) {
 
     setIsError(true);
     setIsUploading(false);
-    refreshFiles(currentWorkspace as string, false);
+
+    if (!currentWorkspace) {
+      return;
+    }
+    refreshFiles(currentWorkspace, false);
   }
 
   // Define handlers
-  async function handleUploadFile(file: any, newName?: string) {
+  async function handleUploadFile(file: File, newName?: string) {
     try {
       if (!newName?.includes('.') || newName.endsWith('.')) {
         onError('File name must include extension');
@@ -62,14 +70,12 @@ function useUploadFile(fileInput: any) {
         setIsUploading(true);
         setIsError(false);
 
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
-        mds.file.upload(file, async function (resp) {
-          if (resp.allchunks >= 10) {
-            setProgress(resp.chunk / resp.allchunks);
+        mds.file.upload(file, async function (msg) {
+          if (msg.allchunks >= 10) {
+            setProgress(msg.chunk / msg.allchunks);
           }
 
-          if (resp.allchunks === resp.chunk) {
+          if (msg.allchunks === msg.chunk) {
             setFile(undefined);
             setProgress(1);
             setIsUploading(false);
@@ -78,13 +84,17 @@ function useUploadFile(fileInput: any) {
             refreshFiles(currentWorkspace as string, false);
 
             if (fileInput.current) {
-              (fileInput.current as any).value = null;
+              fileInput.current.value = '';
             }
           }
         });
       }
-    } catch (err: any) {
-      onError(err);
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        onError(err.message);
+      } else {
+        onError('Error uploading file');
+      }
     }
   }
 
@@ -96,4 +106,5 @@ function useUploadFile(fileInput: any) {
   };
 }
 
+// Export
 export default useUploadFile;

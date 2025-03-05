@@ -1,4 +1,4 @@
-import { TMDSFileList, TMDSFileLoad } from './minima';
+import { TMDSFileList, TMDSFileLoad, TMDSFileUploadMessage } from './minima';
 import { TMessage } from './response';
 
 interface IWindow extends Window {
@@ -33,32 +33,40 @@ interface IWindow extends Window {
         path: string,
         callback: (msg: TMessage<TMDSFileLoad>) => void
       ) => void;
-      delete: <T>(path: string, callback: (msg: TMessage<T>) => void) => void;
-      getpath: <T>(path: string, callback: (msg: TMessage<T>) => void) => void;
-      makedir: <T>(path: string, callback: (msg: TMessage<T>) => void) => void;
-      copy: <T>(
+      delete: (
+        path: string,
+        callback: (msg: TMessage<unknown>) => void
+      ) => void;
+      getpath: (
+        path: string,
+        callback: (msg: TMessage<unknown>) => void
+      ) => void;
+      makedir: (
+        path: string,
+        callback: (msg: TMessage<unknown>) => void
+      ) => void;
+      copy: (
         path: string,
         newPath: string,
-        callback: (msg: TMessage<T>) => void
+        callback: (msg: TMessage<unknown>) => void
       ) => void;
-      move: <T>(
+      move: (
         path: string,
         newPath: string,
-        callback: (msg: TMessage<T>) => void
+        callback: (msg: TMessage<unknown>) => void
       ) => void;
-      upload: <T>(
-        path: string,
-        data: string,
-        callback: (msg: TMessage<T>) => void
+      upload: (
+        data: unknown,
+        callback: (msg: TMDSFileUploadMessage) => void
       ) => void;
-      copytoweb: <T>(
+      copytoweb: (
         path: string,
         newPath: string,
-        callback: (msg: TMessage<T>) => void
+        callback: (msg: TMessage<unknown>) => void
       ) => void;
-      deletefromweb: <T>(
+      deletefromweb: (
         path: string,
-        callback: (msg: TMessage<T>) => void
+        callback: (msg: TMessage<unknown>) => void
       ) => void;
     };
     filehost: string;

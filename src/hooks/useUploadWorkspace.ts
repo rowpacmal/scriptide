@@ -1,13 +1,15 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-
-// import minima from '@/lib/minima';
-import minima from '@/lib/minima';
-import useWorkspaceStore from '@/stores/useWorkspaceStore';
-import isImageFile from '@/utils/isImageFile';
-import isTextFile from '@/utils/isTextFile';
+// Import dependencies
 import JSZip from 'jszip';
 import { useState } from 'react';
+// Import stores
+import useWorkspaceStore from '@/stores/useWorkspaceStore';
+// Import libraries
+import minima from '@/lib/minima';
+// Import utilities
+import isImageFile from '@/utils/isImageFile';
+import isTextFile from '@/utils/isTextFile';
 
+// Upload workspace hook
 function useUploadWorkspace() {
   // Define store
   const updateWorkspace = useWorkspaceStore((state) => state.updateWorkspace);
@@ -16,13 +18,15 @@ function useUploadWorkspace() {
   );
 
   // Define states
-  const [fileContents, setFileContents] = useState({});
-  const [error, setError]: [any, any] = useState(null);
-  const [progress, setProgress] = useState<number | null>(null);
+  const [error, setError] = useState<string | null>(null);
+  const [fileContents, setFileContents] = useState<{ [key: string]: string }>(
+    {}
+  );
   const [isUploading, setIsUploading] = useState(false);
+  const [progress, setProgress] = useState<number | null>(null);
 
   // Define handlers
-  async function handleUploadWorkspace(file: any, workspace: string) {
+  async function handleUploadWorkspace(file: File, workspace: string) {
     if (file) {
       try {
         setIsUploading(true);
@@ -38,30 +42,28 @@ function useUploadWorkspace() {
 
         for (const filename in content.files) {
           const zipEntry = content.files[filename];
-
-          // Check if it's a file (not a directory)
           if (!zipEntry.dir) {
             try {
               let fileContent: string | ArrayBuffer;
-
-              // Check if it's a text, image, or other file
               if (isTextFile(filename)) {
                 fileContent = await zipEntry.async('string');
               } else if (isImageFile(filename)) {
                 fileContent = await zipEntry.async('base64');
               } else {
-                // fileContent = await zipEntry.async('arraybuffer');
                 fileContent = await zipEntry.async('string');
+                // fileContent = await zipEntry.async('arraybuffer'); // Alternative
               }
 
               newFileContents[filename] = fileContent;
-
               setProgress(Object.keys(newFileContents).length / totalFiles);
-            } catch (error: any) {
-              console.error(`Error reading file ${filename}:`, error);
-              newFileContents[
-                filename
-              ] = `Error reading file: ${error.message}`; // Or handle differently
+            } catch (err: unknown) {
+              console.error(`Error reading file ${filename}:`, err);
+
+              if (err instanceof Error) {
+                newFileContents[filename] = err.message;
+              } else {
+                newFileContents[filename] = 'Error reading file';
+              }
             }
           }
         }
@@ -71,11 +73,8 @@ function useUploadWorkspace() {
         const entryFiles: [string, string][] = Object.entries(newFileContents);
         entryFiles.forEach(async (entry) => {
           const [fileName, fileContent] = entry;
-          // console.log(fileName, fileContent);
-
           if (isImageFile(fileName)) {
             const binary = minima.util.base64ToHex(fileContent);
-
             await minima.file.savebinary(
               `workspaces/${workspace}/${fileName}`,
               binary
@@ -92,24 +91,28 @@ function useUploadWorkspace() {
         refreshWorkspaces();
         setProgress(1);
         setIsUploading(false);
-      } catch (err: any) {
+      } catch (err: unknown) {
         console.error('Error loading zip file:', err);
         setIsUploading(false);
-        setError(
-          err.message ? err.message : err ? err : 'Error loading zip file'
-        );
+
+        if (err instanceof Error) {
+          setError(err.message);
+        } else {
+          setError('Error loading zip file');
+        }
       }
     }
   }
 
   return {
     error,
-    progress,
-    isUploading,
-    handleUploadWorkspace,
-
     fileContents,
+    isUploading,
+    progress,
+
+    handleUploadWorkspace,
   };
 }
 
+// Export
 export default useUploadWorkspace;

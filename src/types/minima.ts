@@ -1,6 +1,6 @@
 // Import types
 import { TFile } from './file';
-import { IResponse } from './response';
+import { IResponse, TMessage } from './response';
 import { TScriptVariables } from './stores';
 
 // ============================================================== //
@@ -35,14 +35,6 @@ interface IMDS {
 // ============================================================== //
 // Minima wrapper types ----------------------------------------- //
 // ============================================================== //
-type TMDSFileList = {
-  list: TFile[];
-};
-type TMDSFileLoad = {
-  load: {
-    data: string;
-  };
-};
 type TMDSCommandMMRCreate = {
   nodes: { proof: string }[];
   root: {
@@ -57,11 +49,24 @@ type TMDSCommandRunScript = {
   trace: string;
   variables: TScriptVariables;
 };
+type TMDSFileList = {
+  list: TFile[];
+};
+type TMDSFileLoad = {
+  load: {
+    data: string;
+  };
+};
+type TMDSFileUploadMessage = TMessage<unknown> & {
+  allchunks: number;
+  chunk: number;
+};
 
 export type {
   IMDS,
-  TMDSFileList,
-  TMDSFileLoad,
   TMDSCommandMMRCreate,
   TMDSCommandRunScript,
+  TMDSFileList,
+  TMDSFileLoad,
+  TMDSFileUploadMessage,
 };
