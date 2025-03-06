@@ -138,10 +138,16 @@ function useRunScript() {
         // load imported script data and clean it
         const value =
           (await minima.file.load(location)).response?.load.data || '';
-        // console.log(value);
-        const extraTxt = value.trim();
-        let extraScript = extraTxt.replace(/\s+/g, ' ').trim();
-        extraScript = parseComments(extraScript).trim();
+        let extraScript = handleParseScript(value);
+        try {
+          extraScript = handleParseScript(value);
+        } catch (error) {
+          throw new Error(
+            error instanceof Error
+              ? error.message
+              : 'Error parsing extra script'
+          );
+        }
 
         // If the extra script is not empty, get the script mmrproof and address
         const {
@@ -242,7 +248,7 @@ function useRunScript() {
     let script = '';
     try {
       script = handleParseScript(code);
-    } catch (error: unknown) {
+    } catch (error) {
       setIsRunning(false);
       toast({
         title: 'Error parsing script',
@@ -289,9 +295,24 @@ function useRunScript() {
 
     let extraScriptsStr = '';
     if (setExtraScripts) {
-      const { extraScripts, parsedScript } = await getExtraScripts(script);
-      extraScriptsStr = extraScripts;
-      script = parsedScript;
+      try {
+        const { extraScripts, parsedScript } = await getExtraScripts(script);
+        extraScriptsStr = extraScripts;
+        script = parsedScript;
+      } catch (error) {
+        setIsRunning(false);
+        toast({
+          title: 'Error parsing extra scripts',
+          description:
+            error instanceof Error
+              ? error.message
+              : 'Something went wrong parsing the extra scripts.',
+          status: 'warning',
+          duration: 5000,
+          isClosable: true,
+        });
+        return;
+      }
     }
 
     // Build the command
