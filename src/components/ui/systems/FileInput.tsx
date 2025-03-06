@@ -34,7 +34,7 @@ function FileInput({ ...props }) {
         inputRef.current.setSelectionRange(0, selection.length);
       }
     }
-  }, [props]);
+  }, []);
 
   // Render
   return (
