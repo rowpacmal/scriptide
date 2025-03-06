@@ -103,7 +103,7 @@ function VariableItem({ variable, value }) {
   return (
     <Tooltip
       label={`${variable} : ${getVariableType(value)}`}
-      placement="left"
+      placement="right"
       hasArrow
     >
       <ListItem display="grid" gridTemplateColumns="1.5rem 1fr">
