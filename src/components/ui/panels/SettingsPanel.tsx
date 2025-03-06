@@ -1,24 +1,17 @@
-// Dependencies
-import useAppTheme from '@/themes/useAppTheme';
-import {
-  Box,
-  HStack,
-  Select,
-  Text,
-  useColorMode,
-  VStack,
-} from '@chakra-ui/react';
-import { AccordionBase, AccordionItemBase } from '../systems/AccordionBase';
-import { LuPalette } from 'react-icons/lu';
+// Import dependencies
+import { VStack } from '@chakra-ui/react';
 import { useState } from 'react';
+// Import icons
+import { LuPalette } from 'react-icons/lu';
+// Import constants
 import { LOCAL_STORAGE_KEYS } from '@/constants';
+// Import components
+import { AccordionBase, AccordionItemBase } from '../systems/AccordionBase';
+import Appearance from '../Appearance';
 
+// Settings panel component
 function SettingsPanel() {
-  // Define theme
-  const { colorMode, toggleColorMode } = useColorMode();
-  const { accent, borderColor, color, colorAlt } = useAppTheme();
-
-  // Define states
+  // Define state
   const [accordionIndex, setAccordionIndex] = useState(
     JSON.parse(
       localStorage.getItem(LOCAL_STORAGE_KEYS.settingsPanelAccordionIndex) ||
@@ -26,7 +19,7 @@ function SettingsPanel() {
     )
   );
 
-  // Define functions
+  // Define handler
   function handleOnChange(index: number[]) {
     setAccordionIndex(index);
     localStorage.setItem(
@@ -35,6 +28,7 @@ function SettingsPanel() {
     );
   }
 
+  // Render
   return (
     <VStack w="100%" h="100%" fontSize="sm" gap={3}>
       <AccordionBase index={accordionIndex} onChange={handleOnChange}>
@@ -44,34 +38,12 @@ function SettingsPanel() {
           isTop
           isBottom
         >
-          <HStack w="100%" gap={2} justify="space-between" flexWrap="wrap">
-            <Text
-              as="h4"
-              textTransform="uppercase"
-              fontSize="xs"
-              color={colorAlt}
-            >
-              Color mode
-            </Text>
-
-            <Box>
-              <Select
-                size="xs"
-                value={colorMode}
-                onChange={toggleColorMode}
-                borderColor={borderColor}
-                _hover={{ borderColor: color }}
-                _focusVisible={{ borderColor: accent }}
-              >
-                <option value="light">Light</option>
-                <option value="dark">Dark</option>
-              </Select>
-            </Box>
-          </HStack>
+          <Appearance />
         </AccordionItemBase>
       </AccordionBase>
     </VStack>
   );
 }
 
+// Export
 export default SettingsPanel;

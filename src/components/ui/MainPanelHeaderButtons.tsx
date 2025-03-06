@@ -23,7 +23,7 @@ import isImageFile from '@/utils/isImageFile';
 // Import themes
 import useAppTheme from '@/themes/useAppTheme';
 // Import components
-import HeaderButton from './systems/HeaderButton';
+import { BasicButton } from './systems/BasicButtons';
 import usePanelStore from '@/stores/usePanelStore';
 
 // Right sidebar button component
@@ -40,7 +40,7 @@ function RightSidebarButton() {
   // Render
   return (
     <Box>
-      <HeaderButton
+      <BasicButton
         label={`${isRightSidePanelOpen ? 'Hide' : 'Show'} live preview`}
         onClick={() => {
           togglePreview();
@@ -48,7 +48,7 @@ function RightSidebarButton() {
         }}
       >
         {isRightSidePanelOpen ? <LuChevronsRight /> : <LuChevronsLeft />}
-      </HeaderButton>
+      </BasicButton>
     </Box>
   );
 }
@@ -64,13 +64,13 @@ function RunScriptButton() {
   // Render
   return (
     <Box borderRight="1px solid" borderColor={borderColor}>
-      <HeaderButton
+      <BasicButton
         label="Run script"
         hoverColor={colorSuccess}
         onClick={handleRunScript}
       >
         <TbPlayerPlayFilled />
-      </HeaderButton>
+      </BasicButton>
     </Box>
   );
 }
@@ -98,7 +98,7 @@ function SaveFileButtons() {
   // Render
   return (
     <HStack gap={0} borderRight="1px solid" borderColor={borderColor}>
-      <HeaderButton
+      <BasicButton
         label="Save file"
         onClick={() => {
           const fileToSave = allCodes.find((f) => f.file === currentFile);
@@ -120,9 +120,9 @@ function SaveFileButtons() {
         disabled={currentFile === null || isImageFile(currentFile)}
       >
         <LuSave />
-      </HeaderButton>
+      </BasicButton>
 
-      <HeaderButton
+      <BasicButton
         label={`Auto save: ${editorAutoSave ? 'on' : 'off'}`}
         onClick={toggleEditorAutoSave}
       >
@@ -133,7 +133,7 @@ function SaveFileButtons() {
         ) : (
           <LuToggleLeft size={20} />
         )}
-      </HeaderButton>
+      </BasicButton>
     </HStack>
   );
 }
@@ -197,13 +197,13 @@ function ZoomEditorButtons() {
   // Render
   return (
     <HStack gap={0} borderRight="1px solid" borderColor={borderColor}>
-      <HeaderButton
+      <BasicButton
         label="Zoom out"
         onClick={editorZoomOut}
         disabled={editorZoom <= -6}
       >
         <LuZoomOut />
-      </HeaderButton>
+      </BasicButton>
 
       <Input
         value={zoom}
@@ -224,9 +224,9 @@ function ZoomEditorButtons() {
         }}
       />
 
-      <HeaderButton label="Zoom in" onClick={editorZoomIn}>
+      <BasicButton label="Zoom in" onClick={editorZoomIn}>
         <LuZoomIn />
-      </HeaderButton>
+      </BasicButton>
     </HStack>
   );
 }

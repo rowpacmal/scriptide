@@ -29,7 +29,7 @@ function Modals() {
   const isOpen = useModalStore((state) => state.isOpen);
   const onClose = useModalStore((state) => state.onClose);
 
-  // Define state
+  // Define memo
   const currentModal = useMemo(() => {
     switch (modalType) {
       // Workspace modals

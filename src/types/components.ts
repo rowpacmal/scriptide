@@ -11,6 +11,10 @@ interface IAccordionItemBaseAltProps {
   isTop?: boolean;
   isBottom?: boolean;
 }
+interface IAppLogoProps {
+  size?: string | number;
+  color?: string;
+}
 interface IOverviewItemProps {
   children: React.ReactNode;
   title: string;
@@ -21,5 +25,6 @@ interface IOverviewItemProps {
 export type {
   IAccordionItemBaseProps,
   IAccordionItemBaseAltProps,
+  IAppLogoProps,
   IOverviewItemProps,
 };

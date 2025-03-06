@@ -1,19 +1,20 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-
 // Import dependencies
 import { Box, HStack, Spinner, Text, VStack } from '@chakra-ui/react';
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 // Import store
+import useEditorStore from '@/stores/useEditorStore';
 import useFileStore from '@/stores/useFileStore';
 import useWorkspaceStore from '@/stores/useWorkspaceStore';
+// Import themes
+import useAppTheme from '@/themes/useAppTheme';
+// Import constants
+import { LOCAL_STORAGE_KEYS } from '@/constants';
 // Import components
+import { BasicHeading3 } from '../systems/BasicHeadings';
+import { FileTree } from '../systems/FileTree';
 import FilesMenu from '../FilesMenu';
 import Workspace from '../Workspace';
 import WorkspaceMenu from '../WorkspaceMenu';
-import { FileTree } from '../systems/FileTree';
-import useAppTheme from '@/themes/useAppTheme';
-import useEditorStore from '@/stores/useEditorStore';
-import { LOCAL_STORAGE_KEYS } from '@/constants';
 
 // File explorer component
 function ExplorerPanel() {
@@ -30,7 +31,11 @@ function ExplorerPanel() {
   const { colorAlt, borderColor } = useAppTheme();
 
   // Define state
-  const [isExpanded, setIsExpanded] = useState({});
+  const [isExpanded, setIsExpanded] = useState(
+    JSON.parse(
+      localStorage.getItem(LOCAL_STORAGE_KEYS.fileExplorerExpanded) || '{}'
+    )
+  );
 
   // Define memo
   const file = useMemo(() => {
@@ -45,32 +50,23 @@ function ExplorerPanel() {
     ];
   }, [currentWorkspace, allFiles]);
 
-  // Define effects
-  useEffect(() => {
-    if (!currentWorkspace) {
-      return;
-    }
-
-    setIsExpanded(
-      JSON.parse(
-        localStorage.getItem(LOCAL_STORAGE_KEYS.fileExplorerExpanded) || '{}'
-      )
-    );
-  }, [currentWorkspace]);
+  // Define handlers
+  function handleOnContextMenu(e: React.MouseEvent<HTMLDivElement>) {
+    e.preventDefault();
+  }
+  function handleOnClick() {
+    setCurrentFile(null);
+    setCurrentFolder(null);
+    setTabIndex(-1);
+  }
 
   // Render
   return (
     <VStack w="100%" h="100%" fontSize="sm" gap={3}>
       <VStack w="100%" fontSize="sm" gap={1}>
-        <Text
-          w="100%"
-          as="h3"
-          fontSize="xs"
-          textTransform="uppercase"
-          color={colorAlt}
-        >
+        <BasicHeading3 w="100%" color={colorAlt}>
           Workspaces
-        </Text>
+        </BasicHeading3>
 
         <HStack w="100%">
           <Workspace />
@@ -100,7 +96,7 @@ function ExplorerPanel() {
                 gap={0.5}
                 overflowY="scroll"
                 className="alt-scrollbar"
-                onContextMenu={(e) => e.preventDefault()}
+                onContextMenu={handleOnContextMenu}
               >
                 <FileTree
                   file={file}
@@ -113,11 +109,7 @@ function ExplorerPanel() {
                   w="100%"
                   minH="1rem"
                   flexGrow="1"
-                  onClick={() => {
-                    setCurrentFile(null);
-                    setCurrentFolder(null);
-                    setTabIndex(-1);
-                  }}
+                  onClick={handleOnClick}
                 />
               </VStack>
             </VStack>

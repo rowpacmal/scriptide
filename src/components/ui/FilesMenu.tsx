@@ -16,7 +16,7 @@ import { EModalTypes } from '@/types';
 // Import constants
 import { ICON_SIZES } from '@/constants';
 // Import components
-import HoverButton from './systems/HoverButton';
+import { BasicHoverButton } from './systems/BasicButtons';
 
 // Files menu component
 function FilesMenu() {
@@ -69,26 +69,29 @@ function FilesMenu() {
   return (
     <HStack w="100%" px={1} justify="space-between" gap={1}>
       <HStack gap={1}>
-        <HoverButton label="Create new file" onClick={handleCreateNewFile}>
+        <BasicHoverButton label="Create new file" onClick={handleCreateNewFile}>
           <LuFilePlus size={ICON_SIZES.sm} />
-        </HoverButton>
+        </BasicHoverButton>
 
-        <HoverButton label="Create new folder" onClick={handleCreateNewFolder}>
+        <BasicHoverButton
+          label="Create new folder"
+          onClick={handleCreateNewFolder}
+        >
           <LuFolderPlus size={ICON_SIZES.sm} />
-        </HoverButton>
+        </BasicHoverButton>
 
-        <HoverButton label="Upload file" onClick={handleUploadFile}>
+        <BasicHoverButton label="Upload file" onClick={handleUploadFile}>
           <LuHardDriveUpload size={ICON_SIZES.sm} />
-        </HoverButton>
+        </BasicHoverButton>
       </HStack>
 
-      <HoverButton
+      <BasicHoverButton
         label="Delete all files"
         onClick={handleDeleteAllFiles}
         disabled={files.length < 1}
       >
         <LuTrash2 size={ICON_SIZES.sm} />
-      </HoverButton>
+      </BasicHoverButton>
     </HStack>
   );
 }

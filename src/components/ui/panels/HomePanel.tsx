@@ -1,15 +1,20 @@
+// Import dependencies
 import { Box, Divider, Text, VStack } from '@chakra-ui/react';
-import AppLogo from '../systems/AppLogo';
+// Import themes
 import useAppTheme from '@/themes/useAppTheme';
+// Import components
+import AppLogo from '../systems/AppLogo';
 import ChangelogV3_0_0 from '@/components/changelogs/ChangelogV3_0_0';
 import ChangelogV3_0_2 from '@/components/changelogs/ChangelogV3_0_2';
 import ChangelogV3_0_4 from '@/components/changelogs/ChangelogV3_0_4';
 import ChangelogV3_1_0 from '@/components/changelogs/ChangelogV3_1_0';
 
+// Home panel component
 function HomePanel() {
   // Define theme
   const { borderColor, colorAlt } = useAppTheme();
 
+  // Render
   return (
     <VStack w="100%" pb={4} color={colorAlt} textAlign="center">
       <Box maxW="200px" p={4}>
@@ -49,4 +54,5 @@ function HomePanel() {
   );
 }
 
+// Export
 export default HomePanel;

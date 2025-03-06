@@ -1,16 +1,25 @@
-import { Text, VStack } from '@chakra-ui/react';
+// Import dependencies
+import { VStack } from '@chakra-ui/react';
+import { useState } from 'react';
+// Import icons
+import { LuHammer, LuShare2 } from 'react-icons/lu';
+// Import themes
+import useAppTheme from '@/themes/useAppTheme';
+// Import constants
+import { LOCAL_STORAGE_KEYS } from '@/constants';
+// Import components
 import { AccordionBase, AccordionItemBase } from '../systems/AccordionBase';
 import KissVMDeploy from '../KissVMDeploy';
 import MiniDappBuild from '../MiniDappBuild';
 import Workspace from '../Workspace';
-import { LuHammer, LuShare2 } from 'react-icons/lu';
-import useAppTheme from '@/themes/useAppTheme';
-import { useState } from 'react';
-import { LOCAL_STORAGE_KEYS } from '@/constants';
+import { BasicHeading3 } from '../systems/BasicHeadings';
 
-// Deploy panel component
+// Deploy and build panel component
 function DeployBuildPanel() {
-  // Define states
+  // Define theme
+  const { colorAlt } = useAppTheme();
+
+  // Define state
   const [accordionIndex, setAccordionIndex] = useState(
     JSON.parse(
       localStorage.getItem(LOCAL_STORAGE_KEYS.deployBuildPanelAccordionIndex) ||
@@ -18,7 +27,7 @@ function DeployBuildPanel() {
     )
   );
 
-  // Define functions
+  // Define handler
   function handleOnChange(index: number[]) {
     setAccordionIndex(index);
     localStorage.setItem(
@@ -27,21 +36,13 @@ function DeployBuildPanel() {
     );
   }
 
-  // Define theme
-  const { colorAlt } = useAppTheme();
-
+  // Render
   return (
     <VStack w="100%" fontSize="sm" gap={3}>
       <VStack w="100%" gap={1}>
-        <Text
-          as="h3"
-          w="100%"
-          textTransform="uppercase"
-          fontSize="xs"
-          color={colorAlt}
-        >
+        <BasicHeading3 w="100%" color={colorAlt}>
           Workspaces
-        </Text>
+        </BasicHeading3>
 
         <Workspace />
       </VStack>

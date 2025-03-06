@@ -1,6 +1,7 @@
 // Import dependencies
-import { Box, Button, HStack, Text, Tooltip, VStack } from '@chakra-ui/react';
+import { Box, HStack, VStack } from '@chakra-ui/react';
 import { useMemo } from 'react';
+// Import icons
 import { LuRotateCw } from 'react-icons/lu';
 // Import constants
 import { NAVIGATION_LABELS } from '@/constants';
@@ -12,17 +13,19 @@ import { ENavigationStates } from '@/types';
 // Import themes
 import useAppTheme from '@/themes/useAppTheme';
 // Import components
+import { BasicButton } from '../systems/BasicButtons';
+import { BasicHeading2 } from '../systems/BasicHeadings';
 import DeployBuildPanel from './DeployBuildPanel';
 import ExplorerPanel from './ExplorerPanel';
 import HomePanel from './HomePanel';
 import KissVMPanel from './KissVMPanel';
+import NotFoundPanel from './NotFoundPanel';
 import SettingsPanel from './SettingsPanel';
-import { BasicHeading2 } from '../systems/BasicHeadings';
 
-// Control panel component
+// Left side panel component
 function LeftSidePanel() {
   // Define theme
-  const { color, colorAlt, borderColor } = useAppTheme();
+  const { colorAlt, borderColor } = useAppTheme();
 
   // Define store
   const navigation = useNavigationStore((state) => state.navigation);
@@ -30,7 +33,7 @@ function LeftSidePanel() {
     (state) => state.refreshWorkspaces
   );
 
-  // Define state
+  // Define memo
   const currentNavigation = useMemo(() => {
     switch (navigation) {
       case ENavigationStates.HOME:
@@ -40,7 +43,7 @@ function LeftSidePanel() {
         return <ExplorerPanel />;
 
       case ENavigationStates.SEARCH:
-        return null;
+        return <NotFoundPanel />;
 
       case ENavigationStates.KISS_VM:
         return <KissVMPanel />;
@@ -49,13 +52,13 @@ function LeftSidePanel() {
         return <DeployBuildPanel />;
 
       case ENavigationStates.PLUGINS:
-        return null;
+        return <NotFoundPanel />;
 
       case ENavigationStates.SETTINGS:
         return <SettingsPanel />;
 
       default:
-        return null;
+        return <NotFoundPanel />;
     }
   }, [navigation]);
 
@@ -70,18 +73,12 @@ function LeftSidePanel() {
 
           {navigation !== ENavigationStates.HOME &&
             navigation !== ENavigationStates.SETTINGS && (
-              <Tooltip label="Refresh workspaces" placement="bottom" hasArrow>
-                <Button
-                  p={0}
-                  size="sm"
-                  bg="transparent"
-                  color={colorAlt}
-                  _hover={{ bg: 'transparent', color }}
-                  onClick={() => refreshWorkspaces()}
-                >
-                  <LuRotateCw size={20} />
-                </Button>
-              </Tooltip>
+              <BasicButton
+                label="Refresh workspaces"
+                onClick={refreshWorkspaces}
+              >
+                <LuRotateCw size={20} />
+              </BasicButton>
             )}
         </HStack>
 
@@ -91,4 +88,5 @@ function LeftSidePanel() {
   );
 }
 
+// Export
 export default LeftSidePanel;

@@ -1,5 +1,12 @@
+// Import types
+import { IAppLogoProps } from '@/types';
+
 // App logo component
-function AppLogo({ size = 24, color = 'currentColor' }) {
+function AppLogo({
+  size = 24,
+  color = 'currentColor',
+  ...props
+}: IAppLogoProps) {
   // Render
   return (
     <svg
@@ -9,6 +16,7 @@ function AppLogo({ size = 24, color = 'currentColor' }) {
       viewBox="0 0 300 300"
       fill={color}
       stroke="none"
+      {...props}
     >
       <g>
         <path d="M0 0L300 0L300 300L0 300L0 0Z" stroke="none" fill="none" />

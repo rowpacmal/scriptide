@@ -1,5 +1,4 @@
-import useEditorStore from '@/stores/useEditorStore';
-import useFileStore from '@/stores/useFileStore';
+// Import dependencies
 import {
   Box,
   Breadcrumb,
@@ -13,15 +12,78 @@ import {
   Text,
   Tooltip,
 } from '@chakra-ui/react';
-import { useRef } from 'react';
+import { useEffect, useRef } from 'react';
+// Import icons
 import { LuChevronRight, LuX } from 'react-icons/lu';
-import CodeEditor from '../CodeEditor';
+// Import stores
+import useEditorStore from '@/stores/useEditorStore';
+import useFileStore from '@/stores/useFileStore';
+// Import themes
 import useAppTheme from '@/themes/useAppTheme';
+// Import components
+import CodeEditor from '../CodeEditor';
 import ImageViewer from '../ImageViewer';
 
-function NoOpenFile() {
+// Active tab file path component
+function ActiveTabFilePath({ path }: { path: string[] }) {
+  // Define refs
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
+
+  // Define theme
+  const { accent, borderColor, colorAlt } = useAppTheme();
+
+  // Define handlers
+  function handleOnWheel(e: React.WheelEvent<HTMLDivElement>) {
+    if (scrollContainerRef.current) {
+      // Change scroll behavior - left to right.
+      scrollContainerRef.current.scrollLeft += e.deltaY;
+    }
+  }
+
+  // Define effect
+  useEffect(() => {
+    if (scrollContainerRef.current) {
+      // Scroll to the end of the path
+      scrollContainerRef.current.scrollLeft =
+        scrollContainerRef.current.scrollWidth;
+    }
+  }, [path]);
+
+  // Render
+  return (
+    <Box py={1} px={2}>
+      <Breadcrumb
+        ref={scrollContainerRef}
+        spacing={1}
+        color={colorAlt}
+        fontSize="xs"
+        separator={
+          <Box color={borderColor}>
+            <LuChevronRight />
+          </Box>
+        }
+        userSelect="none"
+        overflowX="auto"
+        overflowY="hidden"
+        className="no-scrollbar"
+        onWheel={handleOnWheel}
+      >
+        {path.map((file, i) => (
+          <BreadcrumbItem key={i} color={path.length - 1 === i ? accent : ''}>
+            <Text>{file}</Text>
+          </BreadcrumbItem>
+        ))}
+      </Breadcrumb>
+    </Box>
+  );
+}
+
+// No file open component
+function NoFileOpen() {
+  // Define theme
   const { colorAlt } = useAppTheme();
 
+  // Render
   return (
     <Text
       h="100%"
@@ -36,15 +98,15 @@ function NoOpenFile() {
   );
 }
 
+// Main panel component
 function MainPanel() {
   // Define refs
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const scrollContainerRef: any = useRef(null);
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
 
   // Define theme
   const { accent, color, colorAlt, bg, bgShade, borderColor } = useAppTheme();
 
-  // Define store
+  // Define stores
   const allCodes = useEditorStore((state) => state.allCodes);
   const removeCode = useEditorStore((state) => state.removeCode);
   const currentFile = useFileStore((state) => state.currentFile);
@@ -54,12 +116,39 @@ function MainPanel() {
   const setTabIndex = useEditorStore((state) => state.setTabIndex);
 
   // Define handlers
-  const handleWheel = (e) => {
+  function handleOnWheel(e: React.WheelEvent<HTMLDivElement>) {
     if (scrollContainerRef.current) {
-      scrollContainerRef.current.scrollLeft += e.deltaY; // Or e.deltaX for more natural horizontal scrolling
+      // Change scroll behavior - left to right.
+      scrollContainerRef.current.scrollLeft += e.deltaY;
     }
-  };
+  }
+  function handleOnClick(e: React.MouseEvent<HTMLDivElement>) {
+    const { id } = e.target as HTMLDivElement;
+    if (id === 'tab-list') {
+      setCurrentFile(null);
+      setCurrentFolder(null);
+      setTabIndex(-1);
+    }
+  }
+  function handleSelectTab(file: string) {
+    setCurrentFolder(file.split('/').slice(0, -1).join('/'));
+    setCurrentFile(file);
+  }
+  function handleRemoveTab(file: string) {
+    removeCode(file);
 
+    const next = allCodes[tabIndex + 1];
+    if (next) {
+      setCurrentFile(next.file);
+      setCurrentFolder(next.file.split('/').slice(0, -1).join('/'));
+    } else {
+      setCurrentFile(null);
+      setCurrentFolder(null);
+      setTabIndex(-1);
+    }
+  }
+
+  // Render
   return (
     <Box h="100%" borderTop="1px solid" borderColor={borderColor}>
       {allCodes.length > 0 ? (
@@ -77,20 +166,14 @@ function MainPanel() {
             overflowX="auto"
             overflowY="hidden"
             className="tab-scrollbar"
-            onWheel={handleWheel}
+            onWheel={handleOnWheel}
           >
             <TabList
               id="tab-list"
               bg={bgShade}
               borderColor={borderColor}
               minW="fit-content"
-              onClick={(e) => {
-                if ((e.target as HTMLDivElement).id === 'tab-list') {
-                  setCurrentFile(null);
-                  setCurrentFolder(null);
-                  setTabIndex(-1);
-                }
-              }}
+              onClick={handleOnClick}
             >
               {allCodes.map(({ file }) => (
                 <Tooltip
@@ -124,12 +207,7 @@ function MainPanel() {
                         userSelect="none"
                         display="grid"
                         placeContent="center"
-                        onClick={() => {
-                          setCurrentFolder(
-                            file.split('/').slice(0, -1).join('/')
-                          );
-                          setCurrentFile(file);
-                        }}
+                        onClick={() => handleSelectTab(file)}
                         whiteSpace="nowrap"
                       >
                         {file.split('/').pop()}
@@ -140,21 +218,7 @@ function MainPanel() {
                         bg="transparent"
                         color={colorAlt}
                         _hover={{ bg: 'transparent', color }}
-                        onClick={() => {
-                          removeCode(file);
-
-                          const next = allCodes[tabIndex + 1];
-                          if (next) {
-                            setCurrentFile(next.file);
-                            setCurrentFolder(
-                              next.file.split('/').slice(0, -1).join('/')
-                            );
-                          } else {
-                            setCurrentFile(null);
-                            setCurrentFolder(null);
-                            setTabIndex(-1);
-                          }
-                        }}
+                        onClick={() => handleRemoveTab(file)}
                       >
                         <LuX />
                       </Box>
@@ -168,32 +232,9 @@ function MainPanel() {
           <TabPanels h="calc(100% - 2.5rem)">
             {allCodes.map(({ file, code, isImg }) => {
               const path = ['root', ...file.split('/').slice(3)];
-
               return (
                 <TabPanel key={file} h="100%" p={0}>
-                  <Breadcrumb
-                    spacing={1}
-                    color={colorAlt}
-                    fontSize="xs"
-                    h="1.5rem"
-                    py={1}
-                    px={2}
-                    separator={
-                      <Box color={borderColor}>
-                        <LuChevronRight />
-                      </Box>
-                    }
-                    userSelect="none"
-                  >
-                    {path.map((f, i) => (
-                      <BreadcrumbItem
-                        key={i}
-                        color={path.length - 1 === i ? accent : ''}
-                      >
-                        <Text>{f}</Text>
-                      </BreadcrumbItem>
-                    ))}
-                  </Breadcrumb>
+                  <ActiveTabFilePath path={path} />
 
                   <Box h="calc(100% - 1.5rem)">
                     {isImg ? (
@@ -206,14 +247,15 @@ function MainPanel() {
               );
             })}
 
-            {!currentFile && <NoOpenFile />}
+            {!currentFile && <NoFileOpen />}
           </TabPanels>
         </Tabs>
       ) : (
-        <NoOpenFile />
+        <NoFileOpen />
       )}
     </Box>
   );
 }
 
+// Export
 export default MainPanel;
