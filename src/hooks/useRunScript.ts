@@ -1,9 +1,10 @@
 // Import dependencies
 import { useToast } from '@chakra-ui/react';
-// Import utils
+import { useState } from 'react';
+// Import utilities
 import parseComments from '../utils/parseComments';
 // Import libraries
-import minima, { mds } from '@/lib/minima';
+import minima from '@/lib/minima';
 // Import store
 import useConsoleStore from '@/stores/useConsoleStore';
 import useEditorStore from '@/stores/useEditorStore';
@@ -13,12 +14,22 @@ import useSignatureStore from '@/stores/useSignatureStore';
 import useStateVariableStore from '@/stores/useStateVariableStore';
 import usePrevStateVariableStore from '@/stores/usePrevStateVariableStore';
 import useFileStore from '@/stores/useFileStore';
-import { TFile, TMDSCommandMMRCreate, TMDSCommandRunScript } from '@/types';
+// Import types
+import {
+  IHandleRunScriptArgs,
+  IHandleRunScriptReturns,
+  TFile,
+  TMDSCommandMMRCreate,
+  TMDSCommandRunScript,
+} from '@/types';
 
 // Run script hook
 function useRunScript() {
   // Define toast
   const toast = useToast();
+
+  // Define state
+  const [isRunning, setIsRunning] = useState(false);
 
   // Define store
   const files = useFileStore((state) => state.files);
@@ -30,7 +41,6 @@ function useRunScript() {
   const prevStateVariables = usePrevStateVariableStore(
     (state) => state.prevStateVariables
   );
-
   const extendConsoleOut = useConsoleStore((state) => state.extendConsoleOut);
   const setCleanScript = useRunScriptStore((state) => state.setCleanScript);
   const setScript0xAddress = useRunScriptStore(
@@ -51,89 +61,37 @@ function useRunScript() {
     (state) => state.setTotalScriptInstructions
   );
 
-  // Define handler
-  async function handleRunScript(): Promise<void> {
-    const code = allCodes.find((c) => c.file === currentFile)?.code;
-
-    // Check for code in the editor
-    if (!code) {
-      return;
-    }
-
-    // Get the code from the editor
-    const txt = code.trim();
-    // console.log(txt);
-
-    //Check for killer characters (single or double quotes) before parsing
-    if (txt.indexOf("'") != -1 || txt.indexOf('"') != -1) {
-      toast({
-        title: 'NO single or double Quotes Allowed in Scripts!',
-        status: 'warning',
-        duration: 9000,
-        isClosable: true,
-      });
-      return;
-    }
-
-    // Get the script and parse out types and comments
-    let script = txt.replace(/\s+/g, ' ').trim();
-    script = script.replaceAll('$[', '[');
-    script = script.replaceAll(' = ', '=');
-    script = script.replace(
-      /\??\s*:\s*\b(hex|number|string|script|boolean|any|unknown)\b(\s*\|\s*\b(hex|number|string|script|boolean|any|unknown)\b)*/g,
-      ''
-    );
-    script = parseComments(script).trim();
-    if (script == '') {
-      return;
-    }
-    // console.log(script);
-
-    //Check for killer characters (commas, colons, semi-colons) after parsing
-    if (script.indexOf(',') != -1) {
-      toast({
-        title: 'NO commas Allowed in Scripts!',
-        status: 'warning',
-        duration: 9000,
-        isClosable: true,
-      });
-      return;
-    }
-    if (script.indexOf(':') != -1 || script.indexOf(';') != -1) {
-      toast({
-        title: 'NO colon or semi-colons Allowed in Scripts!',
-        status: 'warning',
-        duration: 9000,
-        isClosable: true,
-      });
-      return;
-    }
-
+  // Define getters
+  function getStateVariables() {
     // Get the state variables and stringify them
-    let stateVars = {};
+    const variables = {};
     for (const { index, value } of stateVariables) {
       if (value !== '') {
-        stateVars[index] = value;
+        variables[index] = value;
       }
     }
-    stateVars = JSON.stringify(stateVars);
-    // console.log(stateVars);
+    // console.log(variables);
 
+    return JSON.stringify(variables);
+  }
+  function getPrevStateVariables() {
     // Get the prev state variables and stringify them
-    let prevStateVars = {};
+    const variables = {};
     for (const { index, value } of prevStateVariables) {
       if (value !== '') {
-        prevStateVars[index] = value;
+        variables[index] = value;
       }
     }
-    prevStateVars = JSON.stringify(prevStateVars);
-    // console.log(prevStateVars);
+    // console.log(variables);
 
+    return JSON.stringify(variables);
+  }
+  async function getGlobalVariables(script: string) {
     // Get the globals and stringify them
-    let globalVariables = {};
+    const variables = {};
     for (const [name, value] of Object.entries(globals)) {
       if (value !== '') {
-        globalVariables[name] = value;
+        variables[name] = value;
       }
     }
 
@@ -147,22 +105,25 @@ function useRunScript() {
     ).response || { root: { data: '' } };
     // console.log(atAddress);
 
-    globalVariables['@ADDRESS'] = atAddress;
-    globalVariables = JSON.stringify(globalVariables);
-    // console.log(globalVariables);
+    variables['@ADDRESS'] = atAddress;
+    // console.log(variables);
 
-    // Get the signatures and stringify them
-    let signers: string[] | string = [];
+    return JSON.stringify(variables);
+  }
+  function getSignatures() {
+    const signers: string[] = [];
     for (const value of signatures) {
       if (value !== '') {
         signers.push(value);
       }
     }
-    signers = JSON.stringify(signers);
     // console.log(signers);
 
+    return JSON.stringify(signers);
+  }
+  async function getExtraScripts(script: string) {
     // Get the extra scripts and stringify them
-    let extraScriptsStr = {};
+    const extraScripts = {};
     for (const file of files.filter(
       (f: TFile) =>
         f.location.split('/').splice(3)[0] === 'contracts' &&
@@ -193,68 +154,231 @@ function useRunScript() {
         ).response || { nodes: [{ proof: '' }], root: { data: '' } };
         // console.log(proof, data);
 
-        // Add the script and proof to the extraScriptsStr
-        extraScriptsStr[extraScript] = proof;
+        // Add the script and proof
+        extraScripts[extraScript] = proof;
 
         // Dynamically add imported extra script address to script before running
         script = script.replaceAll(`@[${name}]`, data);
         // console.log(script);
       }
     }
-    extraScriptsStr = JSON.stringify(extraScriptsStr);
-    // console.log(extraScriptsStr);
+    // console.log(extraScripts);
+
+    return {
+      extraScripts: JSON.stringify(extraScripts),
+      parsedScript: script,
+    };
+  }
+
+  // Define handler
+  function handleParseScript(code: string) {
+    // Get the code from the editor
+    const txt = code.trim();
+    // console.log(txt);
+
+    //Check for killer characters (single or double quotes) before parsing
+    if (txt.indexOf("'") != -1 || txt.indexOf('"') != -1) {
+      throw new Error('NO single or double Quotes Allowed in Scripts!');
+    }
+
+    // Get the script and parse out types and comments
+    let script = txt.replace(/\s+/g, ' ').trim();
+    script = script.replaceAll('$[', '[');
+    script = script.replaceAll(' = ', '=');
+    script = script.replace(
+      /\??\s*:\s*\b(hex|number|string|script|boolean|any|unknown)\b(\s*\|\s*\b(hex|number|string|script|boolean|any|unknown)\b)*/g,
+      ''
+    );
+    script = parseComments(script).trim();
+    if (script === '') {
+      return '';
+    }
+    // console.log(script);
+
+    //Check for killer characters (commas, colons, semi-colons) after parsing
+    if (script.indexOf(',') != -1) {
+      throw new Error('NO commas Allowed in Scripts!');
+    }
+    if (script.indexOf(':') != -1 || script.indexOf(';') != -1) {
+      throw new Error('NO colons or semi-colons Allowed in Scripts!');
+    }
+
+    // Return the parsed script
+    return script;
+  }
+  async function handleRunScript({
+    setState = false,
+    setPrevState = false,
+    setGlobals = false,
+    setSignatures = false,
+    setExtraScripts = false,
+    setOutput = false,
+  }: IHandleRunScriptArgs): Promise<IHandleRunScriptReturns | undefined> {
+    if (!currentFile) {
+      toast({
+        title: 'No file selected! Please select a file.',
+        status: 'warning',
+        duration: 5000,
+        isClosable: true,
+      });
+      return;
+    }
+
+    setIsRunning(true);
+    // Get the code from the editor
+    const code = allCodes.find((c) => c.file === currentFile)?.code;
+    if (!code) {
+      setIsRunning(false);
+      toast({
+        title: 'No script to run!',
+        status: 'warning',
+        duration: 5000,
+        isClosable: true,
+      });
+      return;
+    }
+
+    // Parse the script
+    let script = '';
+    try {
+      script = handleParseScript(code);
+    } catch (error: unknown) {
+      setIsRunning(false);
+      toast({
+        title: 'Error parsing script',
+        description:
+          error instanceof Error
+            ? error.message
+            : 'Something went wrong parsing the script.',
+        status: 'warning',
+        duration: 5000,
+        isClosable: true,
+      });
+      return;
+    }
+    if (!script) {
+      setIsRunning(false);
+      toast({
+        title: 'No script to run!',
+        status: 'warning',
+        duration: 5000,
+        isClosable: true,
+      });
+      return;
+    }
+
+    let stateVars = '';
+    if (setState) {
+      stateVars = getStateVariables();
+    }
+
+    let prevStateVars = '';
+    if (setPrevState) {
+      prevStateVars = getPrevStateVariables();
+    }
+
+    let globalVariables = '';
+    if (setGlobals) {
+      globalVariables = await getGlobalVariables(script);
+    }
+
+    let signers = '';
+    if (setSignatures) {
+      signers = getSignatures();
+    }
+
+    let extraScriptsStr = '';
+    if (setExtraScripts) {
+      const { extraScripts, parsedScript } = await getExtraScripts(script);
+      extraScriptsStr = extraScripts;
+      script = parsedScript;
+    }
+
+    // Build the command
+    let cmd = `runscript script:"${script}"`;
+    if (setState) {
+      cmd += ` state:${stateVars}`;
+    }
+    if (setPrevState) {
+      cmd += ` prevstate:${prevStateVars}`;
+    }
+    if (setGlobals) {
+      cmd += ` globals:${globalVariables}`;
+    }
+    if (setSignatures) {
+      cmd += ` signatures:${signers}`;
+    }
+    if (setExtraScripts) {
+      cmd += ` extrascripts:${extraScriptsStr}`;
+    }
+    // console.log(cmd);
 
     // Run the script
-    const cmd = `runscript script:"${script}" globals:${globalVariables} state:${stateVars} prevstate:${prevStateVars} signatures:${signers} extrascripts:${extraScriptsStr}`;
+    const {
+      clean: { address, mxaddress, script: cleanscript },
+      monotonic,
+      parseok,
+      success,
+      trace,
+      variables,
+    } = (await minima.cmd<TMDSCommandRunScript>(cmd)).response || {
+      clean: { address: '', mxaddress: '', cleanscript: '' },
+      monotonic: false,
+      parseok: false,
+      success: false,
+      trace: '',
+      variables: {},
+    };
 
-    mds.cmd<TMDSCommandRunScript>(cmd, (msg) => {
-      // console.log(msg);
-
-      if (msg.status) {
-        const {
-          clean: { address, mxaddress, script },
-          monotonic,
-          parseok,
-          success,
-          trace,
-          variables,
-        } = msg.response;
-
-        const consoleOut = trace.split('\n');
-        consoleOut.splice(-1, 1, '>> run script end <<');
-        for (let i = 0; i < consoleOut.length; i++) {
-          if (consoleOut[i].includes('Contract instructions')) {
-            setTotalScriptInstructions(
-              consoleOut[i].split(':')[1].trim().split(' ')[0]
-            );
-          }
+    if (setOutput) {
+      const consoleOut = trace.split('\n');
+      consoleOut.splice(-1, 1, '>> run script end <<');
+      for (let i = 0; i < consoleOut.length; i++) {
+        if (consoleOut[i].includes('Contract instructions')) {
+          setTotalScriptInstructions(
+            consoleOut[i].split(':')[1].trim().split(' ')[0]
+          );
         }
-
-        extendConsoleOut('>> run script start << \n' + consoleOut.join('\n'));
-
-        setScriptParse(parseok);
-        setScriptSuccess(success);
-        setScriptMonotonic(monotonic);
-
-        setScript0xAddress(address);
-        setScriptMxAddress(mxaddress);
-        setCleanScript(script);
-
-        setScriptVariables(variables);
-      } else if (!msg.status) {
-        toast({
-          title: 'Error Running Script',
-          description: msg.error || 'Something went wrong running the script.',
-          status: 'error',
-          duration: 5000,
-          isClosable: true,
-        });
       }
-    });
+
+      // Set the application states
+      extendConsoleOut('>> run script start << \n' + consoleOut.join('\n'));
+      setScriptParse(parseok);
+      setScriptSuccess(success);
+      setScriptMonotonic(monotonic);
+      setScript0xAddress(address);
+      setScriptMxAddress(mxaddress);
+      setCleanScript(cleanscript || '');
+      setScriptVariables(variables);
+    }
+
+    setIsRunning(false);
+    return {
+      address,
+      mxaddress,
+      cleanscript: cleanscript || '',
+      monotonic,
+      parseok,
+      success,
+      trace,
+      variables,
+    };
   }
 
   // Return run script
-  return handleRunScript;
+  return {
+    isRunning,
+    setIsRunning,
+
+    getStateVariables,
+    getPrevStateVariables,
+    getGlobalVariables,
+    getSignatures,
+    getExtraScripts,
+
+    handleParseScript,
+    handleRunScript,
+  };
 }
 
 // Export

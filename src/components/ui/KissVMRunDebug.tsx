@@ -49,7 +49,7 @@ function KissVMRunDebug() {
   const { bgAlt, colorAlt } = useAppTheme();
 
   // Define handlers
-  const handleRunScript = useRunScript();
+  const { isRunning, handleRunScript } = useRunScript();
 
   return (
     <VStack w="100%" gap={3}>
@@ -87,8 +87,18 @@ function KissVMRunDebug() {
         <Button
           w="100%"
           colorScheme="green"
-          onClick={handleRunScript}
-          disabled={currentFile?.split('.').pop() !== 'kvm'}
+          onClick={() =>
+            handleRunScript({
+              setState: true,
+              setPrevState: true,
+              setGlobals: true,
+              setSignatures: true,
+              setExtraScripts: true,
+              setOutput: true,
+            })
+          }
+          isLoading={isRunning}
+          disabled={currentFile?.split('.').pop() !== 'kvm' || isRunning}
         >
           Run and Debug
         </Button>

@@ -4,13 +4,7 @@ import { Button, Tooltip } from '@chakra-ui/react';
 import useAppTheme from '@/themes/useAppTheme';
 
 // Button component
-function BasicButton({
-  children,
-  label,
-  hoverColor = '',
-  onClick,
-  disabled = false,
-}) {
+function BasicButton({ children, label, hoverColor = '', ...props }) {
   // Define theme
   const { color, colorAlt } = useAppTheme();
 
@@ -24,13 +18,12 @@ function BasicButton({
         p={0}
         _hover={{
           bg: 'transparent',
-          color: disabled ? '' : hoverColor || color,
+          color: props.disabled ? '' : hoverColor || color,
         }}
         _active={{
           bg: 'transparent',
         }}
-        onClick={onClick}
-        disabled={disabled}
+        {...props}
       >
         {children}
       </Button>
@@ -39,13 +32,7 @@ function BasicButton({
 }
 
 // Hover button component
-function BasicHoverButton({
-  children,
-  label,
-  onClick,
-  isLoading = false,
-  disabled = false,
-}) {
+function BasicHoverButton({ children, label, ...props }) {
   // Define theme
   const { color, colorAlt } = useAppTheme();
 
@@ -60,13 +47,11 @@ function BasicHoverButton({
         color={colorAlt}
         _hover={{
           bg: 'transparent',
-          color: disabled ? '' : color,
-          transform: disabled ? '' : 'scale(1.2)',
+          color: props.disabled ? '' : color,
+          transform: props.disabled ? '' : 'scale(1.2)',
         }}
-        _active={{ bg: 'transparent', color: color }}
-        onClick={onClick}
-        isLoading={isLoading}
-        disabled={disabled}
+        _active={{ bg: 'transparent' }}
+        {...props}
       >
         {children}
       </Button>

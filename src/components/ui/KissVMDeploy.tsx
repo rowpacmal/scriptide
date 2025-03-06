@@ -1,5 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-
+// Import dependencies
 import {
   Box,
   Button,
@@ -11,22 +10,25 @@ import {
   useToast,
   VStack,
 } from '@chakra-ui/react';
-import useWorkspaceStore from '@/stores/useWorkspaceStore';
-import useFileStore from '@/stores/useFileStore';
 import { useEffect, useState } from 'react';
-import useDeploymentStore from '@/stores/useDeploymentStore';
-import useEditorStore from '@/stores/useEditorStore';
-import parseComments from '@/utils/parseComments';
-import minima from '@/lib/minima';
+// Import icons
 import { LuFileCode2 } from 'react-icons/lu';
-import KissVMFiles from './KissVMFiles';
+// Import stores
+import useDeploymentStore from '@/stores/useDeploymentStore';
+import useFileStore from '@/stores/useFileStore';
 import useModalStore from '@/stores/useModalStore';
+import useWorkspaceStore from '@/stores/useWorkspaceStore';
+// Import themes
 import useAppTheme from '@/themes/useAppTheme';
-import KissVMFilesHeading from './KissVMFilesHeading';
 // Import types
-import { EModalTypes, TMDSFileLoad, TMDSCommandRunScript } from '@/types';
+import { EModalTypes } from '@/types';
+// Import hooks
+import useRunScript from '@/hooks/useRunScript';
+// Import components
+import KissVMFiles from './KissVMFiles';
+import KissVMFilesHeading from './KissVMFilesHeading';
 
-// Util component
+// Checkbox option component
 function CheckboxOption({
   children,
   label,
@@ -37,6 +39,7 @@ function CheckboxOption({
   // Define theme
   const { colorAlt } = useAppTheme();
 
+  // Render
   return (
     <Tooltip
       label={label}
@@ -62,17 +65,16 @@ function CheckboxOption({
   );
 }
 
-// Deploy panel component
+// Deploy script component
 function KissVMDeploy() {
   // Define toast
   const toast = useToast();
 
-  // Define disclosure
+  // Define run script
+  const { isRunning, handleRunScript } = useRunScript();
 
   // Define store
-  const allCodes = useEditorStore((state) => state.allCodes);
   const currentWorkspace = useWorkspaceStore((state) => state.currentWorkspace);
-  const files = useFileStore((state) => state.files);
   const currentFile = useFileStore((state) => state.currentFile);
   const deployedScripts = useDeploymentStore((state) => state.deployedScripts);
   const getAllScripts = useDeploymentStore((state) => state.getAllScripts);
@@ -94,7 +96,7 @@ function KissVMDeploy() {
       toast({
         title: 'No workspace or file selected!',
         status: 'warning',
-        duration: 6000,
+        duration: 5000,
         isClosable: true,
       });
       return;
@@ -105,139 +107,28 @@ function KissVMDeploy() {
         title: 'Only .kvm files can be deployed!',
         description: 'Please select a .kvm file',
         status: 'warning',
-        duration: 6000,
+        duration: 5000,
         isClosable: true,
       });
       return;
     }
 
-    const code = allCodes.find((c) => c.file === currentFile)?.code;
-
-    // Check for code in the editor
-    if (!code) {
-      toast({
-        title: 'No code in the editor!',
-        status: 'warning',
-        duration: 6000,
-        isClosable: true,
-      });
-      return;
-    }
-
-    // Get the code from the editor
-    const txt = code.trim();
-    // console.log(txt);
-
-    //Check for killer characters (single or double quotes) before parsing
-    if (txt.indexOf("'") != -1 || txt.indexOf('"') != -1) {
-      toast({
-        title: 'NO single or double Quotes Allowed in Scripts!',
-        status: 'warning',
-        duration: 9000,
-        isClosable: true,
-      });
-      return;
-    }
-
-    // Get the script and parse out types and comments
-    let script = txt.replace(/\s+/g, ' ').trim();
-    script = script.replaceAll('$[', '[');
-    script = script.replaceAll(' = ', '=');
-    script = script.replace(
-      /\??\s*:\s*\b(hex|number|string|script|boolean|any|unknown)\b(\s*\|\s*\b(hex|number|string|script|boolean|any|unknown)\b)*/g,
-      ''
-    );
-    script = parseComments(script).trim();
-    if (script == '') {
-      return;
-    }
-    // console.log(script);
-
-    //Check for killer characters (commas, colons, semi-colons) after parsing
-    if (script.indexOf(',') != -1) {
-      toast({
-        title: 'NO commas Allowed in Scripts!',
-        status: 'warning',
-        duration: 9000,
-        isClosable: true,
-      });
-      return;
-    }
-    if (script.indexOf(':') != -1 || script.indexOf(';') != -1) {
-      toast({
-        title: 'NO colon or semi-colons Allowed in Scripts!',
-        status: 'warning',
-        duration: 9000,
-        isClosable: true,
-      });
-      return;
-    }
-
-    if (!script) {
-      return;
-    }
-
-    // Get the extra scripts and stringify them
-    let extraScriptsStr = {};
-    for (const file of files.filter(
-      (f: any) =>
-        f.location.split('/').splice(3)[0] === 'contracts' &&
-        f.name.endsWith('.kvm')
-    )) {
-      // Get the name and location
-      const { location } = file;
-      const name = file.name.split('.')[0];
-
-      // Check if the script imports the extra script
-      if (script.includes(`@[${name}]`)) {
-        // load imported script data and clean it
-        const value =
-          (await minima.file.load(location)).response?.load.data || '';
-
-        // console.log(value);
-        const extraTxt = value.trim();
-        let extraScript = extraTxt.replace(/\s+/g, ' ').trim();
-        extraScript = parseComments(extraScript).trim();
-
-        // If the extra script is not empty, get the script mmrproof and address
-        const {
-          nodes: [{ proof }],
-          root: { data },
-        }: any = (await minima.cmd(`mmrcreate nodes:["${extraScript}"]`))
-          .response;
-        // console.log(proof, data);
-
-        // Add the script and proof to the extraScriptsStr
-        extraScriptsStr[extraScript] = proof;
-
-        // Dynamically add imported extra script address to script before running
-        script = script.replaceAll(`@[${name}]`, data);
-        // console.log(script);
-      }
-    }
-    extraScriptsStr = JSON.stringify(extraScriptsStr);
-
-    const {
-      clean: { script: cleanScript },
-      parseok,
-    } = (
-      await minima.cmd<TMDSCommandRunScript>(
-        `runscript script:"${script}" extrascripts:${extraScriptsStr}`
-      )
-    ).response || { clean: { script: '' }, parseok: false };
+    const { cleanscript, parseok } = (await handleRunScript({
+      setExtraScripts: true,
+    })) || { cleanscript: '', parseok: false };
 
     if (!parseok) {
       toast({
         title: 'Deploy Failed',
-        description: 'Unable to deploy script due to parse error.',
+        description: 'Unable to deploy script due to parsing error.',
         status: 'error',
-        duration: 9000,
+        duration: 5000,
         isClosable: true,
       });
       return;
     }
 
-    deployScript(cleanScript, trackall, clean);
+    deployScript(cleanscript, trackall, clean);
   }
 
   // Define effect
@@ -261,14 +152,14 @@ function KissVMDeploy() {
               <>
                 <Code fontSize="inherit" bg={bgAlt}>
                   ON
-                </Code>{' '}
-                will track all coins with this script address.
+                </Code>
+                &nbsp;will track all coins with this script address.
                 <br />
                 <Code fontSize="inherit" bg={bgAlt}>
                   OFF
-                </Code>{' '}
-                will only track coins with this script address that are relevant
-                to you.
+                </Code>
+                &nbsp;will only track coins with this script address that are
+                relevant to you.
               </>
             }
             onChange={() => setTrackall(!trackall)}
@@ -282,8 +173,9 @@ function KissVMDeploy() {
               <>
                 <Code fontSize="inherit" bg={bgAlt}>
                   ON
-                </Code>{' '}
-                will clean the script to its minimal correct representation.
+                </Code>
+                &nbsp;will clean the script to its minimal correct
+                representation.
               </>
             }
             onChange={() => setClean(!clean)}
@@ -298,8 +190,9 @@ function KissVMDeploy() {
             w="100%"
             size="sm"
             colorScheme="blue"
-            disabled={!currentWorkspace || !currentFile}
             onClick={handleDeploy}
+            isLoading={isRunning}
+            disabled={!currentWorkspace || !currentFile || isRunning}
           >
             Deploy
           </Button>
@@ -318,7 +211,7 @@ function KissVMDeploy() {
             overflowY="scroll"
             className="alt-scrollbar"
           >
-            {deployedScripts.map((script: any, index) => (
+            {deployedScripts.map((script, index) => (
               <Box
                 key={index}
                 w="100%"

@@ -59,7 +59,7 @@ function RunScriptButton() {
   const { borderColor, colorSuccess } = useAppTheme();
 
   // Define handlers
-  const handleRunScript = useRunScript();
+  const { isRunning, handleRunScript } = useRunScript();
 
   // Render
   return (
@@ -67,7 +67,18 @@ function RunScriptButton() {
       <BasicButton
         label="Run script"
         hoverColor={colorSuccess}
-        onClick={handleRunScript}
+        onClick={() =>
+          handleRunScript({
+            setState: true,
+            setPrevState: true,
+            setGlobals: true,
+            setSignatures: true,
+            setExtraScripts: true,
+            setOutput: true,
+          })
+        }
+        isLoading={isRunning}
+        disabled={isRunning}
       >
         <TbPlayerPlayFilled />
       </BasicButton>

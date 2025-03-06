@@ -1,20 +1,7 @@
+// Import models
+import Response from '@/models/Response';
 // Import types
-import { IResponse, TMessage, TReject, TResolve } from '@/types';
-
-// Response Object
-class Response<T> {
-  status: boolean;
-  pending: boolean;
-  response: T | null;
-  error: string;
-
-  constructor({ status, pending, response, error }: IResponse<T>) {
-    this.status = status;
-    this.pending = pending;
-    this.response = response;
-    this.error = error;
-  }
-}
+import { TMessage, TReject, TResolve } from '@/types';
 
 // Response handler utility function
 function responseHandler<T>(
