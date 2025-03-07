@@ -25,8 +25,8 @@ function SidebarButton({
       placement={placement || 'top-start'}
       hasArrow
     >
-      <HStack gap={1}>
-        <Box bg={props.isActive ? accent : 'transparent'} w={0.5} h="100%" />
+      <HStack h="100%" gap={1}>
+        <Box h="100%" w={0.5} bg={props.isActive ? accent : 'transparent'} />
 
         <Button
           p={0}
