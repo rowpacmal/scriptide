@@ -376,7 +376,9 @@ function useRunScript() {
       setScriptVariables(variables);
     }
 
-    if (parseok) {
+    // Show a toast - Comment out as they where distracting
+    // May not use them like this...
+    /* if (parseok) {
       toast({
         title: 'Run script alert',
         description: 'Script parsed successfully.',
@@ -418,7 +420,7 @@ function useRunScript() {
         duration: 5000,
         isClosable: true,
       });
-    }
+    } */
 
     setIsRunning(false);
     return {

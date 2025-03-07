@@ -13,7 +13,7 @@ import { ENavigationStates } from '@/types';
 // Import themes
 import useAppTheme from '@/themes/useAppTheme';
 // Import components
-import { BasicButton } from '../systems/BasicButtons';
+import { BasicTooltipButton } from '../systems/BasicButtons';
 import { BasicHeading2 } from '../systems/BasicHeadings';
 import DeployBuildPanel from './DeployBuildPanel';
 import ExplorerPanel from './ExplorerPanel';
@@ -73,12 +73,12 @@ function LeftSidePanel() {
 
           {navigation !== ENavigationStates.HOME &&
             navigation !== ENavigationStates.SETTINGS && (
-              <BasicButton
+              <BasicTooltipButton
                 label="Refresh workspaces"
                 onClick={refreshWorkspaces}
               >
                 <LuRotateCw size={20} />
-              </BasicButton>
+              </BasicTooltipButton>
             )}
         </HStack>
 

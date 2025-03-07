@@ -1,5 +1,4 @@
-import useFileStore from '@/stores/useFileStore';
-import useAppTheme from '@/themes/useAppTheme';
+// Import dependencies
 import {
   Button,
   Menu,
@@ -9,8 +8,16 @@ import {
   Text,
 } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
+// Import icons
 import { LuChevronDown } from 'react-icons/lu';
+// Import stores
+import useFileStore from '@/stores/useFileStore';
+// Import themes
+import useAppTheme from '@/themes/useAppTheme';
+// Import types
+import { TFile } from '@/types';
 
+// Script files component
 function KissVMFiles() {
   // Define stores
   const files = useFileStore((state) => state.files);
@@ -22,10 +29,17 @@ function KissVMFiles() {
   // Define theme
   const { bg, bgAlt, borderColor, color, colorAlt } = useAppTheme();
 
-  // Define states
-  const [kvmFiles, setKvmFiles] = useState<any>([]);
+  // Define state
+  const [kvmFiles, setKvmFiles] = useState<TFile[]>([]);
 
-  // Define effects
+  // Define handler
+  function handleOnClick(file: TFile) {
+    setCurrentFolder(file.location.split('/').slice(0, -1).join('/'));
+    setCurrentFile(file.location);
+    loadFile(file.location);
+  }
+
+  // Define effect
   useEffect(() => {
     setKvmFiles(
       files.filter(
@@ -71,11 +85,7 @@ function KissVMFiles() {
             bg="transparent"
             borderColor={borderColor}
             _hover={{ color, bg: bgAlt }}
-            onClick={() => {
-              setCurrentFolder(file.location.split('/').slice(0, -1).join('/'));
-              setCurrentFile(file.location);
-              loadFile(file.location);
-            }}
+            onClick={() => handleOnClick(file)}
           >
             {kvmFiles.length > 0 && file.name}
           </MenuItem>
@@ -85,4 +95,5 @@ function KissVMFiles() {
   );
 }
 
+// Export
 export default KissVMFiles;

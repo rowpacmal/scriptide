@@ -1,43 +1,45 @@
+// Import dependencies
 import useAppTheme from '@/themes/useAppTheme';
-import { Box, Code, HStack, Text, Tooltip } from '@chakra-ui/react';
+import { Box, HStack, Text } from '@chakra-ui/react';
+// Import icons
 import { LuInfo } from 'react-icons/lu';
+// Import components
+import { BasicHighlight } from './systems/BasicHighlights';
+import BasicTooltip from './systems/BasicTooltip';
 
+// Script files heading component
 function KissVMFilesHeading() {
   // Define theme
   const { bgAlt, color, colorAlt } = useAppTheme();
 
+  // Render
   return (
     <HStack w="100%" color={colorAlt} gap={1}>
       <Text as="h3" textTransform="uppercase" fontSize="xs">
         KissVM Scripts
       </Text>
 
-      <Tooltip
-        openDelay={300}
+      <BasicTooltip
         label={
-          <>
-            Script files must end with{' '}
-            <Code fontSize="inherit" bg={bgAlt}>
-              .kvm
-            </Code>{' '}
-            and be placed in the{' '}
-            <Code fontSize="inherit" bg={bgAlt}>
-              contracts
-            </Code>{' '}
+          <BasicHighlight
+            query={['.kvm', 'contracts']}
+            hColor={color}
+            hBg={bgAlt}
+          >
+            Script files must end with .kvm and be placed in the contracts
             folder in the root of the workspace.
-          </>
+          </BasicHighlight>
         }
         placement="right"
-        hasArrow
         fontWeight="normal"
-        // fontSize="xs"
       >
         <Box cursor="pointer" _hover={{ color }}>
           <LuInfo />
         </Box>
-      </Tooltip>
+      </BasicTooltip>
     </HStack>
   );
 }
 
+// Export
 export default KissVMFilesHeading;

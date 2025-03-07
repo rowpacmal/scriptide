@@ -1,24 +1,27 @@
+// Import dependencies
+import { Box, Button, HStack, Text, useToast, VStack } from '@chakra-ui/react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
+// Import icons
+import { LuRotateCw } from 'react-icons/lu';
+// Import hooks
 import useZipFile from '@/hooks/useZipFile';
-import minima from '@/lib/minima';
+// Import stores
 import useFileStore from '@/stores/useFileStore';
 import useWorkspaceStore from '@/stores/useWorkspaceStore';
+// Import libraries
+import minima from '@/lib/minima';
+// Import utilities
 import isImageFile from '@/utils/isImageFile';
-import {
-  Box,
-  Button,
-  HStack,
-  Input,
-  Progress,
-  Text,
-  Tooltip,
-  useToast,
-  VStack,
-} from '@chakra-ui/react';
-import { useCallback, useEffect, useState } from 'react';
+// Import themes
 import useAppTheme from '@/themes/useAppTheme';
-import { DAPP_CONFIG } from '@/constants';
-import { LuRotateCw } from 'react-icons/lu';
+// Import constants
+import { DAPP_CONFIG, ICON_SIZES, INPUT_PLACEHOLDERS } from '@/constants';
+// Import components
+import { BasicTooltipButton } from './systems/BasicButtons';
+import { BasicHeading3 } from './systems/BasicHeadings';
+import BasicInput from './systems/BasicInput';
 
+// MiniDapp builder component
 function MiniDappBuild() {
   // Define toast
   const toast = useToast();
@@ -35,20 +38,26 @@ function MiniDappBuild() {
   const addFile = useFileStore((state) => state.addFile);
   const loadFile = useFileStore((state) => state.loadFile);
 
-  // Define state
+  // Define states
   const [zipName, setZipName] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [hasConfig, setHasConfig] = useState<boolean | null>(null);
 
+  // Define memo
+  const isNotCorrectFileType = useMemo(
+    () => !zipName || !zipName.endsWith('.mds.zip'),
+    [zipName]
+  );
+
   // Define theme
-  const { accent, borderColor, color, colorAlt } = useAppTheme();
+  const { colorAlt } = useAppTheme();
 
   // Define handlers
   async function handleExport() {
-    if (!zipName.endsWith('.zip')) {
+    if (!zipName.endsWith('.mds.zip')) {
       toast({
-        title: 'Invalid zip name',
-        description: 'Zip name must end with .zip',
+        title: 'Invalid MiniDapp name',
+        description: 'MiniDapp name must end with .mds.zip',
         status: 'warning',
         duration: 3000,
         isClosable: true,
@@ -105,9 +114,37 @@ function MiniDappBuild() {
       setIsLoading(false);
     }
   }
+  function handleCreateEditConfig() {
+    if (hasConfig === null) {
+      return;
+    }
+
+    if (hasConfig) {
+      const file = files.find((file) => file.name === 'dapp.conf');
+      if (!file || currentFile === file?.location) {
+        return;
+      }
+
+      setCurrentFolder(file.location.split('/').slice(0, -1).join('/'));
+      setCurrentFile(file.location);
+      loadFile(file.location);
+      return;
+    }
+
+    addFile(
+      `/workspaces/${currentWorkspace}/dapp.conf`,
+      JSON.stringify(DAPP_CONFIG, null, 2)
+    );
+  }
+  function handleChangeZipName(e: React.ChangeEvent<HTMLInputElement>) {
+    const { value } = e.target;
+    if (value.length <= 30) {
+      setZipName(value);
+    }
+  }
 
   // Define callback handlers
-  const handleDappName = useCallback(async () => {
+  const handleUpdateDappName = useCallback(async () => {
     if (hasConfig) {
       const data =
         (await minima.file.load(`workspaces/${currentWorkspace}/dapp.conf`))
@@ -135,14 +172,13 @@ function MiniDappBuild() {
 
     setHasConfig(!!files.find((file) => file.name === 'dapp.conf'));
   }, [currentWorkspace, files]);
-
   useEffect(() => {
     if (!currentWorkspace) {
       return;
     }
 
-    handleDappName();
-  }, [currentWorkspace, handleDappName, hasConfig]);
+    handleUpdateDappName();
+  }, [currentWorkspace, handleUpdateDappName, hasConfig]);
 
   // Render
   return (
@@ -152,45 +188,16 @@ function MiniDappBuild() {
       </Text>
 
       <VStack w="100%" gap={1}>
-        <Text
-          as="h3"
-          w="100%"
-          textTransform="uppercase"
-          fontSize="xs"
-          color={colorAlt}
-        >
+        <BasicHeading3 w="100%" color={colorAlt}>
           Configurations
-        </Text>
+        </BasicHeading3>
 
         <Box w="100%" maxW="24rem">
           <Button
             w="100%"
             size="sm"
             colorScheme="blue"
-            onClick={() => {
-              if (hasConfig === null) {
-                return;
-              }
-
-              if (hasConfig) {
-                const file = files.find((file) => file.name === 'dapp.conf');
-                if (!file || currentFile === file?.location) {
-                  return;
-                }
-
-                setCurrentFolder(
-                  file.location.split('/').slice(0, -1).join('/')
-                );
-                setCurrentFile(file.location);
-                loadFile(file.location);
-                return;
-              }
-
-              addFile(
-                `/workspaces/${currentWorkspace}/dapp.conf`,
-                JSON.stringify(DAPP_CONFIG, null, 2)
-              );
-            }}
+            onClick={handleCreateEditConfig}
             disabled={hasConfig === null || isLoading}
           >
             {hasConfig === null
@@ -204,66 +211,25 @@ function MiniDappBuild() {
 
       <VStack w="100%" gap={1}>
         <HStack w="100%" justify="space-between">
-          <Text
-            as="h3"
-            w="100%"
-            textTransform="uppercase"
-            fontSize="xs"
-            color={colorAlt}
-          >
+          <BasicHeading3 w="100%" color={colorAlt}>
             Build Name
-          </Text>
+          </BasicHeading3>
 
-          <Tooltip label="Refresh name" placement="top" hasArrow>
-            <Button
-              size="xs"
-              variant="unstyled"
-              h="auto"
-              minW="auto"
-              p={0}
-              _hover={{ color }}
-              onClick={handleDappName}
-            >
-              <LuRotateCw size={16} />
-            </Button>
-          </Tooltip>
+          <BasicTooltipButton
+            label="Refresh name"
+            onClick={handleUpdateDappName}
+            disabled={isLoading}
+          >
+            <LuRotateCw size={ICON_SIZES.xs} />
+          </BasicTooltipButton>
         </HStack>
 
-        <Box w="100%">
-          <Progress
-            size="xs"
-            bg="transparent"
-            borderRadius="full"
-            transform="scaleX(-1)"
-            isIndeterminate={isLoading}
-          />
-
-          <Input
-            size="sm"
-            variant="outline"
-            color={color}
-            borderColor={borderColor}
-            _hover={{ borderColor: color }}
-            _placeholder={{ color: borderColor }}
-            _focusVisible={{ borderColor: accent }}
-            value={zipName}
-            onChange={(e) => {
-              const { value } = e.target;
-              if (value.length <= 30) {
-                setZipName(value);
-              }
-            }}
-            placeholder="Enter zip name here"
-            disabled={isLoading}
-          />
-
-          <Progress
-            size="xs"
-            bg="transparent"
-            borderRadius="full"
-            isIndeterminate={isLoading}
-          />
-        </Box>
+        <BasicInput
+          value={zipName}
+          onChange={handleChangeZipName}
+          placeholder={INPUT_PLACEHOLDERS.zip}
+          disabled={isLoading}
+        />
       </VStack>
 
       <Box w="100%" maxW="24rem">
@@ -272,7 +238,10 @@ function MiniDappBuild() {
           size="sm"
           colorScheme="blue"
           onClick={handleExport}
-          disabled={!currentWorkspace || !zipName || !hasConfig || isLoading}
+          isLoading={isLoading}
+          disabled={
+            isNotCorrectFileType || !currentWorkspace || !hasConfig || isLoading
+          }
         >
           Build MiniDapp
         </Button>
@@ -281,4 +250,5 @@ function MiniDappBuild() {
   );
 }
 
+// Export
 export default MiniDappBuild;

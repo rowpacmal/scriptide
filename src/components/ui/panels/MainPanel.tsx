@@ -23,6 +23,7 @@ import useAppTheme from '@/themes/useAppTheme';
 // Import components
 import CodeEditor from '../CodeEditor';
 import ImageViewer from '../ImageViewer';
+import BasicTooltip from '../systems/BasicTooltip';
 
 // Active tab file path component
 function ActiveTabFilePath({ path }: { path: string[] }) {
@@ -176,11 +177,11 @@ function MainPanel() {
               onClick={handleOnClick}
             >
               {allCodes.map(({ file }) => (
-                <Tooltip
+                <BasicTooltip
+                  openDelay={600}
                   key={file}
                   label={file.split('/').pop()}
                   placement="bottom"
-                  hasArrow
                 >
                   <Tab
                     p={0}
@@ -201,6 +202,7 @@ function MainPanel() {
                       <Text
                         cursor="pointer"
                         h="100%"
+                        maxW="10rem"
                         color={colorAlt}
                         pl={2}
                         fontSize="sm"
@@ -210,7 +212,9 @@ function MainPanel() {
                         onClick={() => handleSelectTab(file)}
                         whiteSpace="nowrap"
                       >
-                        {file.split('/').pop()}
+                        <Text as="span" isTruncated>
+                          {file.split('/').pop()}
+                        </Text>
                       </Text>
 
                       <Box
@@ -224,7 +228,7 @@ function MainPanel() {
                       </Box>
                     </HStack>
                   </Tab>
-                </Tooltip>
+                </BasicTooltip>
               ))}
             </TabList>
           </Box>

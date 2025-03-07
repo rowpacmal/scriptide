@@ -14,8 +14,8 @@ interface IConsoleStore {
   clearConsoleOut: () => void;
 }
 interface IDeploymentStore {
-  deployedScripts: string[];
-  setDeployedScripts: (scripts: string[]) => void;
+  deployedScripts: TScript[];
+  setDeployedScripts: (scripts: TScript[]) => void;
 
   getAllScripts: () => Promise<void>;
   getScript: (address: string) => Promise<void>;

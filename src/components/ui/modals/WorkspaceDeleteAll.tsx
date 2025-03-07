@@ -8,7 +8,7 @@ import useWorkspaceStore from '@/stores/useWorkspaceStore';
 import { CONFIRM_TEXTS, INPUT_PLACEHOLDERS } from '@/constants';
 // Import components
 import ConfirmModal from './ConfirmModal';
-import BasicHighlight from '../systems/BasicHighlight';
+import { BasicConfirmHighlight } from '../systems/BasicHighlights';
 import BasicInput from '../systems/BasicInput';
 
 // Delete all workspaces modal component
@@ -47,7 +47,7 @@ function WorkspaceDeleteAll() {
         <span className="uppercase">uppercase</span> to confirm.
       </Text>
 
-      <BasicHighlight
+      <BasicConfirmHighlight
         pb={4}
         query={CONFIRM_TEXTS.deleteAllWorkspaces || '---'}
       />

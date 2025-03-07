@@ -16,6 +16,7 @@ import { TbPlayerPlayFilled } from 'react-icons/tb';
 import useEditorStore from '@/stores/useEditorStore';
 import useFileStore from '@/stores/useFileStore';
 import useLivePreviewStore from '@/stores/useLivePreviewStore';
+import usePanelStore from '@/stores/usePanelStore';
 // Import hooks
 import useRunScript from '@/hooks/useRunScript';
 // Import utilities
@@ -23,8 +24,8 @@ import isImageFile from '@/utils/isImageFile';
 // Import themes
 import useAppTheme from '@/themes/useAppTheme';
 // Import components
-import { BasicButton } from './systems/BasicButtons';
-import usePanelStore from '@/stores/usePanelStore';
+import { BasicTooltipButton } from './systems/BasicButtons';
+import { ICON_SIZES } from '@/constants';
 
 // Right sidebar button component
 function RightSidebarButton() {
@@ -37,19 +38,20 @@ function RightSidebarButton() {
     (state) => state.toggleRightSidePanel
   );
 
+  // Define handler
+  function handleTogglePreview() {
+    togglePreview();
+    toggleRightSidePanel();
+  }
+
   // Render
   return (
-    <Box>
-      <BasicButton
-        label={`${isRightSidePanelOpen ? 'Hide' : 'Show'} live preview`}
-        onClick={() => {
-          togglePreview();
-          toggleRightSidePanel();
-        }}
-      >
-        {isRightSidePanelOpen ? <LuChevronsRight /> : <LuChevronsLeft />}
-      </BasicButton>
-    </Box>
+    <BasicTooltipButton
+      label={`${isRightSidePanelOpen ? 'Hide' : 'Show'} live preview`}
+      onClick={handleTogglePreview}
+    >
+      {isRightSidePanelOpen ? <LuChevronsRight /> : <LuChevronsLeft />}
+    </BasicTooltipButton>
   );
 }
 
@@ -58,30 +60,33 @@ function RunScriptButton() {
   // Define theme
   const { borderColor, colorSuccess } = useAppTheme();
 
-  // Define handlers
+  // Define run script
   const { isRunning, handleRunScript } = useRunScript();
+
+  // Define handler
+  function handleOnRun() {
+    handleRunScript({
+      setState: true,
+      setPrevState: true,
+      setGlobals: true,
+      setSignatures: true,
+      setExtraScripts: true,
+      setOutput: true,
+    });
+  }
 
   // Render
   return (
     <Box borderRight="1px solid" borderColor={borderColor}>
-      <BasicButton
+      <BasicTooltipButton
         label="Run script"
         hoverColor={colorSuccess}
-        onClick={() =>
-          handleRunScript({
-            setState: true,
-            setPrevState: true,
-            setGlobals: true,
-            setSignatures: true,
-            setExtraScripts: true,
-            setOutput: true,
-          })
-        }
+        onClick={handleOnRun}
         isLoading={isRunning}
         disabled={isRunning}
       >
         <TbPlayerPlayFilled />
-      </BasicButton>
+      </BasicTooltipButton>
     </Box>
   );
 }
@@ -106,45 +111,48 @@ function SaveFileButtons() {
     (state) => state.refreshLivePreview
   );
 
+  // Define handler
+  function handleOnSave() {
+    const fileToSave = allCodes.find((f) => f.file === currentFile);
+    if (!fileToSave) {
+      return;
+    }
+
+    const { file, code } = fileToSave;
+    saveFile(file, code || '');
+    refreshLivePreview();
+    toast({
+      title: 'File Saved',
+      description: file,
+      status: 'success',
+      duration: 3000,
+      isClosable: true,
+    });
+  }
+
   // Render
   return (
     <HStack gap={0} borderRight="1px solid" borderColor={borderColor}>
-      <BasicButton
+      <BasicTooltipButton
         label="Save file"
-        onClick={() => {
-          const fileToSave = allCodes.find((f) => f.file === currentFile);
-          if (!fileToSave) {
-            return;
-          }
-
-          const { file, code } = fileToSave;
-          saveFile(file, code || '');
-          refreshLivePreview();
-          toast({
-            title: 'File Saved',
-            description: file,
-            status: 'success',
-            duration: 3000,
-            isClosable: true,
-          });
-        }}
+        onClick={handleOnSave}
         disabled={currentFile === null || isImageFile(currentFile)}
       >
         <LuSave />
-      </BasicButton>
+      </BasicTooltipButton>
 
-      <BasicButton
+      <BasicTooltipButton
         label={`Auto save: ${editorAutoSave ? 'on' : 'off'}`}
         onClick={toggleEditorAutoSave}
       >
         {editorAutoSave ? (
           <Box as="span" color={accent}>
-            <LuToggleRight size={20} />
+            <LuToggleRight size={ICON_SIZES.sm} />
           </Box>
         ) : (
-          <LuToggleLeft size={20} />
+          <LuToggleLeft size={ICON_SIZES.sm} />
         )}
-      </BasicButton>
+      </BasicTooltipButton>
     </HStack>
   );
 }
@@ -182,7 +190,7 @@ function ZoomEditorButtons() {
 
     setEditorZoom(currentZoom);
   }
-  function handleOnChange(e) {
+  function handleChangeZoomValue(e: React.ChangeEvent<HTMLInputElement>) {
     const { value } = e.target;
     if (!/(^-[1-6]|[0-9]|[1-9][0-9])?$/.test(value)) {
       return;
@@ -199,8 +207,13 @@ function ZoomEditorButtons() {
 
     setZoom(value);
   }
+  function handleOnEnterPress(e: React.KeyboardEvent<HTMLInputElement>) {
+    if (e.key === 'Enter') {
+      handleEditorZoom();
+    }
+  }
 
-  // Define effects
+  // Define effect
   useEffect(() => {
     setZoom(editorZoom);
   }, [editorZoom]);
@@ -208,17 +221,17 @@ function ZoomEditorButtons() {
   // Render
   return (
     <HStack gap={0} borderRight="1px solid" borderColor={borderColor}>
-      <BasicButton
+      <BasicTooltipButton
         label="Zoom out"
         onClick={editorZoomOut}
         disabled={editorZoom <= -6}
       >
         <LuZoomOut />
-      </BasicButton>
+      </BasicTooltipButton>
 
       <Input
         value={zoom}
-        onChange={handleOnChange}
+        onChange={handleChangeZoomValue}
         size="xs"
         maxW={8}
         textAlign="center"
@@ -228,16 +241,12 @@ function ZoomEditorButtons() {
           borderColor: accent,
         }}
         onBlur={handleEditorZoom}
-        onKeyDown={(e) => {
-          if (e.key === 'Enter') {
-            handleEditorZoom();
-          }
-        }}
+        onKeyDown={handleOnEnterPress}
       />
 
-      <BasicButton label="Zoom in" onClick={editorZoomIn}>
+      <BasicTooltipButton label="Zoom in" onClick={editorZoomIn}>
         <LuZoomIn />
-      </BasicButton>
+      </BasicTooltipButton>
     </HStack>
   );
 }

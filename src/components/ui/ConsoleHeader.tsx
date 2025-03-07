@@ -1,13 +1,21 @@
 // Import dependencies
-import { Box, Button, HStack, Tooltip } from '@chakra-ui/react';
+import { HStack } from '@chakra-ui/react';
+// Import icons
 import { LuBan, LuChevronsDown, LuChevronsUp } from 'react-icons/lu';
-// Import store
+// Import stores
 import useConsoleStore from '@/stores/useConsoleStore';
 import usePanelStore from '@/stores/usePanelStore';
+// Import themes
+import useAppTheme from '@/themes/useAppTheme';
+// Import components
+import { BasicTooltipButton } from './systems/BasicButtons';
 
 // Console header component
 function ConsoleHeader() {
-  // Define store
+  // Define theme
+  const { colorError } = useAppTheme();
+
+  // Define stores
   const clearConsoleOut = useConsoleStore((state) => state.clearConsoleOut);
   const isBottomBarPanelOpen = usePanelStore(
     (state) => state.isBottomBarPanelOpen
@@ -19,47 +27,20 @@ function ConsoleHeader() {
   // Render
   return (
     <HStack gap={0} justify="space-between">
-      <Box>
-        <Tooltip
-          label={isBottomBarPanelOpen ? 'Hide console' : 'Show console'}
-          placement="top"
-          hasArrow
-        >
-          <Button
-            size="sm"
-            bg="transparent"
-            color="gray.500"
-            p={0}
-            _hover={{ bg: 'transparent', color: 'gray.50' }}
-            _active={{
-              bg: 'transparent',
-            }}
-            onClick={toggleBottomBarPanel}
-          >
-            {isBottomBarPanelOpen ? <LuChevronsDown /> : <LuChevronsUp />}
-          </Button>
-        </Tooltip>
-      </Box>
+      <BasicTooltipButton
+        label={(isBottomBarPanelOpen ? 'Hide' : 'Show') + ' console'}
+        onClick={toggleBottomBarPanel}
+      >
+        {isBottomBarPanelOpen ? <LuChevronsDown /> : <LuChevronsUp />}
+      </BasicTooltipButton>
 
-      <HStack gap={0}>
-        <Box>
-          <Tooltip label="Clear console" placement="top" hasArrow>
-            <Button
-              size="sm"
-              bg="transparent"
-              color="gray.500"
-              p={0}
-              _hover={{ bg: 'transparent', color: 'red.500' }}
-              _active={{
-                bg: 'transparent',
-              }}
-              onClick={clearConsoleOut}
-            >
-              <LuBan />
-            </Button>
-          </Tooltip>
-        </Box>
-      </HStack>
+      <BasicTooltipButton
+        label="Clear console"
+        hoverColor={colorError}
+        onClick={clearConsoleOut}
+      >
+        <LuBan />
+      </BasicTooltipButton>
     </HStack>
   );
 }

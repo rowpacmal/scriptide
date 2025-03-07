@@ -7,9 +7,9 @@ import base64ToImage from '@/utils/base64ToImage';
 // Image viewer component
 function ImageViewer({ src }) {
   // Define ref
-  const viewerRef: any = useRef(null);
+  const viewerRef = useRef<HTMLDivElement | null>(null);
 
-  // Define state
+  // Define states
   const [zoom, setZoom] = useState(100);
   const [isDragging, setIsDragging] = useState(false);
   const [startX, setStartX] = useState(0);
@@ -18,25 +18,30 @@ function ImageViewer({ src }) {
   const [scrollTop, setScrollTop] = useState(0);
 
   // Define handlers
-  function handleMouseDown(e) {
+  function handleMouseDown(e: React.MouseEvent<HTMLDivElement>) {
     e.preventDefault();
     setIsDragging(true);
     setStartX(e.pageX);
     setStartY(e.pageY);
   }
-  function handleMouseMove(e) {
+  function handleMouseMove(e: React.MouseEvent<HTMLDivElement>) {
     e.preventDefault();
-    if (!isDragging) return;
+    if (!isDragging) {
+      return;
+    }
 
-    const deltaX = e.pageX - startX;
-    const deltaY = e.pageY - startY;
-    const newScrollLeft = viewerRef.current.scrollLeft - deltaX;
-    const newScrollTop = viewerRef.current.scrollTop - deltaY;
+    const container = viewerRef.current;
+    if (container) {
+      const deltaX = e.pageX - startX;
+      const deltaY = e.pageY - startY;
+      const newScrollLeft = container.scrollLeft - deltaX;
+      const newScrollTop = container.scrollTop - deltaY;
 
-    setScrollLeft(newScrollLeft);
-    setScrollTop(newScrollTop);
-    setStartX(e.pageX); // Important: Update startX for smooth dragging
-    setStartY(e.pageY);
+      setScrollLeft(newScrollLeft);
+      setScrollTop(newScrollTop);
+      setStartX(e.pageX); // Important: Update startX for smooth dragging
+      setStartY(e.pageY);
+    }
   }
   function handleMouseUp() {
     setIsDragging(false);
@@ -44,7 +49,7 @@ function ImageViewer({ src }) {
   function handleMouseLeave() {
     setIsDragging(false);
   }
-  function handleWheel(e) {
+  function handleWheel(e: React.WheelEvent<HTMLDivElement>) {
     if (viewerRef.current) {
       if (e.ctrlKey) {
         if (e.deltaY > 0) {
@@ -64,13 +69,14 @@ function ImageViewer({ src }) {
 
   // Define effects
   useEffect(() => {
-    if (viewerRef.current) {
-      viewerRef.current.scrollLeft = scrollLeft;
-      viewerRef.current.scrollTop = scrollTop;
+    const container = viewerRef.current;
+    if (container) {
+      container.scrollLeft = scrollLeft;
+      container.scrollTop = scrollTop;
     }
   }, [scrollLeft, scrollTop]);
   useEffect(() => {
-    function handleWheel(e) {
+    function handleWheel(e: WheelEvent) {
       if (e.ctrlKey) {
         e.preventDefault(); // Prevent default scrolling behavior
       }

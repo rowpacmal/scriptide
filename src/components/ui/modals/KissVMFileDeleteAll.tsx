@@ -8,7 +8,7 @@ import useWorkspaceStore from '@/stores/useWorkspaceStore';
 // Import constants
 import { CONFIRM_TEXTS, INPUT_PLACEHOLDERS } from '@/constants';
 // Import components
-import BasicHighlight from '../systems/BasicHighlight';
+import { BasicConfirmHighlight } from '../systems/BasicHighlights';
 import BasicInput from '../systems/BasicInput';
 import ConfirmModal from './ConfirmModal';
 
@@ -47,7 +47,10 @@ function KissVMFileDeleteAll() {
         <span className="uppercase">uppercase</span> to confirm.
       </Text>
 
-      <BasicHighlight pb={4} query={CONFIRM_TEXTS.deleteAllScripts || '---'} />
+      <BasicConfirmHighlight
+        pb={4}
+        query={CONFIRM_TEXTS.deleteAllScripts || '---'}
+      />
 
       <Box px={4}>
         <BasicInput

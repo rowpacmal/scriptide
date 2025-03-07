@@ -7,7 +7,7 @@ import {
   LuFolderPlus,
   LuHardDriveUpload,
 } from 'react-icons/lu';
-// Import store
+// Import stores
 import useFileStore from '@/stores/useFileStore';
 import useWorkspaceStore from '@/stores/useWorkspaceStore';
 import useModalStore from '@/stores/useModalStore';
@@ -20,7 +20,7 @@ import { BasicHoverButton } from './systems/BasicButtons';
 
 // Files menu component
 function FilesMenu() {
-  // Define store
+  // Define stores
   const files = useFileStore((state) => state.files);
   const isAddingFile = useFileStore((state) => state.isAddingFile);
   const setIsAddingFile = useFileStore((state) => state.setIsAddingFile);

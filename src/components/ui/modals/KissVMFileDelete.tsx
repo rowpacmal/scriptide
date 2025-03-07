@@ -7,7 +7,7 @@ import useModalStore from '@/stores/useModalStore';
 // Import constants
 import { INPUT_PLACEHOLDERS } from '@/constants';
 // Import components
-import BasicHighlight from '../systems/BasicHighlight';
+import { BasicConfirmHighlight } from '../systems/BasicHighlights';
 import BasicInput from '../systems/BasicInput';
 import ConfirmModal from './ConfirmModal';
 
@@ -61,7 +61,7 @@ function KissVMFileDelete() {
         undone. Please type the script name to confirm.
       </Text>
 
-      <BasicHighlight pb={4} query={fileToDelete || '---'} />
+      <BasicConfirmHighlight pb={4} query={fileToDelete || '---'} />
 
       <Box px={4}>
         <BasicInput

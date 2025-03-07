@@ -7,7 +7,7 @@ import useWorkspaceStore from '@/stores/useWorkspaceStore';
 // Import constants
 import { INPUT_PLACEHOLDERS } from '@/constants';
 // Import components
-import BasicHighlight from '../systems/BasicHighlight';
+import { BasicConfirmHighlight } from '../systems/BasicHighlights';
 import BasicInput from '../systems/BasicInput';
 import ConfirmModal from './ConfirmModal';
 
@@ -48,7 +48,7 @@ function WorkspaceDelete() {
         undone. Please type the workspace name to confirm.
       </Text>
 
-      <BasicHighlight pb={4} query={currentWorkspace || '---'} />
+      <BasicConfirmHighlight pb={4} query={currentWorkspace || '---'} />
 
       <Box px={4}>
         <BasicInput

@@ -9,16 +9,18 @@ import useConsoleStore from '@/stores/useConsoleStore';
 import { mds } from '@/lib/minima';
 // Import themes
 import useAppTheme from '@/themes/useAppTheme';
+// Import monaco.editor for typing
+import { editor } from 'monaco-editor';
 
 // Console component
 function Console() {
-  // Define refs
-  const consoleOutputRef = useRef(null);
+  // Define ref
+  const consoleOutputRef = useRef<editor.IStandaloneCodeEditor | null>(null);
 
   // Define theme
   const { borderColor, editorTheme } = useAppTheme();
 
-  // Define store
+  // Define stores
   const editorZoom = useEditorStore((state) => state.editorZoom);
   const consoleOutput = useConsoleStore((state) => state.consoleOutput);
   const setConsoleOutput = useConsoleStore((state) => state.setConsoleOutput);
@@ -28,14 +30,14 @@ function Console() {
   const [userInput, setUserInput] = useState('');
 
   // Define handlers
-  function handleOnMount(editor) {
+  function handleOnMount(editor: editor.IStandaloneCodeEditor) {
     consoleOutputRef.current = editor;
   }
   function handleOnChange(value: string | undefined) {
     setConsoleOutput(value || '');
     setUserInput(value?.split('\n').pop() || '');
   }
-  async function handleConsoleCommand(e) {
+  async function handleConsoleCommand(e: React.KeyboardEvent<HTMLDivElement>) {
     if (userInput && e.key === 'Enter') {
       const result = await new Promise((resolve) => {
         mds.cmd(userInput.trim(), (msg) => {
@@ -56,11 +58,11 @@ function Console() {
     }
   }
 
-  // Define effects
+  // Define effect
   useEffect(() => {
     if (consoleOutputRef.current) {
       // Scroll to the bottom whenever the value updates
-      const consoleOutput: any = consoleOutputRef.current;
+      const consoleOutput = consoleOutputRef.current;
       const model = consoleOutput.getModel();
 
       if (model) {
@@ -87,6 +89,7 @@ function Console() {
         onChange={handleOnChange}
         options={{
           fontSize: 12 + editorZoom,
+          fixedOverflowWidgets: true,
           minimap: { enabled: false },
           wordWrap: 'on',
           lineNumbers: () => '>',

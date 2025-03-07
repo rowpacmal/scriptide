@@ -1,7 +1,6 @@
 // Import dependencies
 import {
   Box,
-  Button,
   Card,
   Code,
   HStack,
@@ -9,79 +8,39 @@ import {
   ListIcon,
   ListItem,
   Text,
-  Tooltip,
-  useClipboard,
   VStack,
 } from '@chakra-ui/react';
-import { useEffect } from 'react';
 // Import utilities
 import getVariableIcon from '@/utils/getVariableIcon';
 import getVariableType from '@/utils/getVariableType';
-// Import store
+// Import stores
 import useRunScriptStore from '@/stores/useRunScriptStore';
+// Import themes
 import useAppTheme from '@/themes/useAppTheme';
+// Import types
+import { IOverviewItemProps } from '@/types';
+// Import components
+import { BasicCopyButton } from './systems/BasicButtons';
+import { BasicHeading3 } from './systems/BasicHeadings';
+import BasicTooltip from './systems/BasicTooltip';
 
-// Types
-type OverviewItemProps = {
-  children?: React.ReactNode;
-  label: string;
-  placeholder: string;
-  h?: string | number;
-};
-
-// Utility components
+// Overview item component
 function OverviewItem({
   children,
   label,
   placeholder,
   h = 'auto',
-}: OverviewItemProps) {
-  // Define clipboard
-  const { onCopy, value, setValue, hasCopied } = useClipboard('');
-
+}: IOverviewItemProps) {
   // Define theme
-  const { color, colorAlt, colorSuccess, bgAlt, borderColor } = useAppTheme();
+  const { color, colorAlt, bgAlt } = useAppTheme();
 
-  useEffect(() => {
-    if (!children || typeof children !== 'string') {
-      return;
-    }
-
-    const valueToCopy = children;
-    setValue(valueToCopy);
-  }, [children]);
-
+  // Render
   return (
     <VStack as="section" w="100%" gap={1}>
       <HStack as="header" w="100%" justifyContent="space-between">
-        <Text as="h3" textTransform="uppercase" color={colorAlt} fontSize="xs">
-          {label}
-        </Text>
+        <BasicHeading3 color={colorAlt}>{label}</BasicHeading3>
 
-        <Button
-          size="xs"
-          h="16px"
-          px={1}
-          fontSize="2xs"
-          borderRadius="sm"
-          color={hasCopied ? colorSuccess : colorAlt}
-          border="1px solid"
-          borderColor={hasCopied ? colorSuccess : borderColor}
-          bg="transparent"
-          _hover={{
-            color: !value ? '' : hasCopied ? colorSuccess : color,
-            borderColor: !value ? '' : hasCopied ? colorSuccess : color,
-          }}
-          _active={{
-            color: !value ? '' : color,
-            borderColor: !value ? '' : color,
-          }}
-          textTransform="uppercase"
-          onClick={onCopy}
-          disabled={!value}
-        >
-          {hasCopied ? 'Copied' : 'Copy'}
-        </Button>
+        <BasicCopyButton valueToCopy={children} />
       </HStack>
 
       <Card w="100%" bg={bgAlt} color={color} p={2}>
@@ -96,15 +55,17 @@ function OverviewItem({
     </VStack>
   );
 }
+
+// Variable item component
 function VariableItem({ variable, value }) {
   // Define theme
   const { accent, colorReversed, bgReversed } = useAppTheme();
 
+  // Render
   return (
-    <Tooltip
+    <BasicTooltip
       label={`${variable} : ${getVariableType(value)}`}
       placement="right"
-      hasArrow
     >
       <ListItem display="grid" gridTemplateColumns="1.5rem 1fr">
         <ListIcon
@@ -132,7 +93,7 @@ function VariableItem({ variable, value }) {
           </Code>
         </VStack>
       </ListItem>
-    </Tooltip>
+    </BasicTooltip>
   );
 }
 
@@ -142,7 +103,6 @@ function Overview() {
   const cleanScript = useRunScriptStore((state) => state.cleanScript);
   const script0xAddress = useRunScriptStore((state) => state.script0xAddress);
   const scriptMxAddress = useRunScriptStore((state) => state.scriptMxAddress);
-
   const scriptVariables = useRunScriptStore((state) => state.scriptVariables);
   const totalScriptInstructions = useRunScriptStore(
     (state) => state.totalScriptInstructions
@@ -168,14 +128,7 @@ function Overview() {
 
       <VStack as="section" w="100%" gap={1}>
         <HStack as="header" w="100%" justifyContent="space-between">
-          <Text
-            as="h3"
-            textTransform="uppercase"
-            color={colorAlt}
-            fontSize="xs"
-          >
-            Total instructions
-          </Text>
+          <BasicHeading3 color={colorAlt}>Total instructions</BasicHeading3>
         </HStack>
 
         <Card w="100%" bg={bgAlt} color={color} p={2}>
@@ -184,8 +137,8 @@ function Overview() {
               <>
                 <Text as="span" color={accent}>
                   {totalScriptInstructions}
-                </Text>{' '}
-                instructions
+                </Text>
+                &nbsp;instructions
               </>
             ) : (
               <Text as="span" color={colorAlt}>
@@ -198,14 +151,7 @@ function Overview() {
 
       <VStack as="section" w="100%" gap={1}>
         <Box as="header" w="100%">
-          <Text
-            as="h3"
-            textTransform="uppercase"
-            color={colorAlt}
-            fontSize="xs"
-          >
-            Script variables
-          </Text>
+          <BasicHeading3 color={colorAlt}>Script variables</BasicHeading3>
         </Box>
 
         <Card w="100%" bg={bgAlt} color={color} p={2}>

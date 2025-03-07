@@ -13,18 +13,18 @@ import useModalStore from '@/stores/useModalStore';
 // Import themes
 import useAppTheme from '@/themes/useAppTheme';
 // Import types
-import { IOverviewItemProps, TScript } from '@/types';
+import { IScriptOverviewItemProps, TScript } from '@/types';
 // Import components
 import { BasicHeading3 } from '../systems/BasicHeadings';
 import ConfirmModal from './ConfirmModal';
 
 // Overview item component
-function OverviewItem({
+function ScriptOverviewItem({
   children,
   title,
   h = 'auto',
   className = '',
-}: IOverviewItemProps) {
+}: IScriptOverviewItemProps) {
   // Define theme
   const { bgAlt } = useAppTheme();
 
@@ -123,15 +123,21 @@ function DeployedScripts() {
           </Checkbox>
         </HStack>
 
-        <OverviewItem title="Address">{modalProps?.address}</OverviewItem>
+        <ScriptOverviewItem title="Address">
+          {modalProps?.address}
+        </ScriptOverviewItem>
 
-        <OverviewItem title="MxAddress">{modalProps?.miniaddress}</OverviewItem>
+        <ScriptOverviewItem title="MxAddress">
+          {modalProps?.miniaddress}
+        </ScriptOverviewItem>
 
-        <OverviewItem title="Public Key">{modalProps?.publickey}</OverviewItem>
+        <ScriptOverviewItem title="Public Key">
+          {modalProps?.publickey}
+        </ScriptOverviewItem>
 
-        <OverviewItem title="Script" h={24} className="scrollbar">
+        <ScriptOverviewItem title="Script" h={24} className="scrollbar">
           {modalProps?.script}
-        </OverviewItem>
+        </ScriptOverviewItem>
       </VStack>
     </ConfirmModal>
   );

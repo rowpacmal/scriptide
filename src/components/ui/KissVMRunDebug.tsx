@@ -1,7 +1,4 @@
-import useRunScript from '@/hooks/useRunScript';
-import useFileStore from '@/stores/useFileStore';
-import useRunScriptStore from '@/stores/useRunScriptStore';
-import useAppTheme from '@/themes/useAppTheme';
+// Import dependencies
 import {
   Box,
   Button,
@@ -11,16 +8,28 @@ import {
   Text,
   VStack,
 } from '@chakra-ui/react';
+import { useMemo } from 'react';
+// Import stores
+import useFileStore from '@/stores/useFileStore';
+import useRunScriptStore from '@/stores/useRunScriptStore';
+// Import hooks
+import useRunScript from '@/hooks/useRunScript';
+// Import themes
+import useAppTheme from '@/themes/useAppTheme';
+// Import components
+import { BasicHeading3 } from './systems/BasicHeadings';
 import KissVMFiles from './KissVMFiles';
+import KissVMFilesHeading from './KissVMFilesHeading';
+import KissVMFilesMenu from './KissVMFilesMenu';
 import Workspace from './Workspace';
 import WorkspaceMenu from './WorkspaceMenu';
-import KissVMFilesMenu from './KissVMFilesMenu';
-import KissVMFilesHeading from './KissVMFilesHeading';
 
+// Script status component
 function ScriptStatus({ children, label, bool, colors = ['green', 'red'] }) {
   // Define theme
   const { colorAlt } = useAppTheme();
 
+  // Render
   return (
     <HStack gap={1}>
       <Text color={colorAlt} textTransform="uppercase">
@@ -38,6 +47,7 @@ function ScriptStatus({ children, label, bool, colors = ['green', 'red'] }) {
   );
 }
 
+// Run and debug script component
 function KissVMRunDebug() {
   // Define stores
   const scriptParse = useRunScriptStore((state) => state.scriptParse);
@@ -48,22 +58,37 @@ function KissVMRunDebug() {
   // Define theme
   const { bgAlt, colorAlt } = useAppTheme();
 
-  // Define handlers
+  // Define run script
   const { isRunning, handleRunScript } = useRunScript();
 
+  // Define memo
+  const hasNoActiveScript = useMemo(
+    () =>
+      !currentFile ||
+      !(currentFile?.endsWith('.kvm') && currentFile?.includes('contracts')),
+    [currentFile]
+  );
+
+  // Define handler
+  function handleRunDebug() {
+    handleRunScript({
+      setState: true,
+      setPrevState: true,
+      setGlobals: true,
+      setSignatures: true,
+      setExtraScripts: true,
+      setOutput: true,
+    });
+  }
+
+  // Render
   return (
     <VStack w="100%" gap={3}>
       <VStack w="100%" gap={1}>
         <VStack w="100%" gap={1}>
-          <Text
-            as="h3"
-            w="100%"
-            textTransform="uppercase"
-            fontSize="xs"
-            color={colorAlt}
-          >
+          <BasicHeading3 w="100%" color={colorAlt}>
             Workspaces
-          </Text>
+          </BasicHeading3>
 
           <HStack w="100%">
             <Workspace />
@@ -87,18 +112,9 @@ function KissVMRunDebug() {
         <Button
           w="100%"
           colorScheme="green"
-          onClick={() =>
-            handleRunScript({
-              setState: true,
-              setPrevState: true,
-              setGlobals: true,
-              setSignatures: true,
-              setExtraScripts: true,
-              setOutput: true,
-            })
-          }
+          onClick={handleRunDebug}
           isLoading={isRunning}
-          disabled={currentFile?.split('.').pop() !== 'kvm' || isRunning}
+          disabled={hasNoActiveScript}
         >
           Run and Debug
         </Button>
@@ -127,4 +143,5 @@ function KissVMRunDebug() {
   );
 }
 
+// Export
 export default KissVMRunDebug;

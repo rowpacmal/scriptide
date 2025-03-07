@@ -7,7 +7,7 @@ import useModalStore from '@/stores/useModalStore';
 // Import constants
 import { CONFIRM_TEXTS, INPUT_PLACEHOLDERS } from '@/constants';
 // Import components
-import BasicHighlight from '../systems/BasicHighlight';
+import { BasicConfirmHighlight } from '../systems/BasicHighlights';
 import BasicInput from '../systems/BasicInput';
 import ConfirmModal from './ConfirmModal';
 
@@ -42,7 +42,10 @@ function FilesDeleteAll() {
         <span className="uppercase">uppercase</span> to confirm.
       </Text>
 
-      <BasicHighlight pb={4} query={CONFIRM_TEXTS.deleteAllFiles || '---'} />
+      <BasicConfirmHighlight
+        pb={4}
+        query={CONFIRM_TEXTS.deleteAllFiles || '---'}
+      />
 
       <Box px={4}>
         <BasicInput

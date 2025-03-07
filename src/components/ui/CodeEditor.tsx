@@ -10,7 +10,10 @@ import useLivePreviewStore from '@/stores/useLivePreviewStore';
 import getLanguageType from '@/utils/getLanguageType';
 // Import themes
 import useAppTheme from '@/themes/useAppTheme';
+// Import monaco.editor for typing
+import { editor } from 'monaco-editor';
 
+// Code editor component
 function CodeEditor({ file, code }) {
   // Define toast
   const toast = useToast();
@@ -18,10 +21,10 @@ function CodeEditor({ file, code }) {
   // Define theme
   const { editorTheme } = useAppTheme();
 
-  // Define refs
-  const editorRef = useRef(null);
+  // Define ref
+  const editorRef = useRef<editor.IStandaloneCodeEditor | null>(null);
 
-  // Define store
+  // Define stores
   const updateCode = useEditorStore((state) => state.updateCode);
   const editorZoom = useEditorStore((state) => state.editorZoom);
   const editorAutoSave = useEditorStore((state) => state.editorAutoSave);
@@ -30,50 +33,53 @@ function CodeEditor({ file, code }) {
     (state) => state.refreshLivePreview
   );
 
-  // Define handlers
-  function handleOnMount(editor) {
-    editorRef.current = editor;
-    editor.focus();
-  }
-  function handleOnSave() {
+  // Define function
+  function onSave() {
     saveFile(file, code);
     refreshLivePreview();
   }
 
+  // Define handlers
+  function handleOnMount(editor: editor.IStandaloneCodeEditor) {
+    editorRef.current = editor;
+    editor.focus();
+  }
+  function handleOnBlur() {
+    if (editorAutoSave) {
+      onSave();
+    }
+  }
+  function handleKeyDown(e: React.KeyboardEvent<HTMLDivElement>) {
+    // Save on ctrl+s
+    if (e.key === 's' && e.ctrlKey) {
+      e.preventDefault();
+      onSave();
+      toast({
+        title: 'File saved',
+        description: file,
+        status: 'success',
+        duration: 3000,
+        isClosable: true,
+      });
+    }
+  }
+  function handleOnChange(value: string | undefined) {
+    updateCode(file, value || '');
+  }
+
   // Render
   return (
-    <Box
-      h="100%"
-      onBlur={() => {
-        if (editorAutoSave) {
-          handleOnSave();
-        }
-      }}
-      onKeyDown={(e) => {
-        // Save on ctrl+s
-        if (e.key === 's' && e.ctrlKey) {
-          e.preventDefault();
-          handleOnSave();
-          toast({
-            title: 'File saved',
-            description: file,
-            status: 'success',
-            duration: 3000,
-            isClosable: true,
-          });
-        }
-      }}
-    >
+    <Box h="100%" onBlur={handleOnBlur} onKeyDown={handleKeyDown}>
       <Editor
         height="100%"
         theme={editorTheme}
         language={getLanguageType(file)}
         onMount={handleOnMount}
         value={code}
-        onChange={(value) => updateCode(file, value || '')}
+        onChange={handleOnChange}
         options={{
-          fontSize: 12 + editorZoom, // Font size
-          fixedOverflowWidgets: true, // Prevents widgets from overflowing
+          fontSize: 12 + editorZoom,
+          fixedOverflowWidgets: true,
         }}
       />
     </Box>

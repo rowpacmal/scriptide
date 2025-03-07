@@ -6,8 +6,8 @@ import {
   MenuDivider,
   MenuItem,
   MenuList,
-  Tooltip,
 } from '@chakra-ui/react';
+// Import icons
 import {
   // LuBug,
   LuCopy,
@@ -21,12 +21,15 @@ import {
   LuTrash2,
   LuUpload,
 } from 'react-icons/lu';
-// Import components
-import useAppTheme from '@/themes/useAppTheme';
+// Import stores
 import useModalStore from '@/stores/useModalStore';
 import useWorkspaceStore from '@/stores/useWorkspaceStore';
+// Import themes
+import useAppTheme from '@/themes/useAppTheme';
 // Import types
 import { EModalTypes } from '@/types';
+// Import components
+import BasicTooltip from './systems/BasicTooltip';
 
 // Workspace menu item component
 function WorkspaceMenuItem({
@@ -40,7 +43,7 @@ function WorkspaceMenuItem({
   const { bgAlt, borderColor, color, colorAlt } = useAppTheme();
 
   return (
-    <Tooltip label={label} placement="right" hasArrow>
+    <BasicTooltip label={label} placement="right">
       <MenuItem
         py={1}
         color={colorAlt}
@@ -53,7 +56,7 @@ function WorkspaceMenuItem({
       >
         {children}
       </MenuItem>
-    </Tooltip>
+    </BasicTooltip>
   );
 }
 

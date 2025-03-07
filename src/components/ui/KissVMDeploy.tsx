@@ -6,7 +6,6 @@ import {
   Code,
   HStack,
   Text,
-  Tooltip,
   useToast,
   VStack,
 } from '@chakra-ui/react';
@@ -21,10 +20,11 @@ import useWorkspaceStore from '@/stores/useWorkspaceStore';
 // Import themes
 import useAppTheme from '@/themes/useAppTheme';
 // Import types
-import { EModalTypes } from '@/types';
+import { EModalTypes, TScript } from '@/types';
 // Import hooks
 import useRunScript from '@/hooks/useRunScript';
 // Import components
+import BasicTooltip from './systems/BasicTooltip';
 import KissVMFiles from './KissVMFiles';
 import KissVMFilesHeading from './KissVMFilesHeading';
 
@@ -41,14 +41,7 @@ function CheckboxOption({
 
   // Render
   return (
-    <Tooltip
-      label={label}
-      openDelay={300}
-      placement="right"
-      hasArrow
-      fontWeight="normal"
-      // fontSize="xs"
-    >
+    <BasicTooltip label={label} placement="right" fontWeight="normal">
       <Box>
         <Checkbox
           size="sm"
@@ -61,7 +54,7 @@ function CheckboxOption({
           <Text fontSize="xs">{children}</Text>
         </Checkbox>
       </Box>
-    </Tooltip>
+    </BasicTooltip>
   );
 }
 
@@ -130,6 +123,17 @@ function KissVMDeploy() {
 
     deployScript(cleanscript, trackall, clean);
   }
+  function handleShowScript(script: TScript) {
+    setModalType(EModalTypes.VIEW_SCRIPT);
+    setModalProps(script);
+    onOpen();
+  }
+  function handleToggleTrackall() {
+    setTrackall(!trackall);
+  }
+  function handleToggleClean() {
+    setClean(!clean);
+  }
 
   // Define effect
   useEffect(() => {
@@ -162,7 +166,7 @@ function KissVMDeploy() {
                 relevant to you.
               </>
             }
-            onChange={() => setTrackall(!trackall)}
+            onChange={handleToggleTrackall}
             isChecked={trackall}
           >
             Track all
@@ -178,7 +182,7 @@ function KissVMDeploy() {
                 representation.
               </>
             }
-            onChange={() => setClean(!clean)}
+            onChange={handleToggleClean}
             isChecked={clean}
           >
             Clean
@@ -219,11 +223,7 @@ function KissVMDeploy() {
                 color={colorAlt}
                 borderRadius="sm"
                 isTruncated
-                onClick={() => {
-                  setModalType(EModalTypes.VIEW_SCRIPT);
-                  setModalProps(script);
-                  onOpen();
-                }}
+                onClick={() => handleShowScript(script)}
                 _hover={{ bg: borderColor, color }}
                 px={1}
               >

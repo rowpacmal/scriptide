@@ -65,7 +65,8 @@ function Globals() {
                */
               value={global === '@ADDRESS' ? script0xAddress : globals[global]}
               {...(global !== '@ADDRESS' && {
-                onChange: (e) => globalUpdate(global, e.target.value),
+                onChange: (e: React.ChangeEvent<HTMLInputElement>) =>
+                  globalUpdate(global, e.target.value),
               })}
               readOnly={global === '@ADDRESS'}
             />

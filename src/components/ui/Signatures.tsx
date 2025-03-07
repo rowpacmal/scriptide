@@ -1,19 +1,23 @@
 // Import dependencies
 import {
-  Button,
   HStack,
-  Input,
   InputGroup,
   InputLeftAddon,
   InputRightAddon,
   Text,
   VStack,
 } from '@chakra-ui/react';
+// Import icons
 import { LuPlus, LuTrash2, LuX } from 'react-icons/lu';
 // Import store
 import useSignatureStore from '@/stores/useSignatureStore';
+// Import themes
 import useAppTheme from '@/themes/useAppTheme';
-import { INPUT_PLACEHOLDERS } from '@/constants';
+// Import constants
+import { ICON_SIZES, INPUT_PLACEHOLDERS } from '@/constants';
+// Import components
+import { BasicButton, BasicHoverButton } from './systems/BasicButtons';
+import BasicInput from './systems/BasicInput';
 
 // Signatures component
 function Signatures() {
@@ -25,47 +29,27 @@ function Signatures() {
   const removeSignature = useSignatureStore((state) => state.removeSignature);
 
   // Define theme
-  const { bgAlt, borderColor, color, colorAlt, colorError } = useAppTheme();
+  const { bgAlt, borderColor, colorAlt, colorError } = useAppTheme();
 
   // Render
   return (
     <VStack w="100%" fontSize="sm" gap={2}>
       <HStack w="100%" justify="space-between">
-        <Button
-          p={0}
-          h="auto"
-          minW="auto"
-          bg="transparent"
-          color={colorAlt}
-          _hover={{
-            bg: 'transparent',
-            color: signatures.length >= 10 ? '' : color,
-            transform: signatures.length >= 10 ? '' : 'scale(1.2)',
-          }}
-          _active={{ bg: 'transparent', color }}
+        <BasicHoverButton
+          label="Add signature"
           onClick={addSignature}
           disabled={signatures.length >= 10}
         >
-          <LuPlus size={20} />
-        </Button>
+          <LuPlus size={ICON_SIZES.sm} />
+        </BasicHoverButton>
 
-        <Button
-          p={0}
-          h="auto"
-          minW="auto"
-          bg="transparent"
-          color={colorAlt}
-          _hover={{
-            bg: 'transparent',
-            color: signatures.length < 1 ? '' : color,
-            transform: signatures.length < 1 ? '' : 'scale(1.2)',
-          }}
-          _active={{ bg: 'transparent', color }}
+        <BasicHoverButton
+          label="Remove all signatures"
           onClick={() => setSignatures([])}
           disabled={signatures.length < 1}
         >
-          <LuTrash2 size={20} />
-        </Button>
+          <LuTrash2 size={ICON_SIZES.sm} />
+        </BasicHoverButton>
       </HStack>
 
       {signatures.length > 0 ? (
@@ -79,33 +63,26 @@ function Signatures() {
                   </Text>
                 </InputLeftAddon>
 
-                <Input
-                  variant="outline"
-                  borderColor={borderColor}
-                  _placeholder={{ color: borderColor }}
-                  _readOnly={{ color: colorAlt }}
-                  value={signatures[index]}
-                  onChange={(e) => updateSignature(index, e.target.value)}
+                <BasicInput
                   placeholder={INPUT_PLACEHOLDERS.value}
+                  value={signatures[index]}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                    updateSignature(index, e.target.value)
+                  }
                 />
 
                 <InputRightAddon
                   bg={bgAlt}
                   borderColor={borderColor}
                   borderLeft={0}
-                  px={1}
+                  p={0}
                 >
-                  <Button
-                    p={0}
-                    h="auto"
-                    minW="auto"
-                    bg="transparent"
-                    color={colorAlt}
-                    _hover={{ bg: 'transparent', color: colorError }}
+                  <BasicButton
+                    hoverColor={colorError}
                     onClick={() => removeSignature(index)}
                   >
-                    <LuX size={20} />
-                  </Button>
+                    <LuX size={ICON_SIZES.sm} />
+                  </BasicButton>
                 </InputRightAddon>
               </InputGroup>
             </HStack>
