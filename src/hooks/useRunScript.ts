@@ -138,7 +138,7 @@ function useRunScript() {
         // load imported script data and clean it
         const value =
           (await minima.file.load(location)).response?.load.data || '';
-        let extraScript = handleParseScript(value);
+        let extraScript = '';
         try {
           extraScript = handleParseScript(value);
         } catch (error) {
@@ -147,6 +147,9 @@ function useRunScript() {
               ? error.message
               : 'Error parsing extra script'
           );
+        }
+        if (!extraScript) {
+          throw new Error('One or more extra script is empty!');
         }
 
         // If the extra script is not empty, get the script mmrproof and address
@@ -371,6 +374,50 @@ function useRunScript() {
       setScriptMxAddress(mxaddress);
       setCleanScript(cleanscript || '');
       setScriptVariables(variables);
+    }
+
+    if (parseok) {
+      toast({
+        title: 'Run script alert',
+        description: 'Script parsed successfully.',
+        status: 'success',
+        duration: 5000,
+        isClosable: true,
+      });
+    } else {
+      toast({
+        title: 'Run script alert',
+        description: 'Script failed to parse.',
+        status: 'warning',
+        duration: 5000,
+        isClosable: true,
+      });
+    }
+
+    if (success && parseok) {
+      toast({
+        title: 'Run script alert',
+        description: 'Script returns TRUE.',
+        status: 'success',
+        duration: 5000,
+        isClosable: true,
+      });
+    } else if (!success && parseok) {
+      toast({
+        title: 'Run script alert',
+        description: 'Script returns FALSE.',
+        status: 'warning',
+        duration: 5000,
+        isClosable: true,
+      });
+    } else if (!success && !parseok) {
+      toast({
+        title: 'Run script alert',
+        description: 'Script execution failed.',
+        status: 'error',
+        duration: 5000,
+        isClosable: true,
+      });
     }
 
     setIsRunning(false);
