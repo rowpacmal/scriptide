@@ -36,3 +36,9 @@
 - Added a fresh, single-color icon for the dapp.
 - Improved the console, allowing direct execution of Minima commands.
 - The interface now retains its previous session state using local storage, ensuring a seamless user experience.
+
+##### [3.1.3] - March 7, 2025
+
+- Restructured the codebase for better organization and maintainability (ongoing).
+- Optimized panel state management using state stores, improving performance slightly.
+- Improved file tab breadcrumbs, refined tooltip interactions, and made other minor visual improvements.
