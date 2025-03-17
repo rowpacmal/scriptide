@@ -10,7 +10,6 @@ import {
   TabPanels,
   Tabs,
   Text,
-  Tooltip,
 } from '@chakra-ui/react';
 import { useEffect, useRef } from 'react';
 // Import icons

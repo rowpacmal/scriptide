@@ -1,5 +1,4 @@
 // Import types
-import { PanelProps } from 'node_modules/react-resizable-panels/dist/declarations/src/Panel';
 import { TFile } from './file';
 import { EModalTypes } from './modal-types';
 
