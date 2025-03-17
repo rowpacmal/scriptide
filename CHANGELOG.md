@@ -42,3 +42,9 @@
 - Restructured the codebase for better organization and maintainability (ongoing).
 - Optimized panel state management using state stores, improving performance slightly.
 - Improved file tab breadcrumbs, refined tooltip interactions, and made other minor visual improvements.
+- Fixed some typos, misspelled titles, words, and phrases.
+
+##### [3.1.4] - March 17, 2025
+
+- Fixed an issue where folders did not expand when creating new files or folders.
+- Fixed an issue where the code editor was not cleared when all files were deleted from the workspace.

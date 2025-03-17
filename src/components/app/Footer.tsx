@@ -24,7 +24,7 @@ function Footer() {
     >
       <Text>Minima Script IDE</Text>
 
-      <Text>Version 3.1.0</Text>
+      <Text>Version 3.1.4</Text>
     </HStack>
   );
 }

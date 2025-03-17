@@ -8,6 +8,8 @@ import ChangelogV3_0_0 from '@/components/changelogs/ChangelogV3_0_0';
 import ChangelogV3_0_2 from '@/components/changelogs/ChangelogV3_0_2';
 import ChangelogV3_0_4 from '@/components/changelogs/ChangelogV3_0_4';
 import ChangelogV3_1_0 from '@/components/changelogs/ChangelogV3_1_0';
+import ChangelogV3_1_3 from '@/components/changelogs/ChangelogV3_1_3';
+import ChangelogV3_1_4 from '@/components/changelogs/ChangelogV3_1_4';
 
 // Home panel component
 function HomePanel() {
@@ -50,6 +52,8 @@ function HomePanel() {
       <ChangelogV3_0_2 />
       <ChangelogV3_0_4 />
       <ChangelogV3_1_0 />
+      <ChangelogV3_1_3 />
+      <ChangelogV3_1_4 />
     </VStack>
   );
 }
