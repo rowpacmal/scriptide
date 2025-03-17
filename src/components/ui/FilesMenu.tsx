@@ -14,12 +14,12 @@ import useModalStore from '@/stores/useModalStore';
 // Import types
 import { EModalTypes } from '@/types';
 // Import constants
-import { ICON_SIZES } from '@/constants';
+import { ICON_SIZES, LOCAL_STORAGE_KEYS } from '@/constants';
 // Import components
 import { BasicHoverButton } from './systems/BasicButtons';
 
 // Files menu component
-function FilesMenu() {
+function FilesMenu({ setIsExpanded }) {
   // Define stores
   const files = useFileStore((state) => state.files);
   const isAddingFile = useFileStore((state) => state.isAddingFile);
@@ -36,6 +36,7 @@ function FilesMenu() {
     if (!isAddingFile) {
       setIsFolder(false);
       setIsAddingFile(true);
+      handleExpand();
     }
 
     if (!currentFolder) {
@@ -46,6 +47,7 @@ function FilesMenu() {
     if (!isAddingFile) {
       setIsFolder(true);
       setIsAddingFile(true);
+      handleExpand();
     }
 
     if (!currentFolder) {
@@ -53,6 +55,8 @@ function FilesMenu() {
     }
   }
   function handleUploadFile() {
+    handleExpand();
+
     if (!currentFolder) {
       setCurrentFolder(`/workspaces/${currentWorkspace}`);
     }
@@ -63,6 +67,25 @@ function FilesMenu() {
   function handleDeleteAllFiles() {
     setModalType(EModalTypes.DELETE_ALL_FILES);
     onOpen();
+  }
+  function handleExpand() {
+    const path = currentFolder
+      ? currentFolder
+      : `/workspaces/${currentWorkspace}`;
+
+    setIsExpanded((prevState) => {
+      const expand = {
+        ...prevState,
+        [path]: true,
+      };
+
+      localStorage.setItem(
+        LOCAL_STORAGE_KEYS.fileExplorerExpanded,
+        JSON.stringify(expand)
+      );
+
+      return expand;
+    });
   }
 
   // Render

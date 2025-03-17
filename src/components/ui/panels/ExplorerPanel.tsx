@@ -83,7 +83,7 @@ function ExplorerPanel() {
         <>
           {workspaces.length > 0 ? (
             <VStack w="100%" h="100%" gap={1}>
-              <FilesMenu />
+              <FilesMenu setIsExpanded={setIsExpanded} />
 
               <VStack
                 id="FILE_EXPLORER"

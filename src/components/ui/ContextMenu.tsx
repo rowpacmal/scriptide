@@ -7,6 +7,7 @@ import {
 } from './systems/MenuListBase';
 import { LuDownload, LuPenLine, LuPlus, LuTrash } from 'react-icons/lu';
 import useWorkspaceStore from '@/stores/useWorkspaceStore';
+import { LOCAL_STORAGE_KEYS } from '@/constants';
 
 // Constants (for debugging)
 const MINIDAPP_ID = (window as any).DEBUG_MINIDAPPID;
@@ -97,15 +98,32 @@ function FileItemContextMenu({ file, setRenamingFile }) {
   );
 }
 
-function FolderItemContextMenu({ file, setRenamingFile }) {
+function FolderItemContextMenu({ file, setRenamingFile, setIsExpanded }) {
   // Define store
   const deleteFile = useFileStore((state) => state.deleteFile);
   const isAddingFile = useFileStore((state) => state.isAddingFile);
   const setIsAddingFile = useFileStore((state) => state.setIsAddingFile);
   const setIsFolder = useFileStore((state) => state.setIsFolder);
+  const setCurrentFolder = useFileStore((state) => state.setCurrentFolder);
   const currentWorkspace = useWorkspaceStore((state) => state.currentWorkspace);
 
   // Define handlers
+  function handleExpand() {
+    setCurrentFolder(file.location);
+    setIsExpanded((prevState) => {
+      const expand = {
+        ...prevState,
+        [file.location]: true,
+      };
+
+      localStorage.setItem(
+        LOCAL_STORAGE_KEYS.fileExplorerExpanded,
+        JSON.stringify(expand)
+      );
+
+      return expand;
+    });
+  }
   /* Temporary fix to download files
    *
    * TODO - Improve download support in the future
@@ -135,6 +153,7 @@ function FolderItemContextMenu({ file, setRenamingFile }) {
           if (!isAddingFile) {
             setIsFolder(false);
             setIsAddingFile(true);
+            handleExpand();
           }
         }}
       >
@@ -148,6 +167,7 @@ function FolderItemContextMenu({ file, setRenamingFile }) {
           if (!isAddingFile) {
             setIsFolder(true);
             setIsAddingFile(true);
+            handleExpand();
           }
         }}
       >

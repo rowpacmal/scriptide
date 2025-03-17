@@ -143,6 +143,7 @@ function FolderItem({ file, isExpanded, setIsExpanded, isActive }) {
             <FolderItemContextMenu
               file={file}
               setRenamingFile={setRenamingFile}
+              setIsExpanded={setIsExpanded}
             />
           </Menu>
         </Box>
