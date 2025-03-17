@@ -171,6 +171,7 @@ const useFileStore = create<IFileStore>((set, get) => ({
     await minima.file.makedir(`workspaces/${currentWorkspace}`);
 
     set({ files: [], allFiles: [] });
+    useEditorStore.getState().setAllCodes([]);
   },
   deleteFolder: async (path) => {
     const currentWorkspace = useWorkspaceStore.getState().currentWorkspace;
